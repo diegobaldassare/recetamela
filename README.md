@@ -1,4 +1,4 @@
-Recetame la Receta - Direccion de Proyectos
+Recetame la Receta
 ======================================================================
 
 Play 2.5.12

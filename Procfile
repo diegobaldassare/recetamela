@@ -1,2 +1,2 @@
-web: target/universal/stage/bin/recetamela -Dconfig.resource=staging.conf
+web: target/universal/stage/bin/recetamela -Dhttp.port=${PORT} -Dconfig.resource=staging.conf
 

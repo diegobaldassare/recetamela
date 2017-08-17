@@ -10,10 +10,10 @@ object UIBuild {
       var process: Option[Process] = None
 
       override def beforeStarted(): Unit = {
-        if (!(base / "ui" / "node_modules").exists()) Process("npm install", base / "ui").!
+        Process("npm install", base / "ui").!
       }
 
-      override def afterStarted(addr: InetSocketAddress): Unit = {
+      override def afterStarted(address: InetSocketAddress): Unit = {
         process = Option(
           Process("npm run build -- --watch", base / "ui").run
         )

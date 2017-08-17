@@ -2,7 +2,7 @@ name := """recetamela"""
 
 version := "0.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava).enablePlugins(PlayEbean)
 
 scalaVersion := "2.11.8"
 
@@ -12,7 +12,6 @@ libraryDependencies ++= Seq(
   ws,
   filters,
   "mysql" % "mysql-connector-java" % "6.0.4",
-  "org.scalatestplus.play" % "scalatestplus-play_2.11" % "2.0.0",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.pauldijou" %% "jwt-play" % "0.9.0",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"

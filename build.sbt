@@ -1,3 +1,5 @@
+import scala.language.postfixOps
+
 name := """recetamela"""
 
 version := "0.1"
@@ -21,16 +23,15 @@ resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 fork in run := true
 
-/*
- * UI Build Scripts
- */
-
 val Success = 0 // 0 exit code
 val Error = 1 // 1 exit code
 
-PlayKeys.playRunHooks <+= baseDirectory.map(UIBuild.apply)
+PlayKeys.playRunHooks += baseDirectory.map(UIBuild.apply).value
 
-def runScript(script: String)(implicit dir: File): Int = Process(script, dir) !
+val isWindows = System.getProperty("os.name").toLowerCase().contains("win")
+
+def runScript(script: String)(implicit dir: File): Int = {
+  if(isWindows){ Process("cmd /c " + script, dir) } else { Process(script, dir) } }!
 
 def uiWasInstalled(implicit dir: File): Boolean = (dir / "node_modules").exists()
 
@@ -68,10 +69,10 @@ lazy val `ui-test` = TaskKey[Unit]("Run UI tests when testing application.")
   if (runUiTests != 0) throw new Exception("UI tests failed!")
 }
 
-`ui-test` <<= `ui-test` dependsOn `ui-dev-build`
+`ui-test` := (`ui-test` dependsOn `ui-dev-build`).value
 
-dist <<= dist dependsOn `ui-prod-build`
+dist := (dist dependsOn `ui-prod-build`).value
 
-stage <<= stage dependsOn `ui-prod-build`
+stage := (stage dependsOn `ui-prod-build`).value
 
-test <<= (test in Test) dependsOn `ui-test`
+test := ((test in Test) dependsOn `ui-test`).value

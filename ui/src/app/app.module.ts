@@ -6,6 +6,7 @@ import { CookieService }   from 'angular2-cookie/services/cookies.service';
 import {AppComponent} from './app.component';
 import {AuthService} from './auth/auth.service';
 import {DOMService} from './shared/dom.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -14,7 +15,7 @@ import {DOMService} from './shared/dom.service';
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpModule
+    HttpModule,
   ],
   providers: [
     CookieService,

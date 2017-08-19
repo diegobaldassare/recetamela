@@ -9,7 +9,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava).enablePlugins(Pla
 scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
-  javaJdbc,
+  jdbc,
   cache,
   ws,
   filters,
@@ -51,21 +51,21 @@ def runUiTests(implicit dir: File): Int = ifUiInstalled(runScript("npm run test-
 lazy val `ui-dev-build` = TaskKey[Unit]("Run UI build when developing the application.")
 
 `ui-dev-build` := {
-  implicit val UIroot = baseDirectory.value / "ui"
+  implicit val UIroot: File = baseDirectory.value / "ui"
   if (runDevBuild != Success) throw new Exception("Oops! UI Build crashed.")
 }
 
 lazy val `ui-prod-build` = TaskKey[Unit]("Run UI build when packaging the application.")
 
 `ui-prod-build` := {
-  implicit val UIroot = baseDirectory.value / "ui"
+  implicit val UIroot: File = baseDirectory.value / "ui"
   if (runProdBuild != Success) throw new Exception("Oops! UI Build crashed.")
 }
 
 lazy val `ui-test` = TaskKey[Unit]("Run UI tests when testing application.")
 
 `ui-test` := {
-  implicit val UIroot = baseDirectory.value / "ui"
+  implicit val UIroot: File = baseDirectory.value / "ui"
   if (runUiTests != 0) throw new Exception("UI tests failed!")
 }
 

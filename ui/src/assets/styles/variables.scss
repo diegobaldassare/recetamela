@@ -14,6 +14,9 @@ $gray-dark:              #7b8a8b !default;   // #333
 $gray:                   #95a5a6 !default; // #555
 $gray-light:             #b4bcc2 !default;   // #999
 $gray-lighter:           #ecf0f1 !default; // #eee
+$gray-white:             #f5f5f5 !default; // #eee
+$hx-color:               #2e3333 !default;
+$card-color:              white !default;
 
 $brand-primary:         #4ABDAC !default;
 $brand-secondary:       #FC4A1A !default;
@@ -22,6 +25,7 @@ $brand-info:            #F7B733 !default;
 $brand-warning:         #F39C12 !default;
 $brand-danger:          #E74C3C !default;
 $brand-navbar:          white !default;
+$footer-color:          lighten($gray-base, 18.5%) !default;
 
 
 //== Scaffolding
@@ -31,7 +35,7 @@ $brand-navbar:          white !default;
 //** Background color for `<body>`.
 $body-bg:               #fff !default;
 //** Global text color on `<body>`.
-$text-color:            $brand-primary !default;
+$text-color:            $gray-darker !default;
 
 //** Global textual link color.
 $link-color:            $brand-success !default;
@@ -71,7 +75,7 @@ $line-height-computed:    floor(($font-size-base * $line-height-base)) !default;
 $headings-font-family:    $font-family-base !default;
 $headings-font-weight:    400 !default;
 $headings-line-height:    1.1 !default;
-$headings-color:          inherit !default;
+$headings-color:          $hx-color !default;
 
 
 //== Iconography
@@ -361,7 +365,7 @@ $container-lg:                 $container-large-desktop !default;
 
 // Basics of a navbar
 $navbar-height:                    60px !default;
-$navbar-margin-bottom:             $line-height-computed !default;
+$navbar-margin-bottom:             0px !default;
 $navbar-border-radius:             $border-radius-base !default;
 $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
@@ -875,3 +879,26 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "../../../node_modules/bootswatch/flatly/bootswatch";
 
+footer{
+  background-color: $footer-color;
+  padding: 20px;
+  ul{
+    background-color: lighten($footer-color, 13.5%);
+    padding: 10px;
+    li{
+      &.title{
+        color: $brand-info;
+        font-size: large;
+        font-weight: 700;
+      }
+      a {
+        color: $brand-info;
+      }
+      list-style-type: none;
+    }
+  }
+  .sign{
+    color: $gray-dark;
+  }
+
+}

@@ -6,6 +6,8 @@ public class RecipeCategory extends BaseModel<RecipeCategory>{
 
     private String name;
 
+    public RecipeCategory() { }
+
     public String getName() {
         return name;
     }

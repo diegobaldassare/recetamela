@@ -2,6 +2,9 @@ package models.recipe;
 
 import models.BaseModel;
 
+import javax.persistence.Entity;
+
+@Entity
 public class RecipeCategory extends BaseModel<RecipeCategory>{
 
     private String name;

@@ -6,10 +6,14 @@ import { CookieService }   from 'angular2-cookie/services/cookies.service';
 import {AppComponent} from './app.component';
 import {AuthService} from './auth/auth.service';
 import {DOMService} from './shared/dom.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

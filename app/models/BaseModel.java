@@ -6,9 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseModel<T> extends Model {
+public class BaseModel extends Model {
     @Id
     public Long id;
-
-    public Finder<Long, T> finder;
 }

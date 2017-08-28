@@ -5,11 +5,11 @@ import models.BaseModel;
 import javax.persistence.Entity;
 
 @Entity
-public class RecipeCategory extends BaseModel<RecipeCategory>{
+public class RecipeCategory extends BaseModel {
 
     private String name;
 
-    public RecipeCategory() { }
+    public RecipeCategory() {}
 
     public RecipeCategory(String name) {
         this.name = name;

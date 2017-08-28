@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import java.util.Collection;
 
 @Entity
-public class Recipe extends BaseModel<Recipe> {
+public class Recipe extends BaseModel {
     private String name, description, steps, imageUrl, videoUrl;
     private int difficulty;
     private Collection<Ingredient> ingredients;

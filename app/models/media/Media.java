@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Media extends BaseModel {
 
+    /**
+     * Name with extension of the media file.
+     */
     @NotNull
     private String name;
 

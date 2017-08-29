@@ -8,15 +8,20 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Media extends BaseModel {
 
-    private String url;
+    @NotNull
+    private String name;
 
     public Media() {}
 
-    public String getUrl() {
-        return url;
+    public Media(String name) {
+        this.name = name;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

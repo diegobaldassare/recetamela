@@ -9,11 +9,12 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
 
 public class MediaService extends Service<Media> {
 
     private static MediaService instance;
-    private static final String mediaPath = "db/media/";
+    private static final String staticPath = "public/static/";
 
     private MediaService(Finder<Long, Media> finder) {
         super(finder);
@@ -28,14 +29,13 @@ public class MediaService extends Service<Media> {
     public Media save(FilePart<File> filePart) throws IOException {
         final String name = filePart.getFilename();
         final String extension = name.substring(name.lastIndexOf("."));
+        final String uuid = UUID.randomUUID().toString();
         final File file = filePart.getFile();
-        final Media media = new Media();
-        media.save();
+        final Media media = new Media(uuid + extension);
         final Path destination = FileSystems
                 .getDefault()
-                .getPath(mediaPath + media.id + extension);
+                .getPath(staticPath + media.getName());
         Files.move(file.toPath(), destination);
-        media.setUrl(destination.toAbsolutePath().toString());
         media.save();
         return media;
     }

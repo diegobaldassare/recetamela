@@ -4,14 +4,14 @@ import com.avaje.ebean.Model;
 import models.BaseModel;
 
 /**
- * Abstract Service with basics ABM features.
+ * Abstract Service with basic ABM features.
  * Every model service will extend this class.
  */
-public class Service<T extends BaseModel> {
+public abstract class Service<T extends BaseModel> {
 
-    private Model.Finder<Long, T> finder;
+    protected Model.Finder<Long, T> finder;
 
-    private Service(Model.Finder<Long, T> finder) {
+    protected Service(Model.Finder<Long, T> finder) {
         this.finder = finder;
     }
 

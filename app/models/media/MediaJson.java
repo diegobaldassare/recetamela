@@ -1,5 +1,7 @@
 package models.media;
 
+import server.Constant;
+
 public class MediaJson {
     private Media media;
 
@@ -12,6 +14,6 @@ public class MediaJson {
     }
 
     public String getUrl() {
-        return "localhost:9000/static/" + media.getName();
+        return Constant.BASE_URL + media.getName();
     }
 }

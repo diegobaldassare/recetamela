@@ -14,7 +14,7 @@ import java.util.UUID;
 public class MediaService extends Service<Media> {
 
     private static MediaService instance;
-    private static final String staticPath = "public/static/";
+    private static final String savePath = "public/static/";
 
     private MediaService(Finder<Long, Media> finder) {
         super(finder);
@@ -34,7 +34,7 @@ public class MediaService extends Service<Media> {
         final Media media = new Media(uuid + extension);
         final Path destination = FileSystems
                 .getDefault()
-                .getPath(staticPath + media.getName());
+                .getPath(savePath + media.getName());
         Files.move(file.toPath(), destination);
         media.save();
         return media;

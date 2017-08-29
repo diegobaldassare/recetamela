@@ -10,4 +10,8 @@ public class MediaJson {
     public long getId() {
         return media.id;
     }
+
+    public String getUrl() {
+        return "localhost:9000/static/" + media.getName();
+    }
 }

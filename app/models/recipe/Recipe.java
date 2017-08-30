@@ -1,24 +1,27 @@
 package models.recipe;
 
 import models.BaseModel;
+import models.media.Media;
 
 import javax.persistence.Entity;
 import java.util.Collection;
 
 @Entity
 public class Recipe extends BaseModel {
-    private String name, description, steps, imageUrl, videoUrl;
+    private String name, description, steps, videoUrl;
     private int difficulty;
+    private Media image;
     private Collection<Ingredient> ingredients;
     private Collection<RecipeCategory> categories;
 
     public Recipe() {}
 
-    public Recipe(String name, String description, String steps, String imageUrl, String videoUrl, int difficulty, Collection<Ingredient> ingredients, Collection<RecipeCategory> categories) {
+    public Recipe(String name, String description, String steps, String videoUrl, int difficulty, Media image, Collection<Ingredient> ingredients, Collection<RecipeCategory> categories) {
         this.name = name;
         this.description = description;
         this.steps = steps;
-        this.imageUrl = imageUrl;
+        this.image = image;
+        this.image = image;
         this.videoUrl = videoUrl;
         this.difficulty = difficulty;
         this.ingredients = ingredients;
@@ -49,12 +52,12 @@ public class Recipe extends BaseModel {
         this.steps = steps;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Media getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(Media image) {
+        this.image = image;
     }
 
     public String getVideoUrl() {

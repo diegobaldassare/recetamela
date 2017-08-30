@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 public class BadRequestException extends Exception {
 
-    private RequestError requestError;
+    private final RequestError requestError;
 
     public BadRequestException(@NotNull RequestError requestError) {
         super();

@@ -9,7 +9,7 @@ import models.BaseModel;
  */
 public abstract class Service<T extends BaseModel> {
 
-    protected Model.Finder<Long, T> finder;
+    protected final Model.Finder<Long, T> finder;
 
     protected Service(Model.Finder<Long, T> finder) {
         this.finder = finder;

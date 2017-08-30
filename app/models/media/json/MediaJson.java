@@ -7,7 +7,7 @@ import server.Constants;
  * Represents in JSON format a public instance of the Media model persisted in the database.
  */
 public class MediaJson {
-    private Media media;
+    private final Media media;
 
     public MediaJson(Media media) {
         this.media = media;

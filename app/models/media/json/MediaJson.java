@@ -1,7 +1,7 @@
 package models.media.json;
 
 import models.media.Media;
-import server.Constant;
+import server.Constants;
 
 /**
  * Represents in JSON format a public instance of the Media model persisted in the database.
@@ -21,6 +21,6 @@ public class MediaJson {
      * @return Direct and public url of the media file.
      */
     public String getUrl() {
-        return Constant.BASE_URL + media.getName();
+        return Constants.BASE_URL + media.getName();
     }
 }

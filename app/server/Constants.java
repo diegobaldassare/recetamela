@@ -1,5 +1,8 @@
 package server;
 
-public interface Constant {
+/**
+ * Server constants.
+ */
+public interface Constants {
     String BASE_URL = "localhost:9000/static/";
 }

@@ -4,8 +4,8 @@ import com.avaje.ebean.Model;
 import models.BaseModel;
 
 /**
- * Abstract Service with basic ABM features.
- * Every model service will extend this class.
+ * Abstract Service with basic ABM features. Every model service must extend this class.
+ * They are usually called by controllers.
  */
 public abstract class Service<T extends BaseModel> {
 

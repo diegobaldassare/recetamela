@@ -1,9 +1,9 @@
 package models.recipe.json;
 
 public class RecipeInputJson {
-    private String name, description, steps, videoUrl;
-    private int difficulty;
-    private long imageId;
-    private long[] categoryIds;
-    private String[] ingredientNames;
+    public String name, description, steps, videoUrl;
+    public int difficulty;
+    public long imageId;
+    public long[] categoryIds;
+    public String[] ingredientNames;
 }

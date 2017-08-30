@@ -14,7 +14,7 @@ public class MediaJson {
     }
 
     public long getId() {
-        return media.id;
+        return media.getId();
     }
 
     /**

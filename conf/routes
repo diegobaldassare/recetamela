@@ -6,3 +6,4 @@ POST /api/media controllers.MediaController.createMedia()
 GET /api/media/:id controllers.MediaController.getMedia(id: Long)
 
 POST /api/recipe controllers.RecipeController.createRecipe()
+GET /api/recipe/:id controllers.RecipeController.getRecipe(id: Long)

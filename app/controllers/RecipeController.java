@@ -14,11 +14,18 @@ public class RecipeController extends Controller {
         final JsonNode body = request().body().asJson();
         final RecipeInputJson recipeInput = Json.fromJson(body, RecipeInputJson.class);
         /*try {
-            final Recipe recipe = RecipeService.save(recipeInput);
+            final Recipe recipe = RecipeService.getInstance().save(recipeInput);
             return ok(Json.toJson(recipe));
         } catch (BadRequestException e) {
             return badRequest(Json.toJson(e.getRequestError()));
         }*/
+        return ok();
+    }
+
+    public Result getRecipe(long id) {
+        /*final Recipe recipe = RecipeService.getById(id);
+        if (recipe == null) return notFound();
+        return ok(Json.toJson(recipe));*/
         return ok();
     }
 }

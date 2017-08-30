@@ -5,6 +5,9 @@ import com.avaje.ebean.Model;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Base model for database models. All models must extend this class.
+ */
 @MappedSuperclass
 public class BaseModel extends Model {
 

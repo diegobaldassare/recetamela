@@ -11,6 +11,7 @@ object UIBuild {
 
       var npmInstall: String = "npm install"
       var npmRun: String = "npm run build -- --watch"
+      var ngServe: String = "ng serve"
 
       if (System.getProperty("os.name").toLowerCase().contains("win")){
         npmInstall = "cmd /c" + npmInstall

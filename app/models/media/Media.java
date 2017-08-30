@@ -5,6 +5,9 @@ import models.BaseModel;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Media model that represents media metadata stored in the database.
+ */
 @Entity
 public class Media extends BaseModel {
 

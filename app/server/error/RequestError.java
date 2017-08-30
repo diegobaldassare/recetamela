@@ -1,15 +1,13 @@
 package server.error;
 
-import play.libs.Json;
-
 /**
- * Client error JSON representation.
+ * Request error JSON representation.
  */
-public class Error {
+public class RequestError {
     private long id;
     private String message;
 
-    public Error(long id, String message) {
+    RequestError(long id, String message) {
         this.id = id;
         this.message = message;
     }
@@ -28,10 +26,5 @@ public class Error {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return Json.stringify(Json.toJson(this));
     }
 }

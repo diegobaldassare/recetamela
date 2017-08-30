@@ -1,17 +1,24 @@
 package server.exception;
 
+import server.error.RequestError;
+
+import javax.validation.constraints.NotNull;
+
 /**
- * Exception to be catch by controllers. They are responsible for returning
- * to the client an error response. If the exception message is not null
- * it must be returned as the body of the response with JSON content type.
+ * Exception to be catch by controllers. Controllers are responsible for returning
+ * to the client an error response with content type JSON and the request error
+ * as body.
  */
 public class BadRequestException extends Exception {
 
-    public BadRequestException() {
+    private RequestError requestError;
+
+    public BadRequestException(@NotNull RequestError requestError) {
         super();
+        this.requestError = requestError;
     }
 
-    public BadRequestException(String message) {
-        super(message);
+    public RequestError getRequestError() {
+        return requestError;
     }
 }

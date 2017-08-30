@@ -3,13 +3,13 @@ package server.error;
 import play.libs.Json;
 
 /**
- * Client error JSON representation.
+ * Request error JSON representation.
  */
-public class Error {
+public class RequestError {
     private long id;
     private String message;
 
-    public Error(long id, String message) {
+    public RequestError(long id, String message) {
         this.id = id;
         this.message = message;
     }

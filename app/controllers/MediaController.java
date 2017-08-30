@@ -21,7 +21,8 @@ public class MediaController extends Controller {
      * The request body must have a 'multipart/form-data' content type and the file
      * must appear as the value of the key 'file'.
      * @return MediaJson that represents the Media model persisted in the database.
-     * @throws IOException If the file cannot be written a response with 500 error is returned.
+     * @throws IOException If the file cannot be written to disk. A response
+     * with 500 error is returned to the client.
      */
     public Result createMedia() throws IOException {
         final MultipartFormData<File> body = request().body().asMultipartFormData();

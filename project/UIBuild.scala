@@ -16,6 +16,7 @@ object UIBuild {
       if (System.getProperty("os.name").toLowerCase().contains("win")){
         npmInstall = "cmd /c" + npmInstall
         npmRun = "cmd /c" + npmRun
+        ngServe = "cmd /c" + ngServe
       }
 
       override def beforeStarted(): Unit = {
@@ -24,7 +25,7 @@ object UIBuild {
 
       override def afterStarted(addr: InetSocketAddress): Unit = {
         process = Option(
-          Process(npmRun, base / "ui").run
+          Process(ngServe, base / "ui").run
         )
       }
 

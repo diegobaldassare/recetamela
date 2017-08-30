@@ -1,6 +1,14 @@
-GET / controllers.HomeController.index()
-GET /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
-GET /static/*file controllers.Assets.at(path="/public/static", file)
+GET /                       controllers.HomeController.index()
+GET /                       controllers.HomeController.index()
+GET /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+GET /static/*file           controllers.Assets.at(path="/public/static", file)
 
-POST /api/media controllers.MediaController.createMedia()
-GET /api/media/:id controllers.MediaController.getMedia(id: Long)
+POST /api/media             controllers.MediaController.createMedia()
+POST /api/user              controllers.UserController.createUser()
+
+GET /api/media/:id          controllers.MediaController.getMedia(id: Long)
+GET /api/user/:id           controllers.UserController.getUser(id: Long)
+GET /api/users              controllers.UserController.getUsers
+
+DELETE /api/user/:id        controllers.UserController.getUser(id: Long)
+

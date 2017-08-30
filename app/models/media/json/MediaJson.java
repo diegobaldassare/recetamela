@@ -1,9 +1,10 @@
-package models.media;
+package models.media.json;
 
+import models.media.Media;
 import server.Constant;
 
 /**
- * Represents a public instance of the Media model persisted in the database in JSON format.
+ * Represents in JSON format a public instance of the Media model persisted in the database.
  */
 public class MediaJson {
     private Media media;

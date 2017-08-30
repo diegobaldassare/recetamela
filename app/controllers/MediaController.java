@@ -1,7 +1,7 @@
 package controllers;
 
 import models.media.Media;
-import models.media.MediaJson;
+import models.media.json.MediaJson;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;

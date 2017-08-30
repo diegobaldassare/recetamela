@@ -1,19 +1,9 @@
 package models.recipe.json;
 
-import models.recipe.Recipe;
-
 public class RecipeInputJson {
-    private Recipe recipe;
-
-    public RecipeInputJson(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public long getId() {
-        return recipe.id;
-    }
-
-    public String getName() {
-        return recipe.getName();
-    }
+    private String name, description, steps, videoUrl;
+    private int difficulty;
+    private long imageId;
+    private long[] categoryIds;
+    private String[] ingredientNames;
 }

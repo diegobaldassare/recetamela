@@ -26,7 +26,7 @@ public class MediaController extends Controller {
      * @throws IOException If the file cannot be written to disk. A response
      * with 500 error is returned to the client.
      */
-    public Result createMedia() throws IOException {
+    public Result create() throws IOException {
         final MultipartFormData<File> body = request().body().asMultipartFormData();
         if (body == null)
             return badRequest(RequestError.BAD_REQUEST.toString()).as(Http.MimeTypes.JSON);
@@ -43,7 +43,7 @@ public class MediaController extends Controller {
      * @return MediaJson that represents a Media instance with provided id
      * persisted in the database.
      */
-    public Result getMedia(long id) {
+    public Result get(long id) {
         final Media media = MediaService.getInstance().getById(id);
         if (media == null) return notFound();
         final MediaJson mediaJson = new MediaJson(media);

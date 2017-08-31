@@ -15,7 +15,7 @@ public abstract class Service<T extends BaseModel> {
         this.finder = finder;
     }
 
-    public T getById(long id) {
+    public T get(long id) {
         return finder.byId(id);
     }
 }

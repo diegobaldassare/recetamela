@@ -2,6 +2,7 @@ package models;
 
 import models.media.Media;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -10,8 +11,13 @@ import javax.persistence.Entity;
 @Entity
 public class User extends BaseModel {
 
-    private String name, lastName, email;
+    private String name, lastName;
+
+    @Column(unique=true)
+    private String email;
+
     private Media profilePic;
+
     public static final Finder<Long, User> find = new Finder<>(User.class);
 
     public User() {
@@ -54,5 +60,14 @@ public class User extends BaseModel {
 
     public void setProfilePic(Media profilePic) {
         this.profilePic = profilePic;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

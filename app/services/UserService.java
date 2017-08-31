@@ -21,8 +21,4 @@ public class UserService extends Service<User> {
             instance = new UserService(new Model.Finder<>(User.class));
         return instance;
     }
-
-    public Optional<User> getById(Long id) {
-        return Optional.ofNullable(User.find.select("id").where().eq("id", id).findUnique());
-    }
 }

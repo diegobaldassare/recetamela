@@ -3,6 +3,8 @@ package services;
 import com.avaje.ebean.Model;
 import models.BaseModel;
 
+import java.util.Optional;
+
 /**
  * Abstract Service with basic ABM features.
  * Every model service will extend this class.
@@ -15,7 +17,7 @@ public abstract class Service<T extends BaseModel> {
         this.finder = finder;
     }
 
-    public T getById(long id) {
-        return finder.byId(id);
+    public Optional<T> getById(long id) {
+        return Optional.ofNullable(finder.select("id").where().eq("id", id).findUnique());
     }
 }

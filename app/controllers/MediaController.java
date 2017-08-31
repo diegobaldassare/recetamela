@@ -44,7 +44,7 @@ public class MediaController extends Controller {
      * persisted in the database.
      */
     public Result get(long id) {
-        final Media media = MediaService.getInstance().getById(id);
+        final Media media = MediaService.getInstance().get(id);
         if (media == null) return notFound();
         final MediaJson mediaJson = new MediaJson(media);
         return ok(Json.toJson(mediaJson));

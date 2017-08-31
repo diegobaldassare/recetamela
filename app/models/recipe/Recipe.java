@@ -4,14 +4,23 @@ import models.BaseModel;
 import models.media.Media;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.Collection;
 
 @Entity
 public class Recipe extends BaseModel {
+
     private String name, description, steps, videoUrl;
     private int difficulty;
     private Media image;
+
+    // @ManyToOne
+    // private User author;
+
+    @ManyToMany
     private Collection<Ingredient> ingredients;
+
+    @ManyToMany
     private Collection<RecipeCategory> categories;
 
     public Recipe() {}

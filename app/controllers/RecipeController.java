@@ -11,7 +11,7 @@ import server.exception.BadRequestException;
 
 public class RecipeController extends Controller {
 
-    public Result createRecipe() {
+    public Result create() {
         final JsonNode body = request().body().asJson();
         final RecipeInputJson recipeInput = Json.fromJson(body, RecipeInputJson.class);
         /*try {
@@ -23,7 +23,7 @@ public class RecipeController extends Controller {
         return ok();
     }
 
-    public Result getRecipe(long id) {
+    public Result get(long id) {
         /*final Recipe recipe = RecipeService.getById(id);
         if (recipe == null) return notFound();
         return ok(Json.toJson(recipe));*/

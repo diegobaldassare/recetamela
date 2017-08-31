@@ -21,6 +21,6 @@ public class MediaJson {
      * @return Direct and public url of the media file.
      */
     public String getUrl() {
-        return Constants.BASE_URL + media.getName();
+        return Constants.BASE_URL + "static/" + media.getName();
     }
 }

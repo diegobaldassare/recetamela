@@ -1,30 +1,22 @@
 package server.error;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
- * Request error JSON representation.
+ * All request errors are declared here and used when necessary.
  */
-public class RequestError {
-    private long id;
-    private String message;
+public enum RequestError {
+    BAD_REQUEST(new RequestErrorJson(1, "Bad format").toString()),
+    EMAIL_TAKEN(new RequestErrorJson(2, "Email already taken").toString());
 
-    RequestError(long id, String message) {
-        this.id = id;
-        this.message = message;
+    private String json;
+
+    RequestError(@NotNull String json) {
+        this.json = json;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    @Override
+    public String toString() {
+        return json;
     }
 }

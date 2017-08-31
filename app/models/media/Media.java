@@ -2,8 +2,8 @@ package models.media;
 
 import models.BaseModel;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 
 /**
  * Media model that represents media metadata stored in the database.
@@ -14,7 +14,7 @@ public class Media extends BaseModel {
     /**
      * Name with extension of the media file.
      */
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
     public Media() {}

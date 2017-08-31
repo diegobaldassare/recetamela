@@ -29,10 +29,10 @@ public class MediaController extends Controller {
     public Result create() throws IOException {
         final MultipartFormData<File> body = request().body().asMultipartFormData();
         if (body == null)
-            return badRequest(RequestError.BAD_REQUEST.toString()).as(Http.MimeTypes.JSON);
+            return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         final MultipartFormData.FilePart<File> file = body.getFile("file");
         if (file == null)
-            return badRequest(RequestError.BAD_REQUEST.toString()).as(Http.MimeTypes.JSON);
+            return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         final Media media = MediaService.getInstance().save(file);
         final MediaJson mediaJson = new MediaJson(media);
         return ok(Json.toJson(mediaJson));

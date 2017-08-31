@@ -47,14 +47,7 @@ public class RecipeService extends Service<Recipe> {
     }
 
     /**
-     * Get recipe by id.
-     */
-    public Recipe get(Long id){
-        return finder.byId(id);
-    }
-
-    /**
-     * Get all recipes in db.
+     * Get many recipes from db.
      * TODO: To return as Json all the recipes, in the controller return "ok(toJson(getAllRecipes()))"
      */
     public List<Recipe> getMany(int limit){

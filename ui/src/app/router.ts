@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LandingComponent } from "./landing/landing.component";
+import {NotFoundComponent} from "./not-found/not-found.component";
 
-// Routes are added with the format { path: '',  component: DashboardComponent }
 const routes: Routes = [
+  { path: '', component: LandingComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

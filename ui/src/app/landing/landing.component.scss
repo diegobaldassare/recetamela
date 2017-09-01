@@ -1,0 +1,58 @@
+@import "../../assets/styles/variables";
+
+li > .btn{
+  margin-top: 9.5px;
+}
+.card{
+  background-color: $card-color;
+  position: relative;
+  margin: auto;
+  height: 100%;
+.card-image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%
+}
+}
+.card-content{
+  padding: 5px;
+  text-align: center;
+}
+}
+
+.first-section{
+  background-size: cover;
+  background-color: $brand-primary;
+  min-height: 300px;
+  padding: 80px 20px;
+  position: relative;
+.first-section-content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+h1 {
+  color: white;
+  text-transform: uppercase;
+}
+}
+}
+
+.second-section{
+  background-color: $gray-white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.third-section{
+  background-color: white;
+  padding: 80px 20px;
+  min-height: 300px;
+  text-align: center;
+}

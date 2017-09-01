@@ -1,6 +1,7 @@
 package services;
 
 import com.avaje.ebean.Model.Finder;
+import models.media.Media;
 import models.recipe.Ingredient;
 import models.recipe.Recipe;
 import models.recipe.RecipeCategory;
@@ -15,7 +16,7 @@ public class RecipeService extends Service<Recipe> {
 
     private static RecipeService instance;
 
-    protected RecipeService(Finder<Long, Recipe> finder){
+    private RecipeService(Finder<Long, Recipe> finder){
         super(finder);
     }
 
@@ -25,46 +26,67 @@ public class RecipeService extends Service<Recipe> {
     }
 
     /**
-     * Persist recipe into database.
-     * Receive RecipeInputJson ("RIJ"), check if name is null and if any of
-     * the categories id's doesn't exist in db. Create Recipe object with all
-     * the information provided by the RIJ and save it to the db.
+     * Persists recipe into database. Receives the recipe input from the request with
+     * some verifications already done.
+     * @param input Recipe input from the request.
+     * @return A persisted Recipe model instance.
+     * @throws BadRequestException If the request input is invalid.
      */
-    public Recipe save(RecipeInputJson recipeInputJson) throws BadRequestException {
-        Recipe recipe = new Recipe();
-        if(recipeInputJson.name == null) throw new BadRequestException(RequestError.BAD_REQUEST);
-        recipe.setName(recipeInputJson.name);
-        recipe.setDescription(recipeInputJson.description);
-        recipe.setSteps(recipeInputJson.steps);
-        Finder<Long, RecipeCategory> findCategory = new Finder<>(RecipeCategory.class);
-        for (Long id: recipeInputJson.categoryIds) {
-            recipe.getCategories().add(findCategory.byId(id));
+    public Recipe save(RecipeInputJson input) throws BadRequestException {
+        final Recipe recipe = new Recipe();
+        recipe.setName(input.name);
+        recipe.setDescription(input.description);
+        recipe.setSteps(input.steps);
+        recipe.setVideoUrl(input.videoUrl);
+        recipe.setDifficulty(input.difficulty);
+        for (Long id : input.categoryIds) {
+            final RecipeCategory category = RecipeCategoryService.getInstance().get(id);
+            if (category == null) continue;
+            recipe.getCategories().add(category);
         }
-        /*recipe.setImage();
-        recipe.setIngredients(recipeInputJson.);
-        recipe.save();*/
+        if (recipe.getIngredients().isEmpty())
+            throw new BadRequestException(RequestError.BAD_REQUEST);
+        for (String name : input.ingredientNames) {
+            final Ingredient ingredient = IngredientService.getInstance().getByName(name);
+            if (ingredient == null) continue;
+            recipe.getIngredients().add(ingredient);
+        }
+        if (recipe.getIngredients().isEmpty())
+            throw new BadRequestException(RequestError.BAD_REQUEST);
+        final Media image = MediaService.getInstance().get(input.imageId);
+        if (image == null) throw new BadRequestException(RequestError.BAD_REQUEST);
+        recipe.setImage(image);
+        // Check if author exists and insert into recipe
+        recipe.save();
         return recipe;
     }
 
     /**
-     * Get many recipes from db.
-     * TODO: To return as Json all the recipes, in the controller return "ok(toJson(getAllRecipes()))"
+     * Get all recipes.
+     * @param limit Maximum number of returned recipes.
+     * @return
      */
-    public List<Recipe> getMany(int limit){
+    public List<Recipe> getAll(int limit){
         return finder.all();
     }
 
     /**
-     * Get list of recipes in the specified category.
+     * Get recipes that belong to the received categories.
+     * @param categories Categories that returned recipes must belong to.
+     * @param limit Maximum number of returned recipes.
+     * @return
      */
-    public List<Recipe> getByCategory(RecipeCategory category){
-        return finder.where().eq("categories", category).findList();
+    public List<Recipe> getByCategory(Collection<RecipeCategory> categories, int limit){
+        return finder.where().eq("categories", categories).findList(); // should be .contains()
     }
 
     /**
-     * Get list of recipes by ingredients.
+     * Get recipes that contain received ingredients.
+     * @param ingredients Ingredients that must contain the returned recipes.
+     * @param limit Maximum number of returned recipes.
+     * @return
      */
-    public List<Recipe> getByIngredients(Collection<Ingredient> ingredients){
+    public List<Recipe> getByIngredients(Collection<Ingredient> ingredients, int limit){
         return finder.where().eq("ingredients", ingredients).findList(); // should be .contains()
     }
 }

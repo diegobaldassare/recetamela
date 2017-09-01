@@ -3,6 +3,7 @@ package models.recipe;
 import models.BaseModel;
 import models.media.Media;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.Collection;
@@ -10,10 +11,18 @@ import java.util.Collection;
 @Entity
 public class Recipe extends BaseModel {
 
-    private String name, description, steps, videoUrl;
+    @Column(nullable = false)
+    private String name, description, steps;
+
+    private String videoUrl;
+
+    @Column(nullable = false)
     private int difficulty;
+
+    @Column(nullable = false)
     private Media image;
 
+    // @Column(nullable = false)
     // @ManyToOne
     // private User author;
 
@@ -24,18 +33,6 @@ public class Recipe extends BaseModel {
     private Collection<RecipeCategory> categories;
 
     public Recipe() {}
-
-    public Recipe(String name, String description, String steps, String videoUrl, int difficulty, Media image, Collection<Ingredient> ingredients, Collection<RecipeCategory> categories) {
-        this.name = name;
-        this.description = description;
-        this.steps = steps;
-        this.image = image;
-        this.image = image;
-        this.videoUrl = videoUrl;
-        this.difficulty = difficulty;
-        this.ingredients = ingredients;
-        this.categories = categories;
-    }
 
     public String getName() {
         return name;

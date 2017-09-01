@@ -1,7 +1,6 @@
 package controllers;
 
 import models.media.Media;
-import models.media.json.MediaJson;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -34,8 +33,7 @@ public class MediaController extends Controller {
         if (file == null)
             return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         final Media media = MediaService.getInstance().save(file);
-        final MediaJson mediaJson = new MediaJson(media);
-        return ok(Json.toJson(mediaJson));
+        return ok(Json.toJson(media));
     }
 
     /**
@@ -46,7 +44,6 @@ public class MediaController extends Controller {
     public Result get(long id) {
         final Media media = MediaService.getInstance().get(id);
         if (media == null) return notFound();
-        final MediaJson mediaJson = new MediaJson(media);
-        return ok(Json.toJson(mediaJson));
+        return ok(Json.toJson(media));
     }
 }

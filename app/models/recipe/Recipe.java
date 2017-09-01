@@ -6,6 +6,7 @@ import models.media.Media;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private int difficulty;
 
+    @OneToOne
     @Column(nullable = false)
     private Media image;
 

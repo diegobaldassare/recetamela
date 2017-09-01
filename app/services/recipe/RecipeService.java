@@ -46,11 +46,14 @@ public class RecipeService extends Service<Recipe> {
             if (category == null) continue;
             recipe.getCategories().add(category);
         }
-        if (recipe.getIngredients().isEmpty())
+        if (recipe.getCategories().isEmpty())
             throw new BadRequestException(RequestError.BAD_FORMAT);
         for (String name : input.ingredientNames) {
-            final Ingredient ingredient = IngredientService.getInstance().getByName(name);
-            if (ingredient == null) continue;
+            Ingredient ingredient = IngredientService.getInstance().getByName(name);
+            if (ingredient == null) {
+                ingredient = new Ingredient(name);
+                ingredient.save();
+            }
             recipe.getIngredients().add(ingredient);
         }
         if (recipe.getIngredients().isEmpty())
@@ -58,7 +61,7 @@ public class RecipeService extends Service<Recipe> {
         final Media image = MediaService.getInstance().get(input.imageId);
         if (image == null) throw new BadRequestException(RequestError.BAD_FORMAT);
         recipe.setImage(image);
-        // Check if author exists and insert into recipe
+        // TODO Check if author exists and insert into recipe
         recipe.save();
         return recipe;
     }
@@ -78,8 +81,8 @@ public class RecipeService extends Service<Recipe> {
      * @param limit Maximum number of returned recipes.
      * @return Recipes that belong to the received categories.
      */
-    public List<Recipe> getByCategory(Collection<RecipeCategory> categories, int limit){
-        return finder.where().eq("categories", categories).findList(); // should be .contains()
+    public List<Recipe> getByCategory(Collection<RecipeCategory> categories, int limit) {
+        return finder.where().eq("categories", categories).findList(); // TODO should be .contains()
     }
 
     /**
@@ -88,7 +91,7 @@ public class RecipeService extends Service<Recipe> {
      * @param limit Maximum number of returned recipes.
      * @return Recipes that contain received ingredients.
      */
-    public List<Recipe> getByIngredients(Collection<Ingredient> ingredients, int limit){
-        return finder.where().eq("ingredients", ingredients).findList(); // should be .contains()
+    public List<Recipe> getByIngredients(Collection<Ingredient> ingredients, int limit) {
+        return finder.where().eq("ingredients", ingredients).findList(); // TODO should be .contains()
     }
 }

@@ -6,7 +6,8 @@ import models.media.Media;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Recipe extends BaseModel {
@@ -27,10 +28,10 @@ public class Recipe extends BaseModel {
     // private User author;
 
     @ManyToMany
-    private Collection<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
     @ManyToMany
-    private Collection<RecipeCategory> categories;
+    private List<RecipeCategory> categories;
 
     public Recipe() {}
 
@@ -82,19 +83,19 @@ public class Recipe extends BaseModel {
         this.difficulty = difficulty;
     }
 
-    public Collection<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Collection<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public Collection<RecipeCategory> getCategories() {
+    public List<RecipeCategory> getCategories() {
         return categories;
     }
 
-    public void setCategories(Collection<RecipeCategory> categories) {
+    public void setCategories(List<RecipeCategory> categories) {
         this.categories = categories;
     }
 }

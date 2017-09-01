@@ -1,17 +1,19 @@
 package services.recipe;
 
-import com.avaje.ebean.Model;
+import com.avaje.ebean.Model.Finder;
 import models.recipe.Ingredient;
 import services.Service;
 
 public class IngredientService extends Service<Ingredient> {
     private static IngredientService instance;
 
-    private IngredientService(Model.Finder<Long, Ingredient> finder) {
+    private IngredientService(Finder<Long, Ingredient> finder) {
         super(finder);
     }
 
     public static IngredientService getInstance() {
+        if (instance == null)
+            instance = new IngredientService(new Finder<>(Ingredient.class));
         return instance;
     }
 

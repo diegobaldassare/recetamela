@@ -1,7 +1,8 @@
-package services;
+package services.recipe;
 
 import com.avaje.ebean.Model;
 import models.recipe.Ingredient;
+import services.Service;
 
 public class IngredientService extends Service<Ingredient> {
     private static IngredientService instance;

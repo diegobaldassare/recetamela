@@ -9,7 +9,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import server.error.RequestError;
 import server.exception.BadRequestException;
-import services.RecipeService;
+import services.recipe.RecipeService;
 
 public class RecipeController extends Controller {
 
@@ -17,7 +17,7 @@ public class RecipeController extends Controller {
         final JsonNode body = request().body().asJson();
         final RecipeInputJson input = Json.fromJson(body, RecipeInputJson.class);
         if (badCreateRequest(input))
-            return badRequest(RequestError.BAD_REQUEST.toString()).as(Http.MimeTypes.JSON);
+            return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         try {
             final Recipe recipe = RecipeService.getInstance().save(input);
             return ok(Json.toJson(recipe));

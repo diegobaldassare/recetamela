@@ -1,4 +1,4 @@
-package services;
+package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
 import models.media.Media;
@@ -8,6 +8,8 @@ import models.recipe.RecipeCategory;
 import models.recipe.json.RecipeInputJson;
 import server.error.RequestError;
 import server.exception.BadRequestException;
+import services.MediaService;
+import services.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,16 +47,16 @@ public class RecipeService extends Service<Recipe> {
             recipe.getCategories().add(category);
         }
         if (recipe.getIngredients().isEmpty())
-            throw new BadRequestException(RequestError.BAD_REQUEST);
+            throw new BadRequestException(RequestError.BAD_FORMAT);
         for (String name : input.ingredientNames) {
             final Ingredient ingredient = IngredientService.getInstance().getByName(name);
             if (ingredient == null) continue;
             recipe.getIngredients().add(ingredient);
         }
         if (recipe.getIngredients().isEmpty())
-            throw new BadRequestException(RequestError.BAD_REQUEST);
+            throw new BadRequestException(RequestError.BAD_FORMAT);
         final Media image = MediaService.getInstance().get(input.imageId);
-        if (image == null) throw new BadRequestException(RequestError.BAD_REQUEST);
+        if (image == null) throw new BadRequestException(RequestError.BAD_FORMAT);
         recipe.setImage(image);
         // Check if author exists and insert into recipe
         recipe.save();
@@ -64,7 +66,7 @@ public class RecipeService extends Service<Recipe> {
     /**
      * Get all recipes.
      * @param limit Maximum number of returned recipes.
-     * @return
+     * @return A list of recipes that must not exceed the limit.
      */
     public List<Recipe> getAll(int limit){
         return finder.all();
@@ -74,7 +76,7 @@ public class RecipeService extends Service<Recipe> {
      * Get recipes that belong to the received categories.
      * @param categories Categories that returned recipes must belong to.
      * @param limit Maximum number of returned recipes.
-     * @return
+     * @return Recipes that belong to the received categories.
      */
     public List<Recipe> getByCategory(Collection<RecipeCategory> categories, int limit){
         return finder.where().eq("categories", categories).findList(); // should be .contains()
@@ -84,7 +86,7 @@ public class RecipeService extends Service<Recipe> {
      * Get recipes that contain received ingredients.
      * @param ingredients Ingredients that must contain the returned recipes.
      * @param limit Maximum number of returned recipes.
-     * @return
+     * @return Recipes that contain received ingredients.
      */
     public List<Recipe> getByIngredients(Collection<Ingredient> ingredients, int limit){
         return finder.where().eq("ingredients", ingredients).findList(); // should be .contains()

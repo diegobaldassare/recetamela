@@ -43,7 +43,7 @@ public class RecipeService extends Service<Recipe> {
         recipe.setDifficulty(input.difficulty);
         for (Long id : input.categoryIds) {
             final RecipeCategory category = RecipeCategoryService.getInstance().get(id);
-            if (category == null) continue;
+            if (category == null) continue; //TODO Change RecipeInputJson to receive the categories by name so we can add if it doesn't exist.
             recipe.getCategories().add(category);
         }
         if (recipe.getCategories().isEmpty())

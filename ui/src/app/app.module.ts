@@ -7,10 +7,14 @@ import {AppComponent} from './app.component';
 import {AuthService} from './auth/auth.service';
 import {DOMService} from './shared/dom.service';
 import { AppRouterModule } from './router';
+import { LandingComponent } from './landing/landing.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LandingComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

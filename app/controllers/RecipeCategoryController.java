@@ -36,4 +36,10 @@ public class RecipeCategoryController extends Controller {
 //    public Result delete(){
 //        TODO receive id of the category for delete in RecipeService.
 //    }
+
+    public Result get(long id){
+        final RecipeCategory recipeCategory = RecipeCategoryService.getInstance().getById(id);
+        if(recipeCategory == null) return notFound();
+        return ok(Json.toJson(recipeCategory));
+    }
 }

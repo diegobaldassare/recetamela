@@ -20,6 +20,6 @@ public class IngredientService extends Service<Ingredient> {
     }
 
     public Optional<Ingredient> getByName(String name) {
-        return Optional.ofNullable(finder.where().eq("name", name).findUnique());
+        return Optional.ofNullable(getFinder().where().eq("name", name).findUnique());
     }
 }

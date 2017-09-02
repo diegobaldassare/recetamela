@@ -28,6 +28,6 @@ public class RecipeCategoryService extends Service<RecipeCategory> {
      *         and null if category was not found.
      */
     public Optional<RecipeCategory> getByName(String name){
-        return Optional.ofNullable(finder.where().eq("name", name).findUnique());
+        return Optional.ofNullable(getFinder().where().eq("name", name).findUnique());
     }
 }

@@ -11,6 +11,7 @@ import services.MediaService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Media controller persists media files and retrieves their metadata.
@@ -42,8 +43,7 @@ public class MediaController extends Controller {
      * persisted in the database.
      */
     public Result get(long id) {
-        final Media media = MediaService.getInstance().get(id);
-        if (media == null) return notFound();
-        return ok(Json.toJson(media));
+        final Optional<Media> media = MediaService.getInstance().get(id);
+        return media.isPresent() ? ok(Json.toJson(media.get())) : notFound();
     }
 }

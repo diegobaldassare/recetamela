@@ -13,6 +13,7 @@ import { NavComponent } from './nav/nav.component';
 import {HttpClientModule} from "@angular/common/http";
 import { RecipesComponent } from './recipes/recipes.component';
 import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component';
+import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component
     NavComponent,
     RecipesComponent,
     ViewRecipeComponent,
+    NewRecipeComponent,
   ],
   imports: [
     BrowserModule,

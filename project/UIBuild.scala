@@ -7,15 +7,16 @@ object UIBuild {
   def apply(base: File): PlayRunHook = {
     object UIBuildHook extends PlayRunHook {
 
-      var process: Option[Process] = None
+      var processOne: Option[Process] = None
+      var processTwo: Option[Process] = None
 
       var npmInstall: String = "npm install"
-      var npmRun: String = "npm run build -- --watch"
+      var npmRunBuild: String = "npm run build"
       var ngServe: String = "ng serve"
 
       if (System.getProperty("os.name").toLowerCase().contains("win")){
         npmInstall = "cmd /c" + npmInstall
-        npmRun = "cmd /c" + npmRun
+        npmRunBuild = "cmd /c" + npmRunBuild
         ngServe = "cmd /c" + ngServe
       }
 
@@ -24,14 +25,19 @@ object UIBuild {
       }
 
       override def afterStarted(addr: InetSocketAddress): Unit = {
-        process = Option(
+        processOne = Option(
+          Process(npmRunBuild, base / "ui").run
+        )
+        processTwo = Option(
           Process(ngServe, base / "ui").run
         )
       }
 
       override def afterStopped(): Unit = {
-        process.foreach(_.destroy())
-        process = None
+        processOne.foreach(_.destroy())
+        processOne = None
+        processTwo.foreach(_.destroy())
+        processTwo = None
       }
 
     }

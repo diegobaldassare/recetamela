@@ -17,8 +17,7 @@ export class ViewRecipeComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.http.get(`http://localhost:9000/api/recipe/${this.id}`).subscribe(data => {
-      this.recipe = data['body'];
-      console.log(data)
+      this.recipe = data;
     });
   }
 }

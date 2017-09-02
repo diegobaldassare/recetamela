@@ -37,7 +37,7 @@ public class UserController extends Controller {
     }
 
     public Result deleteUser(Long id){
-        Optional<User> user = UserService.getInstance().getById(id);
+        Optional<User> user = UserService.getInstance().get(id);
         if (user.isPresent()){
             user.get().delete();
             return ok();
@@ -46,7 +46,7 @@ public class UserController extends Controller {
     }
 
     public Result getUser(Long id) {
-        Optional<User> user = UserService.getInstance().getById(id);
+        Optional<User> user = UserService.getInstance().get(id);
         if (user.isPresent()) return ok(Json.toJson(user.get()));
         return notFound();
     }

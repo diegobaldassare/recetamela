@@ -73,7 +73,7 @@ public class RecipeService extends Service<Recipe> {
                 .get(input.imageId)
                 .orElseThrow(() -> new BadRequestException(RequestError.BAD_FORMAT));
         recipe.setImage(image);
-        // TODO Add author to recipe
+        // TODO recipe.setAuthor(?);
         recipe.save();
         return recipe;
     }

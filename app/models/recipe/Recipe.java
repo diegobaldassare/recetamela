@@ -1,6 +1,7 @@
 package models.recipe;
 
 import models.BaseModel;
+import models.User;
 import models.media.Media;
 
 import javax.persistence.*;
@@ -22,9 +23,9 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private Media image;
 
-    // @Column(nullable = false)
-    // @ManyToOne
-    // private User author;
+    // TODO @Column(nullable = false)
+    @ManyToOne
+    private User author;
 
     @ManyToMany
     private List<Ingredient> ingredients;
@@ -96,5 +97,13 @@ public class Recipe extends BaseModel {
 
     public void setCategories(List<RecipeCategory> categories) {
         this.categories = categories;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

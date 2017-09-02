@@ -12,6 +12,8 @@ import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.recipe.RecipeService;
 
+import java.util.Optional;
+
 public class RecipeController extends Controller {
 
     public Result create() {
@@ -45,8 +47,7 @@ public class RecipeController extends Controller {
     }
 
     public Result get(long id) {
-        final Recipe recipe = RecipeService.getInstance().get(id);
-        if (recipe == null) return notFound();
-        return ok(Json.toJson(recipe));
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        return recipe.isPresent() ? ok(Json.toJson(recipe.get())) : notFound();
     }
 }

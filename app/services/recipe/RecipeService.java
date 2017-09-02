@@ -12,6 +12,8 @@ import server.exception.BadRequestException;
 import services.MediaService;
 import services.Service;
 
+import java.util.Optional;
+
 public class RecipeService extends Service<Recipe> {
 
     private static RecipeService instance;
@@ -43,11 +45,12 @@ public class RecipeService extends Service<Recipe> {
             if (!StringUtils.isAlphaSpace(name))
                 throw new BadRequestException(RequestError.BAD_FORMAT);
             final String nameLowerCase = name.toLowerCase();
-            RecipeCategory category = RecipeCategoryService.getInstance().getByName(nameLowerCase);
-            if (category == null) {
-                category = new RecipeCategory(nameLowerCase);
-                category.save();
-            }
+            final Optional<RecipeCategory> categoryOpt = RecipeCategoryService
+                    .getInstance()
+                    .getByName(nameLowerCase);
+            final RecipeCategory category = categoryOpt
+                    .orElse(new RecipeCategory(nameLowerCase));
+            if (!categoryOpt.isPresent()) category.save();
             recipe.getCategories().add(category);
         }
         if (recipe.getCategories().isEmpty())
@@ -56,17 +59,19 @@ public class RecipeService extends Service<Recipe> {
             if (!StringUtils.isAlphaSpace(name))
                 throw new BadRequestException(RequestError.BAD_FORMAT);
             final String nameLowerCase = name.toLowerCase();
-            Ingredient ingredient = IngredientService.getInstance().getByName(nameLowerCase);
-            if (ingredient == null) {
-                ingredient = new Ingredient(nameLowerCase);
-                ingredient.save();
-            }
+            final Optional<Ingredient> ingredientOpt = IngredientService
+                    .getInstance()
+                    .getByName(nameLowerCase);
+            final Ingredient ingredient = ingredientOpt
+                    .orElse(new Ingredient(nameLowerCase));
+            if (!ingredientOpt.isPresent()) ingredient.save();
             recipe.getIngredients().add(ingredient);
         }
         if (recipe.getIngredients().isEmpty())
             throw new BadRequestException(RequestError.BAD_FORMAT);
-        final Media image = MediaService.getInstance().get(input.imageId);
-        if (image == null) throw new BadRequestException(RequestError.BAD_FORMAT);
+        final Media image = MediaService.getInstance()
+                .get(input.imageId)
+                .orElseThrow(() -> new BadRequestException(RequestError.BAD_FORMAT));
         recipe.setImage(image);
         // TODO Add author to recipe
         recipe.save();

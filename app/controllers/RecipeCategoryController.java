@@ -9,6 +9,8 @@ import play.mvc.Result;
 import server.error.RequestError;
 import services.recipe.RecipeCategoryService;
 
+import java.util.Optional;
+
 public class RecipeCategoryController extends Controller {
     
     public Result create() {
@@ -17,7 +19,7 @@ public class RecipeCategoryController extends Controller {
         if (badCreateRequest(category))
             return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         category.setName(category.getName().toLowerCase());
-        if (RecipeCategoryService.getInstance().existsByName(category.getName()))
+        if (RecipeCategoryService.getInstance().getByName(category.getName()).isPresent())
             return badRequest(RequestError.CATEGORY_EXISTS.toString()).as(Http.MimeTypes.JSON);
         category.save();
         return ok(Json.toJson(category));
@@ -31,8 +33,7 @@ public class RecipeCategoryController extends Controller {
     }
 
     public Result get(long id) {
-        final RecipeCategory recipeCategory = RecipeCategoryService.getInstance().get(id);
-        if (recipeCategory == null) return notFound();
-        return ok(Json.toJson(recipeCategory));
+        final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+        return category.isPresent() ? ok(Json.toJson(category.get())) : notFound();
     }
 }

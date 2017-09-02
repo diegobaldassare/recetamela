@@ -4,6 +4,8 @@ import com.avaje.ebean.Model.Finder;
 import models.recipe.Ingredient;
 import services.Service;
 
+import java.util.Optional;
+
 public class IngredientService extends Service<Ingredient> {
     private static IngredientService instance;
 
@@ -17,7 +19,7 @@ public class IngredientService extends Service<Ingredient> {
         return instance;
     }
 
-    public Ingredient getByName(String name) {
-        return finder.where().eq("name", name).findUnique();
+    public Optional<Ingredient> getByName(String name) {
+        return Optional.ofNullable(finder.where().eq("name", name).findUnique());
     }
 }

@@ -6,6 +6,8 @@ import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.Service;
 
+import java.util.Optional;
+
 public class RecipeCategoryService extends Service<RecipeCategory> {
     private static RecipeCategoryService instance;
 
@@ -25,11 +27,7 @@ public class RecipeCategoryService extends Service<RecipeCategory> {
      * @return RecipeCategory if found. If there's more than one category with name an exception
      *         and null if category was not found.
      */
-    public RecipeCategory getByName(String name){
-        return finder.where().eq("name", name).findUnique();
-    }
-
-    public boolean existsByName(String name) {
-        return getByName(name) != null;
+    public Optional<RecipeCategory> getByName(String name){
+        return Optional.ofNullable(finder.where().eq("name", name).findUnique());
     }
 }

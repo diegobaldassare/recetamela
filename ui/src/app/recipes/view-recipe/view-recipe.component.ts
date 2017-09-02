@@ -10,7 +10,7 @@ import {log} from "util";
 })
 export class ViewRecipeComponent implements OnInit {
 
-  private id; recipe;
+  private id; recipe; fetched;
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -18,6 +18,7 @@ export class ViewRecipeComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.http.get(`http://localhost:9000/api/recipe/${this.id}`).subscribe(data => {
       this.recipe = data;
-    });
+      this.fetched = true;
+    }, () => { this.fetched = true });
   }
 }

@@ -1,49 +1,52 @@
 <div class="container">
-  <div *ngIf="recipe">
-    <div class="row">
-      <div class="col-md-4">
-        <img class="img-responsive" src="{{ recipe.image.url }}">
-        <h1>{{ recipe.name }}</h1>
-        <p>Dificultad:
-          <span [ngSwitch]="recipe.difficulty">
-            <span *ngSwitchCase="1">muy fácil</span>
-            <span *ngSwitchCase="2">fácil</span>
-            <span *ngSwitchCase="3">intermedio</span>
-            <span *ngSwitchCase="4">dificil</span>
-            <span *ngSwitchDefault>muy dificil</span>
-          </span>
-        </p>
-      </div>
-      <div class="col-md-8">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#descripcion" aria-controls="descripción" role="tab" data-toggle="tab">Descripción</a></li>
-          <li role="presentation"><a href="#ingredientes" aria-controls="ingredientes" role="tab" data-toggle="tab">Ingredientes</a></li>
-          <li role="presentation"><a href="#pasos" aria-controls="pasos" role="tab" data-toggle="tab">Pasos</a></li>
-          <li *ngIf="recipe.videoUrl" role="presentation"><a href="#video" aria-controls="video" role="tab" data-toggle="tab">Video</a></li>
-          <li role="presentation"><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
-        </ul>
-        <br>
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
-          <div role="tabpanel" class="tab-pane" id="ingredientes">
-            <ul>
-              <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
-            </ul>
+  <div *ngIf="fetched">
+    <div *ngIf="recipe">
+      <div class="row">
+        <div class="col-md-4">
+          <img class="img-responsive" src="{{ recipe.image.url }}">
+          <h1>{{ recipe.name }}</h1>
+          <p>Dificultad:
+            <span [ngSwitch]="recipe.difficulty">
+              <span *ngSwitchCase="1">muy fácil</span>
+              <span *ngSwitchCase="2">fácil</span>
+              <span *ngSwitchCase="3">intermedio</span>
+              <span *ngSwitchCase="4">dificil</span>
+              <span *ngSwitchDefault>muy dificil</span>
+            </span>
+          </p>
+        </div>
+        <div class="col-md-8">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#descripcion" aria-controls="descripción" role="tab" data-toggle="tab">Descripción</a></li>
+            <li role="presentation"><a href="#ingredientes" aria-controls="ingredientes" role="tab" data-toggle="tab">Ingredientes</a></li>
+            <li role="presentation"><a href="#pasos" aria-controls="pasos" role="tab" data-toggle="tab">Pasos</a></li>
+            <li *ngIf="recipe.videoUrl" role="presentation"><a href="#video" aria-controls="video" role="tab" data-toggle="tab">Video</a></li>
+            <li role="presentation"><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
+          </ul>
+          <br>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
+            <div role="tabpanel" class="tab-pane" id="ingredientes">
+              <ul>
+                <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
+              </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="pasos">
+              <ol>
+                <li *ngFor="let step of recipe.steps.split('\n')">{{ step }}</li>
+              </ol>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="video">
+              <iframe width="560" height="315" src="{{ recipe.videoUrl }}" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
           </div>
-          <div role="tabpanel" class="tab-pane" id="pasos">
-            <ol>
-              <li *ngFor="let step of recipe.steps.split('\n')">{{ step }}</li>
-            </ol>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="video">
-            <iframe width="560" height="315" src="{{ recipe.videoUrl }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
+        </div>
         </div>
       </div>
-      </div>
+    <div *ngIf="!recipe">
+      The recipe with ID: {{ id }} doesn't exist.
     </div>
-  <div *ngIf="!recipe">
-    The recipe with ID: {{ id }} doesn't exist.
   </div>
+  <div *ngIf="!fetched" class="spinner"></div>
 </div>

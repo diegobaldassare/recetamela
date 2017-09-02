@@ -31,7 +31,7 @@ public class RecipeController extends Controller {
         return
                 input.name == null ||
                 input.name.length() < 2 ||
-                !StringUtils.isAlphanumeric(input.name) ||
+                !StringUtils.isAlphanumericSpace(input.name) ||
                 input.description == null ||
                 input.description.length() == 0 ||
                 input.steps == null ||

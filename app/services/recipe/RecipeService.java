@@ -40,7 +40,7 @@ public class RecipeService extends Service<Recipe> {
         recipe.setVideoUrl(input.videoUrl);
         recipe.setDifficulty(input.difficulty);
         for (String name : input.categoryNames) {
-            if (!StringUtils.isAlpha(name))
+            if (!StringUtils.isAlphaSpace(name))
                 throw new BadRequestException(RequestError.BAD_FORMAT);
             final String nameLowerCase = name.toLowerCase();
             RecipeCategory category = RecipeCategoryService.getInstance().getByName(nameLowerCase);
@@ -53,7 +53,7 @@ public class RecipeService extends Service<Recipe> {
         if (recipe.getCategories().isEmpty())
             throw new BadRequestException(RequestError.BAD_FORMAT);
         for (String name : input.ingredientNames) {
-            if (!StringUtils.isAlpha(name))
+            if (!StringUtils.isAlphaSpace(name))
                 throw new BadRequestException(RequestError.BAD_FORMAT);
             final String nameLowerCase = name.toLowerCase();
             Ingredient ingredient = IngredientService.getInstance().getByName(nameLowerCase);

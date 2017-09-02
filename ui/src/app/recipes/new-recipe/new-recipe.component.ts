@@ -16,8 +16,5 @@ export class NewRecipeComponent implements OnInit {
   ngOnInit() {
   }
 
-  /**
-   * Save recipe.
-   */
   saveRecipe(){}
 }

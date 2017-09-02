@@ -1,17 +1,23 @@
 package models.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.BaseModel;
+import server.Constant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 
+/**
+ * Media model that represents media metadata stored in the database.
+ */
 @Entity
 public class Media extends BaseModel {
 
     /**
      * Name with extension of the media file.
      */
-    @NotNull
+    @Column(nullable = false)
+    @JsonIgnore
     private String name;
 
     public Media() {}
@@ -26,5 +32,12 @@ public class Media extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return Direct and public url of the media file.
+     */
+    public String getUrl() {
+        return Constant.BASE_URL + "static/" + getName();
     }
 }

@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+/**
+ * Service methods for the Media model.
+ */
 public class MediaService extends Service<Media> {
 
     private static MediaService instance;
@@ -26,6 +29,12 @@ public class MediaService extends Service<Media> {
         return instance;
     }
 
+    /**
+     * Persists the media metadata to the database and the file to disk.
+     * @param filePart The file and metadata received from the multipart request.
+     * @return Media model instance persisted in the database.
+     * @throws IOException If the file cannot be written to disk.
+     */
     public Media save(FilePart<File> filePart) throws IOException {
         final String name = filePart.getFilename();
         final String extension = name.substring(name.lastIndexOf("."));

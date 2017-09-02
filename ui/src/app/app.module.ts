@@ -9,12 +9,16 @@ import {DOMService} from './shared/dom.service';
 import { AppRouterModule } from './router';
 import { LandingComponent } from './landing/landing.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { FooterComponent } from './footer/footer.component';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     NotFoundComponent,
+    FooterComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,

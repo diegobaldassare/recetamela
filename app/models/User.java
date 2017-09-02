@@ -18,10 +18,7 @@ public class User extends BaseModel {
 
     private Media profilePic;
 
-    public static final Finder<Long, User> find = new Finder<>(User.class);
-
-    public User() {
-    }
+    public User() {}
 
     public User(String name, String lastName, String email, Media profilePic) {
         this.name = name;

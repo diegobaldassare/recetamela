@@ -32,7 +32,7 @@ public class UserController extends Controller {
     }
 
     public Result getUsers(){
-        List<User> users = User.find.all();
+        List<User> users = UserService.getInstance().getFinder().all();
         return ok(Json.toJson(users));
     }
 

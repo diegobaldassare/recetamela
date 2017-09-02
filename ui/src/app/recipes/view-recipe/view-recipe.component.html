@@ -1,22 +1,37 @@
 <div class="container">
   <div *ngIf="recipe">
-    <img src="{{ recipe.image.url }}">
-    <h1>{{ recipe.name }}</h1>
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#descripcion" aria-controls="descripción" role="tab" data-toggle="tab">Descripción</a></li>
-      <li role="presentation"><a href="#ingredientes" aria-controls="ingredientes" role="tab" data-toggle="tab">Ingredientes</a></li>
-      <li role="presentation"><a href="#pasos" aria-controls="pasos" role="tab" data-toggle="tab">Pasos</a></li>
-      <li role="presentation"><a href="#multimedia" aria-controls="multimedia" role="tab" data-toggle="tab">Multimedia</a></li>
-      <li role="presentation"><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
-    </ul>
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
-      <div role="tabpanel" class="tab-pane" id="ingredientes"></div>
-      <div role="tabpanel" class="tab-pane" id="pasos">...</div>
-      <div role="tabpanel" class="tab-pane" id="multimedia">...</div>
-      <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
+    <div class="row">
+      <div class="col-md-3">
+        <img src="{{ recipe.image.url }}">
+        <h1>{{ recipe.name }}</h1>
+        <p>Dificultad: {{ recipe.difficulty }}</p>
+      </div>
+      <div class="col-md-9">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#descripcion" aria-controls="descripción" role="tab" data-toggle="tab">Descripción</a></li>
+          <li role="presentation"><a href="#ingredientes" aria-controls="ingredientes" role="tab" data-toggle="tab">Ingredientes</a></li>
+          <li role="presentation"><a href="#pasos" aria-controls="pasos" role="tab" data-toggle="tab">Pasos</a></li>
+          <li role="presentation"><a href="#multimedia" aria-controls="multimedia" role="tab" data-toggle="tab">Multimedia</a></li>
+          <li role="presentation"><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
+          <div role="tabpanel" class="tab-pane" id="ingredientes">
+            <ul>
+              <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
+            </ul>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="pasos">
+            <ol>
+              <li *ngFor="let step of recipe.steps.split('\n')">{{ step }}</li>
+            </ol>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="multimedia">...</div>
+          <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
+        </div>
+      </div>
+      </div>
     </div>
-  </div>
   <div *ngIf="!recipe">
     The recipe with ID: {{ id }} doesn't exist.
   </div>

@@ -3,6 +3,8 @@ package services;
 import com.avaje.ebean.Model;
 import models.BaseModel;
 
+import java.util.Optional;
+
 /**
  * Abstract service for a model that must be extended by all services as singletons.
  * They are usually called by controllers.
@@ -15,7 +17,7 @@ public abstract class Service<T extends BaseModel> {
         this.finder = finder;
     }
 
-    public T get(long id) {
-        return finder.byId(id);
+    public Optional<T> get(long id) {
+        return Optional.ofNullable(finder.byId(id));
     }
 }

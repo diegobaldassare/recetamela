@@ -4,6 +4,6 @@ public class RecipeInputJson {
     public String name, description, steps, videoUrl;
     public int difficulty;
     public long imageId;
-    public long[] categoryIds;
+    public String[] categoryNames;
     public String[] ingredientNames;
 }

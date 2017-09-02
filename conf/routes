@@ -8,5 +8,5 @@ GET /api/media/:id controllers.MediaController.get(id: Long)
 POST /api/recipe controllers.RecipeController.create()
 GET /api/recipe/:id controllers.RecipeController.get(id: Long)
 
-POST /api/recipecategory controllers.RecipeCategoryController.create()
-GET /api/recipecategory/:id controllers.RecipeCategoryController.get(id: Long)
+POST /api/recipe/category controllers.RecipeCategoryController.create()
+GET /api/recipe/category/:id controllers.RecipeCategoryController.get(id: Long)

@@ -3,10 +3,7 @@ package models.recipe;
 import models.BaseModel;
 import models.media.Media;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private int difficulty;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @Column(nullable = false)
     private Media image;
 

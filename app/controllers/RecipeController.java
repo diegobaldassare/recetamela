@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.recipe.Recipe;
 import models.recipe.json.RecipeInputJson;
+import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -29,15 +30,16 @@ public class RecipeController extends Controller {
     private boolean badCreateRequest(RecipeInputJson input) {
         return
                 input.name == null ||
-                input.name.length() == 0 ||
+                input.name.length() < 2 ||
+                !StringUtils.isAlphanumeric(input.name) ||
                 input.description == null ||
                 input.description.length() == 0 ||
                 input.steps == null ||
                 input.steps.length() == 0 ||
                 (input.videoUrl != null && input.videoUrl.length() == 0) ||
                 (input.difficulty < 1 || input.difficulty > 5) ||
-                input.categoryIds == null ||
-                input.categoryIds.length == 0 ||
+                input.categoryNames == null ||
+                input.categoryNames.length == 0 ||
                 input.ingredientNames == null ||
                 input.ingredientNames.length == 0;
     }

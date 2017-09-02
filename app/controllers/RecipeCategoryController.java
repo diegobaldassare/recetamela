@@ -7,39 +7,32 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import server.error.RequestError;
-import server.exception.BadRequestException;
 import services.recipe.RecipeCategoryService;
 
 public class RecipeCategoryController extends Controller {
     
-    public Result create(){
+    public Result create() {
         final JsonNode body = request().body().asJson();
-        final String input = Json.fromJson(body, String.class);
-        if (badCreateRequest(input))
+        final RecipeCategory category = Json.fromJson(body, RecipeCategory.class);
+        if (badCreateRequest(category))
             return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
-        try {
-            final RecipeCategory recipe = RecipeCategoryService.getInstance().save(input);
-            return ok(Json.toJson(recipe));
-        } catch (BadRequestException e) {
-            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
-        }
+        category.setName(category.getName().toLowerCase());
+        if (RecipeCategoryService.getInstance().existsByName(category.getName()))
+            return badRequest(RequestError.CATEGORY_EXISTS.toString()).as(Http.MimeTypes.JSON);
+        category.save();
+        return ok(Json.toJson(category));
     }
 
-    private boolean badCreateRequest(String input) {
-        return input == null || input.length() == 0;
+    private boolean badCreateRequest(RecipeCategory category) {
+        return
+                category == null ||
+                category.getName() == null ||
+                category.getName().length() == 0;
     }
 
-//    public Result update(){
-//        TODO receive newName and id of the category for update in RecipeService.
-//    }
-
-//    public Result delete(){
-//        TODO receive id of the category for delete in RecipeService.
-//    }
-
-    public Result get(long id){
-        final RecipeCategory recipeCategory = RecipeCategoryService.getInstance().getById(id);
-        if(recipeCategory == null) return notFound();
+    public Result get(long id) {
+        final RecipeCategory recipeCategory = RecipeCategoryService.getInstance().get(id);
+        if (recipeCategory == null) return notFound();
         return ok(Json.toJson(recipeCategory));
     }
 }

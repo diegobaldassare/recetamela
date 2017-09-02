@@ -6,13 +6,11 @@ import models.recipe.Ingredient;
 import models.recipe.Recipe;
 import models.recipe.RecipeCategory;
 import models.recipe.json.RecipeInputJson;
+import org.apache.commons.lang3.StringUtils;
 import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.MediaService;
 import services.Service;
-
-import java.util.Collection;
-import java.util.List;
 
 public class RecipeService extends Service<Recipe> {
 
@@ -36,22 +34,31 @@ public class RecipeService extends Service<Recipe> {
      */
     public Recipe save(RecipeInputJson input) throws BadRequestException {
         final Recipe recipe = new Recipe();
-        recipe.setName(input.name);
-        recipe.setDescription(input.description);
-        recipe.setSteps(input.steps);
+        recipe.setName(capitalize(input.name));
+        recipe.setDescription(capitalize(input.description));
+        recipe.setSteps(input.steps.toLowerCase());
         recipe.setVideoUrl(input.videoUrl);
         recipe.setDifficulty(input.difficulty);
-        for (Long id : input.categoryIds) {
-            final RecipeCategory category = RecipeCategoryService.getInstance().get(id);
-            if (category == null) continue; //TODO Change RecipeInputJson to receive the categories by name so we can add if it doesn't exist.
+        for (String name : input.categoryNames) {
+            if (!StringUtils.isAlpha(name))
+                throw new BadRequestException(RequestError.BAD_FORMAT);
+            final String nameLowerCase = name.toLowerCase();
+            RecipeCategory category = RecipeCategoryService.getInstance().getByName(nameLowerCase);
+            if (category == null) {
+                category = new RecipeCategory(nameLowerCase);
+                category.save();
+            }
             recipe.getCategories().add(category);
         }
         if (recipe.getCategories().isEmpty())
             throw new BadRequestException(RequestError.BAD_FORMAT);
         for (String name : input.ingredientNames) {
-            Ingredient ingredient = IngredientService.getInstance().getByName(name);
+            if (!StringUtils.isAlpha(name))
+                throw new BadRequestException(RequestError.BAD_FORMAT);
+            final String nameLowerCase = name.toLowerCase();
+            Ingredient ingredient = IngredientService.getInstance().getByName(nameLowerCase);
             if (ingredient == null) {
-                ingredient = new Ingredient(name);
+                ingredient = new Ingredient(nameLowerCase);
                 ingredient.save();
             }
             recipe.getIngredients().add(ingredient);
@@ -61,37 +68,13 @@ public class RecipeService extends Service<Recipe> {
         final Media image = MediaService.getInstance().get(input.imageId);
         if (image == null) throw new BadRequestException(RequestError.BAD_FORMAT);
         recipe.setImage(image);
-        // TODO Check if author exists and insert into recipe
+        // TODO Add author to recipe
         recipe.save();
         return recipe;
     }
 
-    /**
-     * Get all recipes.
-     * @param limit Maximum number of returned recipes.
-     * @return A list of recipes that must not exceed the limit.
-     */
-    public List<Recipe> getAll(int limit){
-        return finder.all();
-    }
-
-    /**
-     * Get recipes that belong to the received categories.
-     * @param categories Categories that returned recipes must belong to.
-     * @param limit Maximum number of returned recipes.
-     * @return Recipes that belong to the received categories.
-     */
-    public List<Recipe> getByCategory(Collection<RecipeCategory> categories, int limit) {
-        return finder.where().eq("categories", categories).findList(); // TODO should be .contains()
-    }
-
-    /**
-     * Get recipes that contain received ingredients.
-     * @param ingredients Ingredients that must contain the returned recipes.
-     * @param limit Maximum number of returned recipes.
-     * @return Recipes that contain received ingredients.
-     */
-    public List<Recipe> getByIngredients(Collection<Ingredient> ingredients, int limit) {
-        return finder.where().eq("ingredients", ingredients).findList(); // TODO should be .contains()
+    private String capitalize(String text) {
+        final String result = text.toLowerCase();
+        return Character.toUpperCase(result.charAt(0)) + result.substring(1);
     }
 }

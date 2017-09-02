@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {log} from "util";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-recipe',
@@ -12,7 +12,11 @@ export class ViewRecipeComponent implements OnInit {
 
   private id; recipe; fetched;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    public sanitizer: DomSanitizer
+  ){}
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];

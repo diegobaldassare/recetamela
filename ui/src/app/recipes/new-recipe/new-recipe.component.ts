@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewRecipeComponent implements OnInit {
 
+  private recipe;
+  private ingredients;
+  private categories;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+
+  /**
+   * Save recipe.
+   */
+  saveRecipe(){
+
   }
 
 }

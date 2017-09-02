@@ -11,10 +11,14 @@ import java.util.Optional;
  */
 public abstract class Service<T extends BaseModel> {
 
-    protected final Model.Finder<Long, T> finder;
+    private final Model.Finder<Long, T> finder;
 
     protected Service(Model.Finder<Long, T> finder) {
         this.finder = finder;
+    }
+
+    public Model.Finder<Long, T> getFinder() {
+        return finder;
     }
 
     public Optional<T> get(long id) {

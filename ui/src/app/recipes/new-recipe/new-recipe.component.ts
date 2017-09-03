@@ -16,6 +16,7 @@ export class NewRecipeComponent implements OnInit {
   private recipeInput: RecipeInput;
   private categories: Category[];
   private image: Media;
+  private uploadingImage: boolean;
 
   constructor(
     private _recipeService: RecipeService,
@@ -32,11 +33,13 @@ export class NewRecipeComponent implements OnInit {
 
   public uploadImage(e: Event) {
     e.preventDefault();
+    this.uploadingImage = true;
     const files = (<HTMLInputElement> document.getElementById('image')).files;
     if (!files.length) return;
     this._mediaService.uploadMedia(files[0]).then(media => {
       this.image = media;
       this.recipeInput.imageId = media.id;
+      this.uploadingImage = false;
     });
   }
 

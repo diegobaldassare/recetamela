@@ -59,7 +59,9 @@
         <div class="form-group">
           <img class="img-responsive" style="margin-bottom: 20px" *ngIf="image" [src]="image.url">
           <input style="display: none" (change)="uploadImage($event)" type="file" id="image" accept="image/*">
-          <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()">Seleccionar imágen</button>
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">
+            {{ uploadingImage ? 'Subiendo' : 'Seleccionar imágen' }}
+          </button>
         </div>
         <div class="form-group">
           <input [(ngModel)]="recipeInput.videoUrl" name="videoUrl" class="form-control" placeholder="Link a video">

@@ -49,7 +49,7 @@ public class MediaController extends Controller {
     }
 
     public Result getFile(String name) {
-        final File file = new File("public/static/" + name);
+        final File file = MediaService.getInstance().getFile(name);
         if (file.exists()) return ok(file);
         else return notFound();
     }

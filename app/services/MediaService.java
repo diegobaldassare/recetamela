@@ -3,7 +3,9 @@ package services;
 import com.avaje.ebean.Model.Finder;
 import models.Media;
 import play.mvc.Http.MultipartFormData.FilePart;
+import server.Constant;
 
+import javax.swing.text.html.Option;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -17,7 +19,6 @@ import java.util.UUID;
 public class MediaService extends Service<Media> {
 
     private static MediaService instance;
-    private static final String savePath = "public/static/";
 
     private MediaService(Finder<Long, Media> finder) {
         super(finder);
@@ -43,9 +44,20 @@ public class MediaService extends Service<Media> {
         final Media media = new Media(uuid + extension);
         final Path destination = FileSystems
                 .getDefault()
-                .getPath(savePath + media.getName());
+                .getPath(Constant.STATIC_PATH + media.getName());
         Files.move(file.toPath(), destination);
         media.save();
         return media;
+    }
+
+    public File getFile(String name) {
+        return new File(Constant.STATIC_PATH + name);
+    }
+
+    public void delete(long id) {
+        get(id).ifPresent(media -> {
+            getFile(media.getName()).delete();
+            getFinder().deleteById(id);
+        });
     }
 }

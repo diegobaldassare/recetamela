@@ -14,6 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { RecipesComponent } from './recipes/recipes.component';
 import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component';
 import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
+import {MediaService} from "./shared/services/media.service";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
     CookieService,
     AuthService,
     DOMService,
+    MediaService,
   ],
   bootstrap: [AppComponent]
 })

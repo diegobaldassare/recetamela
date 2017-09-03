@@ -16,9 +16,7 @@
               </span>
             </p>
             <p><strong>Categorias:</strong>
-              <span *ngFor="let cat of recipe.categories; let i = index">
-                {{ cat.name }}<span *ngIf="i < recipe.categories.length - 1">,</span>
-              </span>
+              <span class="tag" *ngFor="let cat of recipe.categories">{{ cat.name }}</span>
             </p>
           </div>
           <div class="col-md-8">

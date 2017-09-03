@@ -7,31 +7,41 @@
         <div class="form-group">
           <input [(ngModel)]="recipeInput.name" name="name" class="form-control" placeholder="Nombre">
         </div>
+
         <div class="form-group">
           <textarea [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
         </div>
+
         <div class="form-group">
           <input class="form-control" placeholder="Ingredientes">
         </div>
+
         <div *ngIf="steps.length > 0">
           <p><strong>Pasos:</strong></p>
           <ol>
             <li *ngFor="let step of steps; let i = index">
-              {{ step }} <span class="deleteStep" (click)="steps.splice(i, 1)">X</span>
+              {{ step }} <span class="deleteButton" (click)="steps.splice(i, 1)">X</span>
             </li>
           </ol>
         </div>
         <div class="form-group">
           <input class="form-control" placeholder="Pasos separados por la tecla enter" [(ngModel)]="step" (keyup.enter)="addStep()">
         </div>
-        <div class="form-group">
-          <label>Categorias</label>
-          <select [(ngModel)]="categories">
-            <!--TODO tags que aparezcan a medida que uno va escribiendo o lo mostramos en forma de lista-->
-            <!--Como esta abajo se muestra en forma de la lista todas las categorias-->
-            <option *ngFor="let category of categories" [ngValue]="category">{{ category.name }}</option>
-          </select>
+
+        <div style="margin-bottom: 13px" *ngIf="selectedCategories.size > 0">
+          <span><strong>Categorias:</strong></span>
+          <span class="tag" *ngFor="let cat of selectedCategories">
+            <span class="name">{{ cat }}</span>
+            <span class="delete" (click)="deselectCategory(cat)">X</span>
+          </span>
         </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Categorias" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+          <datalist id="categories">
+            <option *ngFor="let cat of categories" [value]="cat"></option>
+          </datalist>
+        </div>
+
         <div class="form-group">
           <label>Dificultad</label>
           <div class="radio">
@@ -61,7 +71,7 @@
           </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default" (click)="validateForm()">Submit</button>
       </div>
       <div class="col col-md-4">
         <div class="form-group">
@@ -71,6 +81,7 @@
             {{ uploadingImage ? 'Subiendo' : 'Seleccionar imágen' }}
           </button>
         </div>
+
         <div class="form-group">
           <input [(ngModel)]="recipeInput.videoUrl" name="videoUrl" class="form-control" placeholder="Link a video">
         </div>

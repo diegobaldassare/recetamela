@@ -4,5 +4,7 @@ export class RecipeInput {
 
   constructor() {
     this.difficulty = "3";
+    this.ingredientNames = [];
+    this.categoryNames = [];
   }
 }

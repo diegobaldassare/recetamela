@@ -1,7 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
 import {Http, Response} from "@angular/http";
-import {Recipe} from "../models/recipe/recipe";
 import {Category} from "../models/recipe/category";
 import 'rxjs/add/operator/map'
 
@@ -12,17 +10,12 @@ export class RecipeService {
 
   constructor(private http: Http){}
 
-  getRecipe(recipeid): Observable<Response> {
-    return this.http.get(this.url + recipeid).map(this.extractData);
+  getRecipe(id): Promise<any> {
+    return this.http.get(this.url + id).map(r => r.json()).toPromise();
   }
 
-  private extractData(res:Response) {
-    let body = res.json();
-    return body || [];
-  }
-
-  getRecipeCategories(): Observable<Category[]> {
-    return this.http.get(this.url + 'categories/all').map(this.extractData);
+  getRecipeCategories(): Promise<Category[]> {
+    return this.http.get(this.url + 'categories/all').map(r => r.json()).toPromise();
   }
 
   // postRecipe(recipeInput): Observable<Response> {

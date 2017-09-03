@@ -2,11 +2,32 @@
   margin-bottom: 50px;
 }
 
-.deleteStep {
+.deleteButton {
   padding: 3px;
   color: red;
   cursor: pointer;
   &:hover {
     border: solid 1px red;
   }
+}
+
+.tag {
+  border-radius: 5px;
+  border: 1px solid #2f8175;
+  margin-right: 3px;
+  margin-top: 3px;
+  color: #2f8175;
+  cursor: default;
+}
+
+.tag .name {
+  color: #2f8175;
+  padding: 3px;
+}
+.tag .delete {
+  color: red;
+  border-left: 1px solid #2f8175;
+  padding-left: 3px;
+  margin-right: 3px;
+  cursor: pointer;
 }

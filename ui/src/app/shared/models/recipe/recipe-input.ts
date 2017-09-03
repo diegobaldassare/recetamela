@@ -1,4 +1,9 @@
 export class RecipeInput {
-  name; description; steps; difficulty; imageId: String;
+  name; description; steps; videoUrl; difficulty; imageId: String;
   ingredientNames; categoryNames: String[];
+
+
+  constructor() {
+    this.difficulty = "3";
+  }
 }

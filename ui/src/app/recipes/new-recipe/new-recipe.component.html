@@ -4,19 +4,22 @@
     <br>
     <form >
       <div class="form-group">
-        <input ngModel="recipeInput.name" class="form-control" placeholder="Nombre">
+        <input [(ngModel)]="recipeInput.name" name="name" class="form-control" placeholder="Nombre">
       </div>
       <div class="form-group">
-        <textarea class="form-control" rows="3" placeholder="Descripción"></textarea>
+        <textarea [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
       </div>
       <div class="form-group">
         <input class="form-control" placeholder="Ingredientes">
       </div>
       <div class="form-group">
+        <input class="form-control" placeholder="Pasos">
+      </div>
+      <div class="form-group">
         <input class="form-control" placeholder="Categorias">
       </div>
       <div class="form-group">
-        <input class="form-control" placeholder="Link a video">
+        <input [(ngModel)]="recipeInput.videoUrl" name="videoUrl" class="form-control" placeholder="Link a video">
       </div>
       <div class="form-group">
         <label for="imagen">Imágen</label>
@@ -26,27 +29,27 @@
         <label>Dificultad</label>
         <div class="radio">
           <label>
-            <input type="radio" name="dificultad"> muy fácil
+            <input [(ngModel)]="recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="dificultad"> fácil
+            <input [(ngModel)]="recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="dificultad"> intermedio
+            <input [(ngModel)]="recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="dificultad"> dificil
+            <input [(ngModel)]="recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
           </label>
         </div>
         <div class="radio">
           <label>
-            <input type="radio" name="dificultad"> muy dificil
+            <input [(ngModel)]="recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
           </label>
         </div>
       </div>

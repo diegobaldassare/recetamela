@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
-import {Observable} from "rxjs/Observable";
-import {Media} from "../models/media";
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MediaService {
@@ -11,6 +10,7 @@ export class MediaService {
   public uploadMedia(file: Blob): Promise<any> {
     const data = new FormData();
     data.append('file', file);
-    return this.http.post("http://localhost:9000/api/media", data).toPromise();
+    return this.http.post("http://localhost:9000/api/media", data)
+      .map((r: Response) => r.json()).toPromise();
   }
 }

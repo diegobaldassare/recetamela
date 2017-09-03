@@ -11,7 +11,7 @@ object UIBuild {
       var processTwo: Option[Process] = None
 
       var npmInstall: String = "npm install"
-      var npmRunBuild: String = "npm run build"
+      var npmRunBuild: String = "npm run build --"
       var ngServe: String = "ng serve"
 
       if (System.getProperty("os.name").toLowerCase().contains("win")){

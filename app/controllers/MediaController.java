@@ -47,4 +47,10 @@ public class MediaController extends Controller {
         final Optional<Media> media = MediaService.getInstance().get(id);
         return media.map(m -> ok(Json.toJson(m))).orElseGet(Results::notFound);
     }
+
+    public Result getFile(String name) {
+        final File file = new File("public/static/" + name);
+        if (file.exists()) return ok(file);
+        else return notFound();
+    }
 }

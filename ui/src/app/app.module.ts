@@ -16,6 +16,7 @@ import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component
 import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
 import {RecipeService} from "./shared/services/recipe.service";
 import {HttpModule} from "@angular/http";
+import {MediaService} from "./shared/services/media.service";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {HttpModule} from "@angular/http";
     AuthService,
     DOMService,
     RecipeService,
+    MediaService,
   ],
   bootstrap: [AppComponent]
 })

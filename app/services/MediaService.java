@@ -56,8 +56,7 @@ public class MediaService extends Service<Media> {
 
     public void delete(long id) {
         get(id).ifPresent(media -> {
-            final File file = getFile(media.getName());
-            file.delete();
+            getFile(media.getName()).delete();
             getFinder().deleteById(id);
         });
     }

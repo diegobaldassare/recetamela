@@ -2,59 +2,63 @@
   <div class="component">
     <h1>Nueva receta</h1>
     <br>
-    <form >
-      <div class="form-group">
-        <input [(ngModel)]="recipeInput.name" name="name" class="form-control" placeholder="Nombre">
-      </div>
-      <div class="form-group">
-        <textarea [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
-      </div>
-      <div class="form-group">
-        <input class="form-control" placeholder="Ingredientes">
-      </div>
-      <div class="form-group">
-        <input class="form-control" placeholder="Pasos">
-      </div>
-      <div class="form-group">
-        <input class="form-control" placeholder="Categorias">
-      </div>
-      <div class="form-group">
-        <input [(ngModel)]="recipeInput.videoUrl" name="videoUrl" class="form-control" placeholder="Link a video">
-      </div>
-      <div class="form-group">
-        <label for="imagen">Imágen</label>
-        <input type="file" id="imagen">
-      </div>
-      <div class="form-group">
-        <label>Dificultad</label>
-        <div class="radio">
-          <label>
-            <input [(ngModel)]="recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
-          </label>
+    <div class="row">
+      <div class="col col-md-8">
+        <div class="form-group">
+          <input [(ngModel)]="recipeInput.name" name="name" class="form-control" placeholder="Nombre">
         </div>
-        <div class="radio">
-          <label>
-            <input [(ngModel)]="recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
-          </label>
+        <div class="form-group">
+          <textarea [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
         </div>
-        <div class="radio">
-          <label>
-            <input [(ngModel)]="recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
-          </label>
+        <div class="form-group">
+          <input class="form-control" placeholder="Ingredientes">
         </div>
-        <div class="radio">
-          <label>
-            <input [(ngModel)]="recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
-          </label>
+        <div class="form-group">
+          <input class="form-control" placeholder="Pasos">
         </div>
-        <div class="radio">
-          <label>
-            <input [(ngModel)]="recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
-          </label>
+        <div class="form-group">
+          <input class="form-control" placeholder="Categorias">
+        </div>
+        <div class="form-group">
+          <label>Dificultad</label>
+          <div class="radio">
+            <label>
+              <input [(ngModel)]="recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input [(ngModel)]="recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input [(ngModel)]="recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input [(ngModel)]="recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input [(ngModel)]="recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
+            </label>
+          </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+      <div class="col col-md-4">
+        <div class="form-group">
+          <label for="imagen">Imágen</label>
+          <input type="file" id="imagen" accept="image/*">
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="recipeInput.videoUrl" name="videoUrl" class="form-control" placeholder="Link a video">
         </div>
       </div>
-      <br>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+    </div>
   </div>
 </div>

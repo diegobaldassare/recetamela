@@ -5,7 +5,7 @@ GET /static/*file controllers.MediaController.getFile(file)
 POST /api/media controllers.MediaController.create()
 GET /api/media/:id controllers.MediaController.get(id: Long)
 
-POST /api/users/:id/recipe controllers.RecipeController.create(id: Long)
+POST /api/recipe controllers.RecipeController.create()
 GET /api/recipe/:id controllers.RecipeController.get(id: Long)
 
 POST /api/recipe/category controllers.RecipeCategoryController.create()

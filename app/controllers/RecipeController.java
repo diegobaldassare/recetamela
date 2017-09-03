@@ -17,13 +17,13 @@ import java.util.Optional;
 
 public class RecipeController extends Controller {
 
-    public Result create(Long userId) {
+    public Result create() {
         final JsonNode body = request().body().asJson();
         final RecipeInput input = Json.fromJson(body, RecipeInput.class);
         if (badCreateRequest(input))
             return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         try {
-            final Recipe recipe = RecipeService.getInstance().save(input, userId);
+            final Recipe recipe = RecipeService.getInstance().save(input);
             return ok(Json.toJson(recipe));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);

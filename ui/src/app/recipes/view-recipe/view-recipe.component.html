@@ -6,13 +6,18 @@
           <div class="col-md-4">
             <img class="img-responsive" src="{{ recipe.image.url }}">
             <h1>{{ recipe.name }}</h1>
-            <p>Dificultad:
+            <p><strong>Dificultad:</strong>
               <span [ngSwitch]="recipe.difficulty">
                 <span *ngSwitchCase="1">muy fácil</span>
                 <span *ngSwitchCase="2">fácil</span>
                 <span *ngSwitchCase="3">intermedio</span>
                 <span *ngSwitchCase="4">dificil</span>
                 <span *ngSwitchDefault>muy dificil</span>
+              </span>
+            </p>
+            <p><strong>Categorias:</strong>
+              <span *ngFor="let cat of recipe.categories; let i = index">
+                {{ cat.name }}<span *ngIf="i < recipe.categories.length - 1">,</span>
               </span>
             </p>
           </div>
@@ -29,7 +34,7 @@
               <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
               <div role="tabpanel" class="tab-pane" id="ingredientes">
                 <ul>
-                  <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
+                  <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
                 </ul>
               </div>
               <div role="tabpanel" class="tab-pane" id="pasos">

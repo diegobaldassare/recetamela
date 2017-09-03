@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
+import {Recipe} from "../../shared/models/recipe/recipe";
 
 @Component({
   selector: 'app-view-recipe',
@@ -10,7 +11,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ViewRecipeComponent implements OnInit {
 
-  private id; recipe; fetched;
+  private recipe: Recipe;
+  private fetched;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,9 +21,9 @@ export class ViewRecipeComponent implements OnInit {
   ){}
 
   ngOnInit() {
-    this.id = +this.route.snapshot.params['id'];
-    this.http.get(`http://localhost:9000/api/recipe/${this.id}`).subscribe(data => {
-      this.recipe = data;
+    const id = +this.route.snapshot.params['id'];
+    this.http.get(`http://localhost:9000/api/recipe/${id}`).subscribe((recipe: Recipe) => {
+      this.recipe = recipe;
       this.fetched = true;
     }, () => { this.fetched = true });
   }

@@ -20,6 +20,7 @@ export class ViewRecipeComponent implements OnInit {
     public sanitizer: DomSanitizer
   ){}
 
+  // TODO call RecipeService to handle http GET of recipe.
   ngOnInit() {
     const id = +this.route.snapshot.params['id'];
     this.http.get(`http://localhost:9000/api/recipe/${id}`).subscribe((recipe: Recipe) => {

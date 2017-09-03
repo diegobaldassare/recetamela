@@ -17,7 +17,12 @@
           <input class="form-control" placeholder="Pasos">
         </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Categorias">
+          <label>Categorias</label>
+          <select [(ngModel)]="categories">
+            <!--TODO tags que aparezcan a medida que uno va escribiendo o lo mostramos en forma de lista-->
+            <!--Como esta abajo se muestra en forma de la lista todas las categorias-->
+            <option *ngFor="let category of categories" [ngValue]="category">{{ category.name }}</option>
+          </select>
         </div>
         <div class="form-group">
           <label>Dificultad</label>

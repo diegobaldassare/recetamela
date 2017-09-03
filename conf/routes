@@ -5,11 +5,12 @@ GET /static/*file controllers.Assets.at(path="/public/static", file)
 POST /api/media controllers.MediaController.create()
 GET /api/media/:id controllers.MediaController.get(id: Long)
 
-POST /api/recipe controllers.RecipeController.create()
+POST /api/users/:id/recipe controllers.RecipeController.create(id: Long)
 GET /api/recipe/:id controllers.RecipeController.get(id: Long)
 
 POST /api/recipe/category controllers.RecipeCategoryController.create()
 GET /api/recipe/category/:id controllers.RecipeCategoryController.get(id: Long)
+GET /api/recipe/categories/all controllers.RecipeCategoryController.getAll
 
 POST /api/user              controllers.UserController.createUser()
 GET /api/user/:id           controllers.UserController.getUser(id: Long)

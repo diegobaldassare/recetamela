@@ -34,7 +34,7 @@ public class RecipeService extends Service<Recipe> {
      * @return A persisted Recipe model instance.
      * @throws BadRequestException If the request input is invalid.
      */
-    public Recipe save(RecipeInput input) throws BadRequestException {
+    public Recipe save(RecipeInput input, Long userId) throws BadRequestException {
         final Recipe recipe = new Recipe();
         recipe.setName(capitalize(input.name));
         recipe.setDescription(capitalize(input.description));

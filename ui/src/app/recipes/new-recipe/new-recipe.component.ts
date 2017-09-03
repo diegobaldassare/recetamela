@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {RecipeInput} from "../../shared/models/recipe/recipe-input";
+import {Category} from "../../shared/models/recipe/category";
+import {RecipeService} from "../../shared/services/recipe.service";
 import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
@@ -10,13 +12,19 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class NewRecipeComponent implements OnInit {
 
   private recipeInput: RecipeInput;
+  private categories: Category[];
 
-  constructor(public sanitizer: DomSanitizer) {
+  constructor(private _recipeService: RecipeService, public sanitizer: DomSanitizer) {
     this.recipeInput = new RecipeInput();
   }
 
   ngOnInit() {
+    this._recipeService.getRecipeCategories().subscribe(
+      categories => this.categories = categories
+    );
   }
 
-  saveRecipe(){}
+  saveRecipe(){
+    // this._recipeService.postRecipe(this.recipeInput).subscribe();
+  }
 }

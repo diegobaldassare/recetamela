@@ -22,7 +22,7 @@
           </ol>
         </div>
         <div class="form-group">
-          <input #step class="form-control" placeholder="Pasos" (keyup.enter)="steps.push(step.value)">
+          <input class="form-control" placeholder="Pasos separados por la tecla enter" [(ngModel)]="step" (keyup.enter)="addStep()">
         </div>
         <div class="form-group">
           <label>Categorias</label>

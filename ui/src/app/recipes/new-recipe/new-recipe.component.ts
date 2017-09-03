@@ -18,6 +18,7 @@ export class NewRecipeComponent implements OnInit {
   private image: Media;
   private uploadingImage: boolean;
   private steps: String[];
+  private step: string;
 
   constructor(
     private _recipeService: RecipeService,
@@ -25,6 +26,7 @@ export class NewRecipeComponent implements OnInit {
     public sanitizer: DomSanitizer) {
     this.recipeInput = new RecipeInput();
     this.steps = [];
+    this.step = '';
   }
 
   ngOnInit() {
@@ -43,6 +45,11 @@ export class NewRecipeComponent implements OnInit {
       this.recipeInput.imageId = media.id;
       this.uploadingImage = false;
     });
+  }
+
+  public addStep() {
+    this.steps.push(this.step);
+    this.step = '';
   }
 
   saveRecipe() {

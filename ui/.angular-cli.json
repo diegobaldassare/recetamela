@@ -21,7 +21,7 @@
       "prefix": "app",
       "styles": [
         "assets/styles/variables.scss",
-        "assets/styles/styles.css"
+        "assets/styles/styles.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

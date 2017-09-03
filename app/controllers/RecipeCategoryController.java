@@ -6,6 +6,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import server.error.RequestError;
 import services.recipe.RecipeCategoryService;
 
@@ -34,6 +35,6 @@ public class RecipeCategoryController extends Controller {
 
     public Result get(long id) {
         final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
-        return category.isPresent() ? ok(Json.toJson(category.get())) : notFound();
+        return category.map(c -> ok(Json.toJson(c))).orElseGet(Results::notFound);
     }
 }

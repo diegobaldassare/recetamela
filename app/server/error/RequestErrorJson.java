@@ -5,7 +5,7 @@ import play.libs.Json;
 /**
  * Request error JSON representation.
  */
-public class RequestErrorJson {
+class RequestErrorJson {
     private final long id;
     private final String message;
 

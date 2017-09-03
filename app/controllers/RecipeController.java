@@ -8,6 +8,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.recipe.RecipeService;
@@ -48,6 +49,6 @@ public class RecipeController extends Controller {
 
     public Result get(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
-        return recipe.isPresent() ? ok(Json.toJson(recipe.get())) : notFound();
+        return recipe.map(r -> ok(Json.toJson(r))).orElseGet(Results::notFound);
     }
 }

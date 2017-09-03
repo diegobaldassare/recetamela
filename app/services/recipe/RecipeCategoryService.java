@@ -2,8 +2,6 @@ package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
 import models.recipe.RecipeCategory;
-import server.error.RequestError;
-import server.exception.BadRequestException;
 import services.Service;
 
 import java.util.Optional;

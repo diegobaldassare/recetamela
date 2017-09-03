@@ -17,12 +17,14 @@ export class NewRecipeComponent implements OnInit {
   private categories: Category[];
   private image: Media;
   private uploadingImage: boolean;
+  private steps: String[];
 
   constructor(
     private _recipeService: RecipeService,
     private _mediaService: MediaService,
     public sanitizer: DomSanitizer) {
     this.recipeInput = new RecipeInput();
+    this.steps = [];
   }
 
   ngOnInit() {
@@ -43,7 +45,8 @@ export class NewRecipeComponent implements OnInit {
     });
   }
 
-  saveRecipe(){
+  saveRecipe() {
+    this.recipeInput.steps = this.steps.join('\n');
     // this._recipeService.postRecipe(this.recipeInput).subscribe();
   }
 }

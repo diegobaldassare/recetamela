@@ -1,12 +1,17 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
+GET / controllers.HomeController.index()
+GET /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
+GET /static/*file controllers.MediaController.getFile(file)
 
-# An example controller showing a sample home page
-GET        /                    controllers.HomeController.index()
+POST /api/media controllers.MediaController.create()
+GET /api/media/:id controllers.MediaController.get(id: Long)
 
+POST /api/recipe controllers.RecipeController.create()
+GET /api/recipe/:id controllers.RecipeController.get(id: Long)
 
-# Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+POST /api/recipe/category controllers.RecipeCategoryController.create()
+GET /api/recipe/category/:id controllers.RecipeCategoryController.get(id: Long)
 
-GET        /*others                                            controllers.HomeController.other(others)
+POST /api/user              controllers.UserController.createUser()
+GET /api/user/:id           controllers.UserController.getUser(id: Long)
+GET /api/users              controllers.UserController.getUsers
+DELETE /api/user/:id        controllers.UserController.getUser(id: Long)

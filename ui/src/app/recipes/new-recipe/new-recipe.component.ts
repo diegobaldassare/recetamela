@@ -34,7 +34,10 @@ export class NewRecipeComponent implements OnInit {
     e.preventDefault();
     const files = (<HTMLInputElement> document.getElementById('image')).files;
     if (!files.length) return;
-    this._mediaService.uploadMedia(files[0]).then(media => { this.image = media; });
+    this._mediaService.uploadMedia(files[0]).then(media => {
+      this.image = media;
+      this.recipeInput.imageId = media.id;
+    });
   }
 
   saveRecipe(){

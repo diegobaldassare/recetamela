@@ -1,0 +1,12 @@
+.component {
+  margin-bottom: 50px;
+}
+
+.deleteStep {
+  padding: 3px;
+  color: red;
+  cursor: pointer;
+  &:hover {
+    border: solid 1px red;
+  }
+}

@@ -16,8 +16,8 @@
         <div *ngIf="steps.length > 0">
           <p><strong>Pasos:</strong></p>
           <ol>
-            <li *ngFor="let step of steps">
-              {{ step }}
+            <li *ngFor="let step of steps; let i = index">
+              {{ step }} <span class="deleteStep" (click)="steps.splice(i, 1)">X</span>
             </li>
           </ol>
         </div>

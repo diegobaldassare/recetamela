@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {RecipeInput} from "../../shared/models/recipe/recipe-input";
 
 @Component({
   selector: 'app-new-recipe',
@@ -7,9 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewRecipeComponent implements OnInit {
 
-  private recipe;
-  private ingredients;
-  private categories;
+  private recipeInput: RecipeInput;
 
   constructor() { }
 

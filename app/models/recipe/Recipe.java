@@ -2,10 +2,9 @@ package models.recipe;
 
 import models.BaseModel;
 import models.User;
-import models.media.Media;
+import models.Media;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

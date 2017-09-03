@@ -1,11 +1,12 @@
 package controllers;
 
-import models.media.Media;
+import models.Media;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Result;
+import play.mvc.Results;
 import server.error.RequestError;
 import services.MediaService;
 
@@ -44,6 +45,6 @@ public class MediaController extends Controller {
      */
     public Result get(long id) {
         final Optional<Media> media = MediaService.getInstance().get(id);
-        return media.isPresent() ? ok(Json.toJson(media.get())) : notFound();
+        return media.map(m -> ok(Json.toJson(m))).orElseGet(Results::notFound);
     }
 }

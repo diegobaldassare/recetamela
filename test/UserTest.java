@@ -1,15 +1,10 @@
-import controllers.UserController;
 import models.User;
-import models.media.Media;
+import models.Media;
 import org.junit.Test;
 import play.test.WithApplication;
 import services.UserService;
 
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.running;
@@ -26,7 +21,7 @@ public class UserTest extends WithApplication {
             User sent = new User("nombre", "apellido", "mail@mail.com", new Media());
             sent.setId(1L);
             sent.save();
-            UserService.getInstance().getById(sent.getId()).ifPresent(a -> assertEquals(sent, a));
+            UserService.getInstance().get(sent.getId()).ifPresent(a -> assertEquals(sent, a));
         });
     }
 }

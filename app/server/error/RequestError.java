@@ -11,7 +11,7 @@ public enum RequestError {
     CATEGORY_EXISTS(new RequestErrorJson(3, "Category already exists").toString()),
     CATEGORY_NOT_EXISTS(new RequestErrorJson(4, "Category doesn't exist").toString());
 
-    private String json;
+    private final String json;
 
     RequestError(@NotNull String json) {
         this.json = json;

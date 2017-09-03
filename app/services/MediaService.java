@@ -1,7 +1,7 @@
 package services;
 
 import com.avaje.ebean.Model.Finder;
-import models.media.Media;
+import models.Media;
 import play.mvc.Http.MultipartFormData.FilePart;
 
 import java.io.File;

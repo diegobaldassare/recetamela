@@ -2,7 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.recipe.Recipe;
-import models.recipe.json.RecipeInputJson;
+import models.recipe.RecipeInput;
 import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -18,7 +18,7 @@ public class RecipeController extends Controller {
 
     public Result create() {
         final JsonNode body = request().body().asJson();
-        final RecipeInputJson input = Json.fromJson(body, RecipeInputJson.class);
+        final RecipeInput input = Json.fromJson(body, RecipeInput.class);
         if (badCreateRequest(input))
             return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         try {
@@ -29,7 +29,7 @@ public class RecipeController extends Controller {
         }
     }
 
-    private boolean badCreateRequest(RecipeInputJson input) {
+    private boolean badCreateRequest(RecipeInput input) {
         return
                 input.name == null ||
                 input.name.length() < 2 ||

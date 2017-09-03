@@ -1,7 +1,5 @@
 package models;
 
-import models.media.Media;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

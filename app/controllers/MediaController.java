@@ -1,6 +1,6 @@
 package controllers;
 
-import models.media.Media;
+import models.Media;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;

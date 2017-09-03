@@ -1,11 +1,11 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
-import models.media.Media;
+import models.Media;
 import models.recipe.Ingredient;
 import models.recipe.Recipe;
 import models.recipe.RecipeCategory;
-import models.recipe.json.RecipeInputJson;
+import models.recipe.RecipeInput;
 import org.apache.commons.lang3.StringUtils;
 import server.error.RequestError;
 import server.exception.BadRequestException;
@@ -34,7 +34,7 @@ public class RecipeService extends Service<Recipe> {
      * @return A persisted Recipe model instance.
      * @throws BadRequestException If the request input is invalid.
      */
-    public Recipe save(RecipeInputJson input) throws BadRequestException {
+    public Recipe save(RecipeInput input) throws BadRequestException {
         final Recipe recipe = new Recipe();
         recipe.setName(capitalize(input.name));
         recipe.setDescription(capitalize(input.description));

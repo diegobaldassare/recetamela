@@ -96,7 +96,18 @@ export class CreateRecipeComponent implements OnInit {
     this.ingredients.add(i);
   }
 
-  private clearForm() {}
+  private clearForm() {
+    this.recipeInput = new RecipeInput();
+    this.image = null;
+    this.steps = [];
+    this.step = '';
+    this.categoryName = '';
+    this.ingredientName = '';
+    this.selectedIngredients.forEach(e => this.ingredients.add(e));
+    this.selectedCategories.forEach(e => this.categories.add(e));
+    this.selectedIngredients.clear();
+    this.selectedCategories.clear();
+  }
 
   private createRecipe() {
     this.recipeInput.steps = this.steps.join('\n');
@@ -104,8 +115,8 @@ export class CreateRecipeComponent implements OnInit {
     this.recipeInput.ingredientNames = Array.from(this.selectedIngredients);
     this._recipeService.createRecipe(this.recipeInput).then(r => {
       this.clearForm();
-      this.toaster.pop('success', 'Receta creada');
       this.createdRecipeRoute = `/recetas/${r.id}`;
+      window.scrollTo(0, 0);
     }, () => this.toaster.pop('error', 'Receta no creada'));
   }
 }

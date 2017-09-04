@@ -4,6 +4,7 @@ import {RecipeService} from "../../shared/services/recipe.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MediaService} from "../../shared/services/media.service";
 import {Media} from "../../shared/models/media";
+import {ToasterService} from "angular2-toaster";
 
 @Component({
   selector: 'app-new-recipe',
@@ -27,7 +28,8 @@ export class CreateRecipeComponent implements OnInit {
   constructor(
     private _recipeService: RecipeService,
     private _mediaService: MediaService,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    public toaster: ToasterService
   ) {}
 
   ngOnInit() {
@@ -83,12 +85,18 @@ export class CreateRecipeComponent implements OnInit {
     this.ingredients.add(i);
   }
 
-  public validateForm() {}
+  public validateForm() {
+    this.createRecipe();
+  }
 
   private createRecipe() {
     this.recipeInput.steps = this.steps.join('\n');
     this.recipeInput.categoryNames = Array.from(this.selectedCategories);
     this.recipeInput.ingredientNames = Array.from(this.selectedIngredients);
-    // this._recipeService.createRecipe(this.recipeInput);
+    this._recipeService.createRecipe(this.recipeInput)
+      .then(
+        () => this.toaster.pop('success', 'Recipe created'),
+        () => this.toaster.pop('error', 'Recipe not created')
+      );
   }
 }

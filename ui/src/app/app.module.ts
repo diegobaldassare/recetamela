@@ -17,13 +17,15 @@ import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.com
 import {RecipeService} from "./shared/services/recipe.service";
 import {HttpModule} from "@angular/http";
 import {MediaService} from "./shared/services/media.service";
+import { HomeComponent } from './home/home.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {ToasterModule} from "angular2-toaster";
+import {ToasterModule} from 'angular2-toaster';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
+    HomeComponent,
     NotFoundComponent,
     FooterComponent,
     NavComponent,

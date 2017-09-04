@@ -4,13 +4,15 @@ import { LandingComponent } from "./landing/landing.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import {RecipesComponent} from "./recipes/recipes.component";
 import {ViewRecipeComponent} from "./recipes/view-recipe/view-recipe.component";
+import {HomeComponent} from "./home/home.component";
 import {CreateRecipeComponent} from "./recipes/create-recipe/create-recipe.component";
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'recetas', component: RecipesComponent },
-  { path: 'recetas/crear', component: CreateRecipeComponent },
-  { path: 'recetas/:id', component: ViewRecipeComponent },
+  { path: 'home', component: HomeComponent},
+  { path: 'recipes', component: RecipesComponent },
+  { path: 'recipes/new', component: CreateRecipeComponent },
+  { path: 'recipes/:id', component: ViewRecipeComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

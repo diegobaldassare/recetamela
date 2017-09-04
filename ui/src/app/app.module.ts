@@ -17,6 +17,8 @@ import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.com
 import {RecipeService} from "./shared/services/recipe.service";
 import {HttpModule} from "@angular/http";
 import {MediaService} from "./shared/services/media.service";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToasterModule} from "angular2-toaster";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import {MediaService} from "./shared/services/media.service";
     HttpClientModule,
     AppRouterModule,
     HttpModule,
+    BrowserAnimationsModule,
+    ToasterModule
   ],
   providers: [
     CookieService,

@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="component">
+    <h1>Crear receta</h1>
+    <br>
+    <div *ngIf="createdRecipeRoute" class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      La receta creada se encuentra en <a [routerLink]="createdRecipeRoute" class="alert-link">{{ createdRecipeRoute }}</a>.
+      <br>
+    </div>
+    <div class="row">
+      <div class="col col-md-8">
+        <div class="form-group">
+          <input [(ngModel)]="recipeInput.name" name="name" class="form-control" placeholder="Nombre">
+        </div>
+
+        <div class="form-group">
+          <textarea style="resize: vertical" [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
+        </div>
+
+        <div style="margin-bottom: 13px" *ngIf="selectedIngredients.size > 0">
+          <span><strong>Ingredientes:</strong></span>
+          <span class="label label-primary" *ngFor="let ing of selectedIngredients">
+            {{ ing }}
+            <span class="label-button" (click)="deselectIngredient(ing)">x</span>
+          </span>
+        </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
+          <datalist id="ingredients">
+            <option *ngFor="let ing of ingredients" [value]="ing"></option>
+          </datalist>
+        </div>
+
+        <div *ngIf="recipeInput.steps.length > 0">
+          <p><strong>Pasos:</strong></p>
+          <ol>
+            <li *ngFor="let step of recipeInput.steps; let i = index">
+              {{ step }}
+              <span style="color: red; cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="recipeInput.steps.splice(i, 1)"></span>
+            </li>
+          </ol>
+        </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="step" (keyup.enter)="addStep()">
+        </div>
+
+        <div style="margin-bottom: 13px" *ngIf="selectedCategories.size > 0">
+          <span><strong>Categorias:</strong></span>
+          <span class="label label-primary" *ngFor="let cat of selectedCategories">
+            {{ cat }}
+            <span class="label-button" (click)="deselectCategory(cat)">x</span>
+          </span>
+        </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+          <datalist id="categories">
+            <option *ngFor="let cat of categories" [value]="cat"></option>
+          </datalist>
+        </div>
+
+        <div class="form-group">
+          <label>Dificultad:</label>
+          <br>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
+          </label>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-default" (click)="createRecipe()" [disabled]="disabledSubmit">Crear</button>
+      </div>
+      <div class="col col-md-4">
+        <div class="form-group">
+          <img class="img-responsive" style="margin-bottom: 20px" *ngIf="image" [src]="image.url">
+          <input style="display: none" (change)="uploadImage($event)" type="file" id="image" accept="image/*">
+          <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">
+            {{ uploadingImage ? 'Subiendo' : 'Seleccionar imágen' }}
+          </button>
+        </div>
+
+        <div class="form-group">
+          <input [(ngModel)]="recipeInput.videoUrl" name="videoUrl" class="form-control" placeholder="Link a video (opcional)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

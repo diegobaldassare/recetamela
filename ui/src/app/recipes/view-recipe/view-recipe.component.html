@@ -6,15 +6,26 @@
           <div class="col-md-4">
             <img class="img-responsive" src="{{ recipe.image.url }}">
             <h1>{{ recipe.name }}</h1>
-            <p>Dificultad:
+            <div>
+              <strong>Dificultad:</strong>
               <span [ngSwitch]="recipe.difficulty">
-                <span *ngSwitchCase="1">muy fácil</span>
-                <span *ngSwitchCase="2">fácil</span>
-                <span *ngSwitchCase="3">intermedio</span>
-                <span *ngSwitchCase="4">dificil</span>
-                <span *ngSwitchDefault>muy dificil</span>
+                <span class="label label-primary" *ngSwitchCase="1">muy fácil</span>
+                <span class="label label-primary" *ngSwitchCase="2">fácil</span>
+                <span class="label label-primary" *ngSwitchCase="3">intermedio</span>
+                <span class="label label-primary" *ngSwitchCase="4">dificil</span>
+                <span class="label label-primary" *ngSwitchDefault>muy dificil</span>
               </span>
-            </p>
+            </div>
+            <div>
+              <strong>Categorias:</strong>
+              <span *ngFor="let cat of recipe.categories">
+                <a routerLink="/recetas/categorias/{{ cat.id }}">
+                <span class="label label-primary">
+                  {{ cat.name }}
+                </span>
+              </a>
+              </span>
+            </div>
           </div>
           <div class="col-md-8">
             <ul class="nav nav-tabs" role="tablist">
@@ -29,7 +40,7 @@
               <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
               <div role="tabpanel" class="tab-pane" id="ingredientes">
                 <ul>
-                  <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.name }}</li>
+                  <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
                 </ul>
               </div>
               <div role="tabpanel" class="tab-pane" id="pasos">

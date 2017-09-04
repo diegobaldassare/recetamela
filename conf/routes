@@ -1,6 +1,7 @@
 GET / controllers.HomeController.index()
 GET /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
 GET /static/*file controllers.MediaController.getFile(file)
+OPTIONS /*all controllers.PreFlightController.handle(all)
 
 POST /api/media controllers.MediaController.create()
 GET /api/media/:id controllers.MediaController.get(id: Long)
@@ -10,6 +11,9 @@ GET /api/recipe/:id controllers.RecipeController.get(id: Long)
 
 POST /api/recipe/category controllers.RecipeCategoryController.create()
 GET /api/recipe/category/:id controllers.RecipeCategoryController.get(id: Long)
+GET /api/recipe/categories/all controllers.RecipeCategoryController.getAll
+
+GET /api/recipe/ingredients/all controllers.IngredientController.getAll
 
 POST /api/user              controllers.UserController.createUser()
 GET /api/user/:id           controllers.UserController.getUser(id: Long)

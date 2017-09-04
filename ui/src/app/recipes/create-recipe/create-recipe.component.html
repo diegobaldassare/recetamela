@@ -25,7 +25,7 @@
           </span>
         </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Ingrese un ingrediente y presione enter" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
+          <input class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
           <datalist id="ingredients">
             <option *ngFor="let ing of ingredients" [value]="ing"></option>
           </datalist>
@@ -41,7 +41,7 @@
           </ol>
         </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Ingrese un paso y presione enter" [(ngModel)]="step" (keyup.enter)="addStep()">
+          <input class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="step" (keyup.enter)="addStep()">
         </div>
 
         <div style="margin-bottom: 13px" *ngIf="selectedCategories.size > 0">
@@ -52,7 +52,7 @@
           </span>
         </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Ingrese una categoria y presione enter" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+          <input class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
           <datalist id="categories">
             <option *ngFor="let cat of categories" [value]="cat"></option>
           </datalist>

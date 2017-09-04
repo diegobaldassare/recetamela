@@ -20,11 +20,11 @@ export class CreateRecipeComponent implements OnInit {
   private selectedCategories: Set<string> = new Set();
   private ingredients: Set<string> = new Set();
   private selectedIngredients: Set<string> = new Set();
-  private steps: string[] = [];
   private step: string = '';
   private categoryName: string = '';
   private ingredientName: string = '';
   private createdRecipeRoute: string = '';
+  private sending: boolean;
 
   constructor(
     private _recipeService: RecipeService,
@@ -43,11 +43,13 @@ export class CreateRecipeComponent implements OnInit {
     });
   }
 
-  private get invalidForm():boolean {
-    return this.recipeInput.name == '' ||
-      this.recipeInput.description == '' ||
+  private get disabledSubmit():boolean {
+    return this.sending ||
+      (this.recipeInput.videoUrl.length > 0 &&
+        this.recipeInput.videoUrl.trim().length == 0) ||
+      !this.isAlphaNumSpaceNotEmpty(this.recipeInput.name.trim()) ||
       this.selectedIngredients.size == 0 ||
-      this.steps.length == 0 ||
+      this.recipeInput.steps.length == 0 ||
       this.selectedCategories.size == 0 ||
       this.uploadingImage ||
       !this.image;
@@ -66,14 +68,19 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   private addStep() {
-    this.steps.push(this.step);
-    this.step = '';
+    const s = this.step.trim();
+    if (this.isAlphaNumSpaceNotEmpty(s)) {
+      this.recipeInput.steps.push(s);
+      this.step = '';
+    }
   }
 
   private selectCategory() {
-    if (!this.selectedCategories.has(this.categoryName)) {
-      this.selectedCategories.add(this.categoryName);
-      this.categories.delete(this.categoryName);
+    const c = this.categoryName.toLowerCase().trim();
+    if (!this.isAlphaNumSpaceNotEmpty(c)) return;
+    if (!this.selectedCategories.has(c)) {
+      this.selectedCategories.add(c);
+      this.categories.delete(c);
     }
     this.categoryName = '';
   }
@@ -84,9 +91,11 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   private selectIngredient() {
-    if (!this.selectedIngredients.has(this.ingredientName)) {
-      this.selectedIngredients.add(this.ingredientName);
-      this.ingredients.delete(this.ingredientName);
+    const i = this.ingredientName.toLowerCase().trim();
+    if (!this.isAlphaNumSpaceNotEmpty(i)) return;
+    if (!this.selectedIngredients.has(i)) {
+      this.selectedIngredients.add(i);
+      this.ingredients.delete(i);
     }
     this.ingredientName = '';
   }
@@ -96,10 +105,13 @@ export class CreateRecipeComponent implements OnInit {
     this.ingredients.add(i);
   }
 
-  private clearForm() {
+  private isAlphaNumSpaceNotEmpty(s: string): boolean {
+    return /^[A-Za-zñ\d\s]+$/.test(s);
+  }
+
+  private clear() {
     this.recipeInput = new RecipeInput();
     this.image = null;
-    this.steps = [];
     this.step = '';
     this.categoryName = '';
     this.ingredientName = '';
@@ -107,14 +119,15 @@ export class CreateRecipeComponent implements OnInit {
     this.selectedCategories.forEach(e => this.categories.add(e));
     this.selectedIngredients.clear();
     this.selectedCategories.clear();
+    this.sending = false;
   }
 
   private createRecipe() {
-    this.recipeInput.steps = this.steps.join('\n');
+    this.sending = true;
     this.recipeInput.categoryNames = Array.from(this.selectedCategories);
     this.recipeInput.ingredientNames = Array.from(this.selectedIngredients);
     this._recipeService.createRecipe(this.recipeInput).then(r => {
-      this.clearForm();
+      this.clear();
       this.createdRecipeRoute = `/recetas/${r.id}`;
       window.scrollTo(0, 0);
     }, () => this.toaster.pop('error', 'Receta no creada'));

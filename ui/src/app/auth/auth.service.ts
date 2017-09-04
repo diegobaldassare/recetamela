@@ -67,7 +67,7 @@ export class AuthService {
     private requestLoggedUser(): Promise<User> {
         return this.http.get('/api/logged-data')
             .then(resData => {
-                const user = resData.asJson() as User;
+                const user = resData.json() as User;
                 this._loggedUser = user;
                 return user;
             })

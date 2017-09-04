@@ -26,7 +26,7 @@ public class UserTest extends WithApplication {
             User sent = new User("nombre", "apellido", "mail@mail.com", new Media());
             sent.setId(1L);
             sent.save();
-            UserService.getInstance().getById(sent.getId()).ifPresent(a -> assertEquals(sent, a));
+            UserService.getInstance().get(sent.getId()).ifPresent(a -> assertEquals(sent, a));
         });
     }
 }

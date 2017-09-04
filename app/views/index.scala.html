@@ -12,10 +12,19 @@
         @*<link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">*@
     </head>
     <body>
+
         @* Angular AppComponent *@
-    <app-root><div class="app-spinner"></div></app-root>
+        <app-root><div class="app-spinner"></div></app-root>
+
+        @*Initialise Facebook SDK*@
+        <div id="fb-root"></div>
+
+        @* Facebook JS
+    <script src="@routes.Assets.versioned("javascripts/facebook.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/login.js")" type="text/javascript"></script>*@
 
         @* Built Angular bundles *@
+        <script src="//connect.facebook.net/en_US/sdk.js"></script>
     <script src="@routes.Assets.versioned("ui/inline.bundle.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("ui/polyfills.bundle.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("ui/scripts.bundle.js")" type="text/javascript"></script>

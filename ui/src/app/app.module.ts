@@ -14,6 +14,9 @@ import {HttpClientModule} from "@angular/common/http";
 import { RecipesComponent } from './recipes/recipes.component';
 import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component';
 import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
+import {LogInComponent} from "./log-in/log-in.component";
+import {UserService} from "./shared/services/user.service"
+import {HttpModule} from "@angular/http"
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
     RecipesComponent,
     ViewRecipeComponent,
     NewRecipeComponent,
+    LogInComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,11 +36,13 @@ import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
     FormsModule,
     HttpClientModule,
     AppRouterModule,
+    HttpModule,
   ],
   providers: [
     CookieService,
     AuthService,
     DOMService,
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
-package models.recipe.json;
+package models.recipe;
 
-public class RecipeInputJson {
+public class RecipeInput {
     public String name, description, steps, videoUrl;
     public int difficulty;
     public long imageId;

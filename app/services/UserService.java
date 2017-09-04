@@ -3,8 +3,6 @@ package services;
 import com.avaje.ebean.Model;
 import models.User;
 
-import java.util.Optional;
-
 /**
  * Created by Matias Cicilia on 30-Aug-17.
  */
@@ -12,7 +10,7 @@ public class UserService extends Service<User> {
 
     private static UserService instance;
 
-    protected UserService(Model.Finder<Long, User> finder) {
+    private UserService(Model.Finder<Long, User> finder) {
         super(finder);
     }
 

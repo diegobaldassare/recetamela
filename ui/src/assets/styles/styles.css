@@ -44,3 +44,12 @@ footer {
       opacity: 0;
     }
 }
+
+.label {
+  margin: 0 4px 4px 0;
+}
+
+.label .label-button {
+  margin-left: 4px;
+  cursor: pointer;
+}

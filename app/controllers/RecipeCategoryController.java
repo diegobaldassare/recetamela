@@ -6,9 +6,11 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import server.error.RequestError;
 import services.recipe.RecipeCategoryService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeCategoryController extends Controller {
@@ -34,6 +36,11 @@ public class RecipeCategoryController extends Controller {
 
     public Result get(long id) {
         final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
-        return category.isPresent() ? ok(Json.toJson(category.get())) : notFound();
+        return category.map(c -> ok(Json.toJson(c))).orElseGet(Results::notFound);
+    }
+
+    public Result getAll() {
+        final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();
+        return ok(Json.toJson(categories));
     }
 }

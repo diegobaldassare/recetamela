@@ -6,12 +6,13 @@ import {RecipesComponent} from "./recipes/recipes.component";
 import {ViewRecipeComponent} from "./recipes/view-recipe/view-recipe.component";
 import {NewRecipeComponent} from "./recipes/new-recipe/new-recipe.component";
 import {LogInComponent} from "./log-in/log-in.component"
+import {CreateRecipeComponent} from "./recipes/create-recipe/create-recipe.component";
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'recipes', component: RecipesComponent },
-  { path: 'recipes/new', component: NewRecipeComponent },
-  { path: 'recipes/:id', component: ViewRecipeComponent },
+  { path: 'recetas', component: RecipesComponent },
+  { path: 'recetas/crear', component: CreateRecipeComponent },
+  { path: 'recetas/:id', component: ViewRecipeComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

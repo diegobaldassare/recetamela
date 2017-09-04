@@ -33,10 +33,8 @@ val isWindows = System.getProperty("os.name").toLowerCase().contains("win")
 def runScript(script: String)(implicit dir: File): Int = {
   if(isWindows){ Process("cmd /c " + script, dir) } else { Process(script, dir) } }!
 
-def uiWasInstalled(implicit dir: File): Boolean = (dir / "node_modules").exists()
-
 def runNpmInstall(implicit dir: File): Int =
-  if (uiWasInstalled) Success else runScript("npm install")
+  runScript("npm install")
 
 def ifUiInstalled(task: => Int)(implicit dir: File): Int =
   if (runNpmInstall == Success) task

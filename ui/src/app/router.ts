@@ -4,8 +4,6 @@ import { LandingComponent } from "./landing/landing.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import {RecipesComponent} from "./recipes/recipes.component";
 import {ViewRecipeComponent} from "./recipes/view-recipe/view-recipe.component";
-import {NewRecipeComponent} from "./recipes/new-recipe/new-recipe.component";
-import {LogInComponent} from "./log-in/log-in.component"
 import {CreateRecipeComponent} from "./recipes/create-recipe/create-recipe.component";
 
 const routes: Routes = [

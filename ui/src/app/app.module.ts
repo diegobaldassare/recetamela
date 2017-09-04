@@ -31,7 +31,7 @@ import {ToasterModule} from 'angular2-toaster';
     NavComponent,
     RecipesComponent,
     ViewRecipeComponent,
-    CreateRecipeComponent,
+    CreateRecipeComponent
   ],
   imports: [
     BrowserModule,

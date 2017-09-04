@@ -20,7 +20,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/styles/variables.scss"
+        "assets/styles/variables.scss",
+        "assets/styles/styles.css",
+        "../node_modules/angular2-toaster/toaster.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

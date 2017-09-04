@@ -1,17 +1,18 @@
 package controllers;
 
-import models.media.Media;
-import models.media.json.MediaJson;
+import models.Media;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Result;
+import play.mvc.Results;
 import server.error.RequestError;
 import services.MediaService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Media controller persists media files and retrieves their metadata.
@@ -34,8 +35,7 @@ public class MediaController extends Controller {
         if (file == null)
             return badRequest(RequestError.BAD_FORMAT.toString()).as(Http.MimeTypes.JSON);
         final Media media = MediaService.getInstance().save(file);
-        final MediaJson mediaJson = new MediaJson(media);
-        return ok(Json.toJson(mediaJson));
+        return ok(Json.toJson(media));
     }
 
     /**
@@ -44,9 +44,13 @@ public class MediaController extends Controller {
      * persisted in the database.
      */
     public Result get(long id) {
-        final Media media = MediaService.getInstance().get(id);
-        if (media == null) return notFound();
-        final MediaJson mediaJson = new MediaJson(media);
-        return ok(Json.toJson(mediaJson));
+        final Optional<Media> media = MediaService.getInstance().get(id);
+        return media.map(m -> ok(Json.toJson(m))).orElseGet(Results::notFound);
+    }
+
+    public Result getFile(String name) {
+        final File file = MediaService.getInstance().getFile(name);
+        if (file.exists()) return ok(file);
+        else return notFound();
     }
 }

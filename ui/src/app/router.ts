@@ -8,9 +8,9 @@ import {NewRecipeComponent} from "./recipes/new-recipe/new-recipe.component";
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'recipes', component: RecipesComponent },
-  { path: 'recipes/new', component: NewRecipeComponent },
-  { path: 'recipes/:id', component: ViewRecipeComponent },
+  { path: 'recetas', component: RecipesComponent },
+  { path: 'recetas/crear', component: NewRecipeComponent },
+  { path: 'recetas/:id', component: ViewRecipeComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

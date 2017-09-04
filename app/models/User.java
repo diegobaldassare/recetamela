@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 @Entity
 public class User extends BaseModel {
 
+    private long facebookId;
+
     private String name, lastName;
 
     @Column(unique=true)
@@ -27,6 +29,14 @@ public class User extends BaseModel {
 
     public String getName() {
         return name;
+    }
+
+    public long getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(long facebookId) {
+        this.facebookId = facebookId;
     }
 
     public void setName(String name) {

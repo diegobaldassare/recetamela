@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import 'rxjs/add/operator/toPromise';
-import { ResponseData } from '../shared/response-data';
 import { HttpService } from '../shared/services/http.service';
 import {User} from '../shared/models/user-model';
 import {UserCredentials} from '../shared/models/user-credentials';
@@ -38,21 +37,21 @@ export class AuthService {
         }
     }
 
-    public login(credentials: UserCredentials): Promise<ResponseData> {
+    public login(credentials: UserCredentials): Promise<Response> {
         return this.http.defaultHttp.post('/api/login', credentials.asJsonString(), this.http.defaultOptions).toPromise()
             .then(res => {
-                const data: ResponseData = res.json() as ResponseData;
+                const data  = res.json();
 
                 this._token = res.headers.get('authorization') || '';
                 this.http.authToken = this._token;
                 this.cookieService.put(this.tokenCookieKey, this._token);
 
-                return data;
+                return res;
             })
             .catch(this.handleError);
     }
 
-    public logout(): Promise<ResponseData> {
+    public logout(): Promise<Response> {
         return this.http.get('/api/logout')
             .then(resData => {
                 this.clearSession();
@@ -68,7 +67,7 @@ export class AuthService {
     private requestLoggedUser(): Promise<User> {
         return this.http.get('/api/logged-data')
             .then(resData => {
-                const user = resData.data.caseUser as User;
+                const user = resData.asJson() as User;
                 this._loggedUser = user;
                 return user;
             })

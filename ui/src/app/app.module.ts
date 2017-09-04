@@ -13,14 +13,10 @@ import { NavComponent } from './nav/nav.component';
 import {HttpClientModule} from "@angular/common/http";
 import { RecipesComponent } from './recipes/recipes.component';
 import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component';
+import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
 import {LogInComponent} from "./log-in/log-in.component";
 import {UserService} from "./shared/services/user.service"
 import {HttpModule} from "@angular/http"
-import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.component';
-import {RecipeService} from "./shared/services/recipe.service";
-import {MediaService} from "./shared/services/media.service";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {ToasterModule} from "angular2-toaster";
 
 @NgModule({
   declarations: [
@@ -31,7 +27,7 @@ import {ToasterModule} from "angular2-toaster";
     NavComponent,
     RecipesComponent,
     ViewRecipeComponent,
-    CreateRecipeComponent,
+    NewRecipeComponent,
     LogInComponent,
   ],
   imports: [
@@ -41,16 +37,13 @@ import {ToasterModule} from "angular2-toaster";
     HttpClientModule,
     AppRouterModule,
     HttpModule,
-    BrowserAnimationsModule,
-    ToasterModule
+    HttpModule,
   ],
   providers: [
     CookieService,
     AuthService,
     DOMService,
     UserService,
-    RecipeService,
-    MediaService,
   ],
   bootstrap: [AppComponent]
 })

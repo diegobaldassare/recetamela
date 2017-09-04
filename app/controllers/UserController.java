@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.Model;
 import com.google.inject.Inject;
 import models.User;
 import play.data.Form;
@@ -7,7 +8,7 @@ import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Results;
+import play.mvc.Security;
 import services.UserService;
 
 import java.util.List;
@@ -27,8 +28,11 @@ public class UserController extends Controller {
 
     public Result createUser() {
         User user = userForm.bindFromRequest().get();
-        user.save();
-        return ok(Json.toJson(user));
+        if (!UserService.getInstance().get(user.getId()).isPresent()) {
+            user.save();
+            return ok(Json.toJson(user));
+        }
+        else return notFound();
     }
 
     public Result getUsers(){
@@ -46,7 +50,8 @@ public class UserController extends Controller {
     }
 
     public Result getUser(Long id) {
-        final Optional<User> user = UserService.getInstance().get(id);
-        return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
+        Optional<User> user = UserService.getInstance().get(id);
+        if (user.isPresent()) return ok(Json.toJson(user.get()));
+        return notFound();
     }
 }

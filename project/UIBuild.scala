@@ -1,4 +1,3 @@
-
 import java.net.InetSocketAddress
 
 import play.sbt.PlayRunHook
@@ -8,29 +7,29 @@ object UIBuild {
   def apply(base: File): PlayRunHook = {
     object UIBuildHook extends PlayRunHook {
 
-      var processOne: Option[Process] = None
+      var process: Option[Process] = None
 
       var npmInstall: String = "npm install"
-      var npmRunBuild: String = "npm run build -- --watch"
+      var npmRun: String = "npm run build -- --watch"
 
       if (System.getProperty("os.name").toLowerCase().contains("win")){
         npmInstall = "cmd /c" + npmInstall
-        npmRunBuild = "cmd /c" + npmRunBuild
+        npmRun = "cmd /c" + npmRun
       }
 
       override def beforeStarted(): Unit = {
-        Process(npmInstall, base / "ui").!
+        if (!(base / "ui" / "node_modules").exists()) Process(npmInstall, base / "ui").!
       }
 
       override def afterStarted(addr: InetSocketAddress): Unit = {
-        processOne = Option(
-          Process(npmRunBuild, base / "ui").run
+        process = Option(
+          Process(npmRun, base / "ui").run
         )
       }
 
       override def afterStopped(): Unit = {
-        processOne.foreach(_.destroy())
-        processOne = None
+        process.foreach(_.destroy())
+        process = None
       }
 
     }

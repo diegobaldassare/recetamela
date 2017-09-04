@@ -24,6 +24,7 @@ export class CreateRecipeComponent implements OnInit {
   private step: string = '';
   private categoryName: string = '';
   private ingredientName: string = '';
+  private createdRecipeRoute: string = '';
 
   constructor(
     private _recipeService: RecipeService,
@@ -42,7 +43,17 @@ export class CreateRecipeComponent implements OnInit {
     });
   }
 
-  public uploadImage(e: Event) {
+  private get invalidForm():boolean {
+    return this.recipeInput.name == '' ||
+      this.recipeInput.description == '' ||
+      this.selectedIngredients.size == 0 ||
+      this.steps.length == 0 ||
+      this.selectedCategories.size == 0 ||
+      this.uploadingImage ||
+      !this.image;
+  }
+
+  private uploadImage(e: Event) {
     e.preventDefault();
     this.uploadingImage = true;
     const files = (<HTMLInputElement> document.getElementById('image')).files;
@@ -54,12 +65,12 @@ export class CreateRecipeComponent implements OnInit {
     });
   }
 
-  public addStep() {
+  private addStep() {
     this.steps.push(this.step);
     this.step = '';
   }
 
-  public selectCategory() {
+  private selectCategory() {
     if (!this.selectedCategories.has(this.categoryName)) {
       this.selectedCategories.add(this.categoryName);
       this.categories.delete(this.categoryName);
@@ -67,12 +78,12 @@ export class CreateRecipeComponent implements OnInit {
     this.categoryName = '';
   }
 
-  public deselectCategory(c: string) {
+  private deselectCategory(c: string) {
     this.selectedCategories.delete(c);
     this.categories.add(c);
   }
 
-  public selectIngredient() {
+  private selectIngredient() {
     if (!this.selectedIngredients.has(this.ingredientName)) {
       this.selectedIngredients.add(this.ingredientName);
       this.ingredients.delete(this.ingredientName);
@@ -80,23 +91,21 @@ export class CreateRecipeComponent implements OnInit {
     this.ingredientName = '';
   }
 
-  public deselectIngredient(i: string) {
+  private deselectIngredient(i: string) {
     this.selectedIngredients.delete(i);
     this.ingredients.add(i);
   }
 
-  public validateForm() {
-    this.createRecipe();
-  }
+  private clearForm() {}
 
   private createRecipe() {
     this.recipeInput.steps = this.steps.join('\n');
     this.recipeInput.categoryNames = Array.from(this.selectedCategories);
     this.recipeInput.ingredientNames = Array.from(this.selectedIngredients);
-    this._recipeService.createRecipe(this.recipeInput)
-      .then(
-        () => this.toaster.pop('success', 'Recipe created'),
-        () => this.toaster.pop('error', 'Recipe not created')
-      );
+    this._recipeService.createRecipe(this.recipeInput).then(r => {
+      this.clearForm();
+      this.toaster.pop('success', 'Receta creada');
+      this.createdRecipeRoute = `/recetas/${r.id}`;
+    }, () => this.toaster.pop('error', 'Receta no creada'));
   }
 }

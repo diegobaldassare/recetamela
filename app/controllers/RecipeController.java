@@ -13,6 +13,8 @@ import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.recipe.RecipeService;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeController extends Controller {
@@ -31,20 +33,59 @@ public class RecipeController extends Controller {
     }
 
     private boolean badCreateRequest(RecipeInput input) {
-        return
-                input.name == null ||
-                input.name.length() < 2 ||
-                !StringUtils.isAlphanumericSpace(input.name) ||
-                input.description == null ||
-                input.description.length() == 0 ||
-                input.steps == null ||
-                input.steps.length() == 0 ||
-                (input.videoUrl != null && input.videoUrl.length() == 0) ||
-                (input.difficulty < 1 || input.difficulty > 5) ||
-                input.categoryNames == null ||
-                input.categoryNames.length == 0 ||
-                input.ingredientNames == null ||
-                input.ingredientNames.length == 0;
+        if (input.videoUrl != null) {
+            input.videoUrl = input.videoUrl.trim();
+            if (input.videoUrl.length() == 0) input.videoUrl = null;
+        }
+
+        if (input.name == null) return true;
+        else input.name = capitalizeFirstCharacter(input.name).trim();
+        if (!alphaNumSpaceNotEmpty(input.name)) return true;
+        input.name = capitalizeFirstCharacter(input.name);
+
+        if (input.description == null) return true;
+        else input.description = capitalizeFirstCharacter(input.description).trim();
+        if (input.description.length() == 0) return true;
+
+        if (input.difficulty < 1 || input.difficulty > 5) return true;
+
+        if (input.steps == null) return true;
+        final List<String> steps = Arrays.asList(input.steps);
+        for (int i = 0; i < steps.size(); i++) {
+            steps.set(i, capitalizeFirstCharacter(steps.get(i)).trim());
+            if (steps.get(i).length() == 0) steps.remove(i);
+        }
+        if (steps.isEmpty()) return true;
+        input.steps = (String[]) steps.toArray();
+
+        if (input.categoryNames == null) return true;
+        final List<String> categoryNames = Arrays.asList(input.categoryNames);
+        for (int i = 0; i < categoryNames.size(); i++) {
+            categoryNames.set(i, categoryNames.get(i).trim().toLowerCase());
+            if (!alphaNumSpaceNotEmpty(categoryNames.get(i))) categoryNames.remove(i);
+        }
+        if (categoryNames.isEmpty()) return true;
+        input.categoryNames = (String[]) categoryNames.toArray();
+
+        if (input.ingredientNames == null) return true;
+        final List<String> ingredientNames = Arrays.asList(input.ingredientNames);
+        for (int i = 0; i < ingredientNames.size(); i++) {
+            ingredientNames.set(i, ingredientNames.get(i).trim().toLowerCase());
+            if (!alphaNumSpaceNotEmpty(ingredientNames.get(i))) ingredientNames.remove(i);
+        }
+        if (ingredientNames.isEmpty()) return true;
+        input.ingredientNames = (String[]) ingredientNames.toArray();
+
+        return false;
+    }
+
+    private boolean alphaNumSpaceNotEmpty(String s) {
+        return s.length() != 0 && StringUtils.isAlphanumericSpace(s);
+    }
+
+    private String capitalizeFirstCharacter(String text) {
+        if (text.length() < 2) return "" + Character.toUpperCase(text.charAt(0));
+        return Character.toUpperCase(text.charAt(0)) + text.substring(1);
     }
 
     public Result get(long id) {

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
 import {Recipe} from "../../shared/models/recipe/recipe";
+import {RecipeService} from "../../shared/services/recipe.service";
 
 @Component({
   selector: 'app-view-recipe',
@@ -12,18 +12,17 @@ import {Recipe} from "../../shared/models/recipe/recipe";
 export class ViewRecipeComponent implements OnInit {
 
   private recipe: Recipe;
-  private fetched;
+  private fetched: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private _recipeService: RecipeService
   ){}
 
-  // TODO call RecipeService to handle http GET of recipe.
   ngOnInit() {
     const id = +this.route.snapshot.params['id'];
-    this.http.get(`http://localhost:9000/api/recipe/${id}`).subscribe((recipe: Recipe) => {
+    this._recipeService.getRecipe(id).then(recipe => {
       this.recipe = recipe;
       this.fetched = true;
     }, () => { this.fetched = true });

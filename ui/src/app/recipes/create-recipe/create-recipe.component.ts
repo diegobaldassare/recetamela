@@ -1,39 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import {RecipeInput} from "../../shared/models/recipe/recipe-input";
-import {Category} from "../../shared/models/recipe/category";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MediaService} from "../../shared/services/media.service";
 import {Media} from "../../shared/models/media";
-import {Ingredient} from "../../shared/models/recipe/ingredient";
 
 @Component({
   selector: 'app-new-recipe',
-  templateUrl: './new-recipe.component.html',
-  styleUrls: ['./new-recipe.component.scss']
+  templateUrl: './create-recipe.component.html',
+  styleUrls: ['./create-recipe.component.scss']
 })
-export class NewRecipeComponent implements OnInit {
+export class CreateRecipeComponent implements OnInit {
 
   private recipeInput: RecipeInput = new RecipeInput();
   private image: Media;
   private uploadingImage: boolean;
-  private categories; selectedCategories: Set<string> = new Set();
-  private ingredients; selectedIngredients: Set<string> = new Set();
-  private steps: String[] = [];
-  private step; categoryName: string = '';
+  private categories: Set<string> = new Set();
+  private selectedCategories: Set<string> = new Set();
+  private ingredients: Set<string> = new Set();
+  private selectedIngredients: Set<string> = new Set();
+  private steps: string[] = [];
+  private step: string = '';
+  private categoryName: string = '';
+  private ingredientName: string = '';
 
   constructor(
     private _recipeService: RecipeService,
     private _mediaService: MediaService,
     public sanitizer: DomSanitizer
-  ) {
-    this.categories = new Set();
-  }
+  ) {}
 
   ngOnInit() {
     const t = this;
     this._recipeService.getRecipeCategories().then((categories) => {
-      categories.forEach(c => t.categories.add(c.name));
+      categories.forEach(c => t.categories.add(<string> c.name));
+    });
+    this._recipeService.getIngredients().then((ingredients) => {
+      ingredients.forEach(c => t.ingredients.add(<string> c.name));
     });
   }
 
@@ -67,12 +70,24 @@ export class NewRecipeComponent implements OnInit {
     this.categories.add(c);
   }
 
+  public selectIngredient() {
+    if (!this.selectedIngredients.has(this.ingredientName)) {
+      this.selectedIngredients.add(this.ingredientName);
+      this.ingredients.delete(this.ingredientName);
+    }
+    this.ingredientName = '';
+  }
+
+  public deselectIngredient(i: string) {
+    this.selectedIngredients.delete(i);
+    this.ingredients.add(i);
+  }
+
   public validateForm() {}
 
   private createRecipe() {
     this.recipeInput.steps = this.steps.join('\n');
     this.recipeInput.categoryNames = Array.from(this.selectedCategories);
     this.recipeInput.ingredientNames = Array.from(this.selectedIngredients);
-    // this._recipeService.postRecipe(this.recipeInput).subscribe();
   }
 }

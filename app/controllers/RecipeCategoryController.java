@@ -40,7 +40,7 @@ public class RecipeCategoryController extends Controller {
     }
 
     public Result getAll() {
-        final List<RecipeCategory> recipeCategories = RecipeCategoryService.getInstance().getFinder().all();
-        return ok(Json.toJson(recipeCategories));
+        final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();
+        return ok(Json.toJson(categories));
     }
 }

@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
-import {Http, Response} from "@angular/http";
-import {Category} from "../models/recipe/category";
+import {Http} from "@angular/http";
+import {RecipeCategory} from "../models/recipe/recipe-category";
 import 'rxjs/add/operator/map'
+import {Ingredient} from "../models/recipe/ingredient";
 
 @Injectable()
 export class RecipeService {
@@ -14,12 +15,11 @@ export class RecipeService {
     return this.http.get(this.url + id).map(r => r.json()).toPromise();
   }
 
-  getRecipeCategories(): Promise<Category[]> {
+  getRecipeCategories(): Promise<RecipeCategory[]> {
     return this.http.get(this.url + 'categories/all').map(r => r.json()).toPromise();
   }
 
-  // postRecipe(recipeInput): Observable<Response> {
-  //   var id = JSON.parse(localStorage.getItem('user')).id;
-  //   return this.http.post(this.url + 'users' + id + 'recipe', JSON).map(this.extractData);
-  // }
+  getIngredients(): Promise<Ingredient[]> {
+    return this.http.get(this.url + 'ingredients/all').map(r => r.json()).toPromise();
+  }
 }

@@ -1,6 +1,6 @@
 <div class="container">
   <div class="component">
-    <h1>Nueva receta</h1>
+    <h1>Crear receta</h1>
     <br>
     <div class="row">
       <div class="col col-md-8">
@@ -12,31 +12,41 @@
           <textarea [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
         </div>
 
+        <div style="margin-bottom: 13px" *ngIf="selectedIngredients.size > 0">
+          <span><strong>Ingredientes:</strong></span>
+          <span class="label label-primary" *ngFor="let ing of selectedIngredients">
+            {{ ing }}
+            <span class="text-button" (click)="deselectIngredient(ing)">x</span>
+          </span>
+        </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Ingredientes">
+          <input class="form-control" placeholder="Ingrese un ingrediente y presione enter" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
+          <datalist id="ingredients">
+            <option *ngFor="let ing of ingredients" [value]="ing"></option>
+          </datalist>
         </div>
 
         <div *ngIf="steps.length > 0">
           <p><strong>Pasos:</strong></p>
           <ol>
             <li *ngFor="let step of steps; let i = index">
-              {{ step }} <span class="deleteButton" (click)="steps.splice(i, 1)">X</span>
+              {{ step }} <span style="color: red" class="text-button" (click)="steps.splice(i, 1)">X</span>
             </li>
           </ol>
         </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Pasos separados por la tecla enter" [(ngModel)]="step" (keyup.enter)="addStep()">
+          <input class="form-control" placeholder="Ingrese un paso y presione enter" [(ngModel)]="step" (keyup.enter)="addStep()">
         </div>
 
         <div style="margin-bottom: 13px" *ngIf="selectedCategories.size > 0">
           <span><strong>Categorias:</strong></span>
-          <span class="tag" *ngFor="let cat of selectedCategories">
-            <span class="name">{{ cat }}</span>
-            <span class="delete" (click)="deselectCategory(cat)">X</span>
+          <span class="label label-primary" *ngFor="let cat of selectedCategories">
+            {{ cat }}
+            <span class="text-button" (click)="deselectCategory(cat)">x</span>
           </span>
         </div>
         <div class="form-group">
-          <input class="form-control" placeholder="Categorias" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+          <input class="form-control" placeholder="Ingrese una categoria y presione enter" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
           <datalist id="categories">
             <option *ngFor="let cat of categories" [value]="cat"></option>
           </datalist>
@@ -71,7 +81,7 @@
           </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-default" (click)="validateForm()">Submit</button>
+        <button type="submit" class="btn btn-default" (click)="validateForm()">Crear</button>
       </div>
       <div class="col col-md-4">
         <div class="form-group">

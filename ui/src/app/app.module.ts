@@ -13,7 +13,7 @@ import { NavComponent } from './nav/nav.component';
 import {HttpClientModule} from "@angular/common/http";
 import { RecipesComponent } from './recipes/recipes.component';
 import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component';
-import { NewRecipeComponent } from './recipes/new-recipe/new-recipe.component';
+import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.component';
 import {RecipeService} from "./shared/services/recipe.service";
 import {HttpModule} from "@angular/http";
 import {MediaService} from "./shared/services/media.service";
@@ -27,7 +27,7 @@ import {MediaService} from "./shared/services/media.service";
     NavComponent,
     RecipesComponent,
     ViewRecipeComponent,
-    NewRecipeComponent,
+    CreateRecipeComponent,
   ],
   imports: [
     BrowserModule,

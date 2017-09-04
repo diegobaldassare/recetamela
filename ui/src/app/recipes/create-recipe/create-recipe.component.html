@@ -16,7 +16,7 @@
           <span><strong>Ingredientes:</strong></span>
           <span class="label label-primary" *ngFor="let ing of selectedIngredients">
             {{ ing }}
-            <span class="text-button" (click)="deselectIngredient(ing)">x</span>
+            <span class="label-button" (click)="deselectIngredient(ing)">x</span>
           </span>
         </div>
         <div class="form-group">
@@ -30,7 +30,8 @@
           <p><strong>Pasos:</strong></p>
           <ol>
             <li *ngFor="let step of steps; let i = index">
-              {{ step }} <span style="color: red" class="text-button" (click)="steps.splice(i, 1)">X</span>
+              {{ step }}
+              <span style="color: red; cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="steps.splice(i, 1)"></span>
             </li>
           </ol>
         </div>
@@ -42,7 +43,7 @@
           <span><strong>Categorias:</strong></span>
           <span class="label label-primary" *ngFor="let cat of selectedCategories">
             {{ cat }}
-            <span class="text-button" (click)="deselectCategory(cat)">x</span>
+            <span class="label-button" (click)="deselectCategory(cat)">x</span>
           </span>
         </div>
         <div class="form-group">
@@ -53,32 +54,23 @@
         </div>
 
         <div class="form-group">
-          <label>Dificultad</label>
-          <div class="radio">
-            <label>
-              <input [(ngModel)]="recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input [(ngModel)]="recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input [(ngModel)]="recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input [(ngModel)]="recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input [(ngModel)]="recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
-            </label>
-          </div>
+          <label>Dificultad:</label>
+          <br>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
+          </label>
+          <label class="radio-inline">
+            <input [(ngModel)]="recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
+          </label>
         </div>
         <br>
         <button type="submit" class="btn btn-default" (click)="validateForm()">Crear</button>

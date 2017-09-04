@@ -3,23 +3,32 @@ import {Http} from "@angular/http";
 import {RecipeCategory} from "../models/recipe/recipe-category";
 import 'rxjs/add/operator/map'
 import {Ingredient} from "../models/recipe/ingredient";
+import {ApiService} from "./api-service";
+import {RecipeInput} from "../models/recipe/recipe-input";
+import {Recipe} from "../models/recipe/recipe";
 
 @Injectable()
-export class RecipeService {
+export class RecipeService extends ApiService {
 
-  private url: string = "http://localhost:9000/api/recipe/";
+  private URL: string = `${ApiService.API_URL}/recipe`;
 
-  constructor(private http: Http){}
+  constructor(private http: Http){
+    super();
+  }
 
   getRecipe(id): Promise<any> {
-    return this.http.get(this.url + id).map(r => r.json()).toPromise();
+    return this.http.get(`${this.URL}/${id}`).map(r => r.json()).toPromise();
   }
 
   getRecipeCategories(): Promise<RecipeCategory[]> {
-    return this.http.get(this.url + 'categories/all').map(r => r.json()).toPromise();
+    return this.http.get(`${this.URL}/categories/all`).map(r => r.json()).toPromise();
   }
 
   getIngredients(): Promise<Ingredient[]> {
-    return this.http.get(this.url + 'ingredients/all').map(r => r.json()).toPromise();
+    return this.http.get(`${this.URL}/ingredients/all`).map(r => r.json()).toPromise();
+  }
+
+  createRecipe(input: RecipeInput): Promise<Recipe> {
+    return this.http.post(this.URL, input).map(r => r.json()).toPromise();
   }
 }

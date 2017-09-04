@@ -89,5 +89,6 @@ export class CreateRecipeComponent implements OnInit {
     this.recipeInput.steps = this.steps.join('\n');
     this.recipeInput.categoryNames = Array.from(this.selectedCategories);
     this.recipeInput.ingredientNames = Array.from(this.selectedIngredients);
+    // this._recipeService.createRecipe(this.recipeInput);
   }
 }

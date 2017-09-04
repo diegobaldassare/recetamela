@@ -120,6 +120,7 @@ export class CreateRecipeComponent implements OnInit {
     this.selectedIngredients.clear();
     this.selectedCategories.clear();
     this.sending = false;
+    (<HTMLInputElement> document.getElementById('image')).value = '';
   }
 
   private createRecipe() {

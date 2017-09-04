@@ -39,21 +39,20 @@ public class RecipeController extends Controller {
         }
 
         if (input.name == null) return true;
-        else input.name = input.name.trim();
+        else input.name = capitalizeFirstCharacter(input.name).trim();
         if (!alphaNumSpaceNotEmpty(input.name)) return true;
-        input.name = capitalize(input.name);
+        input.name = capitalizeFirstCharacter(input.name);
 
         if (input.description == null) return true;
-        else input.description = input.description.trim();
+        else input.description = capitalizeFirstCharacter(input.description).trim();
         if (input.description.length() == 0) return true;
-        input.description = capitalize(input.description);
 
         if (input.difficulty < 1 || input.difficulty > 5) return true;
 
         if (input.steps == null) return true;
         final List<String> steps = Arrays.asList(input.steps);
         for (int i = 0; i < steps.size(); i++) {
-            steps.set(i, steps.get(i).trim());
+            steps.set(i, capitalizeFirstCharacter(steps.get(i)).trim());
             if (steps.get(i).length() == 0) steps.remove(i);
         }
         if (steps.isEmpty()) return true;
@@ -84,7 +83,8 @@ public class RecipeController extends Controller {
         return s.length() != 0 && StringUtils.isAlphanumericSpace(s);
     }
 
-    private String capitalize(String text) {
+    private String capitalizeFirstCharacter(String text) {
+        if (text.length() < 2) return "" + Character.toUpperCase(text.charAt(0));
         return Character.toUpperCase(text.charAt(0)) + text.substring(1);
     }
 

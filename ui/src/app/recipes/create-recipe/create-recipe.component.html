@@ -14,7 +14,7 @@
         </div>
 
         <div class="form-group">
-          <textarea [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
+          <textarea style="resize: vertical" [(ngModel)]="recipeInput.description" name="description" class="form-control" rows="3" placeholder="Descripción"></textarea>
         </div>
 
         <div style="margin-bottom: 13px" *ngIf="selectedIngredients.size > 0">
@@ -31,12 +31,12 @@
           </datalist>
         </div>
 
-        <div *ngIf="steps.length > 0">
+        <div *ngIf="recipeInput.steps.length > 0">
           <p><strong>Pasos:</strong></p>
           <ol>
-            <li *ngFor="let step of steps; let i = index">
+            <li *ngFor="let step of recipeInput.steps; let i = index">
               {{ step }}
-              <span style="color: red; cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="steps.splice(i, 1)"></span>
+              <span style="color: red; cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="recipeInput.steps.splice(i, 1)"></span>
             </li>
           </ol>
         </div>
@@ -78,7 +78,7 @@
           </label>
         </div>
         <br>
-        <button type="submit" class="btn btn-default" (click)="createRecipe()" [disabled]="invalidForm">Crear</button>
+        <button type="submit" class="btn btn-default" (click)="createRecipe()" [disabled]="disabledSubmit">Crear</button>
       </div>
       <div class="col col-md-4">
         <div class="form-group">

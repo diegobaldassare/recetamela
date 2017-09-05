@@ -24,6 +24,13 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {}
 
+  private get submitImageText(): string {
+    if (this.uploadingImage) {
+      return 'Subiendo imágen';
+    }
+    else return this.parent.image ? 'Cambiar imágen' : 'Seleccionar imágen';
+  }
+
   private get disabledSubmit():boolean {
     return this.sending ||
       (this.parent.recipeInput.videoUrl.length > 0 && this.parent.recipeInput.videoUrl.trim().length == 0) ||

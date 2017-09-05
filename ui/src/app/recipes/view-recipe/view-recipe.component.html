@@ -18,16 +18,10 @@
             </div>
             <div>
               <strong>Categorias:</strong>
-              <span *ngFor="let cat of recipe.categories">
-                <a routerLink="/recetas/categorias/{{ cat.id }}">
-                <span class="label label-primary">
-                  {{ cat.name }}
-                </span>
-              </a>
-              </span>
+              <span *ngFor="let cat of recipe.categories" class="label label-primary">{{ cat.name }}</span>
             </div>
             <br>
-            <button routerLink="editar" type="button" class="btn btn-info btn-sm">
+            <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
               <span class="glyphicon glyphicon-pencil"></span>
             </button>
           </div>

@@ -19,6 +19,8 @@ import {HttpModule} from "@angular/http";
 import {MediaService} from "./shared/services/media.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToasterModule} from "angular2-toaster";
+import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
+import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import {ToasterModule} from "angular2-toaster";
     RecipesComponent,
     ViewRecipeComponent,
     CreateRecipeComponent,
+    RecipeFormComponent,
+    EditRecipeComponent,
   ],
   imports: [
     BrowserModule,

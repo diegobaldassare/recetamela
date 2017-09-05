@@ -48,7 +48,7 @@ public class RecipeController extends Controller {
             }
             if (input.ingredientNames != null) {
                 recipe.getIngredients().clear();
-                RecipeService.getInstance().setIngredients(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.categoryNames));
+                RecipeService.getInstance().setIngredients(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.ingredientNames));
             }
             if (input.imageId != 0) RecipeService.getInstance().setImage(recipe, input.imageId);
             recipe.save();

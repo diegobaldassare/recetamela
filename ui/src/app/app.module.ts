@@ -17,8 +17,9 @@ import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.com
 import {RecipeService} from "./shared/services/recipe.service";
 import {HttpModule} from "@angular/http";
 import {MediaService} from "./shared/services/media.service";
+import { HomeComponent } from './home/home.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {ToasterModule} from "angular2-toaster";
+import {ToasterModule} from 'angular2-toaster';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 
@@ -26,6 +27,7 @@ import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component
   declarations: [
     AppComponent,
     LandingComponent,
+    HomeComponent,
     NotFoundComponent,
     FooterComponent,
     NavComponent,

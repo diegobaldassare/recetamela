@@ -12,4 +12,7 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
+  upgradeToPremium(){
+    console.log("Funca");
+  }
 }

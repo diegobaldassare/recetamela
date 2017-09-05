@@ -37,30 +37,39 @@ public class RecipeService extends Service<Recipe> {
         final Recipe recipe = new Recipe();
         recipe.setName(input.name);
         recipe.setDescription(input.description);
-        recipe.setSteps(String.join("\n", input.steps));
+        setSteps(recipe, input.steps);
         recipe.setVideoUrl(input.videoUrl);
         recipe.setDifficulty(input.difficulty);
+        setCategories(recipe, input.categoryNames);
+        setIngredients(recipe, input.ingredientNames);
+        final Media image = MediaService.getInstance().get(input.imageId).orElseThrow(() -> new BadRequestException(RequestError.BAD_FORMAT));
+        recipe.setImage(image);
+        // TODO recipe.setAuthor(?);
+        recipe.save();
+        return recipe;
+    }
 
-        for (String name : input.categoryNames) {
+    public void setSteps(Recipe recipe, String[] steps) {
+        recipe.setSteps(String.join("\n", steps));
+    }
+
+    public void setCategories(Recipe recipe, String[] names) throws BadRequestException {
+        for (String name : names) {
             final Optional<RecipeCategory> categoryOpt = RecipeCategoryService.getInstance().getByName(name);
             final RecipeCategory category = categoryOpt.orElse(new RecipeCategory(name));
             if (!categoryOpt.isPresent()) category.save();
             recipe.getCategories().add(category);
         }
         if (recipe.getCategories().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
+    }
 
-        for (String name : input.ingredientNames) {
+    public void setIngredients(Recipe recipe, String[] names) throws BadRequestException {
+        for (String name : names) {
             final Optional<Ingredient> ingredientOpt = IngredientService.getInstance().getByName(name);
             final Ingredient ingredient = ingredientOpt.orElse(new Ingredient(name));
             if (!ingredientOpt.isPresent()) ingredient.save();
             recipe.getIngredients().add(ingredient);
         }
         if (recipe.getIngredients().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
-
-        final Media image = MediaService.getInstance().get(input.imageId).orElseThrow(() -> new BadRequestException(RequestError.BAD_FORMAT));
-        recipe.setImage(image);
-        // TODO recipe.setAuthor(?);
-        recipe.save();
-        return recipe;
     }
 }

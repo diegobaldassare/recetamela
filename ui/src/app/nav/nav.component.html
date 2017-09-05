@@ -45,17 +45,19 @@
     <!-- Modal content-->
     <div class="modal-content">
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title">Convertirte en Usuario Premium</h3>
-      </div>
+      <form [formGroup]="creditCardForm">
 
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-xs-6">
-            <div class="row">
-              <h4 class="modal-subtitle1">Beneficios Premium!</h4>
-            </div>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Convertirte en Usuario Premium</h3>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="row">
+                <h4 class="modal-subtitle1">Beneficios Premium!</h4>
+              </div>
 
               <ul class="list-group">
                 <li class="list-group-item">
@@ -72,31 +74,78 @@
                 </li>
               </ul>
 
-          </div>
-          <div class="col-xs-6">
-            <div class="row">
-              <h4 class="modal-subtitle2">Datos Tarjeta</h4>
             </div>
-            <div class="row">
-              <input type="text" class="form-control" id="titularTarjeta" placeholder="Nombre de Titular">
-            </div>
-            <div class="row">
-              <input type="text" class="form-control" id="numeroTarjeta" placeholder="Numero de Tarjeta">
-            </div>
-            <div class="row">
-              <input type="password" class="form-control" id="codigoTarjeta" placeholder="Codigo de Seguridad">
-            </div>
-            <div class="row">
-              <h4 class="price">$99.99</h4>
-            </div>
+
+              <div class="col-xs-6">
+
+                <div class="row">
+                  <h4 class="modal-subtitle2">Datos Tarjeta</h4>
+                </div>
+                <div class="row">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="cardName"
+                    formControlName="cardName"
+                    placeholder="Nombre de Titular">
+
+                  <span
+                    *ngIf="!creditCardForm.get('cardName').valid && creditCardForm.get('cardName').touched"
+                    class="help-block">
+                    This field is required!
+                  </span>
+
+                </div>
+                <div class="row">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="cardNumber"
+                    formControlName="cardNumber"
+                    placeholder="Numero de Tarjeta">
+
+                  <span
+                    *ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched"
+                    class="help-block">
+                    This field is required!
+                  </span>
+
+                </div>
+                <div class="row">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="cardCode"
+                    formControlName="cardCode"
+                    placeholder="Codigo de Seguridad">
+
+                  <span
+                    *ngIf="!creditCardForm.get('cardCode').valid && creditCardForm.get('cardCode').touched"
+                    class="help-block">
+                    This field is required!
+                  </span>
+
+                </div>
+
+
+              </div>
+
+              <div class="row">
+                <h4 class="price">$99.99</h4>
+              </div>
           </div>
         </div>
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="upgradeToPremium()">Upgrade</button>
-      </div>
+        <div class="modal-footer">
+          <button type="submit"
+                  class="btn btn-default"
+                  [disabled]="!creditCardForm.valid"
+                  data-dismiss="modal"
+                  (click)="upgradeToPremium()">
+            Upgrade</button>
+        </div>
 
+      </form>
     </div>
   </div>
 </div>

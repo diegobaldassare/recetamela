@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="component">
+    <div *ngIf="fetched">
+      <div *ngIf="recipeInput">
+        <div class="page-header">
+          <h1>Editar receta<small> <a [routerLink]="'/recetas/' + id">ver receta</a></small></h1>
+        </div>
+        <div *ngIf="recipeRoute" class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          La receta se guardó en <a [routerLink]="recipeRoute" class="alert-link">{{ recipeRoute }}</a>.
+          <br>
+        </div>
+        <app-recipe-form [parent]="instance" submitText="Guardar"></app-recipe-form>
+      </div>
+      <app-not-found *ngIf="!recipeInput"></app-not-found>
+    </div>
+    <div *ngIf="!fetched" class="app-spinner"></div>
+  </div>
+</div>
+

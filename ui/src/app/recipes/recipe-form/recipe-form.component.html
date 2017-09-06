@@ -83,7 +83,8 @@
     </div>
 
     <div class="form-group">
-      <label for="videoUrl">Link a video</label>
+      <label for="videoUrl">Video</label>
+      <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="videoThumbnail" [src]="videoThumbnail">
       <input [(ngModel)]="parent.recipeInput.videoUrl" id="videoUrl" class="form-control">
     </div>
   </div>

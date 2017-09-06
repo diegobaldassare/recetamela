@@ -24,10 +24,17 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {}
 
+  private get videoThumbnail(): string {
+    const split = this.parent.recipeInput.videoUrl.split('v=');
+    if (split.length < 2) return;
+    let id = split[1];
+    const ampersandPos = id.indexOf('&');
+    if (ampersandPos != -1) id = id.substring(0, ampersandPos);
+    return `http://img.youtube.com/vi/${id}/0.jpg`;
+  }
+
   private get submitImageText(): string {
-    if (this.uploadingImage) {
-      return 'Subiendo';
-    }
+    if (this.uploadingImage) return 'Subiendo';
     else return this.parent.image ? 'Cambiar' : 'Seleccionar';
   }
 

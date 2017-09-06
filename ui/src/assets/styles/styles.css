@@ -5,14 +5,25 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 150px !important;
+  margin-bottom: 160px !important;
 }
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 150px;
+  height: 160px;
+}
+
+@media (max-width: 991px) {
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 250px !important;
+  }
+  footer {
+    /* Set the fixed height of the footer here */
+    height: 250px;
+  }
 }
 
 .app-spinner {

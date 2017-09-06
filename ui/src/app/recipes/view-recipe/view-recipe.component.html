@@ -4,28 +4,27 @@
       <div *ngIf="recipe">
         <div class="row">
           <div class="col-md-4">
-            <div class="well">
-              <h1>{{ recipe.name }}</h1>
-              <img class="img-responsive thumbnail" src="{{ recipe.image.url }}">
-              <div>
-                <strong>Dificultad:</strong>
-                <span [ngSwitch]="recipe.difficulty">
-                    <span class="label label-primary" *ngSwitchCase="1">muy fácil</span>
-                    <span class="label label-primary" *ngSwitchCase="2">fácil</span>
-                    <span class="label label-primary" *ngSwitchCase="3">intermedio</span>
-                    <span class="label label-primary" *ngSwitchCase="4">dificil</span>
-                    <span class="label label-primary" *ngSwitchDefault>muy dificil</span>
-                  </span>
-              </div>
-              <div>
-                <strong>Categorias:</strong>
-                <span *ngFor="let cat of recipe.categories" class="label label-primary">{{ cat.name }}</span>
-              </div>
-              <br>
-              <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </button>
+            <h1>{{ recipe.name }}</h1>
+            <br>
+            <img class="img-responsive thumbnail" src="{{ recipe.image.url }}">
+            <div>
+              <strong>Dificultad:</strong>
+              <span [ngSwitch]="recipe.difficulty">
+                  <span class="label label-primary" *ngSwitchCase="1">muy fácil</span>
+                  <span class="label label-primary" *ngSwitchCase="2">fácil</span>
+                  <span class="label label-primary" *ngSwitchCase="3">intermedio</span>
+                  <span class="label label-primary" *ngSwitchCase="4">dificil</span>
+                  <span class="label label-primary" *ngSwitchDefault>muy dificil</span>
+                </span>
             </div>
+            <div>
+              <strong>Categorias:</strong>
+              <span *ngFor="let cat of recipe.categories" class="label label-primary">{{ cat.name }}</span>
+            </div>
+            <br>
+            <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
           </div>
           <div class="col-md-8">
             <ul class="nav nav-tabs nav-justified" role="tablist">

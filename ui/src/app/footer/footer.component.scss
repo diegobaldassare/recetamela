@@ -1,0 +1,11 @@
+@import "../../assets/styles/variables";
+
+footer {
+  background-color: $brand-primary;
+  color: white;
+  padding: 20px;
+}
+
+footer a {
+  color: white !important;
+}

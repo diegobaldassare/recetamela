@@ -1,4 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@import "variables";
+@import "../../../node_modules/bootswatch/flatly/variables";
+@import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../../node_modules/bootswatch/flatly/bootswatch";
+@import "../../../node_modules/angular2-toaster/toaster.css";
+
+nav{
+  background-color: $gray-white;
+}
 html {
   position: relative;
   min-height: 100%;
@@ -8,9 +16,11 @@ body {
   margin-bottom: 160px !important;
 }
 footer {
+  background-color: $gray-white;
   position: absolute;
   bottom: 0;
   width: 100%;
+  padding: 20px;
   /* Set the fixed height of the footer here */
   height: 160px;
 }

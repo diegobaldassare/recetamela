@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class NavComponent implements OnInit {
 
   creditCardForm: FormGroup;
+  isPassword = "password";
 
   constructor() { }
 
@@ -18,6 +19,15 @@ export class NavComponent implements OnInit {
       'cardNumber': new FormControl(null, [Validators.required]),
       'cardCode': new FormControl(null, [Validators.required]),
     });
+  }
+
+  showPassword(){
+    if(this.isPassword == "text"){
+      this.isPassword = "password";
+    }
+    else{
+      this.isPassword = "text";
+    }
   }
 
   upgradeToPremium(){

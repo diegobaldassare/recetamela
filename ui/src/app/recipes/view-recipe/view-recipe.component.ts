@@ -23,8 +23,19 @@ export class ViewRecipeComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
     this._recipeService.getRecipe(id).then(recipe => {
+      recipe.videoUrl = this.getEmbedVideoUrl(recipe.videoUrl);
       this.recipe = recipe;
       this.fetched = true;
     }, () => { this.fetched = true });
+  }
+
+  private getEmbedVideoUrl(url: string):string {
+    if (!url) return;
+    const split = url.split('v=');
+    if (split.length < 2) return;
+    let id = split[1];
+    const ampersandPos = id.indexOf('&');
+    if (ampersandPos != -1) id = id.substring(0, ampersandPos);
+    return `https://www.youtube.com/embed/${id}`;
   }
 }

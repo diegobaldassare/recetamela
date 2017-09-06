@@ -70,9 +70,8 @@
         <input [(ngModel)]="parent.recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
       </label>
     </div>
-    <br>
-    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitText }}</button>
   </div>
+  <br>
   <div class="col col-md-4">
     <div class="form-group">
       <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="parent.image" [src]="parent.image.url">
@@ -88,3 +87,5 @@
     </div>
   </div>
 </div>
+<br>
+<button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitText }}</button>

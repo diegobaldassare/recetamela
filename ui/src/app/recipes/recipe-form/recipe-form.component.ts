@@ -26,9 +26,9 @@ export class RecipeFormComponent implements OnInit {
 
   private get submitImageText(): string {
     if (this.uploadingImage) {
-      return 'Subiendo imágen';
+      return 'Subiendo';
     }
-    else return this.parent.image ? 'Cambiar imágen' : 'Seleccionar imágen';
+    else return this.parent.image ? 'Cambiar' : 'Seleccionar';
   }
 
   private get disabledSubmit():boolean {

@@ -13,7 +13,7 @@
     <div style="margin-bottom: 13px">
       <label>Ingredientes</label>
       <br>
-      <span class="label label-primary" *ngFor="let ing of parent.selectedIngredientNames">
+      <span class="label label-default" *ngFor="let ing of parent.selectedIngredientNames">
         {{ ing }}
         <span class="label-button" (click)="deselectIngredient(ing)">x</span>
       </span>
@@ -39,7 +39,7 @@
     <div style="margin-bottom: 13px">
       <label>Categorias</label>
       <br>
-      <span class="label label-primary" *ngFor="let cat of parent.selectedCategoryNames">
+      <span class="label label-default" *ngFor="let cat of parent.selectedCategoryNames">
         {{ cat }}
         <span class="label-button" (click)="deselectCategory(cat)">x</span>
       </span>

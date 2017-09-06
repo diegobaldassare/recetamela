@@ -10,16 +10,16 @@
             <div>
               <strong>Dificultad:</strong>
               <span [ngSwitch]="recipe.difficulty">
-                  <span class="label label-primary" *ngSwitchCase="1">muy fácil</span>
-                  <span class="label label-primary" *ngSwitchCase="2">fácil</span>
-                  <span class="label label-primary" *ngSwitchCase="3">intermedio</span>
-                  <span class="label label-primary" *ngSwitchCase="4">dificil</span>
-                  <span class="label label-primary" *ngSwitchDefault>muy dificil</span>
+                  <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
+                  <span class="label label-default" *ngSwitchCase="2">fácil</span>
+                  <span class="label label-default" *ngSwitchCase="3">intermedio</span>
+                  <span class="label label-default" *ngSwitchCase="4">dificil</span>
+                  <span class="label label-default" *ngSwitchDefault>muy dificil</span>
                 </span>
             </div>
             <div>
               <strong>Categorias:</strong>
-              <span *ngFor="let cat of recipe.categories" class="label label-primary">{{ cat.name }}</span>
+              <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
             </div>
             <br>
             <button routerLink="editar" type="button" class="btn btn-primary btn-sm">

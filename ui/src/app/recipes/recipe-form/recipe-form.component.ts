@@ -41,6 +41,7 @@ export class RecipeFormComponent implements OnInit {
   private get disabledSubmit():boolean {
     return this.sending ||
       (this.parent.recipeInput.videoUrl.length > 0 && !this.validVideoUrl) ||
+      this.parent.recipeInput.description.trim().length == 0 ||
       !this.isAlphaNumSpaceNotEmpty(this.parent.recipeInput.name.trim()) ||
       this.parent.selectedIngredientNames.size == 0 ||
       this.parent.recipeInput.steps.length == 0 ||

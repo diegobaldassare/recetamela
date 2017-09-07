@@ -1,0 +1,22 @@
+@import "variables";
+@import "../../../node_modules/angular2-toaster/toaster";
+
+.toast {
+  position:relative;
+  background-color: $gray-darker;
+}
+.toast-success {
+  background-color: $brand-success;
+}
+.toast-error {
+  background-color: $brand-danger;
+}
+.toast-info {
+  background-color: $brand-info;
+}
+.toast-wait {
+  background-color: $brand-info;
+}
+.toast-warning {
+  background-color: $brand-warning;
+}

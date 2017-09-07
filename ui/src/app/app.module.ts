@@ -20,6 +20,8 @@ import {MediaService} from "./shared/services/media.service";
 import { HomeComponent } from './home/home.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToasterModule} from 'angular2-toaster';
+import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
+import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import {ToasterModule} from 'angular2-toaster';
     NavComponent,
     RecipesComponent,
     ViewRecipeComponent,
-    CreateRecipeComponent
+    CreateRecipeComponent,
+    RecipeFormComponent,
+    EditRecipeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+@import "variables";
+@import "../../../node_modules/bootswatch/flatly/variables";
+@import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../../node_modules/bootswatch/flatly/bootswatch";
+@import "../../../node_modules/angular2-toaster/toaster.css";
+
 html {
   position: relative;
   min-height: 100%;
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 150px !important;
+  margin-bottom: 160px !important;
 }
 footer {
+  background-color: $gray-white;
   position: absolute;
   bottom: 0;
   width: 100%;
+  padding: 20px;
   /* Set the fixed height of the footer here */
-  height: 150px;
+  height: 160px;
+}
+
+@media (max-width: 991px) {
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 250px !important;
+  }
+  footer {
+    /* Set the fixed height of the footer here */
+    height: 250px;
+  }
 }
 
 .app-spinner {

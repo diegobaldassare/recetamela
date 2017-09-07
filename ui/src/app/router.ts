@@ -6,13 +6,15 @@ import {RecipesComponent} from "./recipes/recipes.component";
 import {ViewRecipeComponent} from "./recipes/view-recipe/view-recipe.component";
 import {HomeComponent} from "./home/home.component";
 import {CreateRecipeComponent} from "./recipes/create-recipe/create-recipe.component";
+import {EditRecipeComponent} from "./recipes/edit-recipe/edit-recipe.component";
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'home', component: HomeComponent},
-  { path: 'recipes', component: RecipesComponent },
-  { path: 'recipes/new', component: CreateRecipeComponent },
-  { path: 'recipes/:id', component: ViewRecipeComponent },
+  { path: 'recetas', component: RecipesComponent },
+  { path: 'recetas/crear', component: CreateRecipeComponent },
+  { path: 'recetas/:id', component: ViewRecipeComponent },
+  { path: 'recetas/:id/editar', component: EditRecipeComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

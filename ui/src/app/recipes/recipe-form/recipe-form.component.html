@@ -73,7 +73,7 @@
   </div>
   <div class="col col-md-4">
     <div class="form-group">
-      <label for="image">Imágen*</label><br>
+      <label>Imágen*</label><br>
       <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="parent.image" [src]="parent.image.url">
       <input style="display: none" (change)="uploadImage($event)" type="file" id="image" accept="image/*">
       <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">

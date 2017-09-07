@@ -1,15 +1,15 @@
 @import "variables";
-@import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-@import "../../../node_modules/bootswatch/flatly/bootswatch";
+@import "bootstrap";
 @import "toaster";
+@import "spinner";
 
+/* Make footer stay at bottom */
 html {
   position: relative;
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 160px !important;
+  margin-bottom: 160px !important; // Margin bottom by footer height
 }
 footer {
   background-color: $gray-white;
@@ -17,55 +17,21 @@ footer {
   bottom: 0;
   width: 100%;
   padding: 20px;
-  /* Set the fixed height of the footer here */
-  height: 160px;
+  height: 160px; // Fixed height of footer
 }
-
 @media (max-width: 991px) {
   body {
-    /* Margin bottom by footer height */
-    margin-bottom: 250px !important;
+    margin-bottom: 250px !important; // Margin bottom by footer height
   }
   footer {
-    /* Set the fixed height of the footer here */
-    height: 250px;
+    height: 250px; // Fixed height of footer
   }
 }
 
-.app-spinner {
-  width: 40px;
-  height: 40px;
-  margin: 100px auto;
-  background-color: #333;
-
-  border-radius: 100%;
-  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-  animation: sk-scaleout 1.0s infinite ease-in-out;
-}
-
-@-webkit-keyframes sk-scaleout {
-  0% { -webkit-transform: scale(0) }
-  100% {
-    -webkit-transform: scale(1.0);
-    opacity: 0;
-  }
-}
-
-@keyframes sk-scaleout {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  } 100% {
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
-      opacity: 0;
-    }
-}
-
+/* Label customization */
 .label {
   margin: 0 4px 4px 0;
 }
-
 .label .label-button {
   margin-left: 4px;
   cursor: pointer;

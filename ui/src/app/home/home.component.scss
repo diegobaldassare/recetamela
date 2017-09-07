@@ -1,5 +1,10 @@
 @import "../../assets/styles/variables.scss";
 
+.container{
+  width: 100%;
+  overflow: hidden
+}
+
 .home-image{
   width: 100%;
   max-height: 500px;

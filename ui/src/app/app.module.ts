@@ -22,6 +22,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToasterModule} from 'angular2-toaster';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
+import { UpgradeComponent } from './src/app/nav/upgrade/upgrade.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component
     CreateRecipeComponent,
     RecipeFormComponent,
     EditRecipeComponent,
+    UpgradeComponent,
   ],
   imports: [
     BrowserModule,

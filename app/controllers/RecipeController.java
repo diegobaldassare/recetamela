@@ -38,7 +38,7 @@ public class RecipeController extends Controller {
         final Recipe recipe = recipeOpt.get();
         try {
             if (input.name != null) recipe.setName(RecipeFormatService.formatName(input.name));
-            if (input.description != null) recipe.setDescription(RecipeFormatService.formatName(input.description));
+            if (input.description != null) recipe.setDescription(RecipeFormatService.formatDescription(input.description));
             if (input.difficulty != 0) recipe.setDifficulty(RecipeFormatService.formatDifficulty(input.difficulty));
             recipe.setVideoUrl(RecipeFormatService.formatVideoUrl(input.videoUrl));
             if (input.steps != null) RecipeService.getInstance().setSteps(recipe, RecipeFormatService.formatSteps(input.steps));

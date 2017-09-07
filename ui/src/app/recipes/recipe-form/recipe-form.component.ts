@@ -115,4 +115,8 @@ export class RecipeFormComponent implements OnInit {
     this.sending = true;
     this.parent.submit().then(() => this.clear(), () => this.sending = false);
   }
+
+  private deleteRecipe(){
+    console.log("Delete Recipe");
+  }
 }

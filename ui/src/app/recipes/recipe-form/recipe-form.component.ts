@@ -24,9 +24,23 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {}
 
+  private get validVideoUrl():boolean {
+    return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9]+$/.test(this.parent.recipeInput.videoUrl);
+  }
+
+  private get videoThumbnailUrl(): string {
+    const split = this.parent.recipeInput.videoUrl.split('v=');
+    return `http://img.youtube.com/vi/${split[1]}/0.jpg`;
+  }
+
+  private get submitImageText(): string {
+    if (this.uploadingImage) return 'Subiendo';
+    else return this.parent.image ? 'Cambiar' : 'Seleccionar';
+  }
+
   private get disabledSubmit():boolean {
     return this.sending ||
-      (this.parent.recipeInput.videoUrl.length > 0 && this.parent.recipeInput.videoUrl.trim().length == 0) ||
+      (this.parent.recipeInput.videoUrl.length > 0 && !this.validVideoUrl) ||
       !this.isAlphaNumSpaceNotEmpty(this.parent.recipeInput.name.trim()) ||
       this.parent.selectedIngredientNames.size == 0 ||
       this.parent.recipeInput.steps.length == 0 ||

@@ -17,7 +17,7 @@ export class CreateRecipeComponent implements OnInit {
   private selectedIngredientNames: Set<string> = new Set();
   private recipeRoute: string = '';
   private image: Media;
-  private instance = this;
+  private instance: CreateRecipeComponent = this;
 
   constructor(
     private _recipeService: RecipeService,

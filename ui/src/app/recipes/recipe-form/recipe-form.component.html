@@ -1,19 +1,19 @@
 <div class="row">
   <div class="col col-md-8">
     <div class="form-group">
-      <label for="name">Nombre</label>
+      <label for="name">Nombre*</label>
       <input [(ngModel)]="parent.recipeInput.name" id="name" class="form-control">
     </div>
 
     <div class="form-group">
-      <label for="description">Descripción</label>
+      <label for="description">Descripción*</label>
       <textarea style="resize: vertical" [(ngModel)]="parent.recipeInput.description" id="description" class="form-control" rows="3"></textarea>
     </div>
 
     <div style="margin-bottom: 13px">
-      <label>Ingredientes</label>
+      <label>Ingredientes*</label>
       <br>
-      <span class="label label-primary" *ngFor="let ing of parent.selectedIngredientNames">
+      <span class="label label-default" *ngFor="let ing of parent.selectedIngredientNames">
         {{ ing }}
         <span class="label-button" (click)="deselectIngredient(ing)">x</span>
       </span>
@@ -25,11 +25,11 @@
       </datalist>
     </div>
 
-    <label>Pasos</label>
+    <label>Pasos*</label>
     <ol>
       <li *ngFor="let step of parent.recipeInput.steps; let i = index">
         {{ step }}
-        <span style="color: red; cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="parent.recipeInput.steps.splice(i, 1)"></span>
+        <span style="cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="parent.recipeInput.steps.splice(i, 1)"></span>
       </li>
     </ol>
     <div class="form-group">
@@ -37,9 +37,9 @@
     </div>
 
     <div style="margin-bottom: 13px">
-      <label>Categorias</label>
+      <label>Categorias*</label>
       <br>
-      <span class="label label-primary" *ngFor="let cat of parent.selectedCategoryNames">
+      <span class="label label-default" *ngFor="let cat of parent.selectedCategoryNames">
         {{ cat }}
         <span class="label-button" (click)="deselectCategory(cat)">x</span>
       </span>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="form-group">
-      <label>Dificultad</label>
+      <label>Dificultad*</label>
       <br>
       <label class="radio-inline">
         <input [(ngModel)]="parent.recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
@@ -70,21 +70,27 @@
         <input [(ngModel)]="parent.recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
       </label>
     </div>
-    <br>
-    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitText }}</button>
   </div>
+  <br>
   <div class="col col-md-4">
     <div class="form-group">
+      <label for="image">Imágen*</label><br>
       <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="parent.image" [src]="parent.image.url">
       <input style="display: none" (change)="uploadImage($event)" type="file" id="image" accept="image/*">
       <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">
-        {{ uploadingImage ? 'Subiendo' : 'Seleccionar imágen' }}
+        {{ submitImageText }}
       </button>
     </div>
 
+    <br>
+
     <div class="form-group">
-      <label for="videoUrl">Link a video (opcional)</label>
+      <label for="videoUrl">Video de YouTube</label>
+      <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="validVideoUrl" [src]="videoThumbnailUrl">
       <input [(ngModel)]="parent.recipeInput.videoUrl" id="videoUrl" class="form-control">
     </div>
   </div>
 </div>
+<br>
+<button style="margin-right: 10px" type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitText }}</button>
+*campo obligatorio

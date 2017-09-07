@@ -56,12 +56,11 @@ public class RecipeFormatService {
         return d;
     }
 
-    public static String formatVideoUrl(String url) {
-        if (url != null) {
-            url = url.trim();
-            if (url.length() == 0) url = null;
-        }
-        return url;
+    public static String formatVideoUrl(String url) throws BadRequestException {
+        if (url == null) return null;
+        if (url.length() == 0) return null;
+        if (url.matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9]+$")) return url;
+        throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     public static String formatName(String name) throws BadRequestException {

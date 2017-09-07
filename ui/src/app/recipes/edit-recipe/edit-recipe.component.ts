@@ -11,14 +11,15 @@ import {Media} from "../../shared/models/media";
   styleUrls: ['./edit-recipe.component.css']
 })
 export class EditRecipeComponent implements OnInit {
-  private recipeInput: RecipeInput = new RecipeInput();
+  private recipeInput: RecipeInput;
   private categoryNames: Set<string> = new Set();
   private selectedCategoryNames: Set<string> = new Set();
   private ingredientNames: Set<string> = new Set();
   private selectedIngredientNames: Set<string> = new Set();
   private image: Media;
   private id: string;
-  private instance = this;
+  private instance: EditRecipeComponent = this;
+  private fetched: boolean;
 
   constructor(
     private _recipeService: RecipeService,
@@ -29,6 +30,7 @@ export class EditRecipeComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this._recipeService.getRecipe(this.id).then(recipe => {
+      this.recipeInput = new RecipeInput();
       this.recipeInput.name = recipe.name;
       this.recipeInput.description = recipe.description;
       this.recipeInput.videoUrl = recipe.videoUrl || '';
@@ -51,7 +53,8 @@ export class EditRecipeComponent implements OnInit {
           if (!t.selectedIngredientNames.has(name)) t.ingredientNames.add(name);
         });
       });
-    }, () => {});
+      this.fetched = true;
+    }, () => this.fetched = true);
   }
 
   private submit(): Promise<any> {

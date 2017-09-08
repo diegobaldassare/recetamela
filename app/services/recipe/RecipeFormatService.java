@@ -11,7 +11,7 @@ import java.util.List;
 public class RecipeFormatService {
 
     public static void formatInput(final RecipeInput input) throws BadRequestException {
-        assertNotNulls(input);
+        assertNotNull(input);
         input.name = formatName(input.name);
         input.description = formatDescription(input.description);
         input.difficulty = formatDifficulty(input.difficulty);
@@ -21,13 +21,19 @@ public class RecipeFormatService {
         input.ingredientNames = formatCategoryOrIngredientNames(input.categoryNames);
     }
 
-    private static void assertNotNulls(final RecipeInput input) throws BadRequestException {
+    private static void assertNotNull(final RecipeInput input) throws BadRequestException {
         if (input.name == null ||
             input.description == null ||
             input.steps == null ||
             input.categoryNames == null ||
-            input.ingredientNames == null
+            input.ingredientNames == null ||
+            input.imageIds == null
         ) throw new BadRequestException(RequestError.BAD_FORMAT);
+    }
+
+    public static long[] formatImageIds(long[] imageIds) throws BadRequestException {
+        if (imageIds.length == 0) throw new BadRequestException(RequestError.BAD_FORMAT);
+        return imageIds;
     }
 
     public static String[] formatCategoryOrIngredientNames(String[] names) throws BadRequestException {

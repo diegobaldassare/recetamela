@@ -42,15 +42,15 @@ public class RecipeService extends Service<Recipe> {
         recipe.setDifficulty(input.difficulty);
         setCategories(recipe, input.categoryNames);
         setIngredients(recipe, input.ingredientNames);
-        setImage(recipe, input.imageId);
+        setImages(recipe, input.imageIds);
         // TODO recipe.setAuthor(?);
         recipe.save();
         return recipe;
     }
 
-    public void setImage(Recipe recipe, long imageId) throws BadRequestException {
-        final Media image = MediaService.getInstance().get(imageId).orElseThrow(() -> new BadRequestException(RequestError.BAD_FORMAT));
-        recipe.setImage(image);
+    public void setImages(Recipe recipe, long[] imageIds) throws BadRequestException {
+        for (long id : imageIds) MediaService.getInstance().get(id).ifPresent(image -> recipe.getImages().add(image));
+        if (recipe.getImages().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     public void setSteps(Recipe recipe, String[] steps) {

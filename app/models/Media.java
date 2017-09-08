@@ -1,7 +1,6 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import models.BaseModel;
 import server.Constant;
 
 import javax.persistence.Column;

@@ -4,7 +4,7 @@ import {Media} from "../media";
 
 export class Recipe {
   id; name; description; steps; videoUrl; difficulty: String;
-  image: Media;
+  images: Media[];
   ingredients: Ingredient[];
   categories: RecipeCategory[];
 }

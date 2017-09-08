@@ -20,6 +20,7 @@ export class EditRecipeComponent implements OnInit {
   private id: string;
   private instance: EditRecipeComponent = this;
   private fetched: boolean;
+  private recipeRoute: string;
 
   constructor(
     private _recipeService: RecipeService,
@@ -63,6 +64,8 @@ export class EditRecipeComponent implements OnInit {
       this.recipeInput.ingredientNames = Array.from(this.selectedIngredientNames);
       this._recipeService.modifyRecipe(this.id, this.recipeInput).then(() => {
         this.toaster.pop('success', 'Receta guardada');
+        this.recipeRoute = `/recetas/${this.id}`;
+        window.scrollTo(0, 0)
         resolve();
       }, () => {
         this.toaster.pop('error', 'Receta no guardada');

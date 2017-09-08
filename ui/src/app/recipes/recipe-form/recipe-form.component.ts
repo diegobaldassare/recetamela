@@ -24,6 +24,10 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {}
 
+  private get submitButtonText(): string {
+    return this.sending ? 'Enviando' : this.submitText;
+  }
+
   private get validVideoUrl(): boolean {
     return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9]+$/.test(this.parent.recipeInput.videoUrl);
   }

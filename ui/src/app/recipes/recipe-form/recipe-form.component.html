@@ -11,7 +11,7 @@
     </div>
 
     <div style="margin-bottom: 13px">
-      <label>Ingredientes*</label>
+      <label for="ingredient">Ingredientes*</label>
       <br>
       <span class="label label-default" *ngFor="let ing of parent.selectedIngredientNames">
         {{ ing }}
@@ -19,13 +19,13 @@
       </span>
     </div>
     <div class="form-group">
-      <input class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
+      <input id="ingredient" class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
       <datalist id="ingredients">
         <option *ngFor="let ing of parent.ingredientNames" [value]="ing"></option>
       </datalist>
     </div>
 
-    <label>Pasos*</label>
+    <label for="step">Pasos*</label>
     <ol>
       <li *ngFor="let step of parent.recipeInput.steps; let i = index">
         {{ step }}
@@ -36,11 +36,11 @@
       </li>
     </ol>
     <div class="form-group">
-      <input class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="step" (keyup.enter)="addStep()">
+      <input id="step" class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="step" (keyup.enter)="addStep()">
     </div>
 
     <div style="margin-bottom: 13px">
-      <label>Categorias*</label>
+      <label for="category">Categorias*</label>
       <br>
       <span class="label label-default" *ngFor="let cat of parent.selectedCategoryNames">
         {{ cat }}
@@ -48,7 +48,7 @@
       </span>
     </div>
     <div class="form-group">
-      <input class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+      <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
       <datalist id="categories">
         <option *ngFor="let cat of parent.categoryNames" [value]="cat"></option>
       </datalist>
@@ -110,5 +110,5 @@
   </div>
 </div>
 <br>
-<button style="margin-right: 10px" type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitText }}</button>
+<button style="margin-right: 10px" type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitButtonText }}</button>
 *campo obligatorio

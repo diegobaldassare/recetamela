@@ -79,11 +79,11 @@
       <label>Imágenes*</label><br>
       <div *ngIf="parent.images.length > 0" style="margin-bottom: 20px" id="general-images" class="carousel slide" data-ride="carousel" data-interval="">
         <ol class="carousel-indicators">
-          <li *ngFor="let image of parent.images; let i = index" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: i == 0 }"></li>
+          <li *ngFor="let image of parent.images; let i = index; let active = last" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: active }"></li>
         </ol>
 
         <div class="carousel-inner" role="listbox">
-          <div *ngFor="let image of parent.images; let i = index" class="item" [ngClass]="{ active: i == 0 }">
+          <div *ngFor="let image of parent.images; let i = index; let active = last" class="item" [ngClass]="{ active: active }">
             <img style="width: 100%" [src]="image.url">
           </div>
         </div>

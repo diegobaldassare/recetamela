@@ -67,13 +67,14 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private removeImage() {
-    const i = $('div.active').index();
-    this.parent.images.splice(i, 1);
     const $carousel = $('#general-images');
-    const nextImage = $carousel.find('.item').first();
-    const nextIndicator = $carousel.find('li').first();
-    nextImage.addClass('active');
-    nextIndicator.addClass('active');
+    const current = $('div.active').index();
+    this.parent.images.splice(current, 1);
+    let next;
+    if (current == 0) next = 1;
+    else next = current - 1;
+    $carousel.find('.item').eq(next).addClass('active');
+    $carousel.find('li').eq(next).addClass('active');
   }
 
   private addStep() {

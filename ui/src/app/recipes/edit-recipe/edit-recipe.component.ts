@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RecipeInput} from "../../shared/models/recipe/recipe-input";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Media} from "../../shared/models/media";
 
 @Component({
@@ -26,6 +26,7 @@ export class EditRecipeComponent implements OnInit {
     private _recipeService: RecipeService,
     public toaster: ToasterService,
     private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -63,10 +64,11 @@ export class EditRecipeComponent implements OnInit {
       this.recipeInput.categoryNames = Array.from(this.selectedCategoryNames);
       this.recipeInput.ingredientNames = Array.from(this.selectedIngredientNames);
       this._recipeService.modifyRecipe(this.id, this.recipeInput).then(() => {
-        this.toaster.pop('success', 'Receta guardada');
+        this.toaster.pop('success', 'Receta modificada');
         this.recipeRoute = `/recetas/${this.id}`;
         window.scrollTo(0, 0)
         resolve();
+        this.router.navigate([this.recipeRoute]);
       }, () => {
         this.toaster.pop('error', 'Receta no guardada');
         reject();

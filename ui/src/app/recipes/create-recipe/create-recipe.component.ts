@@ -3,6 +3,7 @@ import {RecipeInput} from "../../shared/models/recipe/recipe-input";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
 import {Media} from "../../shared/models/media";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-recipe',
@@ -22,6 +23,7 @@ export class CreateRecipeComponent implements OnInit {
   constructor(
     private _recipeService: RecipeService,
     public toaster: ToasterService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -50,8 +52,10 @@ export class CreateRecipeComponent implements OnInit {
       this._recipeService.createRecipe(this.recipeInput).then(r => {
         this.clear();
         this.recipeRoute = `/recetas/${r.id}`;
+        this.toaster.pop('success', 'Receta creada');
         window.scrollTo(0, 0);
         resolve();
+        this.router.navigate([this.recipeRoute]);
       }, () => {
         this.toaster.pop('error', 'Receta no creada');
         reject();

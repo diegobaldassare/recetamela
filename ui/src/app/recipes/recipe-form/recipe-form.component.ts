@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MediaService} from "../../shared/services/media.service";
 import {DomSanitizer} from "@angular/platform-browser";
+declare var $: any;
 
 @Component({
   selector: 'app-recipe-form',
@@ -23,7 +24,7 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {}
 
-  private get validVideoUrl():boolean {
+  private get validVideoUrl(): boolean {
     return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9]+$/.test(this.parent.recipeInput.videoUrl);
   }
 
@@ -32,12 +33,12 @@ export class RecipeFormComponent implements OnInit {
     return `http://img.youtube.com/vi/${split[1]}/0.jpg`;
   }
 
-  private get generalImageButtonText(): string {
+  private get imageButtonText(): string {
     if (this.uploadingImage) return 'Subiendo';
     else return 'Agregar';
   }
 
-  private get disabledGeneralImageButton(): boolean {
+  private get disabledImageButton(): boolean {
     return this.uploadingImage || this.parent.images.length >= 10;
   }
 
@@ -63,6 +64,16 @@ export class RecipeFormComponent implements OnInit {
       this.uploadingImage = false;
       (<HTMLInputElement> document.getElementById('image')).value = '';
     });
+  }
+
+  private removeImage() {
+    const i = $('div.active').index();
+    this.parent.images.splice(i, 1);
+    const $carousel = $('#general-images');
+    const nextImage = $carousel.find('.item').first();
+    const nextIndicator = $carousel.find('li').first();
+    nextImage.addClass('active');
+    nextIndicator.addClass('active');
   }
 
   private addStep() {

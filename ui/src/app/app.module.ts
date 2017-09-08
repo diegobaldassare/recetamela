@@ -22,6 +22,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToasterModule} from 'angular2-toaster';
 import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
+import {LogInComponent} from "./log-in/log-in.component"
+import {UserService} from "./shared/services/user.service";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component
     CreateRecipeComponent,
     RecipeFormComponent,
     EditRecipeComponent,
+    LogInComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component
     DOMService,
     RecipeService,
     MediaService,
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

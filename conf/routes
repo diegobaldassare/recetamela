@@ -1,7 +1,6 @@
 GET / controllers.HomeController.index()
 GET /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
 GET /static/*file controllers.MediaController.getFile(file)
-OPTIONS /*all controllers.PreFlightController.handle(all)
 
 POST /api/media controllers.MediaController.create()
 GET /api/media/:id controllers.MediaController.get(id: Long)

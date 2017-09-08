@@ -52,7 +52,7 @@ public class RecipeController extends Controller {
             }
             if (input.imageIds != null) {
                 recipe.getImages().clear();
-                RecipeService.getInstance().setImages(recipe, input.imageIds);
+                RecipeService.getInstance().setImages(recipe, RecipeFormatService.formatImageIds(input.imageIds));
             }
             recipe.save();
             return ok(Json.toJson(recipe));

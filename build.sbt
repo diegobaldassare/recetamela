@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "6.0.4",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.pauldijou" %% "jwt-play" % "0.9.0",
-  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
+  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
+  "com.restfb" % "restfb" % "2.0.0-rc.3"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

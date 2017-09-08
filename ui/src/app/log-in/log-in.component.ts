@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
+import {UserToken} from "../shared/models/user-token";
 declare const FB: any;
 
 @Component({
@@ -48,7 +49,13 @@ export class LogInComponent implements OnInit {
         if (result && !result.error) {
           this.user = result;
           var u = new User(result.id, result.first_name, result.last_name, result.email, result.birthday);
+          console.log("Synchronously getting token: ");
+          console.log('Access Token = '+ FB.getAuthResponse()['accessToken']);
+          console.log('expiresIn = '+ FB.getAuthResponse()['expiresIn']);
+          console.log('userID = '+ FB.getAuthResponse()['userID']);
+          var token = new UserToken(FB.getAuthResponse()['accessToken'], FB.getAuthResponse()['expiresIn'], FB.getAuthResponse()['userID'], true);
           this.userService.registerUser(u);
+          this.userService.hashToken(token);
         } else {
           console.log(result.error);
         }

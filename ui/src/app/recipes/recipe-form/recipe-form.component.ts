@@ -34,7 +34,7 @@ export class RecipeFormComponent implements OnInit {
 
   private get generalImageButtonText(): string {
     if (this.uploadingImage) return 'Subiendo';
-    else return this.parent.image ? 'Cambiar' : 'Seleccionar';
+    else return 'Agregar';
   }
 
   private get disabledGeneralImageButton(): boolean {

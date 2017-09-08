@@ -29,7 +29,10 @@
     <ol>
       <li *ngFor="let step of parent.recipeInput.steps; let i = index">
         {{ step }}
-        <span style="cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="parent.recipeInput.steps.splice(i, 1)"></span>
+        <div style="float: right">
+          <span style="cursor: pointer" class="glyphicon glyphicon-picture"></span>
+          <span style="cursor: pointer; margin-left: 10px; color: red" class="glyphicon glyphicon-remove" (click)="parent.recipeInput.steps.splice(i, 1)"></span>
+        </div>
       </li>
     </ol>
     <div class="form-group">

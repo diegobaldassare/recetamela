@@ -32,7 +32,7 @@ public class RecipeFormatService {
     }
 
     public static long[] formatImageIds(long[] imageIds) throws BadRequestException {
-        if (imageIds.length == 0) throw new BadRequestException(RequestError.BAD_FORMAT);
+        if (imageIds.length == 0 || imageIds.length > 10) throw new BadRequestException(RequestError.BAD_FORMAT);
         return imageIds;
     }
 

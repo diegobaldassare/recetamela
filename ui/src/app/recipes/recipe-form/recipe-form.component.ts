@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Media} from "../../shared/models/media";
 import {MediaService} from "../../shared/services/media.service";
 import {DomSanitizer} from "@angular/platform-browser";
 
@@ -33,9 +32,13 @@ export class RecipeFormComponent implements OnInit {
     return `http://img.youtube.com/vi/${split[1]}/0.jpg`;
   }
 
-  private get submitImageText(): string {
+  private get generalImageButtonText(): string {
     if (this.uploadingImage) return 'Subiendo';
     else return this.parent.image ? 'Cambiar' : 'Seleccionar';
+  }
+
+  private get disabledGeneralImageButton(): boolean {
+    return this.uploadingImage || this.parent.images.length >= 10;
   }
 
   private get disabledSubmit():boolean {
@@ -47,7 +50,7 @@ export class RecipeFormComponent implements OnInit {
       this.parent.recipeInput.steps.length == 0 ||
       this.parent.selectedCategoryNames.size == 0 ||
       this.uploadingImage ||
-      !this.parent.image;
+      this.parent.images.length == 0;
   }
 
   private uploadImage(e: Event) {
@@ -56,15 +59,15 @@ export class RecipeFormComponent implements OnInit {
     const files = (<HTMLInputElement> document.getElementById('image')).files;
     if (!files.length) return;
     this._mediaService.uploadMedia(files[0]).then(media => {
-      this.parent.image = media;
-      this.parent.recipeInput.imageId = media.id;
+      this.parent.images.push(media);
       this.uploadingImage = false;
+      (<HTMLInputElement> document.getElementById('image')).value = '';
     });
   }
 
   private addStep() {
     const s = this.step.trim();
-    if (this.isAlphaNumSpaceNotEmpty(s)) {
+    if (s.length > 0) {
       this.parent.recipeInput.steps.push(s);
       this.step = '';
     }
@@ -109,7 +112,6 @@ export class RecipeFormComponent implements OnInit {
     this.categoryName = '';
     this.ingredientName = '';
     this.sending = false;
-    (<HTMLInputElement> document.getElementById('image')).value = '';
   }
 
   private submit() {

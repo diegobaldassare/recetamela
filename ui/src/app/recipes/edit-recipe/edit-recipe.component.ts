@@ -16,7 +16,7 @@ export class EditRecipeComponent implements OnInit {
   private selectedCategoryNames: Set<string> = new Set();
   private ingredientNames: Set<string> = new Set();
   private selectedIngredientNames: Set<string> = new Set();
-  private image: Media;
+  private images: Media[] = [];
   private id: string;
   private instance: EditRecipeComponent = this;
   private fetched: boolean;
@@ -35,8 +35,7 @@ export class EditRecipeComponent implements OnInit {
       this.recipeInput.description = recipe.description;
       this.recipeInput.videoUrl = recipe.videoUrl || '';
       this.recipeInput.difficulty = recipe.difficulty + '';
-      this.image = recipe.image;
-      this.recipeInput.imageId = recipe.image.id;
+      this.images = recipe.images;
       this.recipeInput.steps = recipe.steps.split('\n');
       const t = this;
       recipe.categories.forEach(c => t.selectedCategoryNames.add(c.name));
@@ -61,6 +60,7 @@ export class EditRecipeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.recipeInput.categoryNames = Array.from(this.selectedCategoryNames);
       this.recipeInput.ingredientNames = Array.from(this.selectedIngredientNames);
+      this.recipeInput.imageIds = this.images.map(image => image.id);
       this._recipeService.modifyRecipe(this.id, this.recipeInput).then(() => {
         this.toaster.pop('success', 'Receta guardada');
         resolve();

@@ -8,11 +8,11 @@
             <br>
             <div id="general-images" class="carousel slide" data-ride="carousel">
               <ol class="carousel-indicators">
-                <li *ngFor="let image of recipe.images; let i = index" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: i == 0 }"></li>
+                <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
               </ol>
 
               <div class="carousel-inner" role="listbox">
-                <div *ngFor="let image of recipe.images; let i = index" class="item" [ngClass]="{ active: i == 0 }">
+                <div *ngFor="let image of recipe.images; let first = first" class="item" [ngClass]="{ active: first }">
                   <img style="width: 100%" [src]="image.url">
                 </div>
               </div>

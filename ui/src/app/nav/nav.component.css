@@ -2,6 +2,11 @@
   margin-top: 5%;
 }
 
+nav {
+  border-radius: 0px;
+  margin-bottom: 0px;
+}
+
 .form-control{
   max-width: 80%;
   margin-bottom: 5px;
@@ -14,3 +19,15 @@
 .modal-subtitle1{
   margin-left: 15px;
 }
+
+.eye{
+  position: absolute;
+  left: 70%;
+  top: 83%;
+}
+
+.help-block{
+  text-align: left;
+}
+
+

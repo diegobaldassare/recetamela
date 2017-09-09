@@ -4,31 +4,31 @@
       <div *ngIf="recipe">
         <div class="row">
           <div class="col-md-4">
-            <img class="img-responsive" src="{{ recipe.image.url }}">
             <h1>{{ recipe.name }}</h1>
+            <br>
+            <img class="img-responsive thumbnail" src="{{ recipe.image.url }}">
             <div>
               <strong>Dificultad:</strong>
               <span [ngSwitch]="recipe.difficulty">
-                <span class="label label-primary" *ngSwitchCase="1">muy fácil</span>
-                <span class="label label-primary" *ngSwitchCase="2">fácil</span>
-                <span class="label label-primary" *ngSwitchCase="3">intermedio</span>
-                <span class="label label-primary" *ngSwitchCase="4">dificil</span>
-                <span class="label label-primary" *ngSwitchDefault>muy dificil</span>
-              </span>
+                  <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
+                  <span class="label label-default" *ngSwitchCase="2">fácil</span>
+                  <span class="label label-default" *ngSwitchCase="3">intermedio</span>
+                  <span class="label label-default" *ngSwitchCase="4">dificil</span>
+                  <span class="label label-default" *ngSwitchDefault>muy dificil</span>
+                </span>
             </div>
             <div>
               <strong>Categorias:</strong>
-              <span *ngFor="let cat of recipe.categories">
-                <a routerLink="/recetas/categorias/{{ cat.id }}">
-                <span class="label label-primary">
-                  {{ cat.name }}
-                </span>
-              </a>
-              </span>
+              <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
             </div>
+            <br>
+            <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
           </div>
+          <br>
           <div class="col-md-8">
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
               <li role="presentation" class="active"><a href="#descripcion" aria-controls="descripción" role="tab" data-toggle="tab">Descripción</a></li>
               <li role="presentation"><a href="#ingredientes" aria-controls="ingredientes" role="tab" data-toggle="tab">Ingredientes</a></li>
               <li role="presentation"><a href="#pasos" aria-controls="pasos" role="tab" data-toggle="tab">Pasos</a></li>
@@ -48,8 +48,8 @@
                   <li *ngFor="let step of recipe.steps.split('\n')">{{ step }}</li>
                 </ol>
               </div>
-              <div role="tabpanel" class="tab-pane" id="video">
-                <iframe width="560" height="315" [src]="sanitizer.bypassSecurityTrustResourceUrl(recipe.videoUrl)" frameborder="0" allowfullscreen></iframe>
+              <div *ngIf="recipe.videoUrl" role="tabpanel" class="tab-pane" id="video">
+                <iframe style="margin: 0 auto; display: block" width="560" height="315" [src]="sanitizer.bypassSecurityTrustResourceUrl(recipe.videoUrl)" frameborder="0" allowfullscreen></iframe>
               </div>
               <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
             </div>

@@ -3,7 +3,7 @@ export class RecipeInput {
   description :string = '';
   videoUrl: string = '';
   difficulty: string = '3';
-  imageId: string = '';
+  imageIds: string[] = [];
   steps: string[] = [];
   ingredientNames: string[] = [];
   categoryNames: string[] = [];

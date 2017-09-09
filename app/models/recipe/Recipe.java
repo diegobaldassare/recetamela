@@ -18,9 +18,8 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private int difficulty;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @Column(nullable = false)
-    private Media image;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<Media> images;
 
     // TODO @Column(nullable = false)
     @ManyToOne
@@ -58,12 +57,12 @@ public class Recipe extends BaseModel {
         this.steps = steps;
     }
 
-    public Media getImage() {
-        return image;
+    public List<Media> getImages() {
+        return images;
     }
 
-    public void setImage(Media image) {
-        this.image = image;
+    public void setImages(List<Media> images) {
+        this.images = images;
     }
 
     public String getVideoUrl() {

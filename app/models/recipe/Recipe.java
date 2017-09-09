@@ -27,9 +27,11 @@ public class Recipe extends BaseModel {
     private User author;
 
     @ManyToMany
+    @JoinTable(name="RECIPE_INGREDIENT", joinColumns= @JoinColumn(name="RECIPE_ID", referencedColumnName="id"), inverseJoinColumns= @JoinColumn(name="INGREDIENT_ID", referencedColumnName="id"))
     private List<Ingredient> ingredients;
 
     @ManyToMany
+    @JoinTable(name="RECIPE_CATEGORY", joinColumns= @JoinColumn(name="RECIPE_ID", referencedColumnName="id"), inverseJoinColumns= @JoinColumn(name="CATEGORY_ID", referencedColumnName="id"))
     private List<RecipeCategory> categories;
 
     public Recipe() {}

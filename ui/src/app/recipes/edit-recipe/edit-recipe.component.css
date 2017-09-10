@@ -1,9 +1,10 @@
 .component {
+  margin-top: 40px;
   margin-bottom: 50px;
 }
 
 .page-header{
   padding-bottom: 5px;
-  margin: 42px 0 21px;
+  margin-bottom: 21px;
   border-bottom: 1px solid #eeeeee;
 }

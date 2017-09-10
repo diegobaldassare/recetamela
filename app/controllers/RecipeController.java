@@ -41,7 +41,8 @@ public class RecipeController extends Controller {
             if (input.description != null) recipe.setDescription(RecipeFormatService.formatDescription(input.description));
             if (input.difficulty != 0) recipe.setDifficulty(RecipeFormatService.formatDifficulty(input.difficulty));
             recipe.setVideoUrl(RecipeFormatService.formatVideoUrl(input.videoUrl));
-            if (input.steps != null) RecipeService.getInstance().setSteps(recipe, RecipeFormatService.formatSteps(input.steps));
+//            New modify for the recipeSteps.
+//            if (input.steps != null) RecipeService.getInstance().setSteps(recipe, RecipeFormatService.formatSteps(input.steps));
             if (input.categoryNames != null) {
                 recipe.getCategories().clear();
                 RecipeService.getInstance().setCategories(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.categoryNames));

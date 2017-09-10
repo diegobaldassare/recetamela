@@ -16,4 +16,23 @@ public class RecipeStep extends BaseModel {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     private Media image;
+
+    public RecipeStep() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Media getImage() {
+        return image;
+    }
+
+    public void setImage(Media image) {
+        this.image = image;
+    }
 }

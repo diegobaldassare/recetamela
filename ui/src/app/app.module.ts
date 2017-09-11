@@ -29,7 +29,6 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {HttpService} from "./shared/services/http.service";
 import {LogOutComponent} from "./log-out/log-out.component"
 import {MyAuthService} from "./auth/my-auth-service";
-import { NgXCreditCardsModule } from 'ngx-credit-cards';
 
 @NgModule({
   declarations: [
@@ -57,7 +56,6 @@ import { NgXCreditCardsModule } from 'ngx-credit-cards';
     AppRouterModule,
     BrowserAnimationsModule,
     ToasterModule,
-    NgXCreditCardsModule,
   ],
   providers: [
     {

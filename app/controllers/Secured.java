@@ -1,13 +1,14 @@
 package controllers;
 
 import models.AuthToken;
+import models.FreeUser;
 import models.User;
 import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import services.FreeUserService;
 import services.LoginService;
-import services.UserService;
 import java.util.Optional;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class Secured extends Security.Authenticator {
 
     //@Inject (May not work without Injection)
-    private UserService userService = UserService.getInstance();
+    private FreeUserService userService = FreeUserService.getInstance();
 
     /**
      *  Retrieves the username from the HTTP context;
@@ -49,7 +50,7 @@ public class Secured extends Security.Authenticator {
             /* Trim out <Type> to get the actual token */
             String token = authToken.get().substring("Bearer".length()).trim();
 
-            Optional<User> userOptional = userService.findByAuthToken(token);
+            Optional<FreeUser> userOptional = userService.findByAuthToken(token);
 
             if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
                 /* Add user data to the context */

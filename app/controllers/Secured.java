@@ -28,11 +28,10 @@ public class Secured extends Security.Authenticator {
      *  For @Security.Authenticated(Secured.class) methods the API expects a header:
      *    X-AUTH-TOKEN : Bearer [Authtoken given at login]
      *
-     * @param ctx Http request call information
      * @return The Username String, null if the user is not authenticated.
      */
 
-    @Override
+    /*@Override
     public Result getUsername(Http.Context ctx) {
         ctx.request().getHeader(SecurityController.AUTH_TOKEN_HEADER);
 
@@ -41,25 +40,24 @@ public class Secured extends Security.Authenticator {
         Logger.debug("Got token: " + authToken.get());
         Logger.debug("Secured call to "+ctx.request().method()+ " " +ctx.request().path());
 
-        /* Ugly patch */
-        if(ctx.request().path().equals("/user/") && ctx.request().method().equals("POST")) return "";
 
         if (authToken.isPresent() &&  authToken.get().startsWith("Bearer")) {
 
-            /* Trim out <Type> to get the actual token */
+            *//* Trim out <Type> to get the actual token *//*
             String token = authToken.get().substring("Bearer".length()).trim();
 
             Optional<User> userOptional = userService.findByAuthToken(token);
 
             if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
-                /* Add user data to the context */
+                *//* Add user data to the context *//*
                 ctx.args.put("user", userOptional.get());
-                return ctx.de;
+                //Delete this
+                return null;
             }
 
         }
-        return null;
-    }
+        return unauthorized();
+    }*/
 
     /* Validates the token */
     private boolean validateToken(String token, User userToValidate) {

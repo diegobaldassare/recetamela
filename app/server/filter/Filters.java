@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 public class Filters extends DefaultHttpFilters {
     @Inject
-    public Filters(CorsFilter cors) {
-        super(cors);
+    public Filters() {
+        super();
     }
 }

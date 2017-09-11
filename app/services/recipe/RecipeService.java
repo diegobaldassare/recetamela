@@ -1,6 +1,7 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
+import models.User;
 import models.recipe.*;
 import server.error.RequestError;
 import server.exception.BadRequestException;
@@ -30,7 +31,7 @@ public class RecipeService extends Service<Recipe> {
      * @return A persisted Recipe model instance.
      * @throws BadRequestException If the request input is invalid.
      */
-    public Recipe save(RecipeInput input) throws BadRequestException {
+    public Recipe save(RecipeInput input, User author) throws BadRequestException {
         final Recipe recipe = new Recipe();
         recipe.setName(input.name);
         recipe.setDescription(input.description);
@@ -40,7 +41,7 @@ public class RecipeService extends Service<Recipe> {
         setIngredients(recipe, input.ingredientNames);
         setImages(recipe, input.imageIds);
         setSteps(recipe, input.steps);
-        // TODO recipe.setAuthor(?);
+        recipe.setAuthor(author);
         recipe.save();
         return recipe;
     }

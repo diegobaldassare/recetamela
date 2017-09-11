@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class RecipeCategoryController extends Controller {
-    
+
+    // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result create() {
         final JsonNode body = request().body().asJson();
         final RecipeCategory category = Json.fromJson(body, RecipeCategory.class);
@@ -34,11 +35,13 @@ public class RecipeCategoryController extends Controller {
                 category.getName().length() == 0;
     }
 
+    // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result get(long id) {
         final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
         return category.map(c -> ok(Json.toJson(c))).orElseGet(Results::notFound);
     }
 
+    // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result getAll() {
         final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();
         return ok(Json.toJson(categories));

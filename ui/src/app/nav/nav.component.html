@@ -31,7 +31,7 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Options</a></li>
             <li class="divider"></li>
-            <li><app-upgrade></app-upgrade></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal">Update Account</a></li>
             <li class="divider"></li>
             <li><a href="#">Log out</a></li>
           </ul>
@@ -40,3 +40,137 @@
     </div>
   </div>
 </nav>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+
+      <form [formGroup]="creditCardForm">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Convertirte en Usuario Premium</h3>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+
+            <div class="col-xs-6">
+              <div class="row">
+                <h4 class="modal-subtitle1">Beneficios Premium!</h4>
+              </div>
+
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <span class="badge">1</span>
+                  Subir y Editar tus propias recetas
+                </li>
+                <li class="list-group-item">
+                  <span class="badge">2</span>
+                  Armar recetarios
+                </li>
+                <li class="list-group-item">
+                  <span class="badge">3</span>
+                  Mas filtos de busqueda
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-xs-6">
+              <div class="row">
+                <h4 class="modal-subtitle2">Datos Tarjeta</h4>
+              </div>
+              <div class="row">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cardName"
+                  formControlName="cardName"
+                  placeholder="Nombre de Titular"
+                  pattern="[a-zA-Z]+">
+
+                <!--<span-->
+                <!--*ngIf="!creditCardForm.get('cardName').valid && creditCardForm.get('cardName').touched"-->
+                <!--class="help-block">-->
+                <!--This field is required!-->
+                <!--</span>-->
+
+              </div>
+              <div class="row">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cardNumber"
+                  formControlName="cardNumber"
+                  placeholder="Numero de Tarjeta"
+                  pattern="[0-9]+">
+
+                <!--<span-->
+                <!--*ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched"-->
+                <!--class="help-block">-->
+                <!--This field is required! ONLY NUMBERS-->
+                <!--</span>-->
+
+              </div>
+              <div class="row">
+                <input
+                  type={{isPassword}}
+                  class="form-control"
+                  id="cardCode"
+                  formControlName="cardCode"
+                  placeholder="Codigo de Seguridad"
+                  pattern="[0-9]+">
+
+                <span
+                  class="glyphicon glyphicon-eye-open eye"
+                  aria-hidden="true"
+                  onmouseover="this.style.background='lightgray';"
+                  onmouseout="this.style.background='transparent';"
+                  (click)="showPassword()"></span>
+
+                <!--<button (click)="showPassword()">Ojito</button>-->
+
+                <!--<span-->
+                <!--*ngIf="!creditCardForm.get('cardCode').valid && creditCardForm.get('cardCode').touched"-->
+                <!--class="help-block">-->
+                <!--This field is required! ONLY NUMBERS-->
+                <!--</span>-->
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-xs-offset-6">
+              <h4 class="price">$99.99</h4>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col-md-8 col-xs-8 col-sm-8">
+              <span
+                *ngIf="!creditCardForm.valid && creditCardForm.touched"
+                class="help-block">You are missing something or something is wrong!</span>
+            </div>
+            <div class="col-md-4 col-xs-4 col-sm-4">
+              <button type="submit"
+                      class="btn btn-default"
+                      [disabled]="!creditCardForm.valid"
+                      data-dismiss="modal"
+                      (click)="upgradeToPremium()">
+                Upgrade
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+

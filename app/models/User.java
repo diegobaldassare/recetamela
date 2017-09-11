@@ -10,6 +10,10 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "user_Type")
 public abstract class User extends BaseModel {
 
+    private long facebookId;
+
+    private String authToken;
+
     private String name, lastName;
     @Column(unique=true)
     private String email;
@@ -27,6 +31,14 @@ public abstract class User extends BaseModel {
 
     public String getName() {
         return name;
+    }
+
+    public long getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(long facebookId) {
+        this.facebookId = facebookId;
     }
 
     public void setName(String name) {
@@ -55,6 +67,14 @@ public abstract class User extends BaseModel {
 
     public void setProfilePic(Media profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String  getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String  authToken) {
+        this.authToken = authToken;
     }
 
     @Override

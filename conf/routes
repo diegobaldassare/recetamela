@@ -1,7 +1,4 @@
 GET / controllers.HomeController.index()
-GET /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
-GET /static/*file controllers.MediaController.getFile(file)
-OPTIONS /*all controllers.PreFlightController.handle(all)
 
 POST /api/media controllers.MediaController.create()
 GET /api/media/:id controllers.MediaController.get(id: Long)
@@ -20,3 +17,10 @@ POST /api/user              controllers.FreeUserController.createFreeUser()
 GET /api/user/:id           controllers.FreeUserController.getFreeUser(id: Long)
 GET /api/users              controllers.FreeUserController.getFreeUsers
 DELETE /api/user/:id        controllers.FreeUserController.getFreeUser(id: Long)
+
+POST /api/auth/login        controllers.SecurityController.login()
+POST /api/auth/logout       controllers.SecurityController.logout()
+
+GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
+GET        /static/*file controllers.MediaController.getFile(file)
+GET        /*others      controllers.HomeController.other(others)

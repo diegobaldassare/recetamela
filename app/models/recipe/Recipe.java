@@ -11,16 +11,21 @@ import java.util.List;
 public class Recipe extends BaseModel {
 
     @Column(nullable = false)
-    private String name, description, steps;
+    private String name;
+
+    @Column(nullable = false, length = 1024)
+    private String description;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<RecipeStep> steps;
 
     private String videoUrl;
 
     @Column(nullable = false)
     private int difficulty;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @Column(nullable = false)
-    private Media image;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<Media> images;
 
     // TODO @Column(nullable = false)
     @ManyToOne
@@ -52,20 +57,12 @@ public class Recipe extends BaseModel {
         this.description = description;
     }
 
-    public String getSteps() {
-        return steps;
+    public List<Media> getImages() {
+        return images;
     }
 
-    public void setSteps(String steps) {
-        this.steps = steps;
-    }
-
-    public Media getImage() {
-        return image;
-    }
-
-    public void setImage(Media image) {
-        this.image = image;
+    public void setImages(List<Media> images) {
+        this.images = images;
     }
 
     public String getVideoUrl() {
@@ -106,5 +103,13 @@ public class Recipe extends BaseModel {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public List<RecipeStep> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<RecipeStep> steps) {
+        this.steps = steps;
     }
 }

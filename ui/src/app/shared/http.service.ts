@@ -6,8 +6,6 @@ import { Observable }       from 'rxjs/Observable';
 
 import 'rxjs/add/operator/toPromise';
 
-import { ResponseData }     from './response-data';
-
 @Injectable()
 export class HttpService {
 
@@ -24,40 +22,40 @@ export class HttpService {
 
     constructor(private _http: Http) {}
 
-    public request(url: string | Request): Promise<ResponseData> {
+    public request(url: string | Request): Promise<Response> {
         return this.asPromise(this._http.request(url, this.requestOptions()));
     }
 
-    public get(url: string): Promise<ResponseData> {
+    public get(url: string): Promise<Response> {
         return this.asPromise(this._http.get(url, this.requestOptions()));
     }
 
-    public post(url: string, body: any): Promise<ResponseData> {
+    public post(url: string, body: any): Promise<Response> {
         return this.asPromise(this._http.post(url, body, this.requestOptions()));
     }
 
-    public put(url: string, body: any): Promise<ResponseData> {
+    public put(url: string, body: any): Promise<Response> {
         return this.asPromise(this._http.put(url, body, this.requestOptions()));
     }
 
-    public delete(url: string): Promise<ResponseData> {
+    public delete(url: string): Promise<Response> {
         return this.asPromise(this._http.delete(url, this.requestOptions()));
     }
 
-    public patch(url: string, body: any): Promise<ResponseData> {
+    public patch(url: string, body: any): Promise<Response> {
         return this.asPromise(this._http.patch(url, body, this.requestOptions()));
     }
 
-    public head(url: string): Promise<ResponseData> {
+    public head(url: string): Promise<Response> {
         return this.asPromise(this._http.head(url, this.requestOptions()));
     }
 
-    public options(url: string): Promise<ResponseData> {
+    public options(url: string): Promise<Response> {
         return this.asPromise(this._http.options(url, this.requestOptions()));
     }
 
-    private asPromise(observable: Observable<Response>): Promise<ResponseData> {
-        return observable.toPromise().then(res => res.json() as ResponseData);
+    private asPromise(observable: Observable<Response>): Promise<Response> {
+        return observable.toPromise();
     }
 
     private requestOptions() {

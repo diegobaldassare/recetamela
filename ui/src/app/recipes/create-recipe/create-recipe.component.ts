@@ -3,6 +3,7 @@ import {RecipeInput} from "../../shared/models/recipe/recipe-input";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
 import {Media} from "../../shared/models/media";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-recipe',
@@ -16,12 +17,13 @@ export class CreateRecipeComponent implements OnInit {
   private ingredientNames: Set<string> = new Set();
   private selectedIngredientNames: Set<string> = new Set();
   private recipeRoute: string = '';
-  private image: Media;
+  private images: Media[] = [];
   private instance: CreateRecipeComponent = this;
 
   constructor(
     private _recipeService: RecipeService,
     public toaster: ToasterService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   private clear() {
-    this.image = null;
+    this.images = [];
     this.recipeInput = new RecipeInput();
     this.selectedIngredientNames.forEach(e => this.ingredientNames.add(e));
     this.selectedCategoryNames.forEach(e => this.categoryNames.add(e));
@@ -47,11 +49,14 @@ export class CreateRecipeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.recipeInput.categoryNames = Array.from(this.selectedCategoryNames);
       this.recipeInput.ingredientNames = Array.from(this.selectedIngredientNames);
+      this.recipeInput.imageIds = this.images.map(image => image.id);
       this._recipeService.createRecipe(this.recipeInput).then(r => {
         this.clear();
         this.recipeRoute = `/recetas/${r.id}`;
+        this.toaster.pop('success', 'Receta creada');
         window.scrollTo(0, 0);
         resolve();
+        this.router.navigate([this.recipeRoute]);
       }, () => {
         this.toaster.pop('error', 'Receta no creada');
         reject();

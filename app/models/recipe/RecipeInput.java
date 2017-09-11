@@ -1,10 +1,13 @@
 package models.recipe;
 
+import java.util.List;
+
 public class RecipeInput {
     public String name, description, videoUrl;
     public int difficulty;
-    public long imageId;
-    public String[] steps;
+    public long[] imageIds;
+    public List<RecipeStep> steps;
+    public long[] stepsImagesIds;
     public String[] categoryNames;
     public String[] ingredientNames;
 }

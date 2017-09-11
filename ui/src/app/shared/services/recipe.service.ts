@@ -1,13 +1,11 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {HttpClient} from "@angular/common/http"
 import {RecipeCategory} from "../models/recipe/recipe-category";
 import 'rxjs/add/operator/map'
 import {Ingredient} from "../models/recipe/ingredient";
 import {ApiService} from "./api-service";
 import {RecipeInput} from "../models/recipe/recipe-input";
 import {Recipe} from "../models/recipe/recipe";
-import {HttpService} from "./http.service"
 
 @Injectable()
 export class RecipeService extends ApiService {

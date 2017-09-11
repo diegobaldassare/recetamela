@@ -71,6 +71,12 @@ public class SecurityController extends Controller {
         }
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result getLoggedData() {
+        User me = getUser();
+        return ok(Json.toJson(me));
+    }
+
     /* If User's been validated with facebook API, but hasn't been registered, then add him to DB */
     private JsonNode signUp(LoginData loginData) {
         User newUser = new FreeUser();

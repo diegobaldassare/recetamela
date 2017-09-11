@@ -19,7 +19,7 @@ public class RecipeFormatService {
         input.videoUrl = formatVideoUrl(input.videoUrl);
         input.steps = formatSteps(input.steps);
         input.categoryNames = formatCategoryOrIngredientNames(input.categoryNames);
-        input.ingredientNames = formatCategoryOrIngredientNames(input.categoryNames);
+        input.ingredientNames = formatCategoryOrIngredientNames(input.ingredientNames);
     }
 
     private static void assertNotNull(final RecipeInput input) throws BadRequestException {

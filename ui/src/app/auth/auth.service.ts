@@ -20,6 +20,20 @@ export class AuthService {
         return this._token !== '';
     }
 
+    /*public logout() {
+      this.httpClient.post('/api/auth/logout', "logout").subscribe(res => {
+        console.log(res);
+      })
+    }*/
+
+    public getAuthorizationHeader(): string {
+      return localStorage.getItem("X-TOKEN");
+    }
+
+    public saveToken(token: string) {
+      localStorage.setItem("X-TOKEN", token);
+    }
+
     get redirectUrl(): string { return this._redirectUrl; }
     set redirectUrl(value: string) { this._redirectUrl = value; }
 
@@ -47,15 +61,6 @@ export class AuthService {
                 this.cookieService.put(this.tokenCookieKey, this._token);
 
                 return res;
-            })
-            .catch(this.handleError);
-    }
-
-    public logout(): Promise<Response> {
-        return this.http.get('/api/logout')
-            .then(resData => {
-                this.clearSession();
-                return resData;
             })
             .catch(this.handleError);
     }

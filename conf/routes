@@ -21,7 +21,8 @@ GET /api/user/:id           controllers.UserController.getUser(id: Long)
 GET /api/users              controllers.UserController.getUsers
 DELETE /api/user/:id        controllers.UserController.getUser(id: Long)
 
-POST /api/auth/login        controllers.UserController.registerAccessToken()
+POST /api/auth/login        controllers.SecurityController.login()
+POST /api/auth/logout       controllers.SecurityController.logout()
 
 #Es muy importante dejar esta ruta abajo, si queda arriba va a entrar primero por acá y redirigirte siempre a index
 GET /*others      controllers.HomeController.other(others)

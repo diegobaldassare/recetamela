@@ -10,7 +10,7 @@ import { LandingComponent } from './landing/landing.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavComponent } from './nav/nav.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { RecipesComponent } from './recipes/recipes.component';
 import { ViewRecipeComponent } from './recipes/view-recipe/view-recipe.component';
 import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.component';
@@ -24,6 +24,10 @@ import { RecipeFormComponent } from './recipes/recipe-form/recipe-form.component
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 import {LogInComponent} from "./log-in/log-in.component"
 import {UserService} from "./shared/services/user.service";
+import {AuthInterceptor} from "./auth/auth-interceptor";
+import {HttpService} from "./shared/services/http.service";
+import {LogOutComponent} from "./log-out/log-out.component"
+import {MyAuthService} from "./auth/my-auth-service";
 
 @NgModule({
   declarations: [
@@ -39,24 +43,32 @@ import {UserService} from "./shared/services/user.service";
     RecipeFormComponent,
     EditRecipeComponent,
     LogInComponent,
+    LogOutComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpModule,
     HttpClientModule,
     AppRouterModule,
-    HttpModule,
     BrowserAnimationsModule,
-    ToasterModule
+    ToasterModule,
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     CookieService,
     AuthService,
     DOMService,
     RecipeService,
     MediaService,
     UserService,
+    HttpService,
+    MyAuthService
   ],
   bootstrap: [AppComponent]
 })

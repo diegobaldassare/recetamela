@@ -50,6 +50,7 @@ public class AuthenticationAction extends Action<Authenticate> {
 
             if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
                 /* Add user data to the context */
+                Logger.debug("Adding user to context as: " + userOptional.get());
                 ctx.args.put("user", userOptional.get());
                 return delegate.call(ctx);
             }

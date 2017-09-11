@@ -6,8 +6,10 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.exception.FacebookException;
+import controllers.authentication.Authenticate;
 import models.AuthToken;
 import models.FreeUser;
+import models.PremiumUser;
 import models.User;
 import models.user.LoginData;
 import play.Logger;
@@ -16,6 +18,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import services.FreeUserService;
 import services.LoginService;
 import services.UserService;
 import util.ShaUtil;
@@ -57,6 +60,7 @@ public class SecurityController extends Controller {
             User user = userOptional.get();
             /* If the accessToken the user claims facebook gave him checks out, then we can log him in. */
             if ( Long.toString(user.getFacebookId()).equals(retrievedId) ) {
+                Logger.debug("Logged in as user " + user.getName() + " id " + user.getFacebookId());
                 JsonNode resp = generateAuthToken(user);
                 return ok(resp);
             }
@@ -86,17 +90,18 @@ public class SecurityController extends Controller {
         user.setAuthToken(token.getToken());
         user.save();
         token.save();
+        Logger.debug("Generated token " + token.getToken() + " for user " + user.getName());
         return Json.toJson(token);
     }
 
     /* Logging out simply consists on deleting given server Authentication token */
-    @Security.Authenticated(Secured.class)
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result logout() throws ExecutionException, InterruptedException {
         User user = getUser();
 
         LoginService.getInstance().findByHash(user.getAuthToken()).ifPresent(AuthToken::delete);
         user.setAuthToken(null);
-        user.save();
+        user.update();
 
         return ok();
     }

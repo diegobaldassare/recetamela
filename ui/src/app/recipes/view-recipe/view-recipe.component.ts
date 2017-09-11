@@ -16,21 +16,21 @@ export class ViewRecipeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public sanitizer: DomSanitizer,
-    private _recipeService: RecipeService
+    private sanitizer: DomSanitizer,
+    private recipeService: RecipeService
   ){}
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
-    this._recipeService.getRecipe(id).then(recipe => {
-      if (recipe.videoUrl) recipe.videoUrl = this.getEmbedVideoUrl(recipe.videoUrl);
+    this.recipeService.getRecipe(id).then(recipe => {
       this.recipe = recipe;
       this.fetched = true;
     }, () => { this.fetched = true });
   }
 
-  private getEmbedVideoUrl(url: string):string {
-    const split = url.split('v=');
-    return `https://www.youtube.com/embed/${split[1]}`;
+  private get embedVideoUrl() {
+    const split = this.recipe.videoUrl.split('v=');
+    const url = `https://www.youtube.com/embed/${split[1]}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

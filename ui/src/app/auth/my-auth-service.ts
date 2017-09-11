@@ -21,7 +21,7 @@ export class MyAuthService {
   }
 
   private requestLoggedUser(): Promise<User> {
-    return this.http.get<User>('/api/logged-data').toPromise().then(resData => {
+    return this.http.get<User>('/api/auth/logged-data').toPromise().then(resData => {
       const user = resData as User;
       this._loggedUser = user;
       return user;

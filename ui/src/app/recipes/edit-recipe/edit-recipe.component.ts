@@ -38,7 +38,7 @@ export class EditRecipeComponent implements OnInit {
       this.recipeInput.videoUrl = recipe.videoUrl || '';
       this.recipeInput.difficulty = recipe.difficulty + '';
       this.images = recipe.images;
-      this.recipeInput.steps = recipe.steps.split('\n');
+      this.recipeInput.steps = recipe.steps;
       const t = this;
       recipe.categories.forEach(c => t.selectedCategoryNames.add(c.name));
       recipe.ingredients.forEach(i => t.selectedIngredientNames.add(i.name));

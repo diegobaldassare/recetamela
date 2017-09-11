@@ -26,17 +26,28 @@
     </div>
 
     <label for="step">Pasos*</label>
+    <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
     <ol>
-      <li *ngFor="let step of parent.recipeInput.steps; let i = index">
-        {{ step }}
-        <div style="float: right">
-          <span style="cursor: pointer" class="glyphicon glyphicon-picture"></span>
-          <span style="cursor: pointer; margin-left: 10px; color: red" class="glyphicon glyphicon-remove" (click)="parent.recipeInput.steps.splice(i, 1)"></span>
+      <li style="margin-bottom: 50px" *ngFor="let step of parent.recipeInput.steps; let i = index">
+        <div class="row" *ngIf="step.image">
+          <div class="col col-md-8"><p>{{ step.description }}</p></div>
+          <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
+        </div>
+        <div *ngIf="!step.image">
+          <p>{{ step.description }}</p>
+        </div>
+        <div style="float:right">
+          <button class="btn btn-primary btn-xs" (click)="selectStepImage(i)" [disabled]="uploadingImage">
+            {{ step.image ? 'Cambiar imágen' : 'Agregar imágen' }}
+          </button>
+          <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="parent.recipeInput.steps[i].image = null" [disabled]="uploadingImage">Borrar imágen</button>
+          <button class="btn btn-danger btn-xs" (click)="parent.recipeInput.steps.splice(i, 1)">Borrar paso</button>
         </div>
       </li>
     </ol>
+    <br>
     <div class="form-group">
-      <input id="step" class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="step" (keyup.enter)="addStep()">
+      <input id="step" class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="stepDescription" (keyup.enter)="addStep()">
     </div>
 
     <div style="margin-bottom: 13px">
@@ -97,9 +108,9 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-      <input style="display: none" (change)="uploadImage($event)" type="file" id="image" accept="image/*">
+      <input style="display: none" (change)="addImage($event)" type="file" id="image" accept="image/*">
       <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="disabledImageButton">{{ imageButtonText }}</button>
-      <button class="btn btn-primary btn-sm" (click)="removeImage()" [disabled]="parent.images.length == 0">Eliminar</button>
+      <button *ngIf="parent.images.length != 0" class="btn btn-danger btn-sm" (click)="removeImage()">Eliminar</button>
     </div>
 
     <div class="form-group">

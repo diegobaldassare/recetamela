@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MediaService} from "../../shared/services/media.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {RecipeStep} from "../../shared/models/recipe/recipe-step";
 declare var $: any;
 
 @Component({
@@ -12,13 +13,14 @@ export class RecipeFormComponent implements OnInit {
   @Input() parent;
   @Input() submitText;
   private uploadingImage: boolean;
-  private step: string = '';
+  private stepDescription: string = '';
   private categoryName: string = '';
   private ingredientName: string = '';
   private sending: boolean;
+  private stepWhoseImageIsBeingUploaded: number;
 
   constructor(
-    private _mediaService: MediaService,
+    private mediaService: MediaService,
     public sanitizer: DomSanitizer,
   ) {}
 
@@ -29,7 +31,7 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private get validVideoUrl(): boolean {
-    return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9]+$/.test(this.parent.recipeInput.videoUrl);
+    return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9_]+$/.test(this.parent.recipeInput.videoUrl);
   }
 
   private get videoThumbnailUrl(): string {
@@ -58,16 +60,34 @@ export class RecipeFormComponent implements OnInit {
       this.parent.images.length == 0;
   }
 
-  private uploadImage(e: Event) {
+  private selectStepImage(i) {
+    if (this.uploadingImage) return;
+    this.stepWhoseImageIsBeingUploaded = i;
+    document.getElementById('step-image').click();
+  }
+
+  private addStepImage(e: Event) {
+    e.preventDefault();
+    this.uploadingImage = true;
+    const files = (<HTMLInputElement> document.getElementById('step-image')).files;
+    if (!files.length) return;
+    this.mediaService.uploadMedia(files[0]).then(media => {
+      this.uploadingImage = false;
+      (<HTMLInputElement> document.getElementById('step-image')).value = '';
+      this.parent.recipeInput.steps[this.stepWhoseImageIsBeingUploaded].image = media;
+    }, () => { (<HTMLInputElement> document.getElementById('step-image')).value = ''; });
+  }
+
+  private addImage(e: Event) {
     e.preventDefault();
     this.uploadingImage = true;
     const files = (<HTMLInputElement> document.getElementById('image')).files;
     if (!files.length) return;
-    this._mediaService.uploadMedia(files[0]).then(media => {
-      this.parent.images.push(media);
+    this.mediaService.uploadMedia(files[0]).then(media => {
       this.uploadingImage = false;
       (<HTMLInputElement> document.getElementById('image')).value = '';
-    });
+      this.parent.images.push(media)
+    }, () => { (<HTMLInputElement> document.getElementById('image')).value = ''; });
   }
 
   private removeImage() {
@@ -82,10 +102,12 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private addStep() {
-    const s = this.step.trim();
-    if (s.length > 0) {
-      this.parent.recipeInput.steps.push(s);
-      this.step = '';
+    const d = this.stepDescription.trim();
+    if (d.length > 0) {
+      const step = new RecipeStep();
+      step.description = d;
+      this.parent.recipeInput.steps.push(step);
+      this.stepDescription = '';
     }
   }
 
@@ -124,7 +146,7 @@ export class RecipeFormComponent implements OnInit {
   }
 
   private clear() {
-    this.step = '';
+    this.stepDescription = '';
     this.categoryName = '';
     this.ingredientName = '';
     this.sending = false;

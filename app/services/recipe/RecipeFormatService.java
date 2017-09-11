@@ -1,6 +1,7 @@
 package services.recipe;
 
 import models.recipe.RecipeInput;
+import models.recipe.RecipeStep;
 import org.apache.commons.lang3.StringUtils;
 import server.error.RequestError;
 import server.exception.BadRequestException;
@@ -47,14 +48,13 @@ public class RecipeFormatService {
         return (String[]) nameList.toArray();
     }
 
-    public static String[] formatSteps(String[] steps) throws BadRequestException {
-        final List<String> stepList = Arrays.asList(steps);
-        for (int i = 0; i < stepList.size(); i++) {
-            stepList.set(i, capitalizeFirstCharacter(stepList.get(i)).trim());
-            if (stepList.get(i).length() == 0) stepList.remove(i);
+    public static List<RecipeStep> formatSteps(List<RecipeStep> steps) throws BadRequestException {
+        for (RecipeStep s : steps) {
+            s.setDescription(capitalizeFirstCharacter(s.getDescription().trim()));
+            if (s.getDescription().length() == 0) steps.remove(s);
         }
-        if (stepList.isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
-        return (String[]) stepList.toArray();
+        if (steps.isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
+        return steps;
     }
 
     public static int formatDifficulty(int d) throws BadRequestException {
@@ -65,7 +65,7 @@ public class RecipeFormatService {
     public static String formatVideoUrl(String url) throws BadRequestException {
         if (url == null) return null;
         if (url.length() == 0) return null;
-        if (url.matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9]+$")) return url;
+        if (url.matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9_]+$")) return url;
         throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 

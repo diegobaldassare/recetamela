@@ -1,13 +1,13 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
-import models.Media;
 import models.recipe.*;
 import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.MediaService;
 import services.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeService extends Service<Recipe> {
@@ -39,7 +39,7 @@ public class RecipeService extends Service<Recipe> {
         setCategories(recipe, input.categoryNames);
         setIngredients(recipe, input.ingredientNames);
         setImages(recipe, input.imageIds);
-        setRecipeSteps(recipe, input.steps, input.stepsImagesIds);
+        setSteps(recipe, input.steps);
         // TODO recipe.setAuthor(?);
         recipe.save();
         return recipe;
@@ -50,12 +50,12 @@ public class RecipeService extends Service<Recipe> {
         if (recipe.getImages().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
-    public void setRecipeSteps(Recipe recipe, String[] steps, long[] stepsImageIds) throws BadRequestException{
-        for (int i = 0; i < steps.length; i++) {
-            final RecipeStep recipeStep = RecipeStepService.getInstance().save(steps[i], stepsImageIds[i]);
-            recipe.getRecipeSteps().add(recipeStep);
+    public void setSteps(Recipe recipe, List<RecipeStep> steps) throws BadRequestException {
+        for (RecipeStep s : steps) {
+            if (s.getImage() != null) MediaService.getInstance().get(s.getImage().getId()).ifPresent(s::setImage);
+            recipe.getSteps().add(s);
         }
-        if (recipe.getRecipeSteps().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
+        if (recipe.getSteps().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     public void setCategories(Recipe recipe, String[] names) throws BadRequestException {

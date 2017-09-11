@@ -11,14 +11,13 @@ import javax.persistence.OneToOne;
 @Entity
 public class RecipeStep extends BaseModel {
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1024)
     private String description;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     private Media image;
 
-    public RecipeStep() {
-    }
+    public RecipeStep() { }
 
     public String getDescription() {
         return description;

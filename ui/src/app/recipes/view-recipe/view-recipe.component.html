@@ -65,11 +65,19 @@
               </div>
               <div role="tabpanel" class="tab-pane" id="pasos">
                 <ol>
-                  <li *ngFor="let step of recipe.steps.split('\n')">{{ step }}</li>
+                  <li *ngFor="let step of recipe.steps">
+                    <div class="row" *ngIf="step.image">
+                      <div class="col col-md-8"><p>{{ step.description }}</p></div>
+                      <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
+                    </div>
+                    <div *ngIf="!step.image">
+                      <p>{{ step.description }}</p>
+                    </div>
+                  </li>
                 </ol>
               </div>
               <div *ngIf="recipe.videoUrl" role="tabpanel" class="tab-pane" id="video">
-                <iframe style="margin: 0 auto; display: block" width="560" height="315" [src]="sanitizer.bypassSecurityTrustResourceUrl(recipe.videoUrl)" frameborder="0" allowfullscreen></iframe>
+                <iframe style="margin: 0 auto; display: block" width="560" height="315" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
               </div>
               <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
             </div>

@@ -11,10 +11,13 @@ import java.util.List;
 public class Recipe extends BaseModel {
 
     @Column(nullable = false)
-    private String name, description;
+    private String name;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private List<RecipeStep> recipeSteps;
+    @Column(nullable = false, length = 1024)
+    private String description;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<RecipeStep> steps;
 
     private String videoUrl;
 
@@ -100,11 +103,11 @@ public class Recipe extends BaseModel {
         this.author = author;
     }
 
-    public List<RecipeStep> getRecipeSteps() {
-        return recipeSteps;
+    public List<RecipeStep> getSteps() {
+        return steps;
     }
 
-    public void setRecipeSteps(List<RecipeStep> recipeSteps) {
-        this.recipeSteps = recipeSteps;
+    public void setSteps(List<RecipeStep> steps) {
+        this.steps = steps;
     }
 }

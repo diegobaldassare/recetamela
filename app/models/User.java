@@ -11,6 +11,8 @@ public class User extends BaseModel {
 
     private long facebookId;
 
+    private String authToken;
+
     private String name, lastName;
 
     @Column(unique=true)
@@ -65,6 +67,14 @@ public class User extends BaseModel {
 
     public void setProfilePic(Media profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String  getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String  authToken) {
+        this.authToken = authToken;
     }
 
     @Override

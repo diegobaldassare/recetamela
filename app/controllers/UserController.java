@@ -21,6 +21,7 @@ import services.UserService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
@@ -32,6 +33,12 @@ public class UserController extends Controller {
     @Inject
     public UserController(FormFactory formFactory) {
         userForm =  formFactory.form(User.class);
+    }
+
+    @Security.Authenticated(Secured.class)
+    public Result me() throws ExecutionException, InterruptedException {
+        User me = SecurityController.getUser();
+        return ok(Json.toJson(me));
     }
 
     public Result registerAccessToken() {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
-import {UserToken} from "../shared/models/user-token";
+import {LoginData} from "../shared/models/login-data";
+import {HttpModule} from "@angular/http"
 declare const FB: any;
 
 @Component({
@@ -35,7 +36,7 @@ export class LogInComponent implements OnInit {
       } else {
         console.log('User cancelled login or did not fully authorize.');
       }
-    }, {scope: 'email'});
+    }, {scope: 'email, user_friends'});
 
     FB.getLoginStatus((response) => {
       this.statusChangeCallback(response);
@@ -49,13 +50,14 @@ export class LogInComponent implements OnInit {
         if (result && !result.error) {
           this.user = result;
           var u = new User(result.id, result.first_name, result.last_name, result.email, result.birthday);
-          console.log("Synchronously getting token: ");
-          console.log('Access Token = '+ FB.getAuthResponse()['accessToken']);
-          console.log('expiresIn = '+ FB.getAuthResponse()['expiresIn']);
-          console.log('userID = '+ FB.getAuthResponse()['userID']);
-          var token = new UserToken(FB.getAuthResponse()['accessToken'], FB.getAuthResponse()['expiresIn'], FB.getAuthResponse()['userID'], true);
-          this.userService.registerUser(u);
-          this.userService.hashToken(token);
+          console.log(result);
+          //Send backend the Login Data we got from the Facebook Response
+          var loginData = new LoginData(FB.getAuthResponse()['accessToken'],
+            result.email,
+            result.name,
+            result.gender,
+            result.id);
+          this.userService.sendLoginData(loginData);
         } else {
           console.log(result.error);
         }
@@ -76,7 +78,7 @@ export class LogInComponent implements OnInit {
       this.loged = true;
       this.token = result;
       this.me();
-    }, { scope: 'user_friends' });
+    }, { scope: 'email, user_friends' });
   }
 
   facebook() {

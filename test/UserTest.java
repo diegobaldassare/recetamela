@@ -1,8 +1,9 @@
+import models.FreeUser;
 import models.User;
 import models.Media;
 import org.junit.Test;
 import play.test.WithApplication;
-import services.UserService;
+import services.FreeUserService;
 
 import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.fakeApplication;
@@ -18,10 +19,10 @@ public class UserTest extends WithApplication {
     @Test
     public void findById() {
         running(fakeApplication(inMemoryDatabase()), () -> {
-            User sent = new User("nombre", "apellido", "mail@mail.com", new Media());
+            User sent = new FreeUser("nombre", "apellido", "mail@mail.com", new Media());
             sent.setId(1L);
             sent.save();
-            UserService.getInstance().get(sent.getId()).ifPresent(a -> assertEquals(sent, a));
+            FreeUserService.getInstance().get(sent.getId()).ifPresent(a -> assertEquals(sent, a));
         });
     }
 }

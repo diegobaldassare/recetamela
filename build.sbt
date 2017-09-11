@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "6.0.4",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.pauldijou" %% "jwt-play" % "0.9.0",
-  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
+  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
+  "com.restfb" % "restfb" % "2.0.0-rc.3"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
@@ -33,10 +34,8 @@ val isWindows = System.getProperty("os.name").toLowerCase().contains("win")
 def runScript(script: String)(implicit dir: File): Int = {
   if(isWindows){ Process("cmd /c " + script, dir) } else { Process(script, dir) } }!
 
-def uiWasInstalled(implicit dir: File): Boolean = (dir / "node_modules").exists()
-
 def runNpmInstall(implicit dir: File): Int =
-  if (uiWasInstalled) Success else runScript("npm install")
+  runScript("npm install")
 
 def ifUiInstalled(task: => Int)(implicit dir: File): Int =
   if (runNpmInstall == Success) task

@@ -13,10 +13,13 @@ GET /api/recipe/categories/all controllers.RecipeCategoryController.getAll
 
 GET /api/recipe/ingredients/all controllers.IngredientController.getAll
 
-POST /api/user              controllers.UserController.createUser()
-GET /api/user/:id           controllers.UserController.getUser(id: Long)
-GET /api/users              controllers.UserController.getUsers
-DELETE /api/user/:id        controllers.UserController.getUser(id: Long)
+POST /api/user              controllers.FreeUserController.createFreeUser()
+GET /api/user/:id           controllers.FreeUserController.getFreeUser(id: Long)
+GET /api/users              controllers.FreeUserController.getFreeUsers
+DELETE /api/user/:id        controllers.FreeUserController.getFreeUser(id: Long)
+
+POST /api/auth/login        controllers.SecurityController.login()
+POST /api/auth/logout       controllers.SecurityController.logout()
 
 GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
 GET        /static/*file controllers.MediaController.getFile(file)

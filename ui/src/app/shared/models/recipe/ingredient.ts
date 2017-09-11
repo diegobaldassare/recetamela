@@ -1,3 +1,4 @@
 export class Ingredient {
-  id; name: String;
+  id: string;
+  name: string;
 }

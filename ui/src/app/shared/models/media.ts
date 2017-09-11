@@ -1,3 +1,4 @@
 export class Media {
-  public id; url: String;
+  id: string;
+  url: string;
 }

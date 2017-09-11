@@ -15,7 +15,6 @@ public class PremiumUser extends User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Recipe> recipes;
     @ManyToMany
-    @JoinTable(name="USER_RECIPEBOOK", joinColumns= @JoinColumn(name="USER_ID", referencedColumnName="id"), inverseJoinColumns= @JoinColumn(name="RECIPEBOOK_ID", referencedColumnName="id"))
     private Set<RecipeBook> recipeBooks;
 
     public PremiumUser() {}

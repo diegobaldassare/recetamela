@@ -1,15 +1,17 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.restfb.*;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
 import com.restfb.exception.FacebookException;
 import models.AuthToken;
+import models.FreeUser;
 import models.User;
 import models.user.LoginData;
-import org.apache.http.auth.AUTH;
 import play.Logger;
 import play.libs.Json;
-import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -18,7 +20,6 @@ import services.LoginService;
 import services.UserService;
 import util.ShaUtil;
 
-import javax.inject.Inject;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -68,7 +69,7 @@ public class SecurityController extends Controller {
 
     /* If User's been validated with facebook API, but hasn't been registered, then add him to DB */
     private JsonNode signUp(LoginData loginData) {
-        User newUser = new User();
+        User newUser = new FreeUser();
         newUser.setEmail(loginData.getEmail());
         newUser.setFacebookId(loginData.getId());
         newUser.setName(loginData.getName().split(" ")[0]);

@@ -13,7 +13,6 @@ public class RecipeBook extends BaseModel {
     private String name, description;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="RECIPEBOOK_RECIPE", joinColumns= @JoinColumn(name="RECIPEBOOK_ID", referencedColumnName="id"), inverseJoinColumns= @JoinColumn(name="RECIPE_ID", referencedColumnName="id"))
     private List<Recipe> recipes;
 
     public String getName() {

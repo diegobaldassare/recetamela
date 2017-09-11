@@ -4,14 +4,11 @@ import models.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
 public class RecipeCategory extends BaseModel {
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String name;
 
     public RecipeCategory() {}

@@ -2,14 +2,13 @@ package models;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * Base model for database models. All models must extend this class.
  */
 @MappedSuperclass
-public class BaseModel extends Model {
+public abstract class BaseModel extends Model {
 
     @Id
     private Long id;

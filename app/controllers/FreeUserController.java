@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.inject.Inject;
+import models.FreeUser;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
@@ -8,7 +9,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import services.UserService;
+import services.FreeUserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,28 +17,28 @@ import java.util.Optional;
 /**
  * Created by Matias Cicilia on 30-Aug-17.
  */
-public class UserController extends Controller {
+public class FreeUserController extends Controller {
 
     private static Form<User> userForm;
 
     @Inject
-    public UserController(FormFactory formFactory) {
+    public FreeUserController(FormFactory formFactory) {
         userForm =  formFactory.form(User.class);
     }
 
-    public Result createUser() {
+    public Result createFreeUser() {
         User user = userForm.bindFromRequest().get();
         user.save();
         return ok(Json.toJson(user));
     }
 
-    public Result getUsers(){
-        List<User> users = UserService.getInstance().getFinder().all();
+    public Result getFreeUsers(){
+        List<FreeUser> users = FreeUserService.getInstance().getFinder().all();
         return ok(Json.toJson(users));
     }
 
-    public Result deleteUser(Long id){
-        Optional<User> user = UserService.getInstance().get(id);
+    public Result deleteFreeUser(Long id){
+        Optional<FreeUser> user = FreeUserService.getInstance().get(id);
         if (user.isPresent()){
             user.get().delete();
             return ok();
@@ -45,8 +46,8 @@ public class UserController extends Controller {
         return notFound();
     }
 
-    public Result getUser(Long id) {
-        final Optional<User> user = UserService.getInstance().get(id);
+    public Result getFreeUser(Long id) {
+        final Optional<FreeUser> user = FreeUserService.getInstance().get(id);
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 }

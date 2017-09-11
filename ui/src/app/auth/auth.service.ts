@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import 'rxjs/add/operator/toPromise';
-import { ResponseData } from '../shared/response-data';
 import { HttpService } from '../shared/services/http.service';
 import {User} from '../shared/models/user-model';
 import {UserCredentials} from '../shared/models/user-credentials';
@@ -21,6 +20,20 @@ export class AuthService {
         return this._token !== '';
     }
 
+    /*public logout() {
+      this.httpClient.post('/api/auth/logout', "logout").subscribe(res => {
+        console.log(res);
+      })
+    }*/
+
+    public getAuthorizationHeader(): string {
+      return localStorage.getItem("X-TOKEN");
+    }
+
+    public saveToken(token: string) {
+      localStorage.setItem("X-TOKEN", token);
+    }
+
     get redirectUrl(): string { return this._redirectUrl; }
     set redirectUrl(value: string) { this._redirectUrl = value; }
 
@@ -38,25 +51,16 @@ export class AuthService {
         }
     }
 
-    public login(credentials: UserCredentials): Promise<ResponseData> {
+    public login(credentials: UserCredentials): Promise<Response> {
         return this.http.defaultHttp.post('/api/login', credentials.asJsonString(), this.http.defaultOptions).toPromise()
             .then(res => {
-                const data: ResponseData = res.json() as ResponseData;
+                const data  = res.json();
 
                 this._token = res.headers.get('authorization') || '';
                 this.http.authToken = this._token;
                 this.cookieService.put(this.tokenCookieKey, this._token);
 
-                return data;
-            })
-            .catch(this.handleError);
-    }
-
-    public logout(): Promise<ResponseData> {
-        return this.http.get('/api/logout')
-            .then(resData => {
-                this.clearSession();
-                return resData;
+                return res;
             })
             .catch(this.handleError);
     }
@@ -68,7 +72,7 @@ export class AuthService {
     private requestLoggedUser(): Promise<User> {
         return this.http.get('/api/logged-data')
             .then(resData => {
-                const user = resData.data.caseUser as User;
+                const user = resData.json() as User;
                 this._loggedUser = user;
                 return user;
             })

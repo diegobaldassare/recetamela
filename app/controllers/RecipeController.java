@@ -50,7 +50,10 @@ public class RecipeController extends Controller {
                 recipe.getIngredients().clear();
                 RecipeService.getInstance().setIngredients(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.ingredientNames));
             }
-            if (input.imageId != 0) RecipeService.getInstance().setImage(recipe, input.imageId);
+            if (input.imageIds != null) {
+                recipe.getImages().clear();
+                RecipeService.getInstance().setImages(recipe, RecipeFormatService.formatImageIds(input.imageIds));
+            }
             recipe.save();
             return ok(Json.toJson(recipe));
         } catch (BadRequestException e) {

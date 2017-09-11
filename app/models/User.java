@@ -1,19 +1,23 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
  */
 @Entity
-public class User extends BaseModel {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_Type")
+public abstract class User extends BaseModel {
+
+    private long facebookId;
+
+    private String authToken;
 
     private String name, lastName;
-
     @Column(unique=true)
     private String email;
-
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Media profilePic;
 
     public User() {}
@@ -27,6 +31,14 @@ public class User extends BaseModel {
 
     public String getName() {
         return name;
+    }
+
+    public long getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(long facebookId) {
+        this.facebookId = facebookId;
     }
 
     public void setName(String name) {
@@ -55,6 +67,14 @@ public class User extends BaseModel {
 
     public void setProfilePic(Media profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String  getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String  authToken) {
+        this.authToken = authToken;
     }
 
     @Override

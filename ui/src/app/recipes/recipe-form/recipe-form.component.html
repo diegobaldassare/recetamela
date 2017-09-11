@@ -1,58 +1,72 @@
 <div class="row">
   <div class="col col-md-8">
     <div class="form-group">
-      <label for="name">Nombre</label>
+      <label for="name">Nombre*</label>
       <input [(ngModel)]="parent.recipeInput.name" id="name" class="form-control">
     </div>
 
     <div class="form-group">
-      <label for="description">Descripción</label>
+      <label for="description">Descripción*</label>
       <textarea style="resize: vertical" [(ngModel)]="parent.recipeInput.description" id="description" class="form-control" rows="3"></textarea>
     </div>
 
     <div style="margin-bottom: 13px">
-      <label>Ingredientes</label>
+      <label for="ingredient">Ingredientes*</label>
       <br>
-      <span class="label label-primary" *ngFor="let ing of parent.selectedIngredientNames">
+      <span class="label label-default" *ngFor="let ing of parent.selectedIngredientNames">
         {{ ing }}
         <span class="label-button" (click)="deselectIngredient(ing)">x</span>
       </span>
     </div>
     <div class="form-group">
-      <input class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
+      <input id="ingredient" class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
       <datalist id="ingredients">
         <option *ngFor="let ing of parent.ingredientNames" [value]="ing"></option>
       </datalist>
     </div>
 
-    <label>Pasos</label>
-    <ol>
-      <li *ngFor="let step of parent.recipeInput.steps; let i = index">
-        {{ step }}
-        <span style="cursor: pointer; margin-left: 4px" class="glyphicon glyphicon-remove" (click)="parent.recipeInput.steps.splice(i, 1)"></span>
+    <label for="step">Pasos*</label>
+    <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
+    <ol *ngIf="parent.recipeInput.steps.length > 0">
+      <li style="margin-bottom: 20px" *ngFor="let step of parent.recipeInput.steps; let i = index">
+        <div class="row" *ngIf="step.image">
+          <div class="col col-md-8"><p>{{ step.description }}</p></div>
+          <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
+        </div>
+        <div class="row" *ngIf="!step.image">
+          <p>{{ step.description }}</p>
+        </div>
+        <div style="float:right">
+          <button class="btn btn-primary btn-xs" (click)="selectStepImage(i)" [disabled]="uploadingImage">
+            {{ step.image ? 'Cambiar imágen' : 'Agregar imágen' }}
+          </button>
+          <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="parent.recipeInput.steps[i].image = null" [disabled]="uploadingImage">Eliminar imágen</button>
+          <button class="btn btn-danger btn-xs" (click)="parent.recipeInput.steps.splice(i, 1)">Eliminar paso</button>
+        </div>
       </li>
     </ol>
+    <br>
     <div class="form-group">
-      <input class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="step" (keyup.enter)="addStep()">
+      <input id="step" class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="stepDescription" (keyup.enter)="addStep()">
     </div>
 
     <div style="margin-bottom: 13px">
-      <label>Categorias</label>
+      <label for="category">Categorias*</label>
       <br>
-      <span class="label label-primary" *ngFor="let cat of parent.selectedCategoryNames">
+      <span class="label label-default" *ngFor="let cat of parent.selectedCategoryNames">
         {{ cat }}
         <span class="label-button" (click)="deselectCategory(cat)">x</span>
       </span>
     </div>
     <div class="form-group">
-      <input class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+      <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
       <datalist id="categories">
         <option *ngFor="let cat of parent.categoryNames" [value]="cat"></option>
       </datalist>
     </div>
 
     <div class="form-group">
-      <label>Dificultad</label>
+      <label>Dificultad*</label>
       <br>
       <label class="radio-inline">
         <input [(ngModel)]="parent.recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
@@ -71,21 +85,41 @@
       </label>
     </div>
   </div>
-  <br>
   <div class="col col-md-4">
     <div class="form-group">
-      <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="parent.image" [src]="parent.image.url">
-      <input style="display: none" (change)="uploadImage($event)" type="file" id="image" accept="image/*">
-      <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">
-        {{ submitImageText }}
-      </button>
+      <label>Imágenes*</label><br>
+      <div *ngIf="parent.images.length > 0" style="margin-bottom: 20px" id="general-images" class="carousel slide" data-ride="carousel" data-interval="">
+        <ol class="carousel-indicators">
+          <li *ngFor="let image of parent.images; let i = index; let active = last" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: active }"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+          <div *ngFor="let image of parent.images; let i = index; let active = last" class="item" [ngClass]="{ active: active }">
+            <img style="width: 100%" [src]="image.url">
+          </div>
+        </div>
+
+        <a class="left carousel-control" href="#general-images" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#general-images" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      <input style="display: none" (change)="addImage($event)" type="file" id="image" accept="image/*">
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="disabledImageButton">{{ imageButtonText }}</button>
+      <button *ngIf="parent.images.length != 0" class="btn btn-danger btn-sm" (click)="removeImage()">Eliminar</button>
     </div>
 
     <div class="form-group">
-      <label for="videoUrl">Link a video (opcional)</label>
+      <label for="videoUrl">Video de YouTube</label>
+      <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="validVideoUrl" [src]="videoThumbnailUrl">
       <input [(ngModel)]="parent.recipeInput.videoUrl" id="videoUrl" class="form-control">
     </div>
   </div>
 </div>
 <br>
-<button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitText }}</button>
+<button style="margin-right: 10px" type="submit" class="btn btn-primary" (click)="submit()" [disabled]="disabledSubmit">{{ submitButtonText }}</button>
+*campo obligatorio

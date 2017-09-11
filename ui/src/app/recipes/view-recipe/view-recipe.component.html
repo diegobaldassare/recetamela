@@ -6,20 +6,40 @@
           <div class="col-md-4">
             <h1>{{ recipe.name }}</h1>
             <br>
-            <img class="img-responsive thumbnail" src="{{ recipe.image.url }}">
+            <div id="general-images" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
+              </ol>
+
+              <div class="carousel-inner" role="listbox">
+                <div *ngFor="let image of recipe.images; let first = first" class="item" [ngClass]="{ active: first }">
+                  <img style="width: 100%" [src]="image.url">
+                </div>
+              </div>
+
+              <a class="left carousel-control" href="#general-images" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#general-images" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            <br>
             <div>
               <strong>Dificultad:</strong>
               <span [ngSwitch]="recipe.difficulty">
-                  <span class="label label-primary" *ngSwitchCase="1">muy fácil</span>
-                  <span class="label label-primary" *ngSwitchCase="2">fácil</span>
-                  <span class="label label-primary" *ngSwitchCase="3">intermedio</span>
-                  <span class="label label-primary" *ngSwitchCase="4">dificil</span>
-                  <span class="label label-primary" *ngSwitchDefault>muy dificil</span>
+                  <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
+                  <span class="label label-default" *ngSwitchCase="2">fácil</span>
+                  <span class="label label-default" *ngSwitchCase="3">intermedio</span>
+                  <span class="label label-default" *ngSwitchCase="4">dificil</span>
+                  <span class="label label-default" *ngSwitchDefault>muy dificil</span>
                 </span>
             </div>
             <div>
               <strong>Categorias:</strong>
-              <span *ngFor="let cat of recipe.categories" class="label label-primary">{{ cat.name }}</span>
+              <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
             </div>
             <br>
             <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
@@ -45,11 +65,19 @@
               </div>
               <div role="tabpanel" class="tab-pane" id="pasos">
                 <ol>
-                  <li *ngFor="let step of recipe.steps.split('\n')">{{ step }}</li>
+                  <li *ngFor="let step of recipe.steps">
+                    <div class="row" *ngIf="step.image">
+                      <div class="col col-md-8"><p>{{ step.description }}</p></div>
+                      <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
+                    </div>
+                    <div *ngIf="!step.image">
+                      <p>{{ step.description }}</p>
+                    </div>
+                  </li>
                 </ol>
               </div>
-              <div role="tabpanel" class="tab-pane" id="video">
-                <iframe width="560" height="315" [src]="sanitizer.bypassSecurityTrustResourceUrl(recipe.videoUrl)" frameborder="0" allowfullscreen></iframe>
+              <div *ngIf="recipe.videoUrl" role="tabpanel" class="tab-pane" id="video">
+                <iframe style="margin: 0 auto; display: block" width="560" height="315" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
               </div>
               <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
             </div>

@@ -38,7 +38,7 @@ public class RecipeController extends Controller {
         final Recipe recipe = recipeOpt.get();
         try {
             if (input.name != null) recipe.setName(RecipeFormatService.formatName(input.name));
-            if (input.description != null) recipe.setDescription(RecipeFormatService.formatName(input.description));
+            if (input.description != null) recipe.setDescription(RecipeFormatService.formatDescription(input.description));
             if (input.difficulty != 0) recipe.setDifficulty(RecipeFormatService.formatDifficulty(input.difficulty));
             recipe.setVideoUrl(RecipeFormatService.formatVideoUrl(input.videoUrl));
             if (input.steps != null) RecipeService.getInstance().setSteps(recipe, RecipeFormatService.formatSteps(input.steps));
@@ -50,7 +50,10 @@ public class RecipeController extends Controller {
                 recipe.getIngredients().clear();
                 RecipeService.getInstance().setIngredients(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.ingredientNames));
             }
-            if (input.imageId != 0) RecipeService.getInstance().setImage(recipe, input.imageId);
+            if (input.imageIds != null) {
+                recipe.getImages().clear();
+                RecipeService.getInstance().setImages(recipe, RecipeFormatService.formatImageIds(input.imageIds));
+            }
             recipe.save();
             return ok(Json.toJson(recipe));
         } catch (BadRequestException e) {

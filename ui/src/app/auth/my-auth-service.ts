@@ -29,6 +29,7 @@ export class MyAuthService {
   }
 
   get isLoggedIn(): boolean {
+    console.log("Logged: " + localStorage.getItem("X-TOKEN") !== null);
     return localStorage.getItem("X-TOKEN") !== null;
   }
 

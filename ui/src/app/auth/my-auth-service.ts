@@ -11,7 +11,8 @@ export class MyAuthService {
   }
 
   public logout() {
-      this.http.post('/api/auth/logout', "logout").subscribe(res => {
+    localStorage.removeItem("X-TOKEN");
+    this.http.post('/api/auth/logout', "logout").subscribe(res => {
         console.log(res);
       })
   }
@@ -28,8 +29,8 @@ export class MyAuthService {
     })
   }
 
-  get isLoggedIn(): boolean {
-    console.log("Logged: " + localStorage.getItem("X-TOKEN") !== null);
+  isLoggedIn(): boolean {
+    console.log('Logged: ' + localStorage.getItem("X-TOKEN"));
     return localStorage.getItem("X-TOKEN") !== null;
   }
 

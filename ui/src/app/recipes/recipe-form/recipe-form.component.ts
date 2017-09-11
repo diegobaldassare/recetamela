@@ -113,7 +113,7 @@ export class RecipeFormComponent implements OnInit {
 
   private selectCategory() {
     const c = this.categoryName.toLowerCase().trim();
-    if (!this.isAlphaNumSpaceNotEmpty(c)) return;
+    if (!this.isAlphaNumSpaceNotEmpty(c) || !this.parent.categoryNames.has(c)) return;
     if (!this.parent.selectedCategoryNames.has(c)) {
       this.parent.selectedCategoryNames.add(c);
       this.parent.categoryNames.delete(c);

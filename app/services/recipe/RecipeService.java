@@ -59,12 +59,7 @@ public class RecipeService extends Service<Recipe> {
     }
 
     public void setCategories(Recipe recipe, String[] names) throws BadRequestException {
-        for (String name : names) {
-            final Optional<RecipeCategory> categoryOpt = RecipeCategoryService.getInstance().getByName(name);
-            final RecipeCategory category = categoryOpt.orElse(new RecipeCategory(name));
-            if (!categoryOpt.isPresent()) category.save();
-            recipe.getCategories().add(category);
-        }
+        for (String name : names) RecipeCategoryService.getInstance().getByName(name).ifPresent(recipe.getCategories()::add);
         if (recipe.getCategories().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 

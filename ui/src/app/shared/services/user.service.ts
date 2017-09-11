@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {User} from "../models/user-model";
 import {Http, Headers} from "@angular/http";
 import {LoginData} from "../models/login-data";
-import {AuthService} from "../../auth/auth.service";
+import {MyAuthService} from "../../auth/my-auth-service";
 
 @Injectable()
 export class UserService {
 
   private headers: Headers = new Headers({'Content-Type':'application/json'});
-  constructor(private http:Http, private auth:AuthService) { }
+  constructor(private http:Http, private auth: MyAuthService) { }
 
   public registerUser(user: User) {
     const json = JSON.stringify(user);

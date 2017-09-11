@@ -1,7 +1,8 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="true">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="true">
         <span class="sr-only">Abrir menú</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -11,28 +12,41 @@
     </div>
     <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
       <ul class="nav navbar-nav navbar-right">
-        <!--Notificaciones del usua  o premium-->
-        <li><app-log-out></app-log-out></li>
-        <li><app-log-in></app-log-in></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notifications <span class="glyphicon glyphicon-bell"></span> <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">....</a></li>
-            <li class="divider"></li>
-            <li><a href="#">...</a></li>
-          </ul>
-        </li>
-        <!--Panel Usuario-->
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">My Account <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Options</a></li>
-            <li class="divider"></li>
-            <li><a href="#" data-toggle="modal" data-target="#myModal">Update Account</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Log out</a></li>
-          </ul>
-        </li>
+
+        <div *ngIf="!isLoggedIn; else premiumAccount">
+          <!--Notificaciones del usua  o premium-->
+          <li>
+            <app-log-in></app-log-in>
+          </li>
+        </div>
+        <ng-template #premiumAccount>
+          <li>
+            <app-log-out></app-log-out>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notifications
+              <span class="glyphicon glyphicon-bell"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">....</a></li>
+              <li class="divider"></li>
+              <li><a href="#">...</a></li>
+            </ul>
+          </li>
+          <!--Panel Usuario-->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">My Account
+              <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Options</a></li>
+              <li class="divider"></li>
+              <li><a href="#" data-toggle="modal" data-target="#myModal">Update Account</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Log out</a></li>
+            </ul>
+          </li>
+        </ng-template>
+
+
       </ul>
     </div>
 
@@ -59,20 +73,20 @@
               <h4 class="modal-subtitle1">Beneficios Premium!</h4>
             </div>
 
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <span class="badge">1</span>
-                  Subir y Editar tus propias recetas
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">2</span>
-                  Armar recetarios
-                </li>
-                <li class="list-group-item">
-                  <span class="badge">3</span>
-                  Mas filtos de busqueda
-                </li>
-              </ul>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge">1</span>
+                Subir y Editar tus propias recetas
+              </li>
+              <li class="list-group-item">
+                <span class="badge">2</span>
+                Armar recetarios
+              </li>
+              <li class="list-group-item">
+                <span class="badge">3</span>
+                Mas filtos de busqueda
+              </li>
+            </ul>
 
           </div>
           <div class="col-xs-6">

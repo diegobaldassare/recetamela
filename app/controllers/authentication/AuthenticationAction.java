@@ -1,24 +1,23 @@
-package controllers;
+package controllers.authentication;
 
+import controllers.SecurityController;
 import models.AuthToken;
 import models.User;
 import play.Logger;
+import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Security;
 import services.LoginService;
 import services.UserService;
+
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
-/**
- * Created by Matias Cicilia on 10-Sep-17.
- */
+public class AuthenticationAction extends Action<Authenticate> {
 
-public class Secured extends Security.Authenticator {
 
-    //@Inject (May not work without Injection)
     private UserService userService = UserService.getInstance();
-
     /**
      *  Retrieves the username from the HTTP context;
      *
@@ -33,16 +32,13 @@ public class Secured extends Security.Authenticator {
      */
 
     @Override
-    public Result getUsername(Http.Context ctx) {
+    public CompletionStage<Result> call(Http.Context ctx) {
         ctx.request().getHeader(SecurityController.AUTH_TOKEN_HEADER);
 
         Optional<String> authToken = Optional.ofNullable(ctx.request().getHeader(SecurityController.AUTH_TOKEN_HEADER));
 
         Logger.debug("Got token: " + authToken.get());
         Logger.debug("Secured call to "+ctx.request().method()+ " " +ctx.request().path());
-
-        /* Ugly patch */
-        if(ctx.request().path().equals("/user/") && ctx.request().method().equals("POST")) return "";
 
         if (authToken.isPresent() &&  authToken.get().startsWith("Bearer")) {
 
@@ -54,11 +50,11 @@ public class Secured extends Security.Authenticator {
             if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
                 /* Add user data to the context */
                 ctx.args.put("user", userOptional.get());
-                return ctx.de;
+                return delegate.call(ctx);
             }
 
         }
-        return null;
+        return CompletableFuture.completedFuture(unauthorized());
     }
 
     /* Validates the token */
@@ -74,5 +70,4 @@ public class Secured extends Security.Authenticator {
                 userToValidate.getAuthToken().equals(token) &&
                 (tokenObject.get().getDate() + 80_000_000 > System.currentTimeMillis());
     }
-
 }

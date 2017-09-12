@@ -3,12 +3,13 @@ import {User} from "../models/user-model";
 import {Http, Headers} from "@angular/http";
 import {LoginData} from "../models/login-data";
 import {MyAuthService} from "../../auth/my-auth-service";
+import {SharedService} from "./shared.service";
 
 @Injectable()
 export class UserService {
 
   private headers: Headers = new Headers({'Content-Type':'application/json'});
-  constructor(private http:Http, private auth: MyAuthService) { }
+  constructor(private http:Http, private auth: MyAuthService, private sharedService: SharedService) { }
 
   public registerUser(user: User) {
     const json = JSON.stringify(user);
@@ -22,6 +23,7 @@ export class UserService {
       console.log(tokenResponse);
       console.log("Saving: " + tokenResponse.token);
       this.auth.saveToken(tokenResponse.token);
+      this.sharedService.notifyOther({loggedIn: true});
     });
   }
 

@@ -1,3 +1,4 @@
+import models.FreeUser;
 import models.User;
 import models.Media;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class UserTest extends WithApplication {
     @Test
     public void findById() {
         running(fakeApplication(inMemoryDatabase()), () -> {
-            User sent = new User("nombre", "apellido", "mail@mail.com", new Media());
+            User sent = new FreeUser("nombre", "apellido", "mail@mail.com", new Media());
             sent.setId(1L);
             sent.save();
             FreeUserService.getInstance().get(sent.getId()).ifPresent(a -> assertEquals(sent, a));

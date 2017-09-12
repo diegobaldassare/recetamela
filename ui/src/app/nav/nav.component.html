@@ -10,34 +10,44 @@
       </button>
       <a class="navbar-brand" href="#">🍋 Recetame la Receta</a>
     </div>
-    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
+    <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
       <ul class="nav navbar-nav navbar-right">
-        <!--Notificaciones del usua  o premium-->
-        <li><app-log-out></app-log-out></li>
-        <li><app-log-in></app-log-in></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notifications
-            <span class="glyphicon glyphicon-bell"></span> <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">....</a></li>
-            <li class="divider"></li>
-            <li><a href="#">...</a></li>
-          </ul>
-        </li>
-        <!--Panel Usuario-->
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">My Account <span
-            class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Options</a></li>
-            <li class="divider"></li>
-            <li><a href="#" data-toggle="modal" data-target="#myModal">Update Account</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Log out</a></li>
-          </ul>
-        </li>
+
+        <div *ngIf="!isLoggedIn; else premiumAccount">
+          <!--Notificaciones del usua  o premium-->
+          <li>
+            <app-log-in></app-log-in>
+          </li>
+        </div>
+        <ng-template #premiumAccount>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notifications
+              <span class="glyphicon glyphicon-bell"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">....</a></li>
+              <li class="divider"></li>
+              <li><a href="#">...</a></li>
+            </ul>
+          </li>
+          <!--Panel Usuario-->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">My Account
+              <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Options</a></li>
+              <li class="divider"></li>
+              <li><a href="#" data-toggle="modal" data-target="#myModal">Update Account</a></li>
+              <li class="divider"></li>
+              <li><a href="#" (click)="navDropdownLogoout()">Log out</a></li>
+            </ul>
+          </li>
+        </ng-template>
+
+
       </ul>
     </div>
+
+
   </div>
 </nav>
 

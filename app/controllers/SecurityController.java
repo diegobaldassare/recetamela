@@ -6,8 +6,10 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.exception.FacebookException;
+import controllers.authentication.Authenticate;
 import models.AuthToken;
 import models.FreeUser;
+import models.PremiumUser;
 import models.User;
 import models.user.LoginData;
 import play.Logger;
@@ -30,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SecurityController extends Controller {
 
-    final static String AUTH_TOKEN_HEADER = "X-TOKEN";
+    public final static String AUTH_TOKEN_HEADER = "X-TOKEN";
 
     public static User getUser() {
         return (User) Http.Context.current().args.get("user");
@@ -57,6 +59,7 @@ public class SecurityController extends Controller {
             User user = userOptional.get();
             /* If the accessToken the user claims facebook gave him checks out, then we can log him in. */
             if ( Long.toString(user.getFacebookId()).equals(retrievedId) ) {
+                Logger.debug("Logged in as user " + user.getName() + " id " + user.getFacebookId());
                 JsonNode resp = generateAuthToken(user);
                 return ok(resp);
             }
@@ -67,6 +70,12 @@ public class SecurityController extends Controller {
         }
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result getLoggedData() {
+        User me = getUser();
+        return ok(Json.toJson(me));
+    }
+
     /* If User's been validated with facebook API, but hasn't been registered, then add him to DB */
     private JsonNode signUp(LoginData loginData) {
         User newUser = new FreeUser();
@@ -75,6 +84,7 @@ public class SecurityController extends Controller {
         newUser.setName(loginData.getName().split(" ")[0]);
         newUser.setLastName(loginData.getName().split(" ")[1]);
         newUser.save();
+        Logger.debug("New user sign up: " + newUser);
         /* After used is saved, log him in */
         return generateAuthToken(newUser);
     }
@@ -84,19 +94,21 @@ public class SecurityController extends Controller {
         String hash = ShaUtil.sha256(user.getName() + date.getTime());
         AuthToken token = new AuthToken(hash, date.getTime(), user.getFacebookId());
         user.setAuthToken(token.getToken());
-        user.save();
+        user.update();
         token.save();
+        Logger.debug("Generated token " + token.getToken() + " for user " + user.getName());
         return Json.toJson(token);
     }
 
     /* Logging out simply consists on deleting given server Authentication token */
-    @Security.Authenticated(Secured.class)
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result logout() throws ExecutionException, InterruptedException {
+        Logger.debug("User "+ getUser().getName() + " logged out");
         User user = getUser();
 
         LoginService.getInstance().findByHash(user.getAuthToken()).ifPresent(AuthToken::delete);
         user.setAuthToken(null);
-        user.save();
+        user.update();
 
         return ok();
     }

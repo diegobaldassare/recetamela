@@ -7,7 +7,6 @@ public class RecipeInput {
     public int difficulty;
     public long[] imageIds;
     public List<RecipeStep> steps;
-    public long[] stepsImagesIds;
     public String[] categoryNames;
     public String[] ingredientNames;
 }

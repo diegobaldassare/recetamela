@@ -94,7 +94,7 @@ public class SecurityController extends Controller {
         String hash = ShaUtil.sha256(user.getName() + date.getTime());
         AuthToken token = new AuthToken(hash, date.getTime(), user.getFacebookId());
         user.setAuthToken(token.getToken());
-        user.save();
+        user.update();
         token.save();
         Logger.debug("Generated token " + token.getToken() + " for user " + user.getName());
         return Json.toJson(token);
@@ -103,6 +103,7 @@ public class SecurityController extends Controller {
     /* Logging out simply consists on deleting given server Authentication token */
     @Authenticate({FreeUser.class, PremiumUser.class})
     public Result logout() throws ExecutionException, InterruptedException {
+        Logger.debug("User "+ getUser().getName() + " logged out");
         User user = getUser();
 
         LoginService.getInstance().findByHash(user.getAuthToken()).ifPresent(AuthToken::delete);

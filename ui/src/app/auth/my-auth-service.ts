@@ -11,10 +11,10 @@ export class MyAuthService {
   }
 
   public logout() {
-    localStorage.removeItem("X-TOKEN");
     this.http.post('/api/auth/logout', "logout").subscribe(res => {
-        console.log(res);
-      })
+      /* Once logged out we delete the server-signed token from our local storage */
+      localStorage.removeItem("X-TOKEN");
+    })
   }
 
   get loggedUser(): Promise<User> {
@@ -30,7 +30,7 @@ export class MyAuthService {
   }
 
   isLoggedIn(): boolean {
-    console.log('Logged: ' + localStorage.getItem("X-TOKEN"));
+    console.log('User is logged in: ' + (localStorage.getItem("X-TOKEN") !== null));
     return localStorage.getItem("X-TOKEN") !== null;
   }
 

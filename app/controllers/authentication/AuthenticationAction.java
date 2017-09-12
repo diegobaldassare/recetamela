@@ -43,13 +43,20 @@ public class AuthenticationAction extends Action<Authenticate> {
 
         if (authToken.get().startsWith("Bearer")) {
 
+            System.out.println("Token starts with bearer! ");
             /* Trim out <Type> to get the actual token */
             String token = authToken.get().substring("Bearer".length()).trim();
 
+            System.out.println("Token is: " + authToken.get());
+
             Optional<User> userOptional = userService.findByAuthToken(token);
+
+            System.out.print("We found user: ");
+            userOptional.ifPresent(System.out::println);
 
             if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
                 /* Add user data to the context */
+                System.out.println("Validated token! ");
                 Logger.debug("Adding user to context as: " + userOptional.get());
                 ctx.args.put("user", userOptional.get());
                 return delegate.call(ctx);

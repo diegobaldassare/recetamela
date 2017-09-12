@@ -28,7 +28,7 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {LogOutComponent} from "./log-out/log-out.component"
 import {MyAuthService} from "./auth/my-auth-service";
 import {HttpService} from "./shared/services/http.service";
-
+import { SharedService } from "./shared/services/shared.service";
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +68,8 @@ import {HttpService} from "./shared/services/http.service";
     MediaService,
     UserService,
     MyAuthService,
-    HttpService
+    HttpService,
+    SharedService
   ],
   bootstrap: [AppComponent]
 })

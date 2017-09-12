@@ -18,10 +18,10 @@ export class LogInComponent implements OnInit {
       (result) => {
         if (result && !result.error) {
           //Send backend the Login Data we got from the Facebook Response
-          console.log(result);
           var loginData = new LoginData(FB.getAuthResponse()['accessToken'],
             result.email,
-            result.name,
+            result.first_name,
+            result.last_name,
             result.gender,
             result.id,
             result.picture.data.url);

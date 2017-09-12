@@ -5,6 +5,7 @@ export class LoginData {
       || !jsonObject.accessToken
       || !jsonObject.email
       || !jsonObject.name
+      || !jsonObject.lastName
       || !jsonObject.gender
       || !jsonObject.id
       || !jsonObject.url) {
@@ -14,6 +15,7 @@ export class LoginData {
       jsonObject.accessToken,
       jsonObject.email,
       jsonObject.name,
+      jsonObject.lastName,
       jsonObject.gender,
       jsonObject.id,
       jsonObject.url);
@@ -22,6 +24,7 @@ export class LoginData {
   constructor(public accessToken: string,
               public email: string,
               public name: string,
+              public lastName: string,
               public gender: string,
               public id: string,
               public url: string) {
@@ -37,6 +40,10 @@ export class LoginData {
 
   public get _name(): string {
     return this.name;
+  }
+
+  public get _lastName(): string {
+    return this.lastName;
   }
 
   public get _gender(): string {

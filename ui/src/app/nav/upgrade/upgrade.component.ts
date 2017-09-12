@@ -44,8 +44,38 @@ export class UpgradeComponent implements OnInit {
 
     console.log(cardName);
     console.log(cardNumber);
+    console.log(this.isValidNumber(cardNumber));
+    console.log(this.cardType(cardNumber));
     console.log(cardCode);
     console.log(cardDate);
     //return new Card(cardName, cardNumber, cardCode);
+  }
+
+  public isValidNumber(num: number): boolean{
+    var ccNum = num.toString()
+    var sum = 0;
+    var alternate = false;
+    for (var i = ccNum.length - 1; i >= 0; i--)
+    {
+      var n = +(ccNum.substring(i, i + 1));
+      if (alternate)
+      {
+        n *= 2;
+        if (n > 9)
+        {
+          n = (n % 10) + 1;
+        }
+      }
+      sum += n;
+      alternate = !alternate;
+    }
+    return (sum % 10 == 0);
+  }
+
+  private cardType(num: number): string{
+    if(num.toString().charAt(0)=='4') return "visa";
+    if(num.toString().startsWith("5")) return "mastercard"
+    if(num.toString().startsWith("34") || num.toString().startsWith("37")) return "amex";
+    else return null;
   }
 }

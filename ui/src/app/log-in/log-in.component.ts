@@ -14,15 +14,17 @@ export class LogInComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   me() {
-    FB.api('/me?fields=id,name,email,first_name,last_name,birthday,gender,picture.width(150).height(150),age_range,friends',
+    FB.api('/me?fields=id,name,email,first_name,last_name,birthday,gender,picture.width(800).height(800),age_range,friends',
       (result) => {
         if (result && !result.error) {
           //Send backend the Login Data we got from the Facebook Response
           var loginData = new LoginData(FB.getAuthResponse()['accessToken'],
             result.email,
-            result.name,
+            result.first_name,
+            result.last_name,
             result.gender,
-            result.id);
+            result.id,
+            result.picture.data.url);
           this.userService.sendLoginData(loginData);
         } else {
           console.log('Unexpected error: ' + result.error);

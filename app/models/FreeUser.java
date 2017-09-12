@@ -9,7 +9,7 @@ public class FreeUser extends User {
 
     public FreeUser() {}
 
-    public FreeUser(String name, String lastName, String email, Media profilePic) {
+    public FreeUser(String name, String lastName, String email, String profilePic) {
         super(name, lastName, email, profilePic);
     }
 }

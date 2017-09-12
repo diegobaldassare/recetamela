@@ -84,6 +84,7 @@ public class SecurityController extends Controller {
         //Todo: Receive Name and Last Name separated, this will fail if user has a name with spaces such as Juan Ignacio.
         newUser.setName(loginData.getName().split(" ")[0]);
         newUser.setLastName(loginData.getName().split(" ")[1]);
+        newUser.setProfilePic(loginData.getUrl());
         newUser.save();
         /* After used is saved, log him in */
         return generateAuthToken(newUser);

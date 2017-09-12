@@ -11,7 +11,16 @@ public class LoginData {
     private String email;
     private String name;
     private String gender;
+    private String url;
     private Long id;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getAccessToken() {
         return accessToken;

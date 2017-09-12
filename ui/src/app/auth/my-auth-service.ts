@@ -11,11 +11,11 @@ export class MyAuthService {
   constructor(private http: HttpClient, private sharedService: SharedService) {
   }
 
+  /* Once logged out we delete the server-signed token from our local storage */
   public logout() {
     this.http.post('/api/auth/logout', "logout").subscribe(res => {
-      /* Once logged out we delete the server-signed token from our local storage */
-      localStorage.removeItem("X-TOKEN");
       console.log('User logged out');
+      localStorage.removeItem("X-TOKEN");
       this.sharedService.notifyOther({loggedIn: false});
     })
   }

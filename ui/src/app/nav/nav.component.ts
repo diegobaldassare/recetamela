@@ -15,6 +15,7 @@ export class NavComponent implements OnInit {
   isLoggedIn: boolean;
   isPremium: boolean;
 
+  //Both SharedService and ChangeDetectorRef are necessary to listen to changes on logged in variable to show different nav.
   constructor(private auth: MyAuthService, private sharedService: SharedService, private cdRef: ChangeDetectorRef) {
     this.isLoggedIn = !isNull(localStorage.getItem("X-TOKEN"));
     this.sharedService.notifyObservable$.subscribe((res) => {

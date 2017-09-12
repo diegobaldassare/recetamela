@@ -2,13 +2,14 @@ package controllers.authentication;
 
 import controllers.SecurityController;
 import models.AuthToken;
+import models.FreeUser;
 import models.User;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.LoginService;
-import services.UserService;
+import services.FreeUserService;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +18,7 @@ import java.util.concurrent.CompletionStage;
 public class AuthenticationAction extends Action<Authenticate> {
 
 
-    private UserService userService = UserService.getInstance();
+    private FreeUserService userService = FreeUserService.getInstance();
     /**
      *  Retrieves the username from the HTTP context;
      *
@@ -50,7 +51,7 @@ public class AuthenticationAction extends Action<Authenticate> {
             System.out.println("Token is: " + authToken.get());
 
             System.out.println("Searching for token: " + token);
-            Optional<User> userOptional = userService.findByAuthToken(token);
+            Optional<FreeUser> userOptional = userService.findByAuthToken(token);
 
             System.out.println("We found user: ");
             userOptional.ifPresent(System.out::println);

@@ -85,6 +85,7 @@ public class SecurityController extends Controller {
         newUser.setName(loginData.getName().split(" ")[0]);
         newUser.setLastName(loginData.getName().split(" ")[1]);
         newUser.save();
+        Logger.debug("New user sign up: " + newUser);
         /* After used is saved, log him in */
         return generateAuthToken(newUser);
     }

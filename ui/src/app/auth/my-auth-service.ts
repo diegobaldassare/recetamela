@@ -1,19 +1,21 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../shared/models/user-model";
+import {SharedService} from "../shared/services/shared.service";
 
 @Injectable()
 export class MyAuthService {
 
   private _loggedUser: User;
 
-  constructor(private http: HttpClient ) {
+  constructor(private http: HttpClient, private sharedService: SharedService) {
   }
 
   public logout() {
     this.http.post('/api/auth/logout', "logout").subscribe(res => {
       /* Once logged out we delete the server-signed token from our local storage */
       localStorage.removeItem("X-TOKEN");
+      this.sharedService.notifyOther({loggedIn: false});
     })
   }
 

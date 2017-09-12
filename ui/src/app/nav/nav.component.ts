@@ -24,11 +24,9 @@ export class NavComponent implements OnInit {
     });
   }
 
-  /*lala() {
-    setTimeout(() => {
-      console.log(this.isLoggedIn);
-    }, 4000);
-  }*/
+  public navDropdownLogoout() {
+    this.auth.logout();
+  }
 
   ngOnInit() {
     // this.isPremium = this.auth.isPremium():

@@ -20,9 +20,6 @@
           </li>
         </div>
         <ng-template #premiumAccount>
-          <li>
-            <app-log-out></app-log-out>
-          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notifications
               <span class="glyphicon glyphicon-bell"></span> <span class="caret"></span></a>
@@ -41,7 +38,7 @@
               <li class="divider"></li>
               <li><a href="#" data-toggle="modal" data-target="#myModal">Update Account</a></li>
               <li class="divider"></li>
-              <li><a href="#">Log out</a></li>
+              <li><a href="#" (click)="navDropdownLogoout()">Log out</a></li>
             </ul>
           </li>
         </ng-template>
@@ -116,5 +113,3 @@
     </div>
   </div>
 </div>
-
-<div *ngIf="isLoggedIn">lksndjnsdjknsdkj</div>

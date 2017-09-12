@@ -15,6 +15,7 @@ export class MyAuthService {
     this.http.post('/api/auth/logout', "logout").subscribe(res => {
       /* Once logged out we delete the server-signed token from our local storage */
       localStorage.removeItem("X-TOKEN");
+      console.log('User logged out');
       this.sharedService.notifyOther({loggedIn: false});
     })
   }

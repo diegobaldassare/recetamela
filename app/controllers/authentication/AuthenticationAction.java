@@ -38,26 +38,18 @@ public class AuthenticationAction extends Action<Authenticate> {
         Optional<String> authToken = Optional.ofNullable(ctx.request().getHeader(SecurityController.AUTH_TOKEN_HEADER));
 
         if (!authToken.isPresent()) return CompletableFuture.completedFuture(unauthorized());
-        Logger.debug("Got token: " + authToken.get());
         Logger.debug("Secured call to "+ctx.request().method()+ " " +ctx.request().path());
 
         if (authToken.get().startsWith("Bearer")) {
-
-            System.out.println("Token starts with bearer! ");
             /* Trim out <Type> to get the actual token */
             String token = authToken.get().substring("Bearer".length()).trim();
-
-            System.out.println("Token is: " + authToken.get());
-
-            System.out.println("Searching for token: " + token);
             Optional<User> userOptional = userService.findByAuthToken(token);
 
-            System.out.println("We found user: ");
-            userOptional.ifPresent(System.out::println);
+            Logger.debug("Secured call made by: " + (userOptional.isPresent() ? userOptional.get().getName(): "undefined user") );
 
             if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
                 /* Add user data to the context */
-                Logger.debug("Adding user to context as: " + userOptional.get());
+                Logger.debug("Secured call validated, adding " + userOptional.get().getName() + " to context");
                 ctx.args.put("user", userOptional.get());
                 return delegate.call(ctx);
             }
@@ -74,8 +66,8 @@ public class AuthenticationAction extends Action<Authenticate> {
         /* Token on header will be valid if it matches the one on our DB, and if it hasn't expired yet */
         boolean validated = tokenObject.isPresent() &&
                 userToValidate.getAuthToken().equals(token) &&
-                (tokenObject.get().getDate() + 80_000_000 > System.currentTimeMillis());
-        Logger.debug("Validated token: " + validated);
+                (tokenObject.get().getDate() + 80_000_000 > System.currentTimeMillis()) &&
+                tokenObject.get().isValid();
         return validated;
     }
 }

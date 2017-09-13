@@ -1,23 +1,13 @@
 @import "../../../assets/styles/variables";
 
-.jumbotron {
-  background-color: #f5f5f5;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 20px;
-}
-
 ul, ol {
   margin-top: 10px;
 }
 
-.container-header {
-  padding: 35px;
-}
-
-.container-body {
-  padding-left: 28px;
-  padding-right: 16px;
+.header {
+  background-color: $gray-white;
+  padding: 30px;
+  margin-bottom: 30px;
 }
 
 .row-header{
@@ -29,16 +19,12 @@ ul, ol {
   margin-bottom: 50px;
 }
 
-.header-info {
-  margin-left: 5px;
-}
-
 h1 {
   margin-top: 0;
 }
 
 .carousel-inner {
-  height: 315px;
+  max-height: 315px;
 }
 
 .recipe-comments, .recipe-info-up {
@@ -68,16 +54,6 @@ h1 {
 
 .recipe-ingredients-title, .recipe-comments-title {
   text-align: center;
-}
-
-.label-default {
-  background-color: #f7b733;
-}
-
-.label {
-  margin: 0 0 4px 4px;
-  font-size: 87%;
-  line-height: 2;
 }
 
 .recipe-steps-title {

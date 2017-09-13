@@ -17,12 +17,12 @@ public abstract class User extends BaseModel {
     private String name, lastName;
     @Column(unique=true)
     private String email;
-    @OneToOne(cascade = CascadeType.REMOVE)
-    private Media profilePic;
+
+    private String profilePic;
 
     public User() {}
 
-    public User(String name, String lastName, String email, Media profilePic) {
+    public User(String name, String lastName, String email, String profilePic) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
@@ -61,11 +61,11 @@ public abstract class User extends BaseModel {
         this.email = email;
     }
 
-    public Media getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(Media profilePic) {
+    public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
 

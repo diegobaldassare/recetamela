@@ -33,4 +33,8 @@ export class ViewRecipeComponent implements OnInit {
     const url = `https://www.youtube.com/embed/${split[1]}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
+
+  private deleteRecipe() {
+      this.recipeService.deleteRecipe(this.recipe.id);
+  }
 }

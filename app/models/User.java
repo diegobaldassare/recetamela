@@ -7,16 +7,21 @@ import javax.persistence.*;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_Type")
+@DiscriminatorColumn(name = "type")
 public abstract class User extends BaseModel {
+
+    @Column(name = "type", insertable = false, updatable = false)
+    private String type;
 
     private long facebookId;
 
     private String authToken;
 
     private String name, lastName;
+
     @Column(unique=true)
     private String email;
+
     @OneToOne(cascade = CascadeType.REMOVE)
     private Media profilePic;
 
@@ -84,5 +89,9 @@ public abstract class User extends BaseModel {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public String getType() {
+        return type;
     }
 }

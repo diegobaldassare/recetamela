@@ -37,4 +37,8 @@ export class RecipeService extends ApiService {
   modifyRecipe(id: string, input: RecipeInput): Promise<Recipe> {
     return this.http.put(`${this.URL}/${id}`, input).map(r => r.json()).toPromise();
   }
+
+  deleteRecipe(id: string) : Promise<any> {
+    return this.http.delete(`${this.URL}/${id}`).map(r => r.json()).toPromise();
+  }
 }

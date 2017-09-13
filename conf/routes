@@ -1,26 +1,38 @@
-GET / controllers.HomeController.index()
+GET         /                                       controllers.HomeController.index()
 
-POST /api/media controllers.MediaController.create()
-GET /api/media/:id controllers.MediaController.get(id: Long)
+POST        /api/media                              controllers.MediaController.create()
+GET         /api/media/:id                          controllers.MediaController.get(id: Long)
 
-POST /api/recipe controllers.RecipeController.create()
-GET /api/recipe/:id controllers.RecipeController.get(id: Long)
-PUT /api/recipe/:id controllers.RecipeController.modify(id: Long)
+POST        /api/recipe                             controllers.RecipeController.create()
+GET         /api/recipe/:id                         controllers.RecipeController.get(id: Long)
+PUT         /api/recipe/:id                         controllers.RecipeController.modify(id: Long)
+DELETE      /api/recipe/:id                         controllers.RecipeController.delete(id: Long)
 
-POST /api/recipe/category controllers.RecipeCategoryController.create()
-GET /api/recipe/category/:id controllers.RecipeCategoryController.get(id: Long)
-GET /api/recipe/categories/all controllers.RecipeCategoryController.getAll
+POST        /api/recipe/category                    controllers.RecipeCategoryController.create()
+GET         /api/recipe/category/:id                controllers.RecipeCategoryController.get(id: Long)
+GET         /api/recipe/categories/all              controllers.RecipeCategoryController.getAll
 
-GET /api/recipe/ingredients/all controllers.IngredientController.getAll
+GET         /api/recipe/ingredients/all             controllers.IngredientController.getAll
 
-POST /api/user              controllers.FreeUserController.createFreeUser()
-GET /api/user/:id           controllers.FreeUserController.getFreeUser(id: Long)
-GET /api/users              controllers.FreeUserController.getFreeUsers
-DELETE /api/user/:id        controllers.FreeUserController.getFreeUser(id: Long)
+POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
+PUT         /api/user/upgradeUser                   controllers.user.FreeUserController.upgradeFreeUser()
+PUT         /api/user/updateUser                    controllers.user.FreeUserController.updateFreeUser()
+GET         /api/user/:id                           controllers.user.FreeUserController.getFreeUser(id: Long)
+GET         /api/users                              controllers.user.FreeUserController.getFreeUsers
+DELETE      /api/user/delete/:id                    controllers.user.FreeUserController.deleteFreeUser(id: Long)
 
-POST /api/auth/login        controllers.SecurityController.login()
-POST /api/auth/logout       controllers.SecurityController.logout()
+POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
+PUT         /api/premiumuser/upgradeUser            controllers.user.PremiumUserController.upgradePremiumUser()
+PUT         /api/premiumuser/downgradeUser          controllers.user.PremiumUserController.downgradePremiumUser()
+PUT         /api/premiumuser/updateSuscription      controllers.user.PremiumUserController.updatePremiumUserExpirationDate()
+PUT         /api/premiumuser/updateUser             controllers.user.PremiumUserController.updatePremiumUser()
+GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)
+GET         /api/premiumusers                       controllers.user.PremiumUserController.getPremiumUsers
+DELETE      /api/premiumuser/delete/:id             controllers.user.PremiumUserController.deletePremiumUser(id: Long)
 
-GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
-GET        /static/*file controllers.MediaController.getFile(file)
-GET        /*others      controllers.HomeController.other(others)
+POST        /api/auth/login                         controllers.SecurityController.login()
+POST        /api/auth/logout                        controllers.SecurityController.logout()
+
+GET         /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
+GET         /static/*file                           controllers.MediaController.getFile(file)
+GET         /*others                                controllers.HomeController.other(others)

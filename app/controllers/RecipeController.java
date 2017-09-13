@@ -54,10 +54,18 @@ public class RecipeController extends Controller {
                 recipe.getImages().clear();
                 RecipeService.getInstance().setImages(recipe, RecipeFormatService.formatImageIds(input.imageIds));
             }
-            recipe.save();
+            recipe.update();
             return ok(Json.toJson(recipe));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
+    }
+
+    public Result delete(long id) {
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        return recipe.map(r -> {
+            r.delete();
+            return ok();
+        }).orElseGet(Results::notFound);
     }
 }

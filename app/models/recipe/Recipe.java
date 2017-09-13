@@ -7,6 +7,9 @@ import models.Media;
 import javax.persistence.*;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REMOVE;
+
 @Entity
 public class Recipe extends BaseModel {
 
@@ -31,10 +34,10 @@ public class Recipe extends BaseModel {
     @ManyToOne
     private User author;
 
-    @ManyToMany
+    @ManyToMany(cascade = REMOVE)
     private List<Ingredient> ingredients;
 
-    @ManyToMany
+    @ManyToMany(cascade = REMOVE)
     private List<RecipeCategory> categories;
 
     public Recipe() {}

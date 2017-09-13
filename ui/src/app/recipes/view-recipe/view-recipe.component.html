@@ -1,69 +1,110 @@
-<div class="container">
-  <div class="component">
-    <div *ngIf="fetched">
-      <div *ngIf="recipe">
+<div *ngIf="fetched">
+  <div *ngIf="recipe">
+    <div class="container-fluid header">
+      <div class="container">
         <div class="row">
-          <div class="col-md-4">
-            <h1>{{ recipe.name }}</h1>
-            <br>
-            <div id="general-images" class="carousel slide" data-ride="carousel">
-              <ol class="carousel-indicators">
-                <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
-              </ol>
-
-              <div class="carousel-inner" role="listbox">
-                <div *ngFor="let image of recipe.images; let first = first" class="item" [ngClass]="{ active: first }">
-                  <img style="width: 100%" [src]="image.url">
-                </div>
+          <div class="col-md-7">
+            <div class="title-edit">
+              <div style="float: left; margin-right: 10px">
+                <h1>{{ recipe.name }}</h1>
+              </div>
+              <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </div>
+            <div class="header-info">
+              <div>
+                <strong>Descripción:</strong>
+                <br>
+                <div> {{ recipe.description }} </div>
               </div>
 
-              <a class="left carousel-control" href="#general-images" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="right carousel-control" href="#general-images" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
+              <br>
+              <div>
+                <strong>Categorias:</strong>
+                <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
+              </div>
             </div>
-            <br>
-            <div>
-              <strong>Dificultad:</strong>
-              <span [ngSwitch]="recipe.difficulty">
-                  <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
-                  <span class="label label-default" *ngSwitchCase="2">fácil</span>
-                  <span class="label label-default" *ngSwitchCase="3">intermedio</span>
-                  <span class="label label-default" *ngSwitchCase="4">dificil</span>
-                  <span class="label label-default" *ngSwitchDefault>muy dificil</span>
-                </span>
-            </div>
-            <div>
-              <strong>Categorias:</strong>
-              <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
-            </div>
-            <br>
-            <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </button>
           </div>
-          <br>
-          <div class="col-md-8">
+
+          <div class="col-md-5">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-              <li role="presentation" class="active"><a href="#descripcion" aria-controls="descripción" role="tab" data-toggle="tab">Descripción</a></li>
-              <li role="presentation"><a href="#ingredientes" aria-controls="ingredientes" role="tab" data-toggle="tab">Ingredientes</a></li>
-              <li role="presentation"><a href="#pasos" aria-controls="pasos" role="tab" data-toggle="tab">Pasos</a></li>
+              <li role="presentation" class="active"><a href="#general-images" aria-controls="imagenes" role="tab" data-toggle="tab">Imágenes</a></li>
               <li *ngIf="recipe.videoUrl" role="presentation"><a href="#video" aria-controls="video" role="tab" data-toggle="tab">Video</a></li>
-              <li role="presentation"><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
             </ul>
             <br>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="descripcion">{{ recipe.description }}</div>
-              <div role="tabpanel" class="tab-pane" id="ingredientes">
-                <ul>
-                  <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
-                </ul>
+              <div *ngIf="recipe.videoUrl" role="tabpanel" class="tab-pane" id="video">
+                <iframe class="video-display" width="560" height="315" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
               </div>
-              <div role="tabpanel" class="tab-pane" id="pasos">
+              <div role="tabpanel" id="general-images" class="carousel slide tab-pane active" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
+                </ol>
+
+                <div class="carousel-inner" role="listbox">
+                  <div *ngFor="let image of recipe.images; let first = first" class="item" [ngClass]="{ active: first }">
+                    <img style="width: 100%" [src]="image.url">
+                  </div>
+                </div>
+
+                <a class="left carousel-control" href="#general-images" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#general-images" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="component">
+        <div class="recipe-info-up">
+          <div>
+            <span class="emoji">👨🏾‍🍳</span>
+            <span>@nicocurat</span>
+          </div>
+          <div>
+            <span class="emoji">🏋🏽</span>
+            <span [ngSwitch]="recipe.difficulty">
+                      <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
+                      <span class="label label-default" *ngSwitchCase="2">fácil</span>
+                      <span class="label label-default" *ngSwitchCase="3">intermedio</span>
+                      <span class="label label-default" *ngSwitchCase="4">dificil</span>
+                      <span class="label label-default" *ngSwitchDefault>muy dificil</span>
+                    </span>
+          </div>
+          <div>
+            <span class="emoji">🍽</span>
+            <span>4 platos</span>
+          </div>
+          <div>
+            <span class="emoji">⏰</span>
+            <span>3:30 horas</span>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+
+          <div class="col-md-3">
+            <div class="box-background">
+              <div class="recipe-ingredients-title"><b>INGREDIENTES</b></div>
+              <ul>
+                <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-9" style="padding-left: 5px">
+            <div class="box-background">
+              <span class="recipe-steps-title"><b>PASOS:</b></span>
+              <div>
                 <ol>
                   <li *ngFor="let step of recipe.steps">
                     <div class="row" *ngIf="step.image">
@@ -76,16 +117,15 @@
                   </li>
                 </ol>
               </div>
-              <div *ngIf="recipe.videoUrl" role="tabpanel" class="tab-pane" id="video">
-                <iframe style="margin: 0 auto; display: block" width="560" height="315" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="comentarios">...</div>
             </div>
           </div>
-          </div>
         </div>
-      <app-not-found *ngIf="!recipe"></app-not-found>
+        <div class="recipe-comments">
+          <div class="recipe-comments-title"><b>COMENTARIOS</b></div>
+        </div>
+      </div>
     </div>
-    <div *ngIf="!fetched" class="app-spinner"></div>
   </div>
+  <app-not-found *ngIf="!recipe"></app-not-found>
 </div>
+<div *ngIf="!fetched" class="app-spinner"></div>

@@ -10,8 +10,26 @@ public class LoginData {
     private String accessToken;
     private String email;
     private String name;
+    private String lastName;
     private String gender;
+    private String url;
     private Long id;
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getAccessToken() {
         return accessToken;

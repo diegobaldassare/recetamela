@@ -25,10 +25,10 @@ import { UpgradeComponent } from './nav/upgrade/upgrade.component';
 import {LogInComponent} from "./log-in/log-in.component"
 import {UserService} from "./shared/services/user.service";
 import {AuthInterceptor} from "./auth/auth-interceptor";
-import {LogOutComponent} from "./log-out/log-out.component"
 import {MyAuthService} from "./auth/my-auth-service";
 import {HttpService} from "./shared/services/http.service";
 import { SharedService } from "./shared/services/shared.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +44,6 @@ import { SharedService } from "./shared/services/shared.service";
     EditRecipeComponent,
     UpgradeComponent,
     LogInComponent,
-    LogOutComponent,
   ],
   imports: [
     BrowserModule,

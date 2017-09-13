@@ -1,0 +1,40 @@
+.form-control{
+  max-width: 95%;
+  margin-bottom: 5px;
+}
+
+.price{
+  text-align: left;
+}
+
+.modal-subtitle1{
+  margin-left: 15px;
+}
+
+.eye{
+  position: absolute;
+  left: 83%;
+  top: 65%;
+}
+
+.help-block{
+  color: #FC4A1A;
+  font-size: 10px;
+}
+/*.alert-block{*/
+  /*color: #FC4A1A;*/
+  /*font-size: 13px;*/
+  /*text-align: left;*/
+/*}*/
+
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

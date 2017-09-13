@@ -1,14 +1,14 @@
 <div class="container">
   <div class="component">
     <div *ngIf="fetched">
-      <div *ngIf="recipeInput">
+      <div *ngIf="recipe">
         <div class="page-header">
           <h1>Editar receta </h1>
-          <h2><small><a [routerLink]="'/recetas/' + id">Ver receta</a></small></h2>
+          <h2><small><a [routerLink]="this.recipeRoute">Ver receta</a></small></h2>
         </div>
-        <app-recipe-form [parent]="instance" submitText="Guardar"></app-recipe-form>
+        <app-recipe-form [container]="instance" submitText="Guardar"></app-recipe-form>
       </div>
-      <app-not-found *ngIf="!recipeInput"></app-not-found>
+      <app-not-found *ngIf="!recipe"></app-not-found>
     </div>
     <div *ngIf="!fetched" class="app-spinner"></div>
   </div>

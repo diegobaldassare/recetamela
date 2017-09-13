@@ -1,62 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import {RecipeInput} from "../../shared/models/recipe/recipe-input";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
-import {Media} from "../../shared/models/media";
 import {Router} from "@angular/router";
+import {Recipe} from "../../shared/models/recipe/recipe";
+import {RecipeFormContainer} from "../recipe-form-container";
 
 @Component({
   selector: 'app-new-recipe',
   templateUrl: './create-recipe.component.html',
   styleUrls: ['./create-recipe.component.css']
 })
-export class CreateRecipeComponent implements OnInit {
-  private recipeInput: RecipeInput = new RecipeInput();
-  private categoryNames: Set<string> = new Set();
-  private selectedCategoryNames: Set<string> = new Set();
-  private ingredientNames: Set<string> = new Set();
-  private selectedIngredientNames: Set<string> = new Set();
-  private recipeRoute: string = '';
-  private images: Media[] = [];
-  private instance: CreateRecipeComponent = this;
-
+export class CreateRecipeComponent extends RecipeFormContainer implements OnInit {
   constructor(
     private _recipeService: RecipeService,
     public toaster: ToasterService,
     private router: Router
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     const t = this;
     this._recipeService.getRecipeCategories().then((categories) => {
-      categories.forEach(c => t.categoryNames.add(<string> c.name));
+      categories.forEach(c => this.categories[c.name] = c);
     });
     this._recipeService.getIngredients().then((ingredients) => {
-      ingredients.forEach(c => t.ingredientNames.add(<string> c.name));
+      ingredients.forEach(i => t.ingredients[i.name] = i);
     });
   }
 
-  private clear() {
-    this.images = [];
-    this.recipeInput = new RecipeInput();
-    this.selectedIngredientNames.forEach(e => this.ingredientNames.add(e));
-    this.selectedCategoryNames.forEach(e => this.categoryNames.add(e));
-    this.selectedIngredientNames.clear();
-    this.selectedCategoryNames.clear();
-  }
-
-  private submit(): Promise<any> {
+  private submit(): Promise<Recipe> {
     return new Promise((resolve, reject) => {
-      this.recipeInput.categoryNames = Array.from(this.selectedCategoryNames);
-      this.recipeInput.ingredientNames = Array.from(this.selectedIngredientNames);
-      this.recipeInput.imageIds = this.images.map(image => image.id);
-      this._recipeService.createRecipe(this.recipeInput).then(r => {
-        this.clear();
-        this.recipeRoute = `/recetas/${r.id}`;
+      this.recipe.categories = this.selectedCategories;
+      this.recipe.ingredients = this.selectedIngredients;
+      this._recipeService.createRecipe(this.recipe).then(r => {
+        this.router.navigate([`/recetas/${r.id}`]);
         this.toaster.pop('success', 'Receta creada');
-        window.scrollTo(0, 0);
         resolve();
-        this.router.navigate([this.recipeRoute]);
       }, () => {
         this.toaster.pop('error', 'Receta no creada');
         reject();

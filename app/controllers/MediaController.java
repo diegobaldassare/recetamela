@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * Media controller persists media files and retrieves their metadata.
  */
-class MediaController extends Controller {
+public class MediaController extends Controller {
 
     /**
      * Persists an instance of the Media model in the database and the file in disk.

@@ -28,6 +28,7 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {MyAuthService} from "./auth/my-auth-service";
 import {HttpService} from "./shared/services/http.service";
 import { SharedService } from "./shared/services/shared.service";
+import {KeysPipe} from "./shared/pipes/keys-pipe";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SharedService } from "./shared/services/shared.service";
     EditRecipeComponent,
     UpgradeComponent,
     LogInComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,

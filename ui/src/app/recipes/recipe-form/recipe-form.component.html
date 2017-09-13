@@ -2,12 +2,12 @@
   <div class="col col-md-8">
     <div class="form-group">
       <label for="name">Nombre*</label>
-      <input [(ngModel)]="parent.recipeInput.name" id="name" class="form-control">
+      <input [(ngModel)]="parent.recipe.name" id="name" class="form-control">
     </div>
 
     <div class="form-group">
       <label for="description">Descripción*</label>
-      <textarea style="resize: vertical" [(ngModel)]="parent.recipeInput.description" id="description" class="form-control" rows="3"></textarea>
+      <textarea style="resize: vertical" [(ngModel)]="parent.recipe.description" id="description" class="form-control" rows="3"></textarea>
     </div>
 
     <div style="margin-bottom: 13px">
@@ -27,8 +27,8 @@
 
     <label for="step">Pasos*</label>
     <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
-    <ol *ngIf="parent.recipeInput.steps.length > 0">
-      <li style="margin-bottom: 40px" *ngFor="let step of parent.recipeInput.steps; let i = index">
+    <ol *ngIf="parent.recipe.steps.length > 0">
+      <li style="margin-bottom: 40px" *ngFor="let step of parent.recipe.steps; let i = index">
         <div class="row" *ngIf="step.image">
           <div class="col col-md-8"><p>{{ step.description }}</p></div>
           <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
@@ -40,8 +40,8 @@
           <button class="btn btn-primary btn-xs" (click)="selectStepImage(i)" [disabled]="uploadingImage">
             {{ step.image ? 'Cambiar imágen' : 'Agregar imágen' }}
           </button>
-          <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="parent.recipeInput.steps[i].image = null" [disabled]="uploadingImage">Eliminar imágen</button>
-          <button class="btn btn-danger btn-xs" (click)="parent.recipeInput.steps.splice(i, 1)">Eliminar paso</button>
+          <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="parent.recipe.steps[i].image = null" [disabled]="uploadingImage">Eliminar imágen</button>
+          <button class="btn btn-danger btn-xs" (click)="parent.recipe.steps.splice(i, 1)">Eliminar paso</button>
         </div>
       </li>
     </ol>
@@ -53,15 +53,15 @@
     <div style="margin-bottom: 13px">
       <label for="category">Categorias*</label>
       <br>
-      <span class="label label-default" *ngFor="let cat of parent.selectedCategoryNames">
-        {{ cat }}
-        <span class="label-button" (click)="deselectCategory(cat)">x</span>
+      <span class="label label-default" *ngFor="let c of parent.selectedCategories | keys">
+        {{ c }}
+        <span class="label-button" (click)="deselectCategory(c)">x</span>
       </span>
     </div>
     <div class="form-group">
       <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
       <datalist id="categories">
-        <option *ngFor="let cat of parent.categoryNames" [value]="cat"></option>
+        <option *ngFor="let c of parent.categories | keys" [value]="c"></option>
       </datalist>
     </div>
 
@@ -69,19 +69,19 @@
       <label>Dificultad*</label>
       <br>
       <label class="radio-inline">
-        <input [(ngModel)]="parent.recipeInput.difficulty" value="1" type="radio" name="dificultad"> muy fácil
+        <input [(ngModel)]="parent.recipe.difficulty" value="1" type="radio" name="dificultad"> muy fácil
       </label>
       <label class="radio-inline">
-        <input [(ngModel)]="parent.recipeInput.difficulty" value="2" type="radio" name="dificultad"> fácil
+        <input [(ngModel)]="parent.recipe.difficulty" value="2" type="radio" name="dificultad"> fácil
       </label>
       <label class="radio-inline">
-        <input [(ngModel)]="parent.recipeInput.difficulty" value="3" type="radio" name="dificultad"> intermedio
+        <input [(ngModel)]="parent.recipe.difficulty" value="3" type="radio" name="dificultad"> intermedio
       </label>
       <label class="radio-inline">
-        <input [(ngModel)]="parent.recipeInput.difficulty" value="4" type="radio" name="dificultad"> dificil
+        <input [(ngModel)]="parent.recipe.difficulty" value="4" type="radio" name="dificultad"> dificil
       </label>
       <label class="radio-inline">
-        <input [(ngModel)]="parent.recipeInput.difficulty" value="5" type="radio" name="dificultad"> muy dificil
+        <input [(ngModel)]="parent.recipe.difficulty" value="5" type="radio" name="dificultad"> muy dificil
       </label>
     </div>
   </div>
@@ -116,7 +116,7 @@
     <div class="form-group">
       <label for="videoUrl">Video de YouTube</label>
       <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="validVideoUrl" [src]="videoThumbnailUrl">
-      <input [(ngModel)]="parent.recipeInput.videoUrl" id="videoUrl" class="form-control">
+      <input [(ngModel)]="parent.recipe.videoUrl" id="videoUrl" class="form-control">
     </div>
   </div>
 </div>

@@ -12,10 +12,11 @@ import services.recipe.RecipeValidator;
 
 import java.util.Optional;
 
-class RecipeController extends BaseController {
+public class RecipeController extends BaseController {
 
     // @Authenticate(PremiumUser.class)
-    public Result create(Recipe r) {
+    public Result create() {
+        final Recipe r = getBody(Recipe.class);
         r.setAuthor(getRequester());
         RecipeFormatter.format(r);
         try {
@@ -34,10 +35,11 @@ class RecipeController extends BaseController {
     }
 
     // @Authenticate(PremiumUser.class)
-    public Result modify(long id, Recipe r) {
+    public Result modify(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         if (!recipe.isPresent()) return notFound();
         // if (!recipe.get().getAuthor().equals(getRequester())) return unauthorized();
+        final Recipe r = getBody(Recipe.class);
         RecipeFormatter.format(r);
         try {
             RecipeValidator.validateNotNullFields(r);

@@ -77,6 +77,9 @@ export class EditRecipeComponent implements OnInit {
   }
 
   delete(){
-    console.log("asd");
+    this._recipeService.deleteRecipe(this.id);
+    setTimeout(() => {
+      this.router.navigate(['recetas']);
+    }, 500);
   }
 }

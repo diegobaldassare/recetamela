@@ -1,0 +1,99 @@
+@import "../../../assets/styles/variables";
+
+.jumbotron {
+  background-color: #f5f5f5;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+}
+
+ul, ol {
+  margin-top: 10px;
+}
+
+.container-header {
+  padding: 35px;
+}
+
+.container-body {
+  padding-left: 28px;
+  padding-right: 16px;
+}
+
+.row-header{
+  width: 91%;
+  margin: 0 auto;
+}
+
+.title-edit {
+  margin-bottom: 50px;
+}
+
+.header-info {
+  margin-left: 5px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.carousel-inner {
+  height: 315px;
+}
+
+.recipe-comments, .recipe-info-up {
+  padding: 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.recipe-info-up {
+  display: flex;
+  justify-content: space-around;
+}
+
+.recipe-comments {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.box-background {
+  background: $gray-white;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  padding: 15px;
+}
+
+.recipe-ingredients-title, .recipe-comments-title {
+  text-align: center;
+}
+
+.label-default {
+  background-color: #f7b733;
+}
+
+.label {
+  margin: 0 0 4px 4px;
+  font-size: 87%;
+  line-height: 2;
+}
+
+.recipe-steps-title {
+  margin-left: 8px;
+}
+
+.video-display {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}
+
+.emoji {
+  margin-right: 7px;
+}
+
+.component {
+  margin-bottom: 50px;
+}

@@ -7,7 +7,7 @@ import {RecipeService} from "../../shared/services/recipe.service";
 @Component({
   selector: 'app-view-recipe',
   templateUrl: './view-recipe.component.html',
-  styleUrls: ['./view-recipe.component.css']
+  styleUrls: ['./view-recipe.component.scss']
 })
 export class ViewRecipeComponent implements OnInit {
 

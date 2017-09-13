@@ -13,7 +13,7 @@ import services.recipe.RecipeCategoryService;
 import java.util.List;
 import java.util.Optional;
 
-public class RecipeCategoryController extends Controller {
+class RecipeCategoryController extends Controller {
 
     // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result create() {

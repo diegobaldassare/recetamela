@@ -17,7 +17,7 @@ export class UpgradeComponent implements OnInit {
     this.creditCardForm = new FormGroup({
       'cardName': new FormControl(null, [Validators.required]),
       'cardNumber': new FormControl(null, [Validators.required, Validators.minLength(15), Validators.maxLength(16), isValidNumber]),
-      'cardCode': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(4), isValidCode(5)]),
+      'cardCode': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(4), isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
       'cardDate': new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(4), isValidDate]),
     });
   }

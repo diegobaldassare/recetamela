@@ -59,8 +59,7 @@
                   id="cardNumber"
                   formControlName="cardNumber"
                   placeholder="Numero de Tarjeta"
-                  pattern="[0-9]+"
-                  #ccNumber>
+                  pattern="[0-9]+">
               </div>
               <!--<span *ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched && isValidNumber(ccNumber)"-->
               <span *ngIf="!creditCardForm.get('cardNumber').valid &&
@@ -122,7 +121,7 @@
                       [disabled]="!creditCardForm.valid"
                       data-dismiss="modal"
                       (click)="upgradeToPremium()">
-                Upgrade
+                Actualizar
               </button>
             </div>
           </div>

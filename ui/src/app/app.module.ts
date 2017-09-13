@@ -28,6 +28,7 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {MyAuthService} from "./auth/my-auth-service";
 import {HttpService} from "./shared/services/http.service";
 import { SharedService } from "./shared/services/shared.service";
+import {AuthGuard} from "./auth/authGuard.service";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SharedService } from "./shared/services/shared.service";
     UserService,
     MyAuthService,
     HttpService,
-    SharedService
+    SharedService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })

@@ -20,7 +20,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 import services.FreeUserService;
 import services.LoginService;
-import services.UserService;
 import util.ShaUtil;
 
 import java.util.Date;
@@ -42,7 +41,7 @@ public class SecurityController extends Controller {
     public Result login() {
         /* Me llega data, yo con esa data busco al usuario en mi base de datos. */
         LoginData loginData = Json.fromJson(request().body().asJson(), LoginData.class);
-        Optional<User> userOptional = UserService.getInstance().findByFacebookId(loginData.getId());
+        Optional<FreeUser> userOptional = FreeUserService.getInstance().findByFacebookId(loginData.getId());
         String retrievedId;
 
         try {
@@ -82,8 +81,9 @@ public class SecurityController extends Controller {
         User newUser = new FreeUser();
         newUser.setEmail(loginData.getEmail());
         newUser.setFacebookId(loginData.getId());
-        newUser.setName(loginData.getName().split(" ")[0]);
-        newUser.setLastName(loginData.getName().split(" ")[1]);
+        newUser.setName(loginData.getName());
+        newUser.setLastName(loginData.getLastName());
+        newUser.setProfilePic(loginData.getUrl());
         newUser.save();
         /* After used is saved, log him in */
         return generateAuthToken(newUser);
@@ -92,11 +92,12 @@ public class SecurityController extends Controller {
     private JsonNode generateAuthToken(User user) {
         Date date = new Date();
         String hash = ShaUtil.sha256(user.getName() + date.getTime());
-        AuthToken token = new AuthToken(hash, date.getTime(), user.getFacebookId());
+        AuthToken token = new AuthToken(hash, date.getTime(), user.getId());
         user.setAuthToken(token.getToken());
         user.update();
         token.save();
-        Logger.debug("Generated token " + token.getToken() + " for user " + user.getName());
+        Logger.debug("Logged in user : " + user.getName() + " with token " + token.getToken());
+        LoginService.getInstance().clearOldTokens(user.getId());
         return Json.toJson(token);
     }
 
@@ -106,7 +107,9 @@ public class SecurityController extends Controller {
         Logger.debug("User "+ getUser().getName() + " logged out");
         User user = getUser();
 
-        LoginService.getInstance().findByHash(user.getAuthToken()).ifPresent(AuthToken::delete);
+        Optional<AuthToken> tokenOptional = LoginService.getInstance().findByHash(user.getAuthToken());
+        tokenOptional.ifPresent(authToken -> authToken.setValid(false));
+        tokenOptional.ifPresent(AuthToken::update);
         user.setAuthToken(null);
         user.update();
 

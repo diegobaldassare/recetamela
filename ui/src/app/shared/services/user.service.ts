@@ -20,8 +20,7 @@ export class UserService {
     const json = JSON.stringify(data);
     this.http.post('/api/auth/login', json, {headers: this.headers}).subscribe(res => {
       const tokenResponse = res.json();
-      console.log(tokenResponse);
-      console.log("Saving: " + tokenResponse.token);
+      console.log('Server accepted login and opened session for userId: ' + tokenResponse.userId);
       this.auth.saveToken(tokenResponse.token);
       this.sharedService.notifyOther({loggedIn: true});
     });

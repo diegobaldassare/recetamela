@@ -5,23 +5,29 @@ export class LoginData {
       || !jsonObject.accessToken
       || !jsonObject.email
       || !jsonObject.name
+      || !jsonObject.lastName
       || !jsonObject.gender
-      || !jsonObject.id) {
+      || !jsonObject.id
+      || !jsonObject.url) {
       throw new Error('Failed to instantiate LoginData from given jsonObject');
     }
     return new LoginData(
       jsonObject.accessToken,
       jsonObject.email,
       jsonObject.name,
+      jsonObject.lastName,
       jsonObject.gender,
-      jsonObject.id);
+      jsonObject.id,
+      jsonObject.url);
   }
 
   constructor(public accessToken: string,
               public email: string,
               public name: string,
+              public lastName: string,
               public gender: string,
-              public id: string) {
+              public id: string,
+              public url: string) {
   }
 
   public get _accessToken(): string {
@@ -36,12 +42,20 @@ export class LoginData {
     return this.name;
   }
 
+  public get _lastName(): string {
+    return this.lastName;
+  }
+
   public get _gender(): string {
     return this.gender;
   }
 
   public get _id(): string {
     return this.id;
+  }
+
+  public get _url(): string {
+    return this.url;
   }
 
 }

@@ -15,27 +15,31 @@ import java.util.Optional;
 
 public class RecipeController extends Controller {
 
+    // @Authenticate(PremiumUser.class)
     public Result create() {
         final RecipeInput input = Json.fromJson(request().body().asJson(), RecipeInput.class);
         try {
             RecipeFormatService.formatInput(input);
-            final Recipe recipe = RecipeService.getInstance().save(input);
+            final Recipe recipe = RecipeService.getInstance().save(input, SecurityController.getUser());
             return ok(Json.toJson(recipe));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
     }
 
+    // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result get(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> ok(Json.toJson(r))).orElseGet(Results::notFound);
     }
 
+    // @Authenticate(PremiumUser.class)
     public Result modify(long id) {
-        final RecipeInput input = Json.fromJson(request().body().asJson(), RecipeInput.class);
         final Optional<Recipe> recipeOpt = RecipeService.getInstance().get(id);
         if (!recipeOpt.isPresent()) return notFound();
         final Recipe recipe = recipeOpt.get();
+        // if (!recipe.getAuthor().equals(SecurityController.getUser())) return unauthorized();
+        final RecipeInput input = Json.fromJson(request().body().asJson(), RecipeInput.class);
         try {
             if (input.name != null) recipe.setName(RecipeFormatService.formatName(input.name));
             if (input.description != null) recipe.setDescription(RecipeFormatService.formatDescription(input.description));

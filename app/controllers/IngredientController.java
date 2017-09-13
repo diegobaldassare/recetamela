@@ -11,6 +11,7 @@ import java.util.List;
 
 public class IngredientController extends Controller {
 
+    // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result getAll() {
         final List<Ingredient> ingredients = IngredientService.getInstance().getFinder().all();
         return ok(Json.toJson(ingredients));

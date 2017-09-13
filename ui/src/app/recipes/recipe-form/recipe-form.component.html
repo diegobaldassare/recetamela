@@ -28,7 +28,7 @@
     <label for="step">Pasos*</label>
     <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
     <ol *ngIf="parent.recipeInput.steps.length > 0">
-      <li style="margin-bottom: 20px" *ngFor="let step of parent.recipeInput.steps; let i = index">
+      <li style="margin-bottom: 40px" *ngFor="let step of parent.recipeInput.steps; let i = index">
         <div class="row" *ngIf="step.image">
           <div class="col col-md-8"><p>{{ step.description }}</p></div>
           <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>

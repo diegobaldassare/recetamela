@@ -23,11 +23,11 @@ public class PremiumUser extends User {
 
     public PremiumUser() {}
 
-    public PremiumUser(String name, String lastName, String email, Media profilePic) {
+    public PremiumUser(String name, String lastName, String email, String profilePic) {
         super(name, lastName, email, profilePic);
     }
 
-    public PremiumUser(String name, String lastName, String email, Media profilePic, List<Recipe> recipes, Set<RecipeBook> recipeBooks) {
+    public PremiumUser(String name, String lastName, String email, String profilePic, List<Recipe> recipes, Set<RecipeBook> recipeBooks) {
         this(name, lastName, email, profilePic);
         this.recipes = recipes;
         this.recipeBooks = recipeBooks;

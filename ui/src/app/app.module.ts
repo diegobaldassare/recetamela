@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CookieService }   from 'angular2-cookie/services/cookies.service';
 import {AppComponent} from './app.component';
-import {AuthService} from './auth/auth.service';
 import {DOMService} from './shared/dom.service';
 import { AppRouterModule } from './router';
 import { LandingComponent } from './landing/landing.component';
@@ -26,9 +25,9 @@ import { UpgradeComponent } from './nav/upgrade/upgrade.component';
 import {LogInComponent} from "./log-in/log-in.component"
 import {UserService} from "./shared/services/user.service";
 import {AuthInterceptor} from "./auth/auth-interceptor";
-import {HttpService} from "./shared/services/http.service";
-import {LogOutComponent} from "./log-out/log-out.component"
 import {MyAuthService} from "./auth/my-auth-service";
+import {HttpService} from "./shared/services/http.service";
+import { SharedService } from "./shared/services/shared.service";
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import {MyAuthService} from "./auth/my-auth-service";
     EditRecipeComponent,
     UpgradeComponent,
     LogInComponent,
-    LogOutComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,13 +62,13 @@ import {MyAuthService} from "./auth/my-auth-service";
       multi: true,
     },
     CookieService,
-    AuthService,
     DOMService,
     RecipeService,
     MediaService,
     UserService,
+    MyAuthService,
     HttpService,
-    MyAuthService
+    SharedService
   ],
   bootstrap: [AppComponent]
 })

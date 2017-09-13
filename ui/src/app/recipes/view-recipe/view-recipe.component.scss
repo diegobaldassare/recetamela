@@ -1,0 +1,75 @@
+@import "../../../assets/styles/variables";
+
+ul, ol {
+  margin-top: 10px;
+}
+
+.header {
+  background-color: $gray-white;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.row-header{
+  width: 91%;
+  margin: 0 auto;
+}
+
+.title-edit {
+  margin-bottom: 50px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.carousel-inner {
+  max-height: 315px;
+}
+
+.recipe-comments, .recipe-info-up {
+  padding: 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.recipe-info-up {
+  display: flex;
+  justify-content: space-around;
+}
+
+.recipe-comments {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.box-background {
+  background: $gray-white;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  padding: 15px;
+}
+
+.recipe-ingredients-title, .recipe-comments-title {
+  text-align: center;
+}
+
+.recipe-steps-title {
+  margin-left: 8px;
+}
+
+.video-display {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}
+
+.emoji {
+  margin-right: 7px;
+}
+
+.component {
+  margin-bottom: 50px;
+}

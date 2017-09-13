@@ -75,4 +75,8 @@ export class EditRecipeComponent implements OnInit {
       });
     });
   }
+
+  delete(){
+    console.log("asd");
+  }
 }

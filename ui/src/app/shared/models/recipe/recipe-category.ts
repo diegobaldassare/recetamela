@@ -1,3 +1,4 @@
 export class RecipeCategory {
-  id; name: String;
+  id: string;
+  name: string;
 }

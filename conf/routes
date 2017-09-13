@@ -32,7 +32,7 @@ DELETE      /api/premiumuser/delete/:id             controllers.user.PremiumUser
 
 POST        /api/auth/login                         controllers.SecurityController.login()
 POST        /api/auth/logout                        controllers.SecurityController.logout()
-GET         /api/auth/logged-data                   controllers.SecurityController.getLoggedData()
+GET         /api/auth/logged-data                   controllers.SecurityController.getLoggedData
 
 GET         /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
 GET         /static/*file                           controllers.MediaController.getFile(file)

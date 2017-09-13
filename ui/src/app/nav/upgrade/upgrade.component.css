@@ -21,5 +21,20 @@
   color: #FC4A1A;
   font-size: 10px;
 }
+/*.alert-block{*/
+  /*color: #FC4A1A;*/
+  /*font-size: 13px;*/
+  /*text-align: left;*/
+/*}*/
 
 
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

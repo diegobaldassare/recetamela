@@ -94,6 +94,20 @@
         <input [(ngModel)]="container.recipe.difficulty" value="5" type="radio" name="dificultad"> muy dificil
       </label>
     </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="duration">Duración*</label>
+          <textarea style="resize: vertical" [(ngModel)]="parent.recipeInput.duration" id="duration" class="form-control" rows="1"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="serves">Total de Personas*</label>
+          <textarea style="resize: vertical" [(ngModel)]="parent.recipeInput.serves" id="serves" class="form-control" rows="1"></textarea>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="col col-md-4">
     <div class="form-group">

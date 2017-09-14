@@ -1,25 +1,42 @@
-GET / controllers.HomeController.index()
+GET         /                                       controllers.HomeController.index()
 
-POST /api/media controllers.MediaController.create()
-GET /api/media/:id controllers.MediaController.get(id: Long)
+POST        /api/media                              controllers.MediaController.create()
+GET         /api/media/:id                          controllers.MediaController.get(id: Long)
 
-POST /api/recipe controllers.RecipeController.create()
-GET /api/recipe/:id controllers.RecipeController.get(id: Long)
-PUT /api/recipe/:id controllers.RecipeController.modify(id: Long)
+POST        /api/recipe                             controllers.recipe.RecipeController.create()
+GET         /api/recipe/:id                         controllers.recipe.RecipeController.get(id: Long)
+PUT         /api/recipe/:id                         controllers.recipe.RecipeController.modify(id: Long)
+DELETE      /api/recipe/:id                         controllers.recipe.RecipeController.delete(id: Long)
 
-GET /api/recipe/categories/all controllers.RecipeCategoryController.getAll
+GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll
 
-GET /api/recipe/ingredients/all controllers.IngredientController.getAll
+GET         /api/recipe/ingredients/all             controllers.recipe.IngredientController.getAll
 
-POST /api/user              controllers.FreeUserController.createFreeUser()
-GET /api/user/:id           controllers.FreeUserController.getFreeUser(id: Long)
-GET /api/users              controllers.FreeUserController.getFreeUsers
-DELETE /api/user/:id        controllers.FreeUserController.getFreeUser(id: Long)
+POST        /api/creditcard/create                  controllers.payment.CreditCardController.create()
+PUT         /api/creditcard/update                  controllers.payment.CreditCardController.update()
+GET         /api/creditcard/get/:id                 controllers.payment.CreditCardController.get(id: Long)
+DELETE      /api/creditcard/delete/:id              controllers.payment.CreditCardController.delete(id: Long)
 
-POST /api/auth/login        controllers.SecurityController.login()
-POST /api/auth/logout       controllers.SecurityController.logout()
-GET /api/auth/logged-data   controllers.SecurityController.getLoggedData()
+POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
+PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
+PUT         /api/user/:id/updateUser                controllers.user.FreeUserController.updateFreeUser(id: Long)
+GET         /api/user/:id                           controllers.user.FreeUserController.getFreeUser(id: Long)
+GET         /api/users                              controllers.user.FreeUserController.getFreeUsers
+DELETE      /api/user/:id/delete                    controllers.user.FreeUserController.deleteFreeUser(id: Long)
 
-GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
-GET        /static/*file controllers.MediaController.getFile(file)
-GET        /*others      controllers.HomeController.other(others)
+POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
+PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
+PUT         /api/premiumuser/:id/downgradeUser      controllers.user.PremiumUserController.downgradePremiumUser(id: Long)
+PUT         /api/premiumuser/:id/updateSuscription  controllers.user.PremiumUserController.updatePremiumUserExpirationDate(id: Long)
+PUT         /api/premiumuser/:id/updateUser         controllers.user.PremiumUserController.updatePremiumUser(id: Long)
+GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)
+GET         /api/premiumusers                       controllers.user.PremiumUserController.getPremiumUsers
+DELETE      /api/premiumuser/:id/delete             controllers.user.PremiumUserController.deletePremiumUser(id: Long)
+
+POST        /api/auth/login                         controllers.SecurityController.login()
+POST        /api/auth/logout                        controllers.SecurityController.logout()
+GET         /api/auth/logged-data                   controllers.SecurityController.getLoggedData
+
+GET         /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
+GET         /static/*file                           controllers.MediaController.getFile(file)
+GET         /*others                                controllers.HomeController.other(others)

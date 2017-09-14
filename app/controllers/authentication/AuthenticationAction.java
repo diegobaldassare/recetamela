@@ -9,7 +9,7 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.LoginService;
-import services.FreeUserService;
+import services.user.FreeUserService;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

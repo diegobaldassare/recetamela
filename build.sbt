@@ -17,10 +17,12 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.pauldijou" %% "jwt-play" % "0.9.0",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
-  "com.restfb" % "restfb" % "2.0.0-rc.3"
+  "com.restfb" % "restfb" % "2.0.0-rc.3",
+  "com.mercadopago" % "sdk" % "0.3.4"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
+resolvers += "mercadopago" at "https://github.com/mercadopago/sdk-java/raw/master/releases"
 
 fork in run := true
 

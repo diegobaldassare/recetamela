@@ -64,5 +64,10 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
     });
   }
 
-  public deleteRecipe(): void {}
+  delete(){
+    this._recipeService.deleteRecipe(this.recipe.id);
+    setTimeout(() => {
+      this.router.navigate(['recetas']);
+    }, 500);
+  }
 }

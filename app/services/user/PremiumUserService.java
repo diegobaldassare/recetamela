@@ -1,7 +1,8 @@
-package services;
+package services.user;
 
 import com.avaje.ebean.Model;
 import models.PremiumUser;
+import services.Service;
 
 public class PremiumUserService extends Service<PremiumUser> {
 

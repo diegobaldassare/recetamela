@@ -1,5 +1,6 @@
-package controllers;
+package controllers.recipe;
 
+import controllers.BaseController;
 import models.recipe.Recipe;
 import play.libs.Json;
 import play.mvc.Http;
@@ -9,6 +10,7 @@ import server.exception.BadRequestException;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
+
 
 import java.util.Optional;
 
@@ -49,5 +51,13 @@ public class RecipeController extends BaseController {
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
+    }
+
+    public Result delete(long id) {
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        return recipe.map(r -> {
+            r.delete();
+            return ok();
+        }).orElseGet(Results::notFound);
     }
 }

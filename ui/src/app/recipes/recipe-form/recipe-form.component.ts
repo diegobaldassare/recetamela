@@ -45,6 +45,11 @@ export class RecipeFormComponent implements OnInit {
     else return 'Agregar';
   }
 
+  private get stepImageButtonText(): string {
+    if (this.uploadingImage) return 'Subiendo imágen';
+    else return 'Seleccionar imágen';
+  }
+
   private get disabledImageButton(): boolean {
     return this.uploadingImage || this.container.recipe.images.length >= 10;
   }

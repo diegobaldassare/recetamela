@@ -38,7 +38,7 @@
         </div>
         <div style="float:right">
           <button class="btn btn-primary btn-xs" (click)="selectStepImage(i)" [disabled]="uploadingImage">
-            {{ step.image ? 'Cambiar imágen' : 'Agregar imágen' }}
+            {{ stepImageButtonText }}
           </button>
           <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="container.recipe.steps[i].image = null" [disabled]="uploadingImage">Eliminar imágen</button>
           <button class="btn btn-danger btn-xs" (click)="container.recipe.steps.splice(i, 1)">Eliminar paso</button>

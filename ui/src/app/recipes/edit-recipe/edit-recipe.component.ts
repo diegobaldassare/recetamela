@@ -63,4 +63,6 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
       });
     });
   }
+
+  public deleteRecipe(): void {}
 }

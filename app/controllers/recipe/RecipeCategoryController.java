@@ -1,4 +1,4 @@
-package controllers;
+package controllers.recipe;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.recipe.RecipeCategory;

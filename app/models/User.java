@@ -1,6 +1,9 @@
 package models;
 
+import models.payment.CreditCard;
+
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
@@ -23,6 +26,9 @@ public abstract class User extends BaseModel {
     private String email;
 
     private String profilePic;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<CreditCard> creditCards;
 
     public User() {}
 
@@ -92,5 +98,13 @@ public abstract class User extends BaseModel {
 
     public String getType() {
         return type;
+    }
+
+    public Set<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(Set<CreditCard> creditCards) {
+        this.creditCards = creditCards;
     }
 }

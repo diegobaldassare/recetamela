@@ -1,5 +1,6 @@
-package controllers;
+package controllers.recipe;
 
+import controllers.SecurityController;
 import models.recipe.Recipe;
 import models.recipe.RecipeInput;
 import play.libs.Json;

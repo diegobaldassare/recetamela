@@ -1,4 +1,4 @@
-package controllers;
+package controllers.recipe;
 
 import models.recipe.Ingredient;
 import play.libs.Json;

@@ -57,7 +57,5 @@ public class PremiumUser extends User {
         this.expirationDate = expirationDate;
     }
 
-    public boolean isExpired() {
-        return LocalDate.now().isAfter(expirationDate);
-    }
+    public boolean isExpired() { return LocalDate.now().isAfter(expirationDate); }
 }

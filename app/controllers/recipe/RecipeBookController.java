@@ -1,4 +1,4 @@
-package controllers;
+package controllers.recipe;
 
 import com.google.inject.Inject;
 import models.PremiumUser;

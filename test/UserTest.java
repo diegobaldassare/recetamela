@@ -1,17 +1,14 @@
 import com.avaje.ebean.Ebean;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import models.FreeUser;
 import models.Media;
 import models.PremiumUser;
 import models.User;
 import org.junit.Test;
 import play.test.WithApplication;
-import services.FreeUserService;
-import services.PremiumUserService;
+import services.user.FreeUserService;
+import services.user.PremiumUserService;
 
 import java.rmi.NoSuchObjectException;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Optional;
 
 

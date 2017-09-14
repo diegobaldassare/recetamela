@@ -12,7 +12,7 @@ import {RecipeService} from "../../shared/services/recipe.service";
 export class ViewRecipeComponent implements OnInit {
 
   private recipe: Recipe;
-  private fetched: boolean;
+  public fetched: boolean;
 
   constructor(
     private route: ActivatedRoute,

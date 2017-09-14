@@ -11,7 +11,7 @@ import {RecipeFormContainer} from "../recipe-form/recipe-form-container";
   styleUrls: ['./edit-recipe.component.css']
 })
 export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
-  private fetched: boolean;
+  public fetched: boolean;
 
   constructor(
     private _recipeService: RecipeService,

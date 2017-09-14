@@ -13,4 +13,6 @@ export class Recipe {
   steps: RecipeStep[] = [];
   ingredients: Ingredient[] = [];
   categories: RecipeCategory[] = [];
+  servings: number = 1;
+  duration: number = 20;
 }

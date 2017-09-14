@@ -1,7 +1,9 @@
 package services.recipe;
 
+import models.Media;
 import models.recipe.Ingredient;
 import models.recipe.Recipe;
+import models.recipe.RecipeCategory;
 import models.recipe.RecipeStep;
 import org.apache.commons.lang3.StringUtils;
 import server.error.RequestError;
@@ -51,7 +53,13 @@ public class RecipeValidator {
 
     private static void validateCategories(Recipe r) throws BadRequestException {
         if (r.getCategories() == null) throw new BadRequestException(RequestError.BAD_FORMAT);
-        r.getCategories().removeIf(c -> !RecipeCategoryService.getInstance().get(c.getId()).isPresent());
+        final ListIterator<RecipeCategory> it = r.getCategories().listIterator();
+        while (it.hasNext()) {
+            final RecipeCategory c = it.next();
+            final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(c.getId());
+            if (category.isPresent()) it.set(category.get());
+            else it.remove();
+        }
         if (r.getCategories().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
@@ -59,9 +67,9 @@ public class RecipeValidator {
         if (r.getIngredients() == null) throw new BadRequestException(RequestError.BAD_FORMAT);
         final ListIterator<Ingredient> it = r.getIngredients().listIterator();
         while (it.hasNext()) {
-            final Ingredient i = it.next();
+            Ingredient i = it.next();
             final Optional<Ingredient> ingredient = IngredientService.getInstance().getByName(i.getName());
-            if (ingredient.isPresent()) i.setId(ingredient.get().getId());
+            if (ingredient.isPresent()) i = ingredient.get();
             else i.save();
             it.set(i);
         }
@@ -70,7 +78,13 @@ public class RecipeValidator {
 
     private static void validateImages(Recipe r) throws BadRequestException {
         if (r.getImages() == null) throw new BadRequestException(RequestError.BAD_FORMAT);
-        r.getImages().removeIf(i -> !MediaService.getInstance().get(i.getId()).isPresent());
+        final ListIterator<Media> it = r.getImages().listIterator();
+        while (it.hasNext()) {
+            final Media i = it.next();
+            final Optional<Media> image = MediaService.getInstance().get(i.getId());
+            if (image.isPresent()) it.set(image.get());
+            else it.remove();
+        }
         if (r.getImages().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
@@ -107,7 +121,7 @@ public class RecipeValidator {
     }
 
     private static void validateDuration(Recipe r) throws BadRequestException {
-        if (r.getServings() < 1) throw new BadRequestException(RequestError.BAD_FORMAT);
+        if (r.getDuration() < 2) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     private static boolean isAlphaNumericSpaceNotEmpty(String s) {

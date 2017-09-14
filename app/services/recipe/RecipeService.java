@@ -26,5 +26,7 @@ public class RecipeService extends Service<Recipe> {
         if (input.getDifficulty() != 0) r.setDifficulty(input.getDifficulty());
         if (input.getSteps() != null) r.setSteps(input.getSteps());
         if (input.getVideoUrl() != null) r.setVideoUrl(input.getVideoUrl());
+        if (input.getServings() != 0) r.setServings(input.getServings());
+        if (input.getDuration() != 0) r.setDuration(input.getDuration());
     }
 }

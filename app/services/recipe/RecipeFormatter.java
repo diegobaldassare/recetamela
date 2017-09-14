@@ -40,6 +40,7 @@ public class RecipeFormatter {
             if (i == null || i.getName() == null) it.remove();
             else {
                 i.setName(i.getName().trim().toLowerCase());
+                i.setId(null);
                 it.set(i);
             }
         }
@@ -61,6 +62,7 @@ public class RecipeFormatter {
             }
             if (s.getImage() != null && s.getImage().getId() == null) s.setImage(null);
             s.setDescription(capitalizeFirstCharacter(s.getDescription().trim()));
+            s.setId(null);
             it.set(s);
         }
     }

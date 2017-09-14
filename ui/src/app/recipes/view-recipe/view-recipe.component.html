@@ -76,11 +76,11 @@
           </div>
           <div>
             <span class="emoji">🍽</span>
-            <span>4 platos</span>
+            <span>{{ recipe.servings }} {{ recipe.servings > 1 ? 'porciones' : 'porción' }}</span>
           </div>
           <div>
             <span class="emoji">⏰</span>
-            <span>3:30 horas</span>
+            <span>{{ recipe.duration }} minutos</span>
           </div>
         </div>
         <div class="row">

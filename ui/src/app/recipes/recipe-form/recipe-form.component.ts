@@ -58,7 +58,9 @@ export class RecipeFormComponent implements OnInit {
       Object.keys(this.container.selectedIngredients).length == 0 ||
       Object.keys(this.container.selectedCategories).length == 0 ||
       this.uploadingImage ||
-      this.container.recipe.images.length == 0;
+      this.container.recipe.images.length == 0 ||
+      this.container.recipe.servings < 1 ||
+      this.container.recipe.duration < 2;
   }
 
   private selectStepImage(i) {

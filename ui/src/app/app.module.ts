@@ -30,6 +30,7 @@ import {HttpService} from "./shared/services/http.service";
 import { SharedService } from "./shared/services/shared.service";
 import {AuthGuard} from "./auth/authGuard.service";
 import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
+import {KeysPipe} from "./shared/pipes/keys-pipe";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
     EditRecipeComponent,
     UpgradeComponent,
     LogInComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 1024)
+    @Column(nullable = false, length = 2048)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -36,6 +36,9 @@ public class Recipe extends BaseModel {
 
     @ManyToMany
     private List<RecipeCategory> categories;
+
+    @Column(nullable = false)
+    private int servings, duration;
 
     public Recipe() {}
 
@@ -109,5 +112,21 @@ public class Recipe extends BaseModel {
 
     public void setSteps(List<RecipeStep> steps) {
         this.steps = steps;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

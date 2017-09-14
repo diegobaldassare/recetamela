@@ -61,8 +61,11 @@
                   placeholder="Numero de Tarjeta"
                   pattern="[0-9]+">
               </div>
-              <span *ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched"
-                    class="help-block">Numero Incorrecto! (Visa, Amex, Master)</span>
+              <!--<span *ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched && isValidNumber(ccNumber)"-->
+              <span *ngIf="!creditCardForm.get('cardNumber').valid &&
+                            creditCardForm.get('cardNumber').touched"
+                    class="help-block">Numero Incorrecto! (Visa, Master, Amex)</span>
+
 
               <div class="row">
                 <input
@@ -88,7 +91,7 @@
                   class="form-control"
                   id="cardDate"
                   formControlName="cardDate"
-                  placeholder="MM/YY"
+                  placeholder="MMYY"
                   pattern="[0-9]+">
               </div>
               <span *ngIf="!creditCardForm.get('cardDate').valid && creditCardForm.get('cardDate').touched"
@@ -107,10 +110,10 @@
 
         <div class="modal-footer">
           <div class="row">
-            <div class="col-md-8 col-xs-8 col-sm-8">
-              <span
-                *ngIf="!creditCardForm.valid && creditCardForm.touched">
-                Falta algo o algun campo es incorrecto!</span>
+            <div class="col-md-8 col-xs-8 col-sm-8 alert-block" >
+              <!--<span-->
+                <!--*ngIf="!creditCardForm.valid && creditCardForm.touched">-->
+                <!--Falta algo o algun campo es incorrecto!</span>-->
             </div>
             <div class="col-md-4 col-xs-4 col-sm-4">
               <button type="submit"
@@ -118,7 +121,7 @@
                       [disabled]="!creditCardForm.valid"
                       data-dismiss="modal"
                       (click)="upgradeToPremium()">
-                Upgrade
+                Actualizar
               </button>
             </div>
           </div>

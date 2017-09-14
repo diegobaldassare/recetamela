@@ -1,0 +1,58 @@
+@import "../../../assets/styles/variables";
+
+ul, ol {
+  margin-top: 10px;
+}
+
+.header {
+  background-color: $gray-white;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.title-edit {
+  margin-bottom: 50px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.carousel-inner {
+  max-height: 315px;
+}
+
+.recipe-comments, .recipe-info-up {
+  padding: 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.recipe-info-up {
+  display: flex;
+  justify-content: space-around;
+}
+
+.box-background {
+  background: $gray-white;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  padding: 15px;
+  margin: 20px 0 20px 0;
+}
+
+.video-display {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}
+
+.emoji {
+  margin-right: 7px;
+}
+
+.component {
+  margin-bottom: 30px;
+}

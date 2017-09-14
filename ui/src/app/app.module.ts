@@ -71,6 +71,11 @@ import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
       useClass: AuthInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorizedInterceptor,
+      multi: true,
+    },
     CookieService,
     DOMService,
     RecipeService,

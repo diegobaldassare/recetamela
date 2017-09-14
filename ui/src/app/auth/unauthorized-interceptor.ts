@@ -19,10 +19,10 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
       return next.handle(req).do(event => {}, err => {
       if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 404 || err.status === 403)) {
         if (err.status === 401) {
-          localStorage.removeItem('token');
+          localStorage.removeItem('X-TOKEN');
         }
         this.router.navigate(['/']);
       }
-    })
+    });
   }
 }

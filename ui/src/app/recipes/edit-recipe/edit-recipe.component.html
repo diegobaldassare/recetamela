@@ -7,9 +7,8 @@
           <h2><small><a [routerLink]="'/recetas/' + id">Ver receta</a></small></h2>
         </div>
         <app-recipe-form [parent]="instance" submitText="Guardar"></app-recipe-form>
+        <button class="btn btn-danger" style="float: right;" (click)="delete()">Eliminar</button>
       </div>
-
-      <button class="btn btn-danger" (click)="delete()">Eliminar</button>
 
       <app-not-found *ngIf="!recipeInput"></app-not-found>
     </div>

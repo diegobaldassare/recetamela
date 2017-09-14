@@ -1,17 +1,11 @@
 package services.recipe;
 
-import models.Media;
-import models.recipe.Ingredient;
 import models.recipe.Recipe;
-import models.recipe.RecipeCategory;
-import models.recipe.RecipeStep;
 import org.apache.commons.lang3.StringUtils;
 import server.error.RequestError;
 import server.exception.BadRequestException;
-import services.MediaService;
 
-import java.util.ListIterator;
-import java.util.Optional;
+import java.util.List;
 
 public class RecipeValidator {
 
@@ -52,40 +46,18 @@ public class RecipeValidator {
     }
 
     private static void validateCategories(Recipe r) throws BadRequestException {
-        if (r.getCategories() == null) throw new BadRequestException(RequestError.BAD_FORMAT);
-        final ListIterator<RecipeCategory> it = r.getCategories().listIterator();
-        while (it.hasNext()) {
-            final RecipeCategory c = it.next();
-            final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(c.getId());
-            if (category.isPresent()) it.set(category.get());
-            else it.remove();
-        }
-        if (r.getCategories().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
+        if (nullOrEmpty(r.getCategories()))
+            throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     private static void validateIngredients(Recipe r) throws BadRequestException {
-        if (r.getIngredients() == null) throw new BadRequestException(RequestError.BAD_FORMAT);
-        final ListIterator<Ingredient> it = r.getIngredients().listIterator();
-        while (it.hasNext()) {
-            Ingredient i = it.next();
-            final Optional<Ingredient> ingredient = IngredientService.getInstance().getByName(i.getName());
-            if (ingredient.isPresent()) i = ingredient.get();
-            else i.save();
-            it.set(i);
-        }
-        if (r.getIngredients().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
+        if (nullOrEmpty(r.getIngredients()))
+            throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     private static void validateImages(Recipe r) throws BadRequestException {
-        if (r.getImages() == null) throw new BadRequestException(RequestError.BAD_FORMAT);
-        final ListIterator<Media> it = r.getImages().listIterator();
-        while (it.hasNext()) {
-            final Media i = it.next();
-            final Optional<Media> image = MediaService.getInstance().get(i.getId());
-            if (image.isPresent()) it.set(image.get());
-            else it.remove();
-        }
-        if (r.getImages().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
+        if (nullOrEmpty(r.getImages()))
+            throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     private static void validateDifficulty(Recipe r) throws BadRequestException {
@@ -94,25 +66,12 @@ public class RecipeValidator {
     }
 
     private static void validateSteps(Recipe r) throws BadRequestException {
-        if (r.getSteps() == null || r.getSteps().isEmpty())
+        if (nullOrEmpty(r.getSteps()))
             throw new BadRequestException(RequestError.BAD_FORMAT);
-        final ListIterator<RecipeStep> it = r.getSteps().listIterator();
-        while (it.hasNext()) {
-            final RecipeStep s = it.next();
-            if (s.getImage() != null && !MediaService.getInstance().get(s.getImage().getId()).isPresent()) {
-                s.setImage(null);
-                it.set(s);
-            }
-        }
     }
 
     private static void validateVideoUrl(Recipe r) throws BadRequestException {
-        if (r.getVideoUrl() == null) return;
-        if (r.getVideoUrl().length() == 0) {
-            r.setVideoUrl(null);
-            return;
-        }
-        if (r.getVideoUrl().matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9_]+$")) return;
+        if (r.getVideoUrl() == null || r.getVideoUrl().matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9_]+$")) return;
         throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
@@ -126,5 +85,9 @@ public class RecipeValidator {
 
     private static boolean isAlphaNumericSpaceNotEmpty(String s) {
         return s.length() != 0 && StringUtils.isAlphanumericSpace(s);
+    }
+
+    private static boolean nullOrEmpty(List l) {
+        return l == null || l.isEmpty();
     }
 }

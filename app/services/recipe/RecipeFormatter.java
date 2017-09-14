@@ -1,10 +1,14 @@
 package services.recipe;
 
+import models.Media;
 import models.recipe.Ingredient;
 import models.recipe.Recipe;
+import models.recipe.RecipeCategory;
 import models.recipe.RecipeStep;
+import services.MediaService;
 
 import java.util.ListIterator;
+import java.util.Optional;
 
 public class RecipeFormatter {
 
@@ -15,11 +19,22 @@ public class RecipeFormatter {
         formatIngredients(r);
         formatName(r);
         formatSteps(r);
+        formatVideoUrl(r);
     }
 
     private static void formatCategories(Recipe r) {
         if (r.getCategories() == null) return;
-        r.getCategories().removeIf(c -> c == null || c.getId() == null);
+        final ListIterator<RecipeCategory> it = r.getCategories().listIterator();
+        while (it.hasNext()) {
+            final RecipeCategory c = it.next();
+            if (c == null || c.getId() == null) {
+                it.remove();
+                continue;
+            }
+            final Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(c.getId());
+            if (category.isPresent()) it.set(category.get());
+            else it.remove();
+        }
     }
 
     private static void formatDescription(Recipe r) {
@@ -29,20 +44,36 @@ public class RecipeFormatter {
 
     private static void formatImages(Recipe r) {
         if (r.getImages() == null) return;
-        r.getImages().removeIf(i -> i == null || i.getId() == null);
+        final ListIterator<Media> it = r.getImages().listIterator();
+        while (it.hasNext()) {
+            final Media i = it.next();
+            if (i == null || i.getId() == null) {
+                it.remove();
+                continue;
+            }
+            final Optional<Media> image = MediaService.getInstance().get(i.getId());
+            if (image.isPresent()) it.set(image.get());
+            else it.remove();
+        }
     }
 
     private static void formatIngredients(Recipe r) {
         if (r.getIngredients() == null) return;
         final ListIterator<Ingredient> it = r.getIngredients().listIterator();
         while (it.hasNext()) {
-            final Ingredient i = it.next();
-            if (i == null || i.getName() == null) it.remove();
-            else {
-                i.setName(i.getName().trim().toLowerCase());
-                i.setId(null);
-                it.set(i);
+            Ingredient i = it.next();
+            if (i == null || i.getName() == null) {
+                it.remove();
+                continue;
             }
+            i.setName(i.getName().trim().toLowerCase());
+            final Optional<Ingredient> ingredient = IngredientService.getInstance().getByName(i.getName());
+            if (ingredient.isPresent()) i = ingredient.get();
+            else {
+                i.setId(null);
+                i.save();
+            }
+            it.set(i);
         }
     }
 
@@ -60,11 +91,16 @@ public class RecipeFormatter {
                 it.remove();
                 continue;
             }
-            if (s.getImage() != null && s.getImage().getId() == null) s.setImage(null);
-            s.setDescription(capitalizeFirstCharacter(s.getDescription().trim()));
+            if (s.getImage() != null && (s.getImage().getId() == null || !MediaService.getInstance().get(s.getImage().getId()).isPresent()))
+                s.setImage(null);
             s.setId(null);
+            s.setDescription(capitalizeFirstCharacter(s.getDescription().trim()));
             it.set(s);
         }
+    }
+
+    private static void formatVideoUrl(Recipe r) {
+        if (r.getVideoUrl() != null && r.getVideoUrl().length() == 0) r.setVideoUrl(null);
     }
 
     private static String capitalizeFirstCharacter(String text) {

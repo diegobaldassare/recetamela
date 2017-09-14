@@ -37,6 +37,8 @@ public class RecipeService extends Service<Recipe> {
         recipe.setDescription(input.description);
         recipe.setVideoUrl(input.videoUrl);
         recipe.setDifficulty(input.difficulty);
+        recipe.setDuration(input.duration);
+        recipe.setServes(input.serves);
         setCategories(recipe, input.categoryNames);
         setIngredients(recipe, input.ingredientNames);
         setImages(recipe, input.imageIds);

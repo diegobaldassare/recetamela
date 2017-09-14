@@ -35,6 +35,8 @@ export class EditRecipeComponent implements OnInit {
       this.recipeInput = new RecipeInput();
       this.recipeInput.name = recipe.name;
       this.recipeInput.description = recipe.description;
+      this.recipeInput.duration = recipe.duration;
+      this.recipeInput.serves = recipe.serves;
       this.recipeInput.videoUrl = recipe.videoUrl || '';
       this.recipeInput.difficulty = recipe.difficulty + '';
       this.images = recipe.images;

@@ -37,6 +37,9 @@ public class Recipe extends BaseModel {
     @ManyToMany
     private List<RecipeCategory> categories;
 
+    private String duration;
+    private String serves;
+
     public Recipe() {}
 
     public String getName() {
@@ -109,5 +112,21 @@ public class Recipe extends BaseModel {
 
     public void setSteps(List<RecipeStep> steps) {
         this.steps = steps;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getServes() {
+        return serves;
+    }
+
+    public void setServes(String serves) {
+        this.serves = serves;
     }
 }

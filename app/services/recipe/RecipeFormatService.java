@@ -17,6 +17,8 @@ public class RecipeFormatService {
         input.description = formatDescription(input.description);
         input.difficulty = formatDifficulty(input.difficulty);
         input.videoUrl = formatVideoUrl(input.videoUrl);
+        input.duration = formatDuration(input.duration);
+        input.serves = formatServes(input.serves);
         input.steps = formatSteps(input.steps);
         input.categoryNames = formatCategoryOrIngredientNames(input.categoryNames);
         input.ingredientNames = formatCategoryOrIngredientNames(input.ingredientNames);
@@ -24,11 +26,13 @@ public class RecipeFormatService {
 
     private static void assertNotNull(final RecipeInput input) throws BadRequestException {
         if (input.name == null ||
-            input.description == null ||
-            input.steps == null ||
-            input.categoryNames == null ||
-            input.ingredientNames == null ||
-            input.imageIds == null
+                input.description == null ||
+                input.duration == null ||
+                input.serves == null ||
+                input.steps == null ||
+                input.categoryNames == null ||
+                input.ingredientNames == null ||
+                input.imageIds == null
         ) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
@@ -79,6 +83,19 @@ public class RecipeFormatService {
         desc = capitalizeFirstCharacter(desc).trim();
         if (desc.length() == 0) throw new BadRequestException(RequestError.BAD_FORMAT);
         return desc;
+    }
+
+
+    public static String formatDuration(String duration) throws BadRequestException {
+        duration = capitalizeFirstCharacter(duration).trim();
+        if(duration.length() == 0) throw new BadRequestException(RequestError.BAD_FORMAT);
+        return duration;
+    }
+
+    public static String formatServes(String serves) throws BadRequestException {
+        serves = capitalizeFirstCharacter(serves).trim();
+        if(serves.length() == 0) throw new BadRequestException(RequestError.BAD_FORMAT);
+        return serves;
     }
 
     private static boolean alphaNumSpaceNotEmpty(String s) {

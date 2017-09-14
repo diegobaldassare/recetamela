@@ -5,6 +5,8 @@ export class RecipeInput {
   description :string = '';
   videoUrl: string = '';
   difficulty: string = '3';
+  duration: string = '';
+  serves: string = '';
   imageIds: string[] = [];
   steps: RecipeStep[] = [];
   ingredientNames: string[] = [];

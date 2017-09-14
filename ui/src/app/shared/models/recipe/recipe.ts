@@ -9,6 +9,8 @@ export class Recipe {
   description: string;
   videoUrl: string;
   difficulty: string;
+  duration: string;
+  serves: string;
   images: Media[];
   steps: RecipeStep[];
   ingredients: Ingredient[];

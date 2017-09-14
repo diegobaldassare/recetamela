@@ -3,7 +3,7 @@ package models.recipe;
 import java.util.List;
 
 public class RecipeInput {
-    public String name, description, videoUrl;
+    public String name, description, videoUrl, duration, serves;
     public int difficulty;
     public long[] imageIds;
     public List<RecipeStep> steps;

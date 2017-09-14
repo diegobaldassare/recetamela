@@ -10,11 +10,6 @@ ul, ol {
   margin-bottom: 30px;
 }
 
-.row-header{
-  width: 91%;
-  margin: 0 auto;
-}
-
 .title-edit {
   margin-bottom: 50px;
 }
@@ -39,25 +34,13 @@ h1 {
   justify-content: space-around;
 }
 
-.recipe-comments {
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .box-background {
   background: $gray-white;
   border-radius: 5px;
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0,0,0,0.5);
   padding: 15px;
-}
-
-.recipe-ingredients-title, .recipe-comments-title {
-  text-align: center;
-}
-
-.recipe-steps-title {
-  margin-left: 8px;
+  margin: 20px 0 20px 0;
 }
 
 .video-display {
@@ -71,5 +54,5 @@ h1 {
 }
 
 .component {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }

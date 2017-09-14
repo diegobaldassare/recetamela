@@ -41,25 +41,13 @@
                 <h4 class="modal-subtitle2">Datos Tarjeta</h4>
               </div>
               <div class="row">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cardName"
-                  formControlName="cardName"
-                  placeholder="Nombre de Titular"
-                  pattern="[a-zA-Z]+">
+                <input type="text" class="form-control" id="cardName" formControlName="cardName" placeholder="Nombre de Titular" pattern="[a-zA-Z]+">
               </div>
               <span *ngIf="!creditCardForm.get('cardName').valid && creditCardForm.get('cardName').touched"
                     class="help-block">Nombre Incorrecto!</span>
 
               <div class="row">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cardNumber"
-                  formControlName="cardNumber"
-                  placeholder="Numero de Tarjeta"
-                  pattern="[0-9]+">
+                <input type="text" class="form-control" id="cardNumber" formControlName="cardNumber" placeholder="Numero de Tarjeta" pattern="[0-9]+">
               </div>
               <!--<span *ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched && isValidNumber(ccNumber)"-->
               <span *ngIf="!creditCardForm.get('cardNumber').valid &&

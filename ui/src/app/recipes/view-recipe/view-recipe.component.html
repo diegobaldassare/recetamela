@@ -5,20 +5,18 @@
         <div class="row">
           <div class="col-md-7">
             <div class="title-edit">
-              <div style="float: left; margin-right: 10px">
+              <div style="float: left; margin-right: 13px">
                 <h1>{{ recipe.name }}</h1>
               </div>
               <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
                 <span class="glyphicon glyphicon-pencil"></span>
               </button>
             </div>
-            <div class="header-info">
+            <div>
               <div>
                 <strong>Descripción:</strong>
-                <br>
-                <div> {{ recipe.description }} </div>
+                {{ recipe.description }}
               </div>
-
               <br>
               <div>
                 <strong>Categorias:</strong>
@@ -26,7 +24,6 @@
               </div>
             </div>
           </div>
-
           <div class="col-md-5">
             <ul class="nav nav-tabs nav-justified" role="tablist">
               <li role="presentation" class="active"><a href="#general-images" aria-controls="imagenes" role="tab" data-toggle="tab">Imágenes</a></li>
@@ -41,13 +38,11 @@
                 <ol class="carousel-indicators">
                   <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
                 </ol>
-
                 <div class="carousel-inner" role="listbox">
                   <div *ngFor="let image of recipe.images; let first = first" class="item" [ngClass]="{ active: first }">
                     <img style="width: 100%" [src]="image.url">
                   </div>
                 </div>
-
                 <a class="left carousel-control" href="#general-images" role="button" data-slide="prev">
                   <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                   <span class="sr-only">Previous</span>
@@ -62,7 +57,6 @@
         </div>
       </div>
     </div>
-
     <div class="container">
       <div class="component">
         <div class="recipe-info-up">
@@ -73,37 +67,34 @@
           <div>
             <span class="emoji">🏋🏽</span>
             <span [ngSwitch]="recipe.difficulty">
-                      <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
-                      <span class="label label-default" *ngSwitchCase="2">fácil</span>
-                      <span class="label label-default" *ngSwitchCase="3">intermedio</span>
-                      <span class="label label-default" *ngSwitchCase="4">dificil</span>
-                      <span class="label label-default" *ngSwitchDefault>muy dificil</span>
-                    </span>
+              <span class="label label-default" *ngSwitchCase="1">muy fácil</span>
+              <span class="label label-default" *ngSwitchCase="2">fácil</span>
+              <span class="label label-default" *ngSwitchCase="3">intermedio</span>
+              <span class="label label-default" *ngSwitchCase="4">dificil</span>
+              <span class="label label-default" *ngSwitchDefault>muy dificil</span>
+            </span>
           </div>
           <div>
             <span class="emoji">🍽</span>
-            <span>4 platos</span>
+            <span>{{ recipe.servings }} {{ recipe.servings > 1 ? 'porciones' : 'porción' }}</span>
           </div>
           <div>
             <span class="emoji">⏰</span>
-            <span>3:30 horas</span>
+            <span>{{ recipe.duration }} minutos</span>
           </div>
         </div>
-
-        <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-
+        <div class="row">
           <div class="col-md-3">
             <div class="box-background">
-              <div class="recipe-ingredients-title"><b>INGREDIENTES</b></div>
+              <h4 class="text-center">INGREDIENTES</h4>
               <ul>
                 <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
               </ul>
             </div>
           </div>
-
-          <div class="col-md-9" style="padding-left: 5px">
+          <div class="col-md-9">
             <div class="box-background">
-              <span class="recipe-steps-title"><b>PASOS:</b></span>
+              <h4>PASOS</h4>
               <div>
                 <ol>
                   <li *ngFor="let step of recipe.steps">
@@ -111,8 +102,8 @@
                       <div class="col col-md-8"><p>{{ step.description }}</p></div>
                       <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
                     </div>
-                    <div *ngIf="!step.image">
-                      <p>{{ step.description }}</p>
+                    <div class="row" *ngIf="!step.image">
+                      <div class="col col-md-12"><p>{{ step.description }}</p></div>
                     </div>
                   </li>
                 </ol>
@@ -121,7 +112,7 @@
           </div>
         </div>
         <div class="recipe-comments">
-          <div class="recipe-comments-title"><b>COMENTARIOS</b></div>
+          <h4 class="text-center">COMENTARIOS</h4>
         </div>
       </div>
     </div>

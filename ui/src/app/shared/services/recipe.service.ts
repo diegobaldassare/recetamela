@@ -4,7 +4,6 @@ import {RecipeCategory} from "../models/recipe/recipe-category";
 import 'rxjs/add/operator/map'
 import {Ingredient} from "../models/recipe/ingredient";
 import {ApiService} from "./api-service";
-import {RecipeInput} from "../models/recipe/recipe-input";
 import {Recipe} from "../models/recipe/recipe";
 
 @Injectable()
@@ -28,12 +27,12 @@ export class RecipeService extends ApiService {
     return this.http.get<Ingredient[]>(`${this.URL}/ingredients/all`).toPromise();
   }
 
-  createRecipe(input: RecipeInput): Promise<Recipe> {
-    return this.http.post<Recipe>(this.URL, input).toPromise();
+  createRecipe(r: Recipe): Promise<Recipe> {
+    return this.http.post<Recipe>(this.URL, r).toPromise();
   }
 
-  modifyRecipe(id: string, input: RecipeInput): Promise<Recipe> {
-    return this.http.put<Recipe>(`${this.URL}/${id}`, input).toPromise();
+  modifyRecipe(id: string, r: Recipe): Promise<Recipe> {
+    return this.http.put<Recipe>(`${this.URL}/${id}`, r).toPromise();
   }
 
   deleteRecipe(id: string) : Promise<any> {

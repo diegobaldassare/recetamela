@@ -1,28 +1,30 @@
 package controllers.recipe;
 
-import controllers.SecurityController;
+import controllers.BaseController;
 import models.recipe.Recipe;
-import models.recipe.RecipeInput;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
-import services.recipe.RecipeFormatService;
+import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
+import services.recipe.RecipeValidator;
+
 
 import java.util.Optional;
 
-public class RecipeController extends Controller {
+public class RecipeController extends BaseController {
 
     // @Authenticate(PremiumUser.class)
     public Result create() {
-        final RecipeInput input = Json.fromJson(request().body().asJson(), RecipeInput.class);
+        final Recipe r = getBody(Recipe.class);
+        r.setAuthor(getRequester());
+        RecipeFormatter.format(r);
         try {
-            RecipeFormatService.formatInput(input);
-            final Recipe recipe = RecipeService.getInstance().save(input, SecurityController.getUser());
-            return ok(Json.toJson(recipe));
+            RecipeValidator.validateAllFields(r);
+            r.save();
+            return ok(Json.toJson(r));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
@@ -36,31 +38,16 @@ public class RecipeController extends Controller {
 
     // @Authenticate(PremiumUser.class)
     public Result modify(long id) {
-        final Optional<Recipe> recipeOpt = RecipeService.getInstance().get(id);
-        if (!recipeOpt.isPresent()) return notFound();
-        final Recipe recipe = recipeOpt.get();
-        // if (!recipe.getAuthor().equals(SecurityController.getUser())) return unauthorized();
-        final RecipeInput input = Json.fromJson(request().body().asJson(), RecipeInput.class);
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        if (!recipe.isPresent()) return notFound();
+        // if (!recipe.get().getAuthor().equals(getRequester())) return unauthorized();
+        final Recipe r = getBody(Recipe.class);
+        RecipeFormatter.format(r);
         try {
-            if (input.name != null) recipe.setName(RecipeFormatService.formatName(input.name));
-            if (input.description != null) recipe.setDescription(RecipeFormatService.formatDescription(input.description));
-            if (input.difficulty != 0) recipe.setDifficulty(RecipeFormatService.formatDifficulty(input.difficulty));
-            recipe.setVideoUrl(RecipeFormatService.formatVideoUrl(input.videoUrl));
-            if (input.steps != null) RecipeService.getInstance().setSteps(recipe, RecipeFormatService.formatSteps(input.steps));
-            if (input.categoryNames != null) {
-                recipe.getCategories().clear();
-                RecipeService.getInstance().setCategories(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.categoryNames));
-            }
-            if (input.ingredientNames != null) {
-                recipe.getIngredients().clear();
-                RecipeService.getInstance().setIngredients(recipe, RecipeFormatService.formatCategoryOrIngredientNames(input.ingredientNames));
-            }
-            if (input.imageIds != null) {
-                recipe.getImages().clear();
-                RecipeService.getInstance().setImages(recipe, RecipeFormatService.formatImageIds(input.imageIds));
-            }
-            recipe.update();
-            return ok(Json.toJson(recipe));
+            RecipeValidator.validateNotNullFields(r);
+            RecipeService.getInstance().modify(recipe.get(), r);
+            recipe.get().save();
+            return ok(Json.toJson(recipe.get()));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }

@@ -8,7 +8,6 @@ import services.recipe.IngredientService;
 
 import java.util.List;
 
-
 public class IngredientController extends Controller {
 
     // @Authenticate({FreeUser.class, PremiumUser.class})

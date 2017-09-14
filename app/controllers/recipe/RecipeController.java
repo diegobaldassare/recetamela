@@ -40,7 +40,7 @@ public class RecipeController extends BaseController {
     public Result modify(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         if (!recipe.isPresent()) return notFound();
-        // if (!recipe.get().getAuthor().equals(getRequester())) return unauthorized();
+        // if (!recipe.get().getAuthor().getId().equals(getRequester().getId())) return unauthorized();
         final Recipe r = getBody(Recipe.class);
         RecipeFormatter.format(r);
         try {

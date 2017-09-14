@@ -8,6 +8,9 @@
         </div>
         <app-recipe-form [parent]="instance" submitText="Guardar"></app-recipe-form>
       </div>
+
+      <button class="btn btn-danger" (click)="delete()">Eliminar</button>
+
       <app-not-found *ngIf="!recipeInput"></app-not-found>
     </div>
     <div *ngIf="!fetched" class="app-spinner"></div>

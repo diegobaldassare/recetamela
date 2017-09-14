@@ -29,6 +29,7 @@ import {MyAuthService} from "./auth/my-auth-service";
 import {HttpService} from "./shared/services/http.service";
 import { SharedService } from "./shared/services/shared.service";
 import {AuthGuard} from "./auth/authGuard.service";
+import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
 
 @NgModule({
   declarations: [
@@ -57,6 +58,11 @@ import {AuthGuard} from "./auth/authGuard.service";
     ToasterModule,
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorizedInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

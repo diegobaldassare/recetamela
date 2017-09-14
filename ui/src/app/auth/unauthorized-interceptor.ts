@@ -4,25 +4,25 @@ import {
   HttpResponse
 } from '@angular/common/http';
 import {Observable} from "rxjs/Observable";
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import {Router} from "@angular/router";
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class UnauthorizedInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private router: Router) {}
 
+  /* Intercepts server Unauthorized, Forbidden or not found errors. Automatically redirects back to landing page. */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).do(event => {}, err => {
-      console.log('Intercepting error? ' + (err instanceof HttpErrorResponse));
+      return next.handle(req).do(event => {}, err => {
       if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 404 || err.status === 403)) {
-        console.log('Catching error');
         if (err.status === 401) {
-          console.log("Catching error ");
-          //localStorage.removeItem('token');
+          localStorage.removeItem('token');
         }
-        //this.router.navigate(['landing']);
+        this.router.navigate(['/']);
       }
-    });
+    })
   }
 }

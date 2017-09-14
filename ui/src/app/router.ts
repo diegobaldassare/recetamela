@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'home', component: HomeComponent},
   { path: 'recetas', component: RecipesComponent, canActivate: [AuthGuard] },
-  { path: 'recetas/crear', component: CreateRecipeComponent, canActivate:[AuthGuard] },
+  { path: 'recetas/crear', component: CreateRecipeComponent, canActivate: [AuthGuard]},
   { path: 'recetas/:id', component: ViewRecipeComponent, canActivate: [AuthGuard] },
   { path: 'recetas/:id/editar', component: EditRecipeComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },

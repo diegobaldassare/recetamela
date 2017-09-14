@@ -10,6 +10,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import services.LoginService;
 import services.user.FreeUserService;
+import services.user.UserService;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -18,7 +19,7 @@ import java.util.concurrent.CompletionStage;
 public class AuthenticationAction extends Action<Authenticate> {
 
 
-    private FreeUserService userService = FreeUserService.getInstance();
+    private UserService userService = UserService.getInstance();
     /**
      *  Retrieves the username from the HTTP context;
      *
@@ -44,17 +45,23 @@ public class AuthenticationAction extends Action<Authenticate> {
         if (authToken.get().startsWith("Bearer")) {
             /* Trim out <Type> to get the actual token */
             String token = authToken.get().substring("Bearer".length()).trim();
-            Optional<FreeUser> userOptional = userService.findByAuthToken(token);
-
-            Logger.debug("Secured call made by: " + (userOptional.isPresent() ? userOptional.get().getName(): "undefined user") );
-
-            if (userOptional.isPresent() && validateToken(token, userOptional.get())) {
-                /* Add user data to the context */
-                Logger.debug("Secured call validated, adding " + userOptional.get().getName() + " to context");
-                ctx.args.put("user", userOptional.get());
-                return delegate.call(ctx);
+            Optional<User> userOptional = userService.findByAuthToken(token);
+            if (!userOptional.isPresent()) {
+                Logger.debug("Could not find token in DB for user");
+                return CompletableFuture.completedFuture(unauthorized());
             }
-
+            for (Class<? extends User> authorized: configuration.value()){
+                Class<? extends User> userClass = userOptional.get().getClass();
+                if(authorized.equals(userClass)){
+                    Logger.debug("Secured call made by: " + (userOptional.get().getName()) );
+                    if (validateToken(token, userOptional.get())) {
+                /* Add user data to the context */
+                        Logger.debug("Secured call validated, adding " + userOptional.get().getName() + " to context");
+                        ctx.args.put("user", userOptional.get());
+                        return delegate.call(ctx);
+                    }
+                }
+            }
         }
         return CompletableFuture.completedFuture(unauthorized());
     }

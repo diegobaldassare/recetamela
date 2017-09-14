@@ -38,6 +38,17 @@
 
             <div class="col-xs-6">
               <div class="row">
+                <h4 class="modal-subtitle2">Datos Personales</h4>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" id="dni" formControlName="dni" placeholder="DNI" pattern="[0-9]+">
+              </div>
+              <span *ngIf="!creditCardForm.get('dni').valid && creditCardForm.get('dni').touched"
+                    class="help-block">DNI incorrecto!</span>
+
+
+
+              <div class="row">
                 <h4 class="modal-subtitle2">Datos Tarjeta</h4>
               </div>
               <div class="row">

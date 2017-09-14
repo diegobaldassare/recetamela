@@ -1,48 +1,16 @@
 <div class="container">
   <div class="component">
     <div *ngIf="fetched">
-      <div *ngIf="recipeInput">
+      <div *ngIf="recipe">
         <div class="page-header">
           <h1>Editar receta </h1>
-          <h2><small><a [routerLink]="'/recetas/' + id">Ver receta</a></small></h2>
+          <h2><small><a [routerLink]="this.recipeRoute">Ver receta</a></small></h2>
         </div>
-        <app-recipe-form [parent]="instance" submitText="Guardar"></app-recipe-form>
+        <app-recipe-form [container]="instance" submitText="Guardar"></app-recipe-form>
+        <button style="margin-top: 20px; display: block" class="btn btn-danger" (click)="deleteRecipe()">Eliminar</button>
       </div>
-
-      <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Eliminar</button>
-
-      <app-not-found *ngIf="!recipeInput"></app-not-found>
+      <app-not-found *ngIf="!recipe"></app-not-found>
     </div>
     <div *ngIf="!fetched" class="app-spinner"></div>
   </div>
 </div>
-
-
-<!-- Modal -->
-<div id="confirmDeleteModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-
-        <div class="modal-header">
-          <h3 class="modal-title">Estas seguro que desea eliminar la receta?</h3>
-        </div>
-
-        <div class="modal-footer">
-          <div class="row">
-            <div class="col-md-8 col-xs-8 col-sm-8 alert-block" >
-            </div>
-            <div class="col-md-4 col-xs-4 col-sm-4">
-              <button type="submit"
-                      class="btn btn-danger"
-                      data-dismiss="modal"
-                      (click)="delete()">
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
-</div>
-

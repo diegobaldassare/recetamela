@@ -1,4 +1,4 @@
-package controllers;
+package controllers.recipe;
 
 import models.recipe.Ingredient;
 import play.libs.Json;
@@ -7,7 +7,6 @@ import play.mvc.Result;
 import services.recipe.IngredientService;
 
 import java.util.List;
-
 
 public class IngredientController extends Controller {
 

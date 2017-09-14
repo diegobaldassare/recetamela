@@ -1,17 +1,14 @@
 import com.avaje.ebean.Ebean;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import models.FreeUser;
 import models.Media;
 import models.PremiumUser;
 import models.User;
 import org.junit.Test;
 import play.test.WithApplication;
-import services.FreeUserService;
-import services.PremiumUserService;
+import services.user.FreeUserService;
+import services.user.PremiumUserService;
 
 import java.rmi.NoSuchObjectException;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Optional;
 
 
@@ -31,7 +28,7 @@ public class UserTest extends WithApplication {
     @Test
     public void testUpgradeFreeUser() {
         test(() -> {
-            FreeUser freeUser = new FreeUser("nombre", "apellido", "mail@mail.com", new Media());
+            FreeUser freeUser = new FreeUser("nombre", "apellido", "mail@mail.com", "");
             freeUser.setId(ID);
             freeUser.save();
             PremiumUser premiumUser;
@@ -61,7 +58,7 @@ public class UserTest extends WithApplication {
     @Test
     public void testUpdateFreeUser() {
         test(() -> {
-            FreeUser freeUser = new FreeUser("nombre", "apellido", "mail@mail.com", new Media());
+            FreeUser freeUser = new FreeUser("nombre", "apellido", "mail@mail.com", "");
             freeUser.setId(ID);
             freeUser.save();
             Optional<FreeUser> optFreeUser = FreeUserService.getInstance().get(ID);
@@ -82,7 +79,7 @@ public class UserTest extends WithApplication {
     @Test
     public void testUserType() {
         running(fakeApplication(inMemoryDatabase()), () -> {
-            FreeUser sent = new FreeUser("nombre", "apellido", "mail@mail.com", new Media());
+            FreeUser sent = new FreeUser("nombre", "apellido", "mail@mail.com", "");
             sent.setId(1L);
             sent.save();
             FreeUserService.getInstance().get(1L).ifPresent(a -> System.out.println(a.getType()));
@@ -93,7 +90,7 @@ public class UserTest extends WithApplication {
     @Test
     public void findById() {
         running(fakeApplication(inMemoryDatabase()), () -> {
-            FreeUser sent = new FreeUser("nombre", "apellido", "mail@mail.com", new Media());
+            FreeUser sent = new FreeUser("nombre", "apellido", "mail@mail.com", "");
             sent.setId(1L);
             sent.save();
             FreeUserService.getInstance().get(sent.getId()).ifPresent(a -> assertEquals(sent, a));
@@ -105,7 +102,7 @@ public class UserTest extends WithApplication {
     }
 
     private User updateFreeUser() throws NoSuchObjectException {
-        FreeUser newFreeUser = new FreeUser("newNombre", "newApellido", "newMail@mail.com", new Media());
+        FreeUser newFreeUser = new FreeUser("newNombre", "newApellido", "newMail@mail.com", "");
         Optional<FreeUser> optionalFreeUser = FreeUserService.getInstance().get(ID);
         FreeUser oldFreeUser;
         if(optionalFreeUser.isPresent()) oldFreeUser = optionalFreeUser.get();

@@ -11,7 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import services.PremiumUserService;
+import services.user.PremiumUserService;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -37,32 +37,30 @@ public class PremiumUserController extends Controller {
     }
 
 
-    public Result upgradePremiumUser() {
+    public Result upgradePremiumUser(Long id) {
         //Para upgradear a Chef
         return ok();
     }
 
-    public Result downgradePremiumUser() {
-        try {
-            return updatePremiumUser(user -> {
-                FreeUser freeUser = new FreeUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
-                freeUser.setId(user.getId());
-                freeUser.setFacebookId(user.getFacebookId());
-                freeUser.setAuthToken(user.getAuthToken());
-                Ebean.execute(() -> {
-                    user.delete();
-                    freeUser.save();
-                });
-                return ok(Json.toJson(freeUser));
-            });
-        } catch (NoSuchObjectException err) {
-            return notFound(err.getMessage());
-        }
+    public Result downgradePremiumUser(Long id) {
+        Optional<PremiumUser> premiumUserOptional = PremiumUserService.getInstance().get(id);
+        if (!premiumUserOptional.isPresent()) return notFound();
+        PremiumUser user = premiumUserOptional.get();
+        FreeUser freeUser = new FreeUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
+        freeUser.setId(user.getId());
+        freeUser.setFacebookId(user.getFacebookId());
+        freeUser.setAuthToken(user.getAuthToken());
+        freeUser.setCreditCards(user.getCreditCards());
+        Ebean.execute(() -> {
+            user.delete();
+            freeUser.save();
+        });
+        return ok(Json.toJson(freeUser));
     }
 
-    public Result updatePremiumUser() {
+    public Result updatePremiumUser(Long id) {
         try {
-            return updatePremiumUser(user -> {
+            return updatePremiumUser(id, user -> {
                 user.update();
                 return ok(Json.toJson(user));
             });
@@ -71,16 +69,13 @@ public class PremiumUserController extends Controller {
         }
     }
 
-    public Result updatePremiumUserExpirationDate() {
-        try {
-            return updatePremiumUser(user -> {
-                ((PremiumUser) user).setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
-                user.update();
-                return ok(Json.toJson(user));
-            });
-        } catch (NoSuchObjectException err) {
-            return notFound(err.getMessage());
-        }
+    public Result updatePremiumUserExpirationDate(Long id) {
+        Optional<PremiumUser> premiumUserOptional = PremiumUserService.getInstance().get(id);
+        if (!premiumUserOptional.isPresent()) return notFound();
+        PremiumUser user = premiumUserOptional.get();
+        user.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+        user.update();
+        return ok(Json.toJson(user));
     }
 
     public Result getPremiumUser(Long id) {
@@ -102,9 +97,9 @@ public class PremiumUserController extends Controller {
         return notFound();
     }
 
-    private Result updatePremiumUser(Function<User, Result> function) throws NoSuchObjectException {
+    private Result updatePremiumUser(Long id, Function<User, Result> function) throws NoSuchObjectException {
         PremiumUser newPremiumUser = userForm.bindFromRequest().get();
-        Optional<PremiumUser> optionalPremiumUser = PremiumUserService.getInstance().get(newPremiumUser.getId());
+        Optional<PremiumUser> optionalPremiumUser = PremiumUserService.getInstance().get(id);
         PremiumUser oldPremiumUser;
         if(optionalPremiumUser.isPresent()) oldPremiumUser = optionalPremiumUser.get();
         else throw new NoSuchObjectException("The user was not found");
@@ -116,6 +111,7 @@ public class PremiumUserController extends Controller {
         if (newPremiumUser.getRecipes() != null) oldPremiumUser.setRecipes(newPremiumUser.getRecipes());
         if (newPremiumUser.getRecipebooks() != null) oldPremiumUser.setRecipebooks(newPremiumUser.getRecipebooks());
         if (newPremiumUser.getExpirationDate() != null) oldPremiumUser.setExpirationDate(newPremiumUser.getExpirationDate());
+        if (newPremiumUser.getCreditCards() != null) oldPremiumUser.setCreditCards(newPremiumUser.getCreditCards());
         oldPremiumUser.setFacebookId(newPremiumUser.getFacebookId());
         return function.apply(oldPremiumUser);
     }

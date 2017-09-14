@@ -1,23 +1,33 @@
 package models.recipe;
 
-import models.BaseModel;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Media;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
-public class RecipeStep extends BaseModel {
+public class RecipeStep extends Model {
 
-    @Column(nullable = false, length = 1024)
+    @Id
+    private Long id;
+
+    @Column(nullable = false, length = 2048)
     private String description;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     private Media image;
 
-    public RecipeStep() { }
+    public RecipeStep() {}
+
+    @JsonIgnore
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

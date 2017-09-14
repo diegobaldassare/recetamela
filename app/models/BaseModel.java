@@ -5,7 +5,7 @@ import com.avaje.ebean.Model;
 import javax.persistence.*;
 
 /**
- * Base model for database models. All models must extend this class.
+ * Base model for database models.
  */
 @MappedSuperclass
 public abstract class BaseModel extends Model {

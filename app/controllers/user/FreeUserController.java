@@ -11,7 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import services.FreeUserService;
+import services.user.FreeUserService;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -38,28 +38,26 @@ public class FreeUserController extends Controller {
         return ok(Json.toJson(user));
     }
 
-    public Result upgradeFreeUser() {
-        try {
-            return updateFreeUser(user -> {
-                PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
-                premiumUser.setId(user.getId());
-                premiumUser.setFacebookId(user.getFacebookId());
-                premiumUser.setAuthToken(user.getAuthToken());
-                premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
-                Ebean.execute(() -> {
-                    user.delete();
-                    premiumUser.save();
-                });
-                return ok(Json.toJson(premiumUser));
-            });
-        } catch (NoSuchObjectException err) {
-            return notFound(err.getMessage());
-        }
+    public Result upgradeFreeUser(Long id) {
+        Optional<FreeUser> freeUserOptional = FreeUserService.getInstance().get(id);
+        if (!freeUserOptional.isPresent()) return notFound();
+        FreeUser user = freeUserOptional.get();
+        PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
+        premiumUser.setId(user.getId());
+        premiumUser.setFacebookId(user.getFacebookId());
+        premiumUser.setAuthToken(user.getAuthToken());
+        premiumUser.setCreditCards(user.getCreditCards());
+        premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+        Ebean.execute(() -> {
+            user.delete();
+            premiumUser.save();
+        });
+        return ok(Json.toJson(premiumUser));
     }
 
-    public Result updateFreeUser() {
+    public Result updateFreeUser(Long id) {
         try {
-            return updateFreeUser(user -> {
+            return updateFreeUser(id, user -> {
                 user.update();
                 return ok(Json.toJson(user));
             });
@@ -87,9 +85,9 @@ public class FreeUserController extends Controller {
         return notFound();
     }
 
-    private Result updateFreeUser(Function<User, Result> function) throws NoSuchObjectException {
+    private Result updateFreeUser(Long id, Function<User, Result> function) throws NoSuchObjectException {
         FreeUser newFreeUser = userForm.bindFromRequest().get();
-        Optional<FreeUser> optionalFreeUser = FreeUserService.getInstance().get(newFreeUser.getId());
+        Optional<FreeUser> optionalFreeUser = FreeUserService.getInstance().get(id);
         FreeUser oldFreeUser;
         if(optionalFreeUser.isPresent()) oldFreeUser = optionalFreeUser.get();
         else throw new NoSuchObjectException("The user was not found");
@@ -98,6 +96,7 @@ public class FreeUserController extends Controller {
         if (newFreeUser.getEmail() != null) oldFreeUser.setEmail(newFreeUser.getEmail());
         if (newFreeUser.getProfilePic() != null) oldFreeUser.setProfilePic(newFreeUser.getProfilePic());
         if (newFreeUser.getAuthToken() != null) oldFreeUser.setAuthToken(newFreeUser.getAuthToken());
+        if (newFreeUser.getCreditCards() != null) oldFreeUser.setCreditCards(newFreeUser.getCreditCards());
         oldFreeUser.setFacebookId(newFreeUser.getFacebookId());
         return function.apply(oldFreeUser);
     }

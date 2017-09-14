@@ -7,8 +7,6 @@ POST /api/recipe controllers.RecipeController.create()
 GET /api/recipe/:id controllers.RecipeController.get(id: Long)
 PUT /api/recipe/:id controllers.RecipeController.modify(id: Long)
 
-POST /api/recipe/category controllers.RecipeCategoryController.create()
-GET /api/recipe/category/:id controllers.RecipeCategoryController.get(id: Long)
 GET /api/recipe/categories/all controllers.RecipeCategoryController.getAll
 
 GET /api/recipe/ingredients/all controllers.IngredientController.getAll

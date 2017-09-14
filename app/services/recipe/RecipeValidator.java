@@ -22,6 +22,8 @@ public class RecipeValidator {
         validateDifficulty(r);
         validateSteps(r);
         validateVideoUrl(r);
+        validateServings(r);
+        validateDuration(r);
     }
 
     public static void validateNotNullFields(Recipe r) throws BadRequestException {
@@ -33,6 +35,8 @@ public class RecipeValidator {
         if (r.getDifficulty() != 0) validateDifficulty(r);
         if (r.getSteps() != null) validateSteps(r);
         if (r.getVideoUrl() != null) validateVideoUrl(r);
+        if (r.getServings() != 0) validateServings(r);
+        if (r.getDuration() != 0) validateDuration(r);
     }
 
     private static void validateName(Recipe r) throws BadRequestException {
@@ -96,6 +100,14 @@ public class RecipeValidator {
         }
         if (r.getVideoUrl().matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9_]+$")) return;
         throw new BadRequestException(RequestError.BAD_FORMAT);
+    }
+
+    private static void validateServings(Recipe r) throws BadRequestException {
+        if (r.getServings() < 1) throw new BadRequestException(RequestError.BAD_FORMAT);
+    }
+
+    private static void validateDuration(Recipe r) throws BadRequestException {
+        if (r.getServings() < 1) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     private static boolean isAlphaNumericSpaceNotEmpty(String s) {

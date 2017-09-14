@@ -44,7 +44,7 @@ public class RecipeController extends BaseController {
         try {
             RecipeValidator.validateNotNullFields(r);
             RecipeService.getInstance().modify(recipe.get(), r);
-            r.save();
+            recipe.get().save();
             return ok(Json.toJson(recipe.get()));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);

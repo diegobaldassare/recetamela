@@ -3,9 +3,7 @@ import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Recipe} from "../../shared/models/recipe/recipe";
-import {RecipeCategory} from "../../shared/models/recipe/recipe-category";
-import {Ingredient} from "../../shared/models/recipe/ingredient";
-import {RecipeFormContainer} from "../recipe-form-container";
+import {RecipeFormContainer} from "../recipe-form/recipe-form-container";
 
 @Component({
   selector: 'app-edit-recipe',
@@ -28,6 +26,8 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
     this.recipe.id = this.route.snapshot.params['id'];
     this._recipeService.getRecipe(this.recipe.id).then(recipe => {
       this.recipe = recipe;
+      if (!this.recipe.videoUrl) this.recipe.videoUrl = "";
+      this.recipe.difficulty += "";
       const t = this;
       recipe.categories.forEach(c => this.selectedCategories[c.name] = c);
       recipe.ingredients.forEach(i => this.selectedIngredients[i.name] = i);
@@ -49,10 +49,10 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
     return `/recetas/${this.recipe.id}`;
   }
 
-  private submit(): Promise<Recipe> {
+  public submit(): Promise<Recipe> {
     return new Promise((resolve, reject) => {
-      this.recipe.categories = this.selectedCategories;
-      this.recipe.ingredients = this.selectedIngredients;
+      this.recipe.categories = Object.keys(this.selectedCategories).map(k => this.selectedCategories[k]);
+      this.recipe.ingredients = Object.keys(this.selectedIngredients).map(k => this.selectedIngredients[k]);
       this._recipeService.modifyRecipe(this.recipe.id, this.recipe).then(() => {
         this.router.navigate([this.recipeRoute]);
         this.toaster.pop('success', 'Receta modificada');

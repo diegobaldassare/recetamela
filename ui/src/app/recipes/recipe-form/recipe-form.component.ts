@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MediaService} from "../../shared/services/media.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {RecipeStep} from "../../shared/models/recipe/recipe-step";
-import {RecipeFormContainer} from "../recipe-form-container";
+import {RecipeFormContainer} from "./recipe-form-container";
 declare var $: any;
 
 @Component({
@@ -11,8 +11,8 @@ declare var $: any;
   styleUrls: ['./recipe-form.component.css']
 })
 export class RecipeFormComponent implements OnInit {
-  @Input() container: RecipeFormContainer;
-  @Input() submitText: string;
+  @Input() private container: RecipeFormContainer;
+  @Input() private submitText: string;
   private uploadingImage: boolean;
   private stepDescription: string = '';
   private categoryName: string = '';
@@ -114,12 +114,13 @@ export class RecipeFormComponent implements OnInit {
 
   private selectCategory() {
     const c = this.categoryName.toLowerCase().trim();
-    if (!this.isAlphaNumSpaceNotEmpty(c) || !this.container.categories[c]) return;
-    if (!this.container.selectedCategories[c]) {
+    if (!this.isAlphaNumSpaceNotEmpty(c)) return;
+    if (this.container.categories[c]) {
       this.container.selectedCategories[c] = this.container.categories[c];
       delete this.container.categories[c];
+      this.categoryName = '';
     }
-    this.categoryName = '';
+    else if (this.container.selectedCategories[c]) this.categoryName = '';
   }
 
   private deselectCategory(c: string) {

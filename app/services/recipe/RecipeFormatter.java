@@ -1,10 +1,10 @@
 package services.recipe;
 
-import models.Media;
 import models.recipe.Ingredient;
 import models.recipe.Recipe;
-import models.recipe.RecipeCategory;
 import models.recipe.RecipeStep;
+
+import java.util.ListIterator;
 
 public class RecipeFormatter {
 
@@ -19,8 +19,7 @@ public class RecipeFormatter {
 
     private static void formatCategories(Recipe r) {
         if (r.getCategories() == null) return;
-        for (final RecipeCategory c : r.getCategories())
-            if (c == null || c.getId() == null) r.getCategories().remove(c);
+        r.getCategories().removeIf(c -> c == null || c.getId() == null);
     }
 
     private static void formatDescription(Recipe r) {
@@ -30,18 +29,19 @@ public class RecipeFormatter {
 
     private static void formatImages(Recipe r) {
         if (r.getImages() == null) return;
-        for (final Media i : r.getImages())
-            if (i == null || i.getId() == null) r.getImages().remove(i);
+        r.getImages().removeIf(i -> i == null || i.getId() == null);
     }
 
     private static void formatIngredients(Recipe r) {
         if (r.getIngredients() == null) return;
-        for (final Ingredient i : r.getIngredients()) {
-            if (i == null || i.getName() == null) {
-                r.getIngredients().remove(i);
-                continue;
+        final ListIterator<Ingredient> it = r.getIngredients().listIterator();
+        while (it.hasNext()) {
+            final Ingredient i = it.next();
+            if (i == null || i.getName() == null) it.remove();
+            else {
+                i.setName(i.getName().trim().toLowerCase());
+                it.set(i);
             }
-            i.setName(i.getName().trim().toLowerCase());
         }
     }
 
@@ -52,13 +52,16 @@ public class RecipeFormatter {
 
     private static void formatSteps(Recipe r) {
         if (r.getSteps() == null) return;
-        for (final RecipeStep s : r.getSteps()) {
+        final ListIterator<RecipeStep> it = r.getSteps().listIterator();
+        while (it.hasNext()) {
+            final RecipeStep s = it.next();
             if (s == null || s.getDescription() == null) {
-                r.getSteps().remove(s);
+                it.remove();
                 continue;
             }
             if (s.getImage() != null && s.getImage().getId() == null) s.setImage(null);
             s.setDescription(capitalizeFirstCharacter(s.getDescription().trim()));
+            it.set(s);
         }
     }
 

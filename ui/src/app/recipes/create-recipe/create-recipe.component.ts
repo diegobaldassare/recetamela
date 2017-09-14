@@ -3,7 +3,7 @@ import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
 import {Router} from "@angular/router";
 import {Recipe} from "../../shared/models/recipe/recipe";
-import {RecipeFormContainer} from "../recipe-form-container";
+import {RecipeFormContainer} from "../recipe-form/recipe-form-container";
 
 @Component({
   selector: 'app-new-recipe',
@@ -29,10 +29,10 @@ export class CreateRecipeComponent extends RecipeFormContainer implements OnInit
     });
   }
 
-  private submit(): Promise<Recipe> {
+  public submit(): Promise<Recipe> {
     return new Promise((resolve, reject) => {
-      this.recipe.categories = this.selectedCategories;
-      this.recipe.ingredients = this.selectedIngredients;
+      this.recipe.categories = Object.keys(this.selectedCategories).map(k => this.selectedCategories[k]);
+      this.recipe.ingredients = Object.keys(this.selectedIngredients).map(k => this.selectedIngredients[k]);
       this._recipeService.createRecipe(this.recipe).then(r => {
         this.router.navigate([`/recetas/${r.id}`]);
         this.toaster.pop('success', 'Receta creada');

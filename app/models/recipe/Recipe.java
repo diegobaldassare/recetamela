@@ -1,13 +1,13 @@
 package models.recipe;
 
 import models.BaseModel;
+import models.PremiumUser;
 import models.User;
 import models.Media;
 
 import javax.persistence.*;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
@@ -30,9 +30,8 @@ public class Recipe extends BaseModel {
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Media> images;
 
-    // TODO @Column(nullable = false)
-    @ManyToOne
-    private User author;
+    @ManyToOne(optional = false)
+    private PremiumUser author;
 
     @ManyToMany(cascade = REMOVE)
     private List<Ingredient> ingredients;
@@ -105,7 +104,7 @@ public class Recipe extends BaseModel {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(PremiumUser author) {
         this.author = author;
     }
 

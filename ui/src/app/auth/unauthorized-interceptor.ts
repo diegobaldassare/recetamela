@@ -17,10 +17,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
   /* Intercepts server Unauthorized, Forbidden or not found errors. Automatically redirects back to landing page. */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       return next.handle(req).do(event => {}, err => {
-      if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 404 || err.status === 403)) {
-        if (err.status === 401) {
-          localStorage.removeItem('X-TOKEN');
-        }
+      if (err instanceof HttpErrorResponse && (err.status === 401)) {
+        localStorage.removeItem('X-TOKEN');
         this.router.navigate(['/']);
       }
     });

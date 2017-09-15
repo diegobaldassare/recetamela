@@ -27,9 +27,9 @@ public class CreditCardController extends Controller {
         return ok(Json.toJson(creditCard));
     }
 
-    public Result update() {
+    public Result update(Long id) {
         CreditCard newCreditCard = creditCardForm.bindFromRequest().get();
-        Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(newCreditCard.getId());
+        Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
         if (!creditCardOptional.isPresent()) return notFound();
         CreditCard oldCreditCard = creditCardOptional.get();
         oldCreditCard.setNumber(newCreditCard.getNumber());

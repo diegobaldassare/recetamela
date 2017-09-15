@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {User} from "../models/user-model";
-import {Http, Headers} from "@angular/http";
+import {Headers, Http} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 import {LoginData} from "../models/login-data";
 import {MyAuthService} from "../../auth/my-auth-service";
 import {SharedService} from "./shared.service";
@@ -9,7 +10,7 @@ import {SharedService} from "./shared.service";
 export class UserService {
 
   private headers: Headers = new Headers({'Content-Type':'application/json'});
-  constructor(private http:Http, private auth: MyAuthService, private sharedService: SharedService) { }
+  constructor(private http:Http, private httpClient: HttpClient, private auth: MyAuthService, private sharedService: SharedService) { }
 
   public registerUser(user: User) {
     const json = JSON.stringify(user);
@@ -24,6 +25,10 @@ export class UserService {
       this.auth.saveToken(tokenResponse.token);
       this.sharedService.notifyOther({loggedIn: true});
     });
+  }
+
+  public upgradeFreeUser(id: string) : Promise<User> {
+    return this.httpClient.put<User>(`/api/user/${id}/upgradeUser`, {}).toPromise();
   }
 
 

@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import { FormControl, FormGroup, Validators} from "@angular/forms";
+import { CreditCard } from "../../shared/models/credit-card";
+import { CreditCardService } from "../../shared/services/credit-card.service";
+import { UserService } from "../../shared/services/user.service";
+import {ToasterService} from "angular2-toaster/src/toaster.service";
+import {log} from "util";
+import {User} from "../../shared/models/user-model";
 
 @Component({
   selector: 'app-upgrade',
@@ -7,11 +13,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./upgrade.component.css']
 })
 export class UpgradeComponent implements OnInit {
+  private creditCardForm: FormGroup;
+  private isPassword = "password";
+  private creditcard: CreditCard;
 
-  creditCardForm: FormGroup;
-  isPassword = "password";
-
-  constructor() { }
+  constructor(
+    private _creditCardService: CreditCardService,
+    private _userService: UserService,
+    private toaster: ToasterService
+  ) { }
 
   ngOnInit() {
     this.creditCardForm = new FormGroup({
@@ -33,25 +43,20 @@ export class UpgradeComponent implements OnInit {
 
   upgradeToPremium(){
     this.createCreditCardForm();
-    /*this.cardService.create(this.createCreditCardForm());*/
+    // this._creditCardService.createCreditCard(this.creditcard);
+    // this._userService.upgradeFreeUser().then(result => {
+    //   this.toaster.pop('success', 'Cuenta actualizada');
+    // }, () => {
+    //   this.toaster.pop('error', 'Error de pago');
+    // });
   }
 
-  private createCreditCardForm(){
+  private createCreditCardForm() {
     const cardName = this.creditCardForm.value.cardName;
     const cardNumber = this.creditCardForm.value.cardNumber;
     const cardCode = this.creditCardForm.value.cardCode;
     const cardDate = this.creditCardForm.value.cardDate;
-
-    console.log(cardName);
-    console.log(cardNumber);
-    console.log(cardCode);
-    console.log(cardDate);
-
-    // console.log(this.isValidNumber(cardNumber));
-    console.log(this.cardType(cardNumber));
-    // console.log(this.isCodeValid(cardCode,this.cardType(cardNumber)));
-    // console.log(this.isDateValid(cardDate));
-    // //return new Card(cardName, cardNumber, cardCode);
+    this.creditcard = new CreditCard(cardNumber, this.cardType(cardNumber));
   }
 
 

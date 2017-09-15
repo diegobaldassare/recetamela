@@ -1,9 +1,9 @@
 package models.recipe;
 
 import models.BaseModel;
+import models.Media;
 import models.PremiumUser;
 import models.User;
-import models.Media;
 
 import javax.persistence.*;
 import java.util.List;

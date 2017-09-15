@@ -2,14 +2,12 @@ package controllers.authentication;
 
 import controllers.SecurityController;
 import models.AuthToken;
-import models.FreeUser;
 import models.User;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.LoginService;
-import services.user.FreeUserService;
 import services.user.UserService;
 
 import java.util.Optional;
@@ -72,10 +70,9 @@ public class AuthenticationAction extends Action<Authenticate> {
         Optional<AuthToken> tokenObject = LoginService.getInstance().findByHash(token);
 
         /* Token on header will be valid if it matches the one on our DB, and if it hasn't expired yet */
-        boolean validated = tokenObject.isPresent() &&
+        return tokenObject.isPresent() &&
                 userToValidate.getAuthToken().equals(token) &&
                 (tokenObject.get().getDate() + 80_000_000 > System.currentTimeMillis()) &&
                 tokenObject.get().isValid();
-        return validated;
     }
 }

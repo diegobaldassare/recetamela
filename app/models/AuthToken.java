@@ -2,7 +2,6 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * Created by Matias Cicilia on 07-Sep-17.

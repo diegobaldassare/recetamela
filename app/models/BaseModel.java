@@ -2,7 +2,8 @@ package models;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Base model for database models.

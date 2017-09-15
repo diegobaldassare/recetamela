@@ -2,7 +2,6 @@ package services;
 
 import com.avaje.ebean.Model;
 import models.AuthToken;
-import models.User;
 
 import java.util.List;
 import java.util.Optional;

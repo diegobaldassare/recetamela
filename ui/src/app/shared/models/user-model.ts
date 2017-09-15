@@ -1,47 +1,26 @@
+import {CreditCard} from "./credit-card";
+
 export class User {
 
-  public static from(jsonObject: any): User {
-    if (!jsonObject
-      || !jsonObject.id
-      || !jsonObject.name
-      || !jsonObject.lastName
-      || !jsonObject.email
-      || !jsonObject._birthDate) {
-      throw new Error('Failed to instantiate User from given jsonObject');
+  public email: string;
+  public facebookId: string;
+  public id: string;
+  public lastName: string;
+  public name: string;
+  public profilePic: string;
+  public type: string;
+  public authToken: string;
+  public creditCards: CreditCard[]=[];
+
+  public toJson() : any {
+    return {
+      email: this.email,
+      facebookId: this.facebookId,
+      id: this.id,
+      lastName: this.lastName,
+      name: this.lastName,
+      profilePic: this.profilePic,
+      type: this.type
     }
-    return new User(
-      jsonObject.id,
-      jsonObject.name,
-      jsonObject.lastName,
-      jsonObject.email,
-      jsonObject._birthDate);
-  }
-
-  constructor(public id: string,
-              public name: string,
-              public lastName: string,
-              public email: string,
-              public birthDate: Date) {
-  }
-
-
-  public get _id(): string {
-    return this.id;
-  }
-
-  public get _name(): string {
-    return this.name;
-  }
-
-  public get _lastName(): string {
-    return this.lastName;
-  }
-
-  public get _email(): string {
-    return this.email;
-  }
-
-  public get _birthDate(): Date {
-    return this.birthDate;
   }
 }

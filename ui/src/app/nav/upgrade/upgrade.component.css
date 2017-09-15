@@ -22,9 +22,9 @@
   font-size: 10px;
 }
 /*.alert-block{*/
-  /*color: #FC4A1A;*/
-  /*font-size: 13px;*/
-  /*text-align: left;*/
+/*color: #FC4A1A;*/
+/*font-size: 13px;*/
+/*text-align: left;*/
 /*}*/
 
 
@@ -37,4 +37,26 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.upgrade-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  z-index: 1500;
+}
+
+.close {
+  color: #333;
+}
+
+.smoke {
+  z-index: 1400;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(0,0,0,0.5);
 }

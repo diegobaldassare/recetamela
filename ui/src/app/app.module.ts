@@ -34,6 +34,7 @@ import {AuthGuard} from "./auth/authGuard.service";
 import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
 import {KeysPipe} from "./shared/pipes/keys-pipe";
 import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
+import {PremiumGuard} from "./auth/premium-guard";
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
     HttpService,
     SharedService,
     AuthGuard,
+    PremiumGuard,
   ],
   bootstrap: [AppComponent]
 })

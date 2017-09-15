@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SharedService} from '../../shared/services/shared.service';
 
@@ -13,7 +13,8 @@ export class UpgradeComponent implements OnInit {
   isPassword = "password";
   active: boolean;
 
-  constructor(private sharedService: SharedService) {
+  constructor(private sharedService: SharedService,
+              private cdRef: ChangeDetectorRef) {
     this.sharedService.notifyObservable$.subscribe(res => {
       if (res.hasOwnProperty('upgradeForm') && res.upgradeForm) {
         this.activeUpgrade(res.upgradeForm);
@@ -33,10 +34,12 @@ export class UpgradeComponent implements OnInit {
 
   public activeUpgrade(value: boolean): void {
     this.active = value;
+    this.cdRef.detectChanges();
   }
 
   public close(): void {
     this.active = false;
+    this.cdRef.detectChanges();
   }
 
   showPassword() {

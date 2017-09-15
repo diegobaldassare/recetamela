@@ -38,9 +38,9 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Opciones</a></li>
               <li class="divider"></li>
-              <li *ngIf="isPremium"><a href="#" data-toggle="modal" data-target="#myModal">Premium</a></li>
+              <li *ngIf="!isPremium" (click)="premium()"><a href="javascript://">Hacete Premium</a></li>
               <li class="divider"></li>
-              <li (click)="crearReceta()" )><a href="javascript://">Crear Receta</a></li>
+              <li (click)="crearReceta()"><a href="javascript://">Crear Receta</a></li>
               <li class="divider"></li>
               <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
             </ul>

@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div class="smoke" *ngIf="active"></div>
+<div id="myModal" role="dialog" class="upgrade-banner"*ngIf="active">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -7,7 +8,7 @@
       <form [formGroup]="creditCardForm">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" (click)="close()">X</button>
           <h3 class="modal-title">Convertirte en Usuario Premium</h3>
         </div>
 
@@ -111,8 +112,8 @@
           <div class="row">
             <div class="col-md-8 col-xs-8 col-sm-8 alert-block" >
               <!--<span-->
-                <!--*ngIf="!creditCardForm.valid && creditCardForm.touched">-->
-                <!--Falta algo o algun campo es incorrecto!</span>-->
+              <!--*ngIf="!creditCardForm.valid && creditCardForm.touched">-->
+              <!--Falta algo o algun campo es incorrecto!</span>-->
             </div>
             <div class="col-md-4 col-xs-4 col-sm-4">
               <button type="submit"
@@ -130,4 +131,3 @@
     </div>
   </div>
 </div>
-

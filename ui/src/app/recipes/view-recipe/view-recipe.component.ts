@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import { DomSanitizer } from '@angular/platform-browser';
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
+import {User} from "../../shared/models/user-model";
 
 @Component({
   selector: 'app-view-recipe',
@@ -26,6 +27,11 @@ export class ViewRecipeComponent implements OnInit {
       this.recipe = recipe;
       this.fetched = true;
     }, () => { this.fetched = true });
+  }
+
+  public get editButton(): boolean {
+    const viewer: User = JSON.parse(localStorage.getItem("user"));
+    return viewer.id == this.recipe.author.id;
   }
 
   private get embedVideoUrl() {

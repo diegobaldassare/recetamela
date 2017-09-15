@@ -8,7 +8,7 @@
               <div style="float: left; margin-right: 13px">
                 <h1>{{ recipe.name }}</h1>
               </div>
-              <button routerLink="editar" type="button" class="btn btn-primary btn-sm">
+              <button *ngIf="editButton" routerLink="editar" type="button" class="btn btn-primary btn-sm">
                 <span class="glyphicon glyphicon-pencil"></span>
               </button>
             </div>

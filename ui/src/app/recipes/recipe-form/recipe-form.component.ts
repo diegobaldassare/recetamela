@@ -3,6 +3,7 @@ import {MediaService} from "../../shared/services/media.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {RecipeStep} from "../../shared/models/recipe/recipe-step";
 import {RecipeFormContainer} from "./recipe-form-container";
+import {Ingredient} from "../../shared/models/recipe/ingredient";
 declare var $: any;
 
 @Component({
@@ -139,8 +140,15 @@ export class RecipeFormComponent implements OnInit {
     const i = this.ingredientName.toLowerCase().trim();
     if (!this.isAlphaNumSpaceNotEmpty(i)) return;
     if (!this.container.selectedIngredients[i]) {
-      this.container.selectedIngredients[i] = this.container.ingredients[i];
-      delete this.container.ingredients[i];
+      if (this.container.ingredients[i]) {
+        this.container.selectedIngredients[i] = this.container.ingredients[i];
+        delete this.container.ingredients[i];
+      }
+      else {
+        const ingredient = new Ingredient();
+        ingredient.name = i;
+        this.container.selectedIngredients[i] = ingredient;
+      }
     }
     this.ingredientName = '';
   }

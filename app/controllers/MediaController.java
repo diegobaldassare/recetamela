@@ -53,7 +53,6 @@ public class MediaController extends Controller {
         return media.map(m -> ok(Json.toJson(m))).orElseGet(Results::notFound);
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result getFile(String name) {
         final File file = MediaService.getInstance().getFile(name);
         if (file.exists()) return ok(file);

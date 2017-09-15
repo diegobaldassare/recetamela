@@ -14,6 +14,7 @@ export class ViewRecipeComponent implements OnInit {
 
   private recipe: Recipe;
   private fetched: boolean;
+  private viewer: User = JSON.parse(localStorage.getItem("user"));
 
   constructor(
     private route: ActivatedRoute,
@@ -30,8 +31,7 @@ export class ViewRecipeComponent implements OnInit {
   }
 
   public get editButton(): boolean {
-    const viewer: User = JSON.parse(localStorage.getItem("user"));
-    return viewer.id == this.recipe.author.id;
+    return this.viewer.id == this.recipe.author.id;
   }
 
   private get embedVideoUrl() {

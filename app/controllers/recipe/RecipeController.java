@@ -56,6 +56,7 @@ public class RecipeController extends BaseController {
         }
     }
 
+    @Authenticate(PremiumUser.class)
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> {

@@ -15,11 +15,11 @@ export class UpgradeComponent implements OnInit {
 
   ngOnInit() {
     this.creditCardForm = new FormGroup({
-      'dni': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+      'dni': new FormControl(null, [Validators.required]),
       'cardName': new FormControl(null, [Validators.required]),
-      'cardNumber': new FormControl(null, [Validators.required, Validators.minLength(15), Validators.maxLength(16), isValidNumber]),
-      'cardCode': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(4), isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
-      'cardDate': new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(4), isValidDate]),
+      'cardNumber': new FormControl(null, [Validators.required, isValidNumber]),
+      'cardCode': new FormControl(null, [Validators.required, isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
+      'cardDate': new FormControl(null, [Validators.required, isValidDate]),
     });
   }
 
@@ -47,14 +47,9 @@ export class UpgradeComponent implements OnInit {
     console.log(dni);
     console.log(cardName);
     console.log(cardNumber);
+    console.log(this.cardType(cardNumber));
     console.log(cardCode);
     console.log(cardDate);
-
-    // console.log(this.isValidNumber(cardNumber));
-    console.log(this.cardType(cardNumber));
-    // console.log(this.isCodeValid(cardCode,this.cardType(cardNumber)));
-    // console.log(this.isDateValid(cardDate));
-    // //return new Card(cardName, cardNumber, cardCode);
   }
 
 
@@ -102,7 +97,6 @@ function isValidDate(input: FormControl){
 
 function isValidNumber(input: FormControl){
   const num = input.value;
-  // console.log(num);
   if(num != null){
     let ccNum = num.toString();
     let sum = 0;

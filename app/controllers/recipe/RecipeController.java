@@ -1,6 +1,9 @@
 package controllers.recipe;
 
 import controllers.BaseController;
+import controllers.authentication.Authenticate;
+import models.FreeUser;
+import models.PremiumUser;
 import models.recipe.Recipe;
 import play.libs.Json;
 import play.mvc.Http;
@@ -11,15 +14,14 @@ import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 
-
 import java.util.Optional;
 
 public class RecipeController extends BaseController {
 
-    // @Authenticate(PremiumUser.class)
+    @Authenticate(PremiumUser.class)
     public Result create() {
         final Recipe r = getBody(Recipe.class);
-        r.setAuthor(getRequester());
+        r.setAuthor((PremiumUser) getRequester());
         RecipeFormatter.format(r);
         try {
             RecipeValidator.validateAllFields(r);
@@ -30,17 +32,18 @@ public class RecipeController extends BaseController {
         }
     }
 
-    // @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result get(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> ok(Json.toJson(r))).orElseGet(Results::notFound);
     }
 
-    // @Authenticate(PremiumUser.class)
+    @Authenticate(PremiumUser.class)
     public Result modify(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         if (!recipe.isPresent()) return notFound();
-        // if (!recipe.get().getAuthor().equals(getRequester())) return unauthorized();
+        if (!recipe.get().getAuthor().getId().equals(getRequester().getId()))
+            return unauthorized();
         final Recipe r = getBody(Recipe.class);
         RecipeFormatter.format(r);
         try {
@@ -53,6 +56,7 @@ public class RecipeController extends BaseController {
         }
     }
 
+    @Authenticate(PremiumUser.class)
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> {

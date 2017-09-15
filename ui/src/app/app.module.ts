@@ -28,7 +28,13 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {MyAuthService} from "./auth/my-auth-service";
 import {HttpService} from "./shared/services/http.service";
 import { SharedService } from "./shared/services/shared.service";
+import {RecipeCardComponent} from "./recipes/recipe-card/recipe-card.component";
+import {NotLoggedComponent} from "./landing/not-logged/not-logged.component";
+import {AuthGuard} from "./auth/authGuard.service";
+import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
 import {KeysPipe} from "./shared/pipes/keys-pipe";
+import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
+import {PremiumGuard} from "./auth/premium-guard";
 
 @NgModule({
   declarations: [
@@ -45,7 +51,10 @@ import {KeysPipe} from "./shared/pipes/keys-pipe";
     EditRecipeComponent,
     UpgradeComponent,
     LogInComponent,
-    KeysPipe
+    RecipeCardComponent,
+    RecipeListComponent,
+    NotLoggedComponent,
+    KeysPipe,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +72,11 @@ import {KeysPipe} from "./shared/pipes/keys-pipe";
       useClass: AuthInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorizedInterceptor,
+      multi: true,
+    },
     CookieService,
     DOMService,
     RecipeService,
@@ -70,7 +84,9 @@ import {KeysPipe} from "./shared/pipes/keys-pipe";
     UserService,
     MyAuthService,
     HttpService,
-    SharedService
+    SharedService,
+    AuthGuard,
+    PremiumGuard,
   ],
   bootstrap: [AppComponent]
 })

@@ -17,8 +17,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import services.user.FreeUserService;
 import services.LoginService;
+import services.user.FreeUserService;
 import util.ShaUtil;
 
 import java.util.Date;

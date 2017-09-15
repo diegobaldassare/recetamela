@@ -7,8 +7,6 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.Optional;
-
 public abstract class UserController extends Controller {
 
     protected Form<User> userForm;

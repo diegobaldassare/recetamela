@@ -24,10 +24,10 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
   }
 
   ngOnInit() {
-    this.recipe.id = this.route.snapshot.params['id'];
-    const viewer: User = JSON.parse(localStorage.getItem("user"));
-    if (viewer.id != this.recipe.author.id) this.router.navigate([this.recipeRoute]);
-    this._recipeService.getRecipe(this.recipe.id).then(recipe => {
+    const id = this.route.snapshot.params['id'];
+    this._recipeService.getRecipe(id).then(recipe => {
+      const viewer: User = JSON.parse(localStorage.getItem("user"));
+      if (viewer.id != recipe.author.id) this.router.navigate([`/recetas/${id}`]);
       this.recipe = recipe;
       if (!this.recipe.videoUrl) this.recipe.videoUrl = "";
       this.recipe.difficulty += "";

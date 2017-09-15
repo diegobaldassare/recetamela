@@ -4,7 +4,7 @@ import {Ingredient} from "../../shared/models/recipe/ingredient";
 
 export abstract class RecipeFormContainer {
   public instance: RecipeFormContainer = this;
-  public recipe: Recipe = new Recipe();
+  public recipe: Recipe;
   public categories: RecipeCategory[] = [];
   public selectedCategories: RecipeCategory[] = [];
   public ingredients: Ingredient[] = [];

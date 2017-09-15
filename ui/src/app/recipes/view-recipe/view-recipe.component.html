@@ -4,25 +4,20 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <div class="title-edit">
-              <div style="float: left; margin-right: 13px">
-                <h1>{{ recipe.name }}</h1>
-              </div>
-              <button *ngIf="editButton" routerLink="editar" type="button" class="btn btn-primary btn-sm">
+            <div style="margin-bottom: 50px">
+              <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
+              <button style="vertical-align: text-bottom" *ngIf="editButton" routerLink="editar" type="button" class="btn btn-primary btn-sm">
                 <span class="glyphicon glyphicon-pencil"></span>
               </button>
             </div>
-            <div>
-              <div>
-                <strong>Descripción:</strong>
-                {{ recipe.description }}
-              </div>
-              <br>
-              <div>
-                <strong>Categorias:</strong>
-                <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
-              </div>
-            </div>
+
+            <p>
+              <strong>Descripción:</strong>
+              {{ recipe.description }}
+            </p>
+
+            <strong>Categorias:</strong>
+            <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
           </div>
           <div class="col-md-5">
             <ul class="nav nav-tabs nav-justified" role="tablist">

@@ -1,6 +1,7 @@
 package models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.recipe.Recipe;
 import models.recipe.RecipeBook;
 
@@ -15,9 +16,11 @@ public class PremiumUser extends User {
 
     private LocalDate expirationDate;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Recipe> recipes;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<RecipeBook> recipeBooks;
 

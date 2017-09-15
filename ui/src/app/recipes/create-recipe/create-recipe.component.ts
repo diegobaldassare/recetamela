@@ -17,6 +17,7 @@ export class CreateRecipeComponent extends RecipeFormContainer implements OnInit
     private router: Router
   ) {
     super();
+    this.recipe = new Recipe();
   }
 
   ngOnInit() {

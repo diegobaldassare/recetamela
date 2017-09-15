@@ -17,8 +17,9 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import services.user.FreeUserService;
 import services.LoginService;
+import services.user.FreeUserService;
+import services.user.UserService;
 import util.ShaUtil;
 
 import java.util.Date;
@@ -40,7 +41,7 @@ public class SecurityController extends Controller {
     public Result login() {
         /* Me llega data, yo con esa data busco al usuario en mi base de datos. */
         LoginData loginData = Json.fromJson(request().body().asJson(), LoginData.class);
-        Optional<FreeUser> userOptional = FreeUserService.getInstance().findByFacebookId(loginData.getId());
+        Optional<User> userOptional = UserService.getInstance().findByFacebookId(loginData.getId());
         String retrievedId;
 
         try {

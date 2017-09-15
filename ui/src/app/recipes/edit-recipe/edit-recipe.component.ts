@@ -4,6 +4,7 @@ import {ToasterService} from "angular2-toaster";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeFormContainer} from "../recipe-form/recipe-form-container";
+import {User} from "../../shared/models/user-model";
 
 @Component({
   selector: 'app-edit-recipe',
@@ -23,8 +24,10 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
   }
 
   ngOnInit() {
-    this.recipe.id = this.route.snapshot.params['id'];
-    this._recipeService.getRecipe(this.recipe.id).then(recipe => {
+    const id = this.route.snapshot.params['id'];
+    this._recipeService.getRecipe(id).then(recipe => {
+      const viewer: User = JSON.parse(localStorage.getItem("user"));
+      if (viewer.id != recipe.author.id) this.router.navigate([`/recetas/${id}`]);
       this.recipe = recipe;
       if (!this.recipe.videoUrl) this.recipe.videoUrl = "";
       this.recipe.difficulty += "";

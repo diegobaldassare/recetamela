@@ -2,6 +2,7 @@ import {Ingredient} from "./ingredient";
 import {RecipeCategory} from "./recipe-category";
 import {Media} from "../media";
 import {RecipeStep} from "./recipe-step";
+import {User} from "../user-model";
 
 export class Recipe {
   id: string = "";
@@ -15,4 +16,5 @@ export class Recipe {
   categories: RecipeCategory[] = [];
   servings: number = 1;
   duration: number = 20;
+  author: User;
 }

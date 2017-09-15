@@ -1,0 +1,21 @@
+.recipe-card {
+  text-align: left;
+  padding: 20px;
+}
+
+.card-img {
+  width: 318px;
+  border-radius: 5px;
+}
+
+.shadow {
+  background: #f5f5f5;
+}
+
+.card-text {
+  /*color: #95a5a6;*/
+}
+
+.btn {
+  padding: 4px 13px;
+}

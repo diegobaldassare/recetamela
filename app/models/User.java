@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.payment.CreditCard;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public abstract class User extends BaseModel {
 
     private String profilePic;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<CreditCard> creditCards;
 

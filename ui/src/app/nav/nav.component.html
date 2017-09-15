@@ -14,7 +14,7 @@
       <ul class="nav navbar-nav navbar-right">
 
         <div *ngIf="!isLoggedIn; else premiumAccount">
-          <!--Notificaciones del usua  o premium-->
+          <!--Notificaciones del usuario premium-->
           <li>
             <app-log-in></app-log-in>
           </li>
@@ -31,14 +31,18 @@
           </li>
           <!--Panel Usuario-->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Cuenta
-              <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">{{user?.name}} {{user?.lastName}}
+              <!--<span class="glyphicon glyphicon-user"></span>-->
+              <img src={{user?.profilePic}} alt="Pic" height="25" width="25" class="header-pic">
+              <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Opciones</a></li>
               <li class="divider"></li>
-              <li><a href="#" data-toggle="modal" data-target="#myModal">Premium</a></li>
+              <li *ngIf="isPremium"><a href="#" data-toggle="modal" data-target="#myModal">Premium</a></li>
               <li class="divider"></li>
-              <li><a href="#" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
+              <li (click)="crearReceta()" )><a href="javascript://">Crear Receta</a></li>
+              <li class="divider"></li>
+              <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
             </ul>
           </li>
         </ng-template>

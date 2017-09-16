@@ -18,7 +18,6 @@ export class UpgradeComponent implements OnInit {
   private creditCardForm: FormGroup;
   private isPassword = "password";
   private active: boolean;
-
   constructor(private sharedService: SharedService,
               private cdRef: ChangeDetectorRef,
               private toaster: ToasterService,
@@ -34,7 +33,6 @@ export class UpgradeComponent implements OnInit {
 
   ngOnInit() {
     this.creditCardForm = new FormGroup({
-      'dni': new FormControl(null, [Validators.required]),
       'cardName': new FormControl(null, [Validators.required]),
       'cardNumber': new FormControl(null, [Validators.required, isValidNumber]),
       'cardCode': new FormControl(null, [Validators.required, isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
@@ -81,11 +79,16 @@ export class UpgradeComponent implements OnInit {
   }
 
   private createCreditCardForm() {
-    const dni = this.creditCardForm.value.dni;
     const cardName = this.creditCardForm.value.cardName;
     const cardNumber = this.creditCardForm.value.cardNumber;
     const cardCode = this.creditCardForm.value.cardCode;
     const cardDate = this.creditCardForm.value.cardDate;
+
+    console.log(cardName);
+    console.log(cardNumber);
+    console.log(this.cardType(cardNumber));
+    console.log(cardCode);
+    console.log(cardDate);
     this.creditCard = new CreditCard(cardNumber, this.cardType(cardNumber));
   }
 

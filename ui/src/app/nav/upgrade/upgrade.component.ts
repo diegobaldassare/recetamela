@@ -71,7 +71,7 @@ export class UpgradeComponent implements OnInit {
     // );
     this._userService.upgradeFreeUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
         localStorage.setItem("user", JSON.stringify(result));
-        this.toaster.pop("success", "Pago Procesado");
+        this.toaster.pop("success", "Pago procesado");
         this.close();
         this.router.navigate(['/home']);
         }, () => {

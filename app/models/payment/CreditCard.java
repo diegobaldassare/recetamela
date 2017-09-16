@@ -9,7 +9,7 @@ public class CreditCard extends BaseModel {
 
     private String number;
 
-    private CreditCardType creditCardType;
+    private String creditCardType;
 
     public String getNumber() {
         return number;
@@ -19,11 +19,11 @@ public class CreditCard extends BaseModel {
         this.number = number;
     }
 
-    public CreditCardType getCreditCardType() {
+    public String getCreditCardType() {
         return creditCardType;
     }
 
-    public void setCreditCardType(CreditCardType creditCardType) {
+    public void setCreditCardType(String creditCardType) {
         this.creditCardType = creditCardType;
     }
 }

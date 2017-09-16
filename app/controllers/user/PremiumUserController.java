@@ -50,7 +50,7 @@ public class PremiumUserController extends Controller {
         freeUser.setId(user.getId());
         freeUser.setFacebookId(user.getFacebookId());
         freeUser.setAuthToken(user.getAuthToken());
-        freeUser.setCreditCards(user.getCreditCards());
+        // freeUser.setCreditCards(user.getCreditCards());
         Ebean.execute(() -> {
             user.delete();
             freeUser.save();
@@ -111,7 +111,7 @@ public class PremiumUserController extends Controller {
         if (newPremiumUser.getRecipes() != null) oldPremiumUser.setRecipes(newPremiumUser.getRecipes());
         if (newPremiumUser.getRecipebooks() != null) oldPremiumUser.setRecipebooks(newPremiumUser.getRecipebooks());
         if (newPremiumUser.getExpirationDate() != null) oldPremiumUser.setExpirationDate(newPremiumUser.getExpirationDate());
-        if (newPremiumUser.getCreditCards() != null) oldPremiumUser.setCreditCards(newPremiumUser.getCreditCards());
+        // if (newPremiumUser.getCreditCards() != null) oldPremiumUser.setCreditCards(newPremiumUser.getCreditCards());
         oldPremiumUser.setFacebookId(newPremiumUser.getFacebookId());
         return function.apply(oldPremiumUser);
     }

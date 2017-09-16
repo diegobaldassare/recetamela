@@ -1,6 +1,9 @@
 package controllers;
 
+import controllers.authentication.Authenticate;
+import models.FreeUser;
 import models.Media;
+import models.PremiumUser;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -27,7 +30,7 @@ public class MediaController extends Controller {
      * @throws IOException If the file cannot be written to disk. A response
      * with 500 error is returned to the client.
      */
-    // @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result create() throws IOException {
         final MultipartFormData<File> body = request().body().asMultipartFormData();
         if (body == null)
@@ -44,13 +47,12 @@ public class MediaController extends Controller {
      * @return MediaJson that represents a Media instance with provided id
      * persisted in the database.
      */
-    // @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result get(long id) {
         final Optional<Media> media = MediaService.getInstance().get(id);
         return media.map(m -> ok(Json.toJson(m))).orElseGet(Results::notFound);
     }
 
-    // @Authenticate({FreeUser.class, PremiumUser.class})
     public Result getFile(String name) {
         final File file = MediaService.getInstance().getFile(name);
         if (file.exists()) return ok(file);

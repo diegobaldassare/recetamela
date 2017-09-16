@@ -2,34 +2,27 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../shared/models/user-model";
 import {SharedService} from "../shared/services/shared.service";
+import {Router} from "@angular/router";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class MyAuthService {
 
-  private _loggedUser: User;
-
-  constructor(private http: HttpClient, private sharedService: SharedService) {
+  constructor(private http: HttpClient, private sharedService: SharedService, private router: Router) {
   }
 
   /* Once logged out we delete the server-signed token from our local storage */
   public logout() {
     this.http.post('/api/auth/logout', "logout").subscribe(res => {
-      console.log('User logged out');
       localStorage.removeItem("X-TOKEN");
+      localStorage.removeItem("user");
       this.sharedService.notifyOther({loggedIn: false});
+      this.router.navigate(['/']);
     })
   }
 
-  get loggedUser(): Promise<User> {
-    return this._loggedUser ? Promise.resolve(this._loggedUser) : this.requestLoggedUser();
-  }
-
-  private requestLoggedUser(): Promise<User> {
-    return this.http.get<User>('/api/auth/logged-data').toPromise().then(resData => {
-      const user = resData as User;
-      this._loggedUser = user;
-      return user;
-    })
+  public requestLoggedUser(): Promise<User> {
+    return this.http.get<User>('/api/auth/logged-data').toPromise();
   }
 
   isLoggedIn(): boolean {

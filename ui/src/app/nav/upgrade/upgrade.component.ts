@@ -1,6 +1,12 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SharedService} from '../../shared/services/shared.service';
+import {CreditCard} from "../../shared/models/credit-card";
+import {ToasterService} from "angular2-toaster";
+import {UserService} from "../../shared/services/user.service";
+import {CreditCardService} from "../../shared/services/credit-card.service";
+import {User} from "../../shared/models/user-model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-upgrade',
@@ -8,13 +14,17 @@ import {SharedService} from '../../shared/services/shared.service';
   styleUrls: ['./upgrade.component.css']
 })
 export class UpgradeComponent implements OnInit {
-
-  creditCardForm: FormGroup;
-  isPassword = "password";
-  active: boolean;
+  private creditCard: CreditCard;
+  private creditCardForm: FormGroup;
+  private isPassword = "password";
+  private active: boolean;
 
   constructor(private sharedService: SharedService,
-              private cdRef: ChangeDetectorRef) {
+              private cdRef: ChangeDetectorRef,
+              private toaster: ToasterService,
+              private _userService: UserService,
+              private _creditCardService: CreditCardService,
+              private router: Router) {
     this.sharedService.notifyObservable$.subscribe(res => {
       if (res.hasOwnProperty('upgradeForm') && res.upgradeForm) {
         this.activeUpgrade(res.upgradeForm);
@@ -24,11 +34,11 @@ export class UpgradeComponent implements OnInit {
 
   ngOnInit() {
     this.creditCardForm = new FormGroup({
-      'dni': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+      'dni': new FormControl(null, [Validators.required]),
       'cardName': new FormControl(null, [Validators.required]),
-      'cardNumber': new FormControl(null, [Validators.required, Validators.minLength(15), Validators.maxLength(16), isValidNumber]),
-      'cardCode': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(4), isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
-      'cardDate': new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(4), isValidDate]),
+      'cardNumber': new FormControl(null, [Validators.required, isValidNumber]),
+      'cardCode': new FormControl(null, [Validators.required, isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
+      'cardDate': new FormControl(null, [Validators.required, isValidDate]),
     });
   }
 
@@ -53,7 +63,20 @@ export class UpgradeComponent implements OnInit {
 
   upgradeToPremium() {
     this.createCreditCardForm();
-    /*this.cardService.create(this.createCreditCardForm());*/
+    // this._creditCardService.createCreditCard(this.creditCard).then( result => {
+    //   this.toaster.pop("success", "Pago Procesado");
+    //   }, () => {
+    //   this.toaster.pop("error", "Error de pago");
+    //   }
+    // );
+    this._userService.upgradeFreeUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
+        localStorage.setItem("user", JSON.stringify(result));
+        this.toaster.pop("success", "Pago Procesado");
+        this.close();
+        this.router.navigate(['/home']);
+        }, () => {
+        this.toaster.pop("error", "Error de pago");
+    });
   }
 
   private createCreditCardForm() {
@@ -62,18 +85,7 @@ export class UpgradeComponent implements OnInit {
     const cardNumber = this.creditCardForm.value.cardNumber;
     const cardCode = this.creditCardForm.value.cardCode;
     const cardDate = this.creditCardForm.value.cardDate;
-
-    console.log(dni);
-    console.log(cardName);
-    console.log(cardNumber);
-    console.log(cardCode);
-    console.log(cardDate);
-
-    // console.log(this.isValidNumber(cardNumber));
-    console.log(this.cardType(cardNumber));
-    // console.log(this.isCodeValid(cardCode,this.cardType(cardNumber)));
-    // console.log(this.isDateValid(cardDate));
-    // //return new Card(cardName, cardNumber, cardCode);
+    this.creditCard = new CreditCard(cardNumber, this.cardType(cardNumber));
   }
 
 
@@ -121,7 +133,6 @@ function isValidDate(input: FormControl) {
 
 function isValidNumber(input: FormControl) {
   const num = input.value;
-  // console.log(num);
   if (num != null) {
     let ccNum = num.toString();
     let sum = 0;

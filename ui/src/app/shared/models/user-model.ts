@@ -10,7 +10,7 @@ export class User {
   public profilePic: string;
   public type: string;
   public authToken: string;
-  public creditCards: CreditCard[]=[];
+  // public creditCards: CreditCard[]=[];
 
   public toJson() : any {
     return {

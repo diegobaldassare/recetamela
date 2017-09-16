@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="smoke" *ngIf="active"></div>
-<div id="myModal" role="dialog" class="upgrade-banner"*ngIf="active">
+<div id="myModal" role="dialog" class="upgrade-banner" *ngIf="active">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -8,7 +8,7 @@
       <form [formGroup]="creditCardForm">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" (click)="close()">X</button>
           <h3>Convertirte en Usuario Premium</h3>
         </div>
 
@@ -31,7 +31,7 @@
                 </li>
                 <li class="list-group-item">
                   <span class="badge">3</span>
-                  Mas filtos de busqueda
+                  Mas filtros de busqueda
                 </li>
               </ul>
 

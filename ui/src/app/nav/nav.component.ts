@@ -29,17 +29,16 @@ export class NavComponent implements OnInit {
         this.isLoggedIn = res.loggedIn;
         this.cdRef.detectChanges();
         if (this.isLoggedIn) {
-          auth.requestLoggedUser().then((user : User) => {
-            localStorage.setItem("user", JSON.stringify(user));
-            this.user = user;
-            if (user.type === 'PremiumUser') this.isPremium = true;
-            this.cdRef.detectChanges();
-          });
-        } else {
+          this.doUpdate();
         }
-        //auth.loggedUser.then(res => {this.user = res});
       }
     });
+    /*this.sharedService.notifyObservable$.subscribe(res => {
+      if (res.hasOwnProperty('isPremium')) {
+        this.isPremium = res.isPremium;
+        this.cdRef.detectChanges();
+      }
+    })*/
   }
 
   public navDropdownLogoout() {
@@ -58,7 +57,21 @@ export class NavComponent implements OnInit {
     this.sharedService.notifyOther({upgradeForm: true});
   }
 
+  private doUpdate() {
+    this.auth.requestLoggedUser().then((user : User) => {
+      localStorage.setItem("user", JSON.stringify(user));
+      this.user = user;
+      if (user.type === 'PremiumUser') {
+        this.isPremium = true;
+      }
+      this.cdRef.detectChanges();
+    });
+  }
+
   ngOnInit() {
+    if (this.auth.isLoggedIn()) {
+      this.doUpdate();
+    }
     this.user = JSON.parse(localStorage.getItem("user")) as User;
     // this.isPremium = this.auth.isPremium():
   }

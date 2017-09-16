@@ -38,7 +38,6 @@ public class AuthenticationAction extends Action<Authenticate> {
         Optional<String> authToken = Optional.ofNullable(ctx.request().getHeader(SecurityController.AUTH_TOKEN_HEADER));
 
         if (!authToken.isPresent()) return CompletableFuture.completedFuture(unauthorized());
-        Logger.debug("Secured call to "+ctx.request().method()+ " " +ctx.request().path());
 
         if (authToken.get().startsWith("Bearer")) {
             /* Trim out <Type> to get the actual token */
@@ -51,10 +50,8 @@ public class AuthenticationAction extends Action<Authenticate> {
             for (Class<? extends User> authorized: configuration.value()){
                 Class<? extends User> userClass = userOptional.get().getClass();
                 if(authorized.equals(userClass)){
-                    Logger.debug("Secured call made by: " + (userOptional.get().getName()) );
                     if (validateToken(token, userOptional.get())) {
                 /* Add user data to the context */
-                        Logger.debug("Secured call validated, adding " + userOptional.get().getName() + " to context");
                         ctx.args.put("user", userOptional.get());
                         return delegate.call(ctx);
                     }

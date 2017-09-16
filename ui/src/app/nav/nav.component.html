@@ -39,7 +39,7 @@
               <li><a href="#">Opciones</a></li>
               <li class="divider"></li>
               <li *ngIf="!isPremium" (click)="premium()"><a href="javascript://">Hacete Premium</a></li>
-              <li class="divider"></li>
+              <li *ngIf="!isPremium" class="divider"></li>
               <li (click)="crearReceta()"><a href="javascript://">Crear Receta</a></li>
               <li class="divider"></li>
               <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>

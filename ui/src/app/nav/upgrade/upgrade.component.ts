@@ -73,6 +73,7 @@ export class UpgradeComponent implements OnInit {
         localStorage.setItem("user", JSON.stringify(result));
         this.toaster.pop("success", "Pago procesado");
         this.close();
+        this.sharedService.notifyOther({isPremium: true});
         this.router.navigate(['/home']);
         }, () => {
         this.toaster.pop("error", "Error de pago");

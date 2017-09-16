@@ -27,5 +27,9 @@ export class UserService {
     });
   }
 
+  public upgradeFreeUser(id: string) : Promise<User> {
+    return this.http.put<User>(`/api/user/${id}/upgradeUser`, {}).toPromise();
+  }
+
 
 }

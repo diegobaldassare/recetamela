@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.payment.CreditCard;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
@@ -28,9 +28,9 @@ public abstract class User extends BaseModel {
 
     private String profilePic;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<CreditCard> creditCards;
+//    @JsonIgnore
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<CreditCard> creditCards;
 
     public User() {}
 
@@ -102,11 +102,15 @@ public abstract class User extends BaseModel {
         return type;
     }
 
-    public Set<CreditCard> getCreditCards() {
-        return creditCards;
-    }
+//    public List<CreditCard> getCreditCards() {
+//        return creditCards;
+//    }
+//
+//    public void setCreditCards(List<CreditCard> creditCards) {
+//        this.creditCards = creditCards;
+//    }
 
-    public void setCreditCards(Set<CreditCard> creditCards) {
-        this.creditCards = creditCards;
+    public void setType(String type) {
+        this.type = type;
     }
 }

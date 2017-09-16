@@ -2,6 +2,7 @@ package controllers.user;
 
 import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
+import controllers.BaseController;
 import models.FreeUser;
 import models.PremiumUser;
 import models.User;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class PremiumUserController extends Controller {
+public class PremiumUserController extends BaseController {
 
     private static Form<PremiumUser> userForm;
 
@@ -56,6 +57,12 @@ public class PremiumUserController extends Controller {
             freeUser.save();
         });
         return ok(Json.toJson(freeUser));
+    }
+
+    public Result checkExpirationDate(Long id) {
+        PremiumUser user = (PremiumUser) getRequester();
+        if (user.isExpired()) return downgradePremiumUser(id);
+        return ok(Json.toJson(false));
     }
 
     public Result updatePremiumUser(Long id) {

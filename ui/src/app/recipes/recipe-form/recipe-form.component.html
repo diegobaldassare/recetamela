@@ -12,17 +12,17 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <label for="servings">Porciones</label>
+      <label for="servings">🍽 Porciones</label>
       <input style="margin-left: 10px; width: 40px;" type="number" id="servings" [(ngModel)]="container.recipe.servings">
     </div>
 
     <div class="form-group">
-      <label for="duration">Duración</label>
+      <label for="duration">⏰ Duración</label>
       <input style="margin-left: 10px; width: 50px" type="number" id="duration" [(ngModel)]="container.recipe.duration"> minutos
     </div>
 
     <div class="form-group">
-      <label>Dificultad*</label>
+      <label>🏋🏻 Dificultad*</label>
       <br>
       <label class="radio-inline">
         <input [(ngModel)]="container.recipe.difficulty" value="1" type="radio" name="dificultad"> muy fácil
@@ -60,7 +60,7 @@
 <div class="row second-section">
   <div class="col-md-6">
     <div style="margin-bottom: 13px">
-      <label for="ingredient">Ingredientes*</label>
+      <label for="ingredient">🍞 Ingredientes*</label>
       <br>
       <span class="label label-default" *ngFor="let i of container.selectedIngredients | keys">
         {{ i }}
@@ -79,7 +79,7 @@
 
 <div class="row third-section">
   <div class="col-md-12">
-    <label for="step">Pasos*</label>
+    <label for="step">✅  Pasos*</label>
     <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
     <ol *ngIf="container.recipe.steps.length > 0">
       <li style="margin-bottom: 40px" *ngFor="let step of container.recipe.steps; let i = index">
@@ -109,7 +109,7 @@
 <div class="row multimedia-section">
   <div class="col col-md-6">
     <div class="form-group">
-      <label>Imágenes*</label><br>
+      <label>📷 Imágenes*</label><br>
       <div *ngIf="container.recipe.images.length > 0" style="margin-bottom: 20px" id="general-images" class="carousel slide" data-ride="carousel" data-interval="">
         <ol class="carousel-indicators">
           <li *ngFor="let image of container.recipe.images; let i = index; let active = last" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: active }"></li>
@@ -137,7 +137,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <label for="videoUrl">Video de YouTube</label>
+      <label for="videoUrl">🎥 Video de YouTube</label>
       <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="validVideoUrl" [src]="videoThumbnailUrl">
       <input [(ngModel)]="container.recipe.videoUrl" id="videoUrl" class="form-control">
     </div>

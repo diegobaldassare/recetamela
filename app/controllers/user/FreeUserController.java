@@ -1,6 +1,7 @@
 package controllers.user;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.TxRunnable;
 import com.google.inject.Inject;
 import models.user.FreeUser;
 import models.user.PremiumUser;
@@ -49,10 +50,7 @@ public class FreeUserController extends Controller {
         premiumUser.setAuthToken(user.getAuthToken());
         premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
 //        premiumUser.setCreditCards(user.getCreditCards());
-        Ebean.execute(() -> {
-            user.delete();
-            premiumUser.save();
-        });
+        premiumUser.update();
         return ok(Json.toJson(premiumUser));
     }
 

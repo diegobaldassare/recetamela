@@ -15,7 +15,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "type")
 public abstract class User extends BaseModel {
 
-    @Column(name = "type", insertable = false, updatable = false)
+    @Column(name = "type")
     private String type;
 
     private long facebookId;
@@ -46,16 +46,16 @@ public abstract class User extends BaseModel {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getFacebookId() {
         return facebookId;
     }
 
     public void setFacebookId(long facebookId) {
         this.facebookId = facebookId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLastName() {
@@ -103,6 +103,10 @@ public abstract class User extends BaseModel {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
 //    public List<CreditCard> getCreditCards() {
 //        return creditCards;
 //    }
@@ -110,8 +114,4 @@ public abstract class User extends BaseModel {
 //    public void setCreditCards(List<CreditCard> creditCards) {
 //        this.creditCards = creditCards;
 //    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

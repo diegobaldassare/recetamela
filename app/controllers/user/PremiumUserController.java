@@ -1,10 +1,8 @@
 package controllers.user;
 
-import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
 import controllers.BaseController;
 import models.user.CheckExpirationDateResponse;
-import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
 import play.data.Form;
@@ -51,17 +49,9 @@ public class PremiumUserController extends BaseController {
     }
 
     private Result downgradePremiumUser(PremiumUser user) {
-        FreeUser freeUser = new FreeUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
-        freeUser.setId(user.getId());
-        freeUser.setType("FreeUser");
-        freeUser.setFacebookId(user.getFacebookId());
-        freeUser.setAuthToken(user.getAuthToken());
-        // freeUser.setCreditCards(user.getCreditCards());
-        Ebean.execute(() -> {
-            user.delete();
-            freeUser.save();
-        });
-        return ok(Json.toJson(new CheckExpirationDateResponse(freeUser, true)));
+        user.setType("FreeUser");
+        user.update();
+        return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
     }
 
     public Result checkExpirationDate(Long id) {

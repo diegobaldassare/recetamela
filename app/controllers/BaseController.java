@@ -1,6 +1,6 @@
 package controllers;
 
-import models.User;
+import models.user.User;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;

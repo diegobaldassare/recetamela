@@ -2,8 +2,8 @@ package controllers.recipe;
 
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
-import models.FreeUser;
-import models.PremiumUser;
+import models.user.FreeUser;
+import models.user.PremiumUser;
 import models.recipe.Recipe;
 import play.libs.Json;
 import play.mvc.Http;

@@ -1,6 +1,6 @@
 package controllers.authentication;
 
-import models.User;
+import models.user.User;
 import play.mvc.With;
 
 import java.lang.annotation.ElementType;

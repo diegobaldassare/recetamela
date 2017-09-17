@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../shared/models/user-model";
 import {SharedService} from "../shared/services/shared.service";
 import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class MyAuthService {
@@ -26,7 +25,6 @@ export class MyAuthService {
   }
 
   isLoggedIn(): boolean {
-    console.log('User is logged in: ' + (localStorage.getItem("X-TOKEN") !== null));
     return localStorage.getItem("X-TOKEN") !== null;
   }
 

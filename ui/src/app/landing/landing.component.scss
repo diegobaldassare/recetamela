@@ -9,16 +9,16 @@ li > .btn{
   position: relative;
   margin: auto;
   height: 100%;
-.card-image{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-img {
-  flex-shrink: 0;
-  min-width: 100%;
-  min-height: 100%
-}
+  .card-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+  }
 }
 .card-content{
   padding: 5px;
@@ -58,14 +58,14 @@ h1 {
 
 .carousel-img {
   width: 100% !important;
-  height: 576px !important;
+  height: 85vh !important;
 }
 
 .carousel-caption {
   h3 {
     font-weight: bold;
     font-size: 65px;
-    color: white;
+    color: white !important;
     text-shadow: 0px 4px 10px black;
   }
   p{

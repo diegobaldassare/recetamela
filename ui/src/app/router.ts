@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingComponent } from "./landing/landing.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import {RecipesComponent} from "./recipes/recipes.component";
 import {ViewRecipeComponent} from "./recipes/view-recipe/view-recipe.component";
@@ -11,8 +10,7 @@ import {AuthGuard} from "./auth/authGuard.service";
 import {PremiumGuard} from "./auth/premium-guard";
 
 const routes: Routes = [
-  { path: '', component: LandingComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: '', component: HomeComponent },
   { path: 'recetas', component: RecipesComponent, canActivate: [AuthGuard] },
   { path: 'recetas/crear', component: CreateRecipeComponent, canActivate: [AuthGuard, PremiumGuard]},
   { path: 'recetas/:id', component: ViewRecipeComponent, canActivate: [AuthGuard] },

@@ -1,8 +1,7 @@
 import com.avaje.ebean.Ebean;
-import models.FreeUser;
-import models.Media;
-import models.PremiumUser;
-import models.User;
+import models.user.FreeUser;
+import models.user.PremiumUser;
+import models.user.User;
 import org.junit.Test;
 import play.test.WithApplication;
 import services.user.FreeUserService;

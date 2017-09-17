@@ -1,9 +1,9 @@
 package controllers;
 
 import controllers.authentication.Authenticate;
-import models.FreeUser;
+import models.user.FreeUser;
 import models.Media;
-import models.PremiumUser;
+import models.user.PremiumUser;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;

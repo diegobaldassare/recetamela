@@ -1,6 +1,7 @@
-package models;
+package models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.BaseModel;
 import models.payment.CreditCard;
 
 import javax.persistence.*;

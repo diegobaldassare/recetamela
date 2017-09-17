@@ -18,6 +18,8 @@ export class UpgradeComponent implements OnInit {
   private creditCardForm: FormGroup;
   private isPassword = "password";
   private active: boolean;
+  private expired: boolean;
+
   constructor(private sharedService: SharedService,
               private cdRef: ChangeDetectorRef,
               private toaster: ToasterService,
@@ -25,9 +27,8 @@ export class UpgradeComponent implements OnInit {
               private _creditCardService: CreditCardService,
               private router: Router) {
     this.sharedService.notifyObservable$.subscribe(res => {
-      if (res.hasOwnProperty('upgradeForm') && res.upgradeForm) {
-        this.activeUpgrade(res.upgradeForm);
-      }
+      if (res.hasOwnProperty('upgradeForm') && res.upgradeForm) this.activeUpgrade(res.upgradeForm);
+      if (res.hasOwnProperty('expired')) this.notifyExpiredAccount(res.expired);
     });
   }
 
@@ -40,14 +41,18 @@ export class UpgradeComponent implements OnInit {
     });
   }
 
+  private notifyExpiredAccount(value: boolean) : void {
+    this.expired = value;
+    this.cdRef.detectChanges();
+  }
+
   public activeUpgrade(value: boolean): void {
     this.active = value;
     this.cdRef.detectChanges();
   }
 
   public close(): void {
-    this.active = false;
-    this.cdRef.detectChanges();
+    this.activeUpgrade(false);
   }
 
   showPassword() {
@@ -73,6 +78,7 @@ export class UpgradeComponent implements OnInit {
         this.close();
         this.sharedService.notifyOther({isPremium: true});
         this.router.navigate(['/home']);
+        this.sharedService.notifyOther({loggedIn: true});
         }, () => {
         this.toaster.pop("error", "Error de pago");
     });

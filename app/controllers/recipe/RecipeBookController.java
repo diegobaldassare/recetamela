@@ -1,7 +1,6 @@
 package controllers.recipe;
 
 import com.google.inject.Inject;
-import models.PremiumUser;
 import models.recipe.RecipeBook;
 import play.data.Form;
 import play.data.FormFactory;
@@ -9,12 +8,10 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import play.mvc.Security;
 import services.recipe.RecipeBookService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class RecipeBookController extends Controller {
 

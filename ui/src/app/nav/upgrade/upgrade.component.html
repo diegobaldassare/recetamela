@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div class="smoke" *ngIf="active"></div>
+<div id="myModal" role="dialog" class="upgrade-banner" *ngIf="active">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -7,8 +8,9 @@
       <form [formGroup]="creditCardForm">
 
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 class="modal-title">Convertirte en Usuario Premium</h3>
+          <button type="button" class="close" (click)="close()">X</button>
+          <h3 *ngIf="expired">Ups! tu cuenta Premium ha expirado -</h3>
+          <h3>Convertirte en Usuario Premium</h3>
         </div>
 
         <div class="modal-body">
@@ -16,7 +18,7 @@
 
             <div class="col-xs-6">
               <div class="row">
-                <h4 class="modal-subtitle1">Beneficios Premium!</h4>
+                <h4 class="modal-subtitle">Beneficios Premium!</h4>
               </div>
 
               <ul class="list-group">
@@ -30,89 +32,80 @@
                 </li>
                 <li class="list-group-item">
                   <span class="badge">3</span>
-                  Mas filtos de busqueda
+                  Mas filtros de busqueda
                 </li>
               </ul>
+
+              <div class="row">
+                <p class="price">POR SOLO $99.99</p>
+              </div>
             </div>
 
 
             <div class="col-xs-6">
-              <div class="row">
-                <h4 class="modal-subtitle2">Datos Personales</h4>
-              </div>
-              <div class="row">
-                <input type="text" class="form-control" id="dni" formControlName="dni" placeholder="DNI" pattern="[0-9]+">
-              </div>
-              <span *ngIf="!creditCardForm.get('dni').valid && creditCardForm.get('dni').touched"
-                    class="help-block">DNI incorrecto!</span>
-
-
 
               <div class="row">
-                <h4 class="modal-subtitle2">Datos Tarjeta</h4>
+                <h4>Datos Tarjeta:</h4>
               </div>
               <div class="row">
-                <input type="text" class="form-control" id="cardName" formControlName="cardName" placeholder="Nombre de Titular" pattern="[a-zA-Z]+">
+                <input type="text"
+                       class="form-control"
+                       id="cardName"
+                       formControlName="cardName"
+                       placeholder="Nombre de Titular"
+                       pattern="^[a-zA-Z]+\s[a-zA-Z]+$">
               </div>
               <span *ngIf="!creditCardForm.get('cardName').valid && creditCardForm.get('cardName').touched"
                     class="help-block">Nombre Incorrecto!</span>
 
               <div class="row">
-                <input type="text" class="form-control" id="cardNumber" formControlName="cardNumber" placeholder="Numero de Tarjeta" pattern="[0-9]+">
+                <input type="number"
+                       class="form-control"
+                       id="cardNumber"
+                       formControlName="cardNumber"
+                       placeholder="Numero de Tarjeta"
+                       pattern="^[0-9]{15,16}">
               </div>
-              <!--<span *ngIf="!creditCardForm.get('cardNumber').valid && creditCardForm.get('cardNumber').touched && isValidNumber(ccNumber)"-->
               <span *ngIf="!creditCardForm.get('cardNumber').valid &&
                             creditCardForm.get('cardNumber').touched"
                     class="help-block">Numero Incorrecto! (Visa, Master, Amex)</span>
 
-
               <div class="row">
-                <input
-                  type={{isPassword}}
-                  class="form-control"
-                  id="cardCode"
-                  formControlName="cardCode"
-                  placeholder="Codigo de Seguridad"
-                  pattern="[0-9]+">
-                <!--<span
-                  class="glyphicon glyphicon-eye-open eye"
-                  aria-hidden="true"
-                  onmouseover="this.style.background='lightgray';"
-                  onmouseout="this.style.background='transparent';"
-                  (click)="showPassword()"></span>-->
+                <div class="wrapper">
+                  <input
+                    type={{isPassword}}
+                    class="form-control"
+                    id="cardCode"
+                    formControlName="cardCode"
+                    placeholder="Codigo de Seguridad"
+                    pattern="^[0-9]{3,4}">
+                  <span class="glyphicon glyphicon-eye-open"
+                        (click)="showPassword()">
+                  </span>
+                </div>
               </div>
               <span *ngIf="!creditCardForm.get('cardCode').valid && creditCardForm.get('cardCode').touched"
                     class="help-block">Codigo Incorrecto!</span>
 
               <div class="row">
                 <input
-                  type="text"
+                  type="month"
                   class="form-control"
                   id="cardDate"
-                  formControlName="cardDate"
-                  placeholder="MMYY"
-                  pattern="[0-9]+">
+                  formControlName="cardDate">
+                  <!--placeholder="MMYY"
+                  pattern="^[0-9]{4}">-->
               </div>
               <span *ngIf="!creditCardForm.get('cardDate').valid && creditCardForm.get('cardDate').touched"
                     class="help-block">Fecha Incorrecta!</span>
             </div>
 
           </div>
-
-          <div class="row">
-            <div class="col-xs-offset-6">
-              <h4 class="price">$99.99</h4>
-            </div>
-          </div>
-
         </div>
 
         <div class="modal-footer">
           <div class="row">
-            <div class="col-md-8 col-xs-8 col-sm-8 alert-block" >
-              <!--<span-->
-                <!--*ngIf="!creditCardForm.valid && creditCardForm.touched">-->
-                <!--Falta algo o algun campo es incorrecto!</span>-->
+            <div class="col-md-8 col-xs-8 col-sm-8 alert-block">
             </div>
             <div class="col-md-4 col-xs-4 col-sm-4">
               <button type="submit"
@@ -120,7 +113,7 @@
                       [disabled]="!creditCardForm.valid"
                       data-dismiss="modal"
                       (click)="upgradeToPremium()">
-                Actualizar
+                Confirmar
               </button>
             </div>
           </div>
@@ -130,4 +123,3 @@
     </div>
   </div>
 </div>
-

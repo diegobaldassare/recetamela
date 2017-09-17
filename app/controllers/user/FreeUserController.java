@@ -1,10 +1,11 @@
 package controllers.user;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.TxRunnable;
 import com.google.inject.Inject;
-import models.FreeUser;
-import models.PremiumUser;
-import models.User;
+import models.user.FreeUser;
+import models.user.PremiumUser;
+import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -44,14 +45,12 @@ public class FreeUserController extends Controller {
         FreeUser user = freeUserOptional.get();
         PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
         premiumUser.setId(user.getId());
+        premiumUser.setType("PremiumUser");
         premiumUser.setFacebookId(user.getFacebookId());
         premiumUser.setAuthToken(user.getAuthToken());
-        premiumUser.setCreditCards(user.getCreditCards());
         premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
-        Ebean.execute(() -> {
-            user.delete();
-            premiumUser.save();
-        });
+//        premiumUser.setCreditCards(user.getCreditCards());
+        premiumUser.update();
         return ok(Json.toJson(premiumUser));
     }
 
@@ -96,7 +95,7 @@ public class FreeUserController extends Controller {
         if (newFreeUser.getEmail() != null) oldFreeUser.setEmail(newFreeUser.getEmail());
         if (newFreeUser.getProfilePic() != null) oldFreeUser.setProfilePic(newFreeUser.getProfilePic());
         if (newFreeUser.getAuthToken() != null) oldFreeUser.setAuthToken(newFreeUser.getAuthToken());
-        if (newFreeUser.getCreditCards() != null) oldFreeUser.setCreditCards(newFreeUser.getCreditCards());
+//        if (newFreeUser.getCreditCards() != null) oldFreeUser.setCreditCards(newFreeUser.getCreditCards());
         oldFreeUser.setFacebookId(newFreeUser.getFacebookId());
         return function.apply(oldFreeUser);
     }

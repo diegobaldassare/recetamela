@@ -13,9 +13,9 @@ GET         /api/recipe/categories/all              controllers.recipe.RecipeCat
 GET         /api/recipe/ingredients/all             controllers.recipe.IngredientController.getAll
 
 POST        /api/creditcard/create                  controllers.payment.CreditCardController.create()
-PUT         /api/creditcard/update                  controllers.payment.CreditCardController.update()
-GET         /api/creditcard/get/:id                 controllers.payment.CreditCardController.get(id: Long)
-DELETE      /api/creditcard/delete/:id              controllers.payment.CreditCardController.delete(id: Long)
+PUT         /api/creditcard/:id/update              controllers.payment.CreditCardController.update(id: Long)
+GET         /api/creditcard/:id                     controllers.payment.CreditCardController.get(id: Long)
+DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCardController.delete(id: Long)
 
 POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
 PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
@@ -27,6 +27,7 @@ DELETE      /api/user/:id/delete                    controllers.user.FreeUserCon
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
 PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
 PUT         /api/premiumuser/:id/downgradeUser      controllers.user.PremiumUserController.downgradePremiumUser(id: Long)
+PUT         /api/premiumuser/:id/checkDate          controllers.user.PremiumUserController.checkExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateSuscription  controllers.user.PremiumUserController.updatePremiumUserExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateUser         controllers.user.PremiumUserController.updatePremiumUser(id: Long)
 GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
+  <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
               aria-expanded="true">
@@ -8,13 +8,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">🍋 Recetame la Receta</a>
+      <a class="navbar-brand" href="#">🍽 Recetame la Receta</a>
     </div>
     <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
       <ul class="nav navbar-nav navbar-right">
 
         <div *ngIf="!isLoggedIn; else premiumAccount">
-          <!--Notificaciones del usua  o premium-->
+          <!--Notificaciones del usuario premium-->
           <li>
             <app-log-in></app-log-in>
           </li>
@@ -22,7 +22,7 @@
         <ng-template #premiumAccount>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notificaciones
-              <span class="glyphicon glyphicon-bell"></span> <span class="caret"></span></a>
+              🔔 <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">....</a></li>
               <li class="divider"></li>
@@ -31,14 +31,18 @@
           </li>
           <!--Panel Usuario-->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Cuenta
-              <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">{{user?.name}} {{user?.lastName}}
+              <!--<span class="glyphicon glyphicon-user"></span>-->
+              <img src={{user?.profilePic}} alt="Pic" height="25" width="25" class="header-pic">
+              <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Opciones</a></li>
               <li class="divider"></li>
-              <li><a href="#" data-toggle="modal" data-target="#myModal">Premium</a></li>
+              <li *ngIf="!isPremium" (click)="premium()"><a href="javascript://">Hacete Premium</a></li>
+              <li *ngIf="!isPremium" class="divider"></li>
+              <li (click)="crearReceta()"><a href="javascript://">Crear Receta</a></li>
               <li class="divider"></li>
-              <li><a href="#" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
+              <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
             </ul>
           </li>
         </ng-template>

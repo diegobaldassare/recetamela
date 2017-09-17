@@ -2,14 +2,12 @@ package controllers.authentication;
 
 import controllers.SecurityController;
 import models.AuthToken;
-import models.FreeUser;
-import models.User;
+import models.user.User;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.LoginService;
-import services.user.FreeUserService;
 import services.user.UserService;
 
 import java.util.Optional;
@@ -40,7 +38,6 @@ public class AuthenticationAction extends Action<Authenticate> {
         Optional<String> authToken = Optional.ofNullable(ctx.request().getHeader(SecurityController.AUTH_TOKEN_HEADER));
 
         if (!authToken.isPresent()) return CompletableFuture.completedFuture(unauthorized());
-        Logger.debug("Secured call to "+ctx.request().method()+ " " +ctx.request().path());
 
         if (authToken.get().startsWith("Bearer")) {
             /* Trim out <Type> to get the actual token */
@@ -53,10 +50,8 @@ public class AuthenticationAction extends Action<Authenticate> {
             for (Class<? extends User> authorized: configuration.value()){
                 Class<? extends User> userClass = userOptional.get().getClass();
                 if(authorized.equals(userClass)){
-                    Logger.debug("Secured call made by: " + (userOptional.get().getName()) );
                     if (validateToken(token, userOptional.get())) {
                 /* Add user data to the context */
-                        Logger.debug("Secured call validated, adding " + userOptional.get().getName() + " to context");
                         ctx.args.put("user", userOptional.get());
                         return delegate.call(ctx);
                     }
@@ -72,10 +67,9 @@ public class AuthenticationAction extends Action<Authenticate> {
         Optional<AuthToken> tokenObject = LoginService.getInstance().findByHash(token);
 
         /* Token on header will be valid if it matches the one on our DB, and if it hasn't expired yet */
-        boolean validated = tokenObject.isPresent() &&
+        return tokenObject.isPresent() &&
                 userToValidate.getAuthToken().equals(token) &&
                 (tokenObject.get().getDate() + 80_000_000 > System.currentTimeMillis()) &&
                 tokenObject.get().isValid();
-        return validated;
     }
 }

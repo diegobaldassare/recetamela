@@ -1,7 +1,7 @@
 package services.user;
 
 import com.avaje.ebean.Model;
-import models.User;
+import models.user.User;
 import services.Service;
 
 import java.util.Optional;

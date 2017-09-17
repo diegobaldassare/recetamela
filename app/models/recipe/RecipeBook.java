@@ -3,7 +3,10 @@ package models.recipe;
 
 import models.BaseModel;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Entity

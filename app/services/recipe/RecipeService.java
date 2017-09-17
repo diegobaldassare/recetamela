@@ -1,7 +1,8 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
-import models.recipe.*;
+import models.recipe.Recipe;
+import models.recipe.RecipeStep;
 import services.Service;
 
 public class RecipeService extends Service<Recipe> {

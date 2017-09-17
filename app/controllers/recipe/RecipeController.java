@@ -14,6 +14,7 @@ import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeController extends BaseController {
@@ -63,5 +64,11 @@ public class RecipeController extends BaseController {
             r.delete();
             return ok();
         }).orElseGet(Results::notFound);
+    }
+
+    @Authenticate({ FreeUser.class, PremiumUser.class })
+    public Result search(String name, String categoryName, Integer difficulty, String authorName) {
+        final List<Recipe> results = RecipeService.getInstance().search(name.toLowerCase().trim(), categoryName.toLowerCase().trim(), difficulty, authorName.toLowerCase().trim());
+        return ok(Json.toJson(results));
     }
 }

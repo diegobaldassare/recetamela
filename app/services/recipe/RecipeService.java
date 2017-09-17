@@ -2,8 +2,11 @@ package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
 import models.recipe.Recipe;
+import models.recipe.RecipeCategory;
 import models.recipe.RecipeStep;
 import services.Service;
+
+import java.util.List;
 
 public class RecipeService extends Service<Recipe> {
 
@@ -32,5 +35,25 @@ public class RecipeService extends Service<Recipe> {
         if (input.getVideoUrl() != null) r.setVideoUrl(input.getVideoUrl());
         if (input.getServings() != 0) r.setServings(input.getServings());
         if (input.getDuration() != 0) r.setDuration(input.getDuration());
+    }
+
+    public List<Recipe> search(String name, String categoryName, int difficulty, String authorName) {
+        final List<Recipe> recipes = getFinder().all();
+        recipes.removeIf(r -> {
+            if (!r.getName().toLowerCase().contains(name)) return true;
+            if (difficulty != 0 && r.getDifficulty() != difficulty) return true;
+            if (!r.getAuthor().getName().toLowerCase().contains(authorName)) return true;
+            if (categoryName.length() == 0) return false;
+
+            boolean hasSimilarCategory = false;
+            for (final RecipeCategory c : r.getCategories()) {
+                if (c.getName().contains(categoryName)) {
+                    hasSimilarCategory = true;
+                    break;
+                }
+            }
+            return !hasSimilarCategory;
+        });
+        return recipes;
     }
 }

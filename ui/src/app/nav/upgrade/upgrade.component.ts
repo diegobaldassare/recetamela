@@ -35,7 +35,7 @@ export class UpgradeComponent implements OnInit {
     this.creditCardForm = new FormGroup({
       'cardName': new FormControl(null, [Validators.required]),
       'cardNumber': new FormControl(null, [Validators.required, isValidNumber]),
-      'cardCode': new FormControl(null, [Validators.required, isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
+      'cardCode': new FormControl(null, [Validators.required, isValidCode(5)]),
       'cardDate': new FormControl(null, [Validators.required, isValidDate]),
     });
   }
@@ -88,7 +88,8 @@ export class UpgradeComponent implements OnInit {
     console.log(cardNumber);
     console.log(this.cardType(cardNumber));
     console.log(cardCode);
-    console.log(cardDate);
+    console.log(Date.parse(cardDate));
+    console.log((new Date()).getTime());
     this.creditCard = new CreditCard(cardNumber, this.cardType(cardNumber));
   }
 
@@ -102,37 +103,27 @@ export class UpgradeComponent implements OnInit {
 
 }
 
-function isValidCode(ccNum: number) {
+function isValidCode(ccNum: number){
   return (c: FormControl) => {
-    if (c.value != null) {
-      if (c.value.toString().length == 3 && (ccNum.toString().startsWith('4', 0) || ccNum.toString().startsWith('5', 0))) {
+    if(c.value != null){
+      if (c.value.toString().length == 3 && (ccNum.toString().startsWith('4',0)||ccNum.toString().startsWith('5',0))){
         return null;
       }
-      if (c.value.toString().length == 4 && (ccNum.toString().startsWith('34', 0) || ccNum.toString().startsWith('37', 0))) {
+      if (c.value.toString().length == 4 && (ccNum.toString().startsWith('34',0)||ccNum.toString().startsWith('37',0))){
         return null;
       }
-      return {notValidCode: true}
+      return {notValidCode : true}
     }
     return null;
   }
 }
 
 function isValidDate(input: FormControl) {
-  const date = input.value;
-  if (date != null) {
-    const month = +(date.toString().charAt(0));
-    const month2 = +(date.toString().charAt(1));
-    const year = +(date.toString().charAt(2));
+  const expDate = Date.parse(input.value);
+  const today = new Date().getTime();
 
-    if (month > 1) return {notValidDate: true};
-    if (month == 1) {
-      if (month2 > 2) return {notValidDate: true};
-    }
-    if (year < 2) return {notValidDate: true};
-
-    return null;
-  }
-  return null;
+  if(expDate>today) return null;
+  else return {notValidDate: true};
 }
 
 function isValidNumber(input: FormControl) {

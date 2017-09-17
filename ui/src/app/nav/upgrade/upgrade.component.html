@@ -77,7 +77,7 @@
                     id="cardCode"
                     formControlName="cardCode"
                     placeholder="Codigo de Seguridad"
-                    pattern="^[0-9]{3,4}">
+                    >
                   <span class="glyphicon glyphicon-eye-open"
                         (click)="showPassword()">
                   </span>
@@ -88,12 +88,12 @@
 
               <div class="row">
                 <input
-                  type="number"
+                  type="month"
                   class="form-control"
                   id="cardDate"
-                  formControlName="cardDate"
-                  placeholder="MMYY"
-                  pattern="^[0-9]{4}">
+                  formControlName="cardDate">
+                  <!--placeholder="MMYY"
+                  pattern="^[0-9]{4}">-->
               </div>
               <span *ngIf="!creditCardForm.get('cardDate').valid && creditCardForm.get('cardDate').touched"
                     class="help-block">Fecha Incorrecta!</span>

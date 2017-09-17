@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SharedService} from '../../shared/services/shared.service';
 import {CreditCard} from "../../shared/models/credit-card";
 import {ToasterService} from "angular2-toaster";
@@ -25,21 +25,23 @@ export class UpgradeComponent implements OnInit {
               private toaster: ToasterService,
               private _userService: UserService,
               private _creditCardService: CreditCardService,
-              private router: Router) {
+              private router: Router,
+              private fb: FormBuilder) {
     this.sharedService.notifyObservable$.subscribe(res => {
       if (res.hasOwnProperty('upgradeForm') && res.upgradeForm) this.activeUpgrade(res.upgradeForm);
       if (res.hasOwnProperty('expired')) this.notifyExpiredAccount(res.expired);
     });
-  }
 
-  ngOnInit() {
-    this.creditCardForm = new FormGroup({
+    this.creditCardForm = fb.group({
       'cardName': new FormControl(null, [Validators.required]),
       'cardNumber': new FormControl(null, [Validators.required, isValidNumber]),
-      'cardCode': new FormControl(null, [Validators.required, isValidCode(5)]),     //En vez de 5 hay que pasar el numero de la tarjeta
+      'cardCode': new FormControl(null, [Validators.required]),
       'cardDate': new FormControl(null, [Validators.required, isValidDate]),
+    // }, {validator: isValidCode('cardCode','cardNumber')     //No me esta funcionando bien
     });
   }
+
+  ngOnInit() {}
 
   private notifyExpiredAccount(value: boolean) : void {
     this.expired = value;
@@ -94,7 +96,8 @@ export class UpgradeComponent implements OnInit {
     console.log(cardNumber);
     console.log(this.cardType(cardNumber));
     console.log(cardCode);
-    console.log(cardDate);
+    console.log(Date.parse(cardDate));
+    console.log((new Date()).getTime());
     this.creditCard = new CreditCard(cardNumber, this.cardType(cardNumber));
   }
 
@@ -107,38 +110,29 @@ export class UpgradeComponent implements OnInit {
   }
 
 }
-
-function isValidCode(ccNum: number) {
-  return (c: FormControl) => {
-    if (c.value != null) {
-      if (c.value.toString().length == 3 && (ccNum.toString().startsWith('4', 0) || ccNum.toString().startsWith('5', 0))) {
-        return null;
-      }
-      if (c.value.toString().length == 4 && (ccNum.toString().startsWith('34', 0) || ccNum.toString().startsWith('37', 0))) {
-        return null;
-      }
-      return {notValidCode: true}
-    }
-    return null;
-  }
-}
+//  No me esta funcionando bien
+// function isValidCode(ccCode:string, ccNum: string){
+//   return (group: FormGroup): { [key: string]: any }  => {
+//     let flag = false;
+//     if (ccCode.length == 3 && (ccNum.startsWith('4',0)||ccNum.startsWith('5',0))){
+//       flag = true;
+//     }
+//     if (ccCode.length == 4 && (ccNum.startsWith('34',0)||ccNum.startsWith('37',0))){
+//       flag = true;
+//     }
+//
+//     if(flag == false){
+//       return {notValidCode : true};
+//     }
+//   }
+// }
 
 function isValidDate(input: FormControl) {
-  const date = input.value;
-  if (date != null) {
-    const month = +(date.toString().charAt(0));
-    const month2 = +(date.toString().charAt(1));
-    const year = +(date.toString().charAt(2));
+  const expDate = Date.parse(input.value);
+  const today = new Date().getTime();
 
-    if (month > 1) return {notValidDate: true};
-    if (month == 1) {
-      if (month2 > 2) return {notValidDate: true};
-    }
-    if (year < 2) return {notValidDate: true};
-
-    return null;
-  }
-  return null;
+  if(expDate>today) return null;
+  else return {notValidDate: true};
 }
 
 function isValidNumber(input: FormControl) {

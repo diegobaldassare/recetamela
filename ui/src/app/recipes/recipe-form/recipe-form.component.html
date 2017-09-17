@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col col-md-8">
+<div class="row first-section">
+  <div class="col-md-6">
     <div class="form-group">
       <label for="name">Nombre*</label>
       <input [(ngModel)]="container.recipe.name" id="name" class="form-control">
@@ -9,62 +9,8 @@
       <label for="description">Descripción*</label>
       <textarea style="resize: vertical" [(ngModel)]="container.recipe.description" id="description" class="form-control" rows="3"></textarea>
     </div>
-
-    <div style="margin-bottom: 13px">
-      <label for="ingredient">Ingredientes*</label>
-      <br>
-      <span class="label label-default" *ngFor="let i of container.selectedIngredients | keys">
-        {{ i }}
-        <span class="label-button" (click)="deselectIngredient(i)">x</span>
-      </span>
-    </div>
-    <div class="form-group">
-      <input id="ingredient" class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
-      <datalist id="ingredients">
-        <option *ngFor="let i of container.ingredients | keys" [value]="i"></option>
-      </datalist>
-    </div>
-
-    <label for="step">Pasos*</label>
-    <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
-    <ol *ngIf="container.recipe.steps.length > 0">
-      <li style="margin-bottom: 40px" *ngFor="let step of container.recipe.steps; let i = index">
-        <div class="row" *ngIf="step.image">
-          <div class="col col-md-8"><p>{{ step.description }}</p></div>
-          <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
-        </div>
-        <div class="row" *ngIf="!step.image">
-          <div class="col col-md-12"><p>{{ step.description }}</p></div>
-        </div>
-        <div style="float:right">
-          <button class="btn btn-primary btn-xs" (click)="selectStepImage(i)" [disabled]="uploadingImage">
-            {{ stepImageButtonText }}
-          </button>
-          <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="container.recipe.steps[i].image = null" [disabled]="uploadingImage">Eliminar imágen</button>
-          <button class="btn btn-danger btn-xs" (click)="container.recipe.steps.splice(i, 1)">Eliminar paso</button>
-        </div>
-      </li>
-    </ol>
-    <br>
-    <div class="form-group">
-      <input id="step" class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="stepDescription" (keyup.enter)="addStep()">
-    </div>
-
-    <div style="margin-bottom: 13px">
-      <label for="category">Categorias*</label>
-      <br>
-      <span class="label label-default" *ngFor="let c of container.selectedCategories | keys">
-        {{ c }}
-        <span class="label-button" (click)="deselectCategory(c)">x</span>
-      </span>
-    </div>
-    <div class="form-group">
-      <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
-      <datalist id="categories">
-        <option *ngFor="let c of container.categories | keys" [value]="c"></option>
-      </datalist>
-    </div>
-
+  </div>
+  <div class="col-md-6">
     <div class="form-group">
       <label for="servings">Porciones</label>
       <input style="margin-left: 10px; width: 40px;" type="number" id="servings" [(ngModel)]="container.recipe.servings">
@@ -94,8 +40,74 @@
         <input [(ngModel)]="container.recipe.difficulty" value="5" type="radio" name="dificultad"> muy dificil
       </label>
     </div>
+    <div style="margin-bottom: 13px">
+      <label for="category">Categorias*</label>
+      <br>
+      <span class="label label-default" *ngFor="let c of container.selectedCategories | keys">
+        {{ c }}
+        <span class="label-button" (click)="deselectCategory(c)">x</span>
+      </span>
+    </div>
+    <div class="form-group">
+      <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+      <datalist id="categories">
+        <option *ngFor="let c of container.categories | keys" [value]="c"></option>
+      </datalist>
+    </div>
   </div>
-  <div class="col col-md-4">
+</div>
+
+<div class="row second-section">
+  <div class="col-md-6">
+    <div style="margin-bottom: 13px">
+      <label for="ingredient">Ingredientes*</label>
+      <br>
+      <span class="label label-default" *ngFor="let i of container.selectedIngredients | keys">
+        {{ i }}
+        <span class="label-button" (click)="deselectIngredient(i)">x</span>
+      </span>
+    </div>
+    <div class="form-group">
+      <input id="ingredient" class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">
+      <datalist id="ingredients">
+        <option *ngFor="let i of container.ingredients | keys" [value]="i"></option>
+      </datalist>
+    </div>
+  </div>
+  <div class="col-md-6"></div>
+</div>
+
+<div class="row third-section">
+  <div class="col-md-12">
+    <label for="step">Pasos*</label>
+    <input style="display: none" (change)="addStepImage($event)" type="file" id="step-image" accept="image/*">
+    <ol *ngIf="container.recipe.steps.length > 0">
+      <li style="margin-bottom: 40px" *ngFor="let step of container.recipe.steps; let i = index">
+        <div class="row" *ngIf="step.image">
+          <div class="col col-md-8"><p>{{ step.description }}</p></div>
+          <div class="col col-md-4"><img class="img-responsive thumbnail" [src]="step.image.url"></div>
+        </div>
+        <div class="row" *ngIf="!step.image">
+          <div class="col col-md-12"><p>{{ step.description }}</p></div>
+        </div>
+        <div style="float:right">
+          <button class="btn btn-primary btn-xs" (click)="selectStepImage(i)" [disabled]="uploadingImage">
+            {{ stepImageButtonText }}
+          </button>
+          <button *ngIf="step.image" class="btn btn-danger btn-xs" (click)="container.recipe.steps[i].image = null" [disabled]="uploadingImage">Eliminar imágen</button>
+          <button class="btn btn-danger btn-xs" (click)="container.recipe.steps.splice(i, 1)">Eliminar paso</button>
+        </div>
+      </li>
+    </ol>
+    <br>
+    <div class="form-group">
+      <input id="step" class="form-control" placeholder="Presione enter luego de cada paso" [(ngModel)]="stepDescription" (keyup.enter)="addStep()">
+    </div>
+  </div>
+</div>
+
+<div class="row multimedia-section">
+  <div class="col col-md-6">
     <div class="form-group">
       <label>Imágenes*</label><br>
       <div *ngIf="container.recipe.images.length > 0" style="margin-bottom: 20px" id="general-images" class="carousel slide" data-ride="carousel" data-interval="">
@@ -122,7 +134,8 @@
       <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="disabledImageButton">{{ imageButtonText }}</button>
       <button *ngIf="container.recipe.images.length != 0" class="btn btn-danger btn-sm" (click)="removeImage()">Eliminar</button>
     </div>
-
+  </div>
+  <div class="col-md-6">
     <div class="form-group">
       <label for="videoUrl">Video de YouTube</label>
       <img class="img-responsive thumbnail" style="margin-bottom: 20px" *ngIf="validVideoUrl" [src]="videoThumbnailUrl">

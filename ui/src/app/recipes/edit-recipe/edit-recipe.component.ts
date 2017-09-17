@@ -12,7 +12,7 @@ import {User} from "../../shared/models/user-model";
   styleUrls: ['./edit-recipe.component.css']
 })
 export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
-  private fetched: boolean;
+  public fetched: boolean;
 
   constructor(
     private _recipeService: RecipeService,

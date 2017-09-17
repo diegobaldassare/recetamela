@@ -14,7 +14,7 @@ import {SharedService} from "../../shared/services/shared.service";
 export class ViewRecipeComponent implements OnInit {
 
   private recipe: Recipe;
-  private fetched: boolean;
+  public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
 
   constructor(

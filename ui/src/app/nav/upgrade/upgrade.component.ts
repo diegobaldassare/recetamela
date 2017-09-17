@@ -17,7 +17,7 @@ export class UpgradeComponent implements OnInit {
   private creditCard: CreditCard;
   private creditCardForm: FormGroup;
   private isPassword = "password";
-  private active: boolean;
+  public active: boolean;
   private expired: boolean;
 
   constructor(private sharedService: SharedService,

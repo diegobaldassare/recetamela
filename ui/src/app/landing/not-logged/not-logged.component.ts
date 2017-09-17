@@ -12,4 +12,8 @@ export class NotLoggedComponent implements OnInit {
   ngOnInit() {
   }
 
+  facebook(){
+
+  }
+
 }

@@ -12,12 +12,12 @@ declare var $: any;
   styleUrls: ['./recipe-form.component.css']
 })
 export class RecipeFormComponent implements OnInit {
-  @Input() private container: RecipeFormContainer;
+  @Input() public container: RecipeFormContainer;
   @Input() private submitText: string;
   private uploadingImage: boolean;
-  private stepDescription: string = '';
-  private categoryName: string = '';
-  private ingredientName: string = '';
+  public stepDescription: string = '';
+  public categoryName: string = '';
+  public ingredientName: string = '';
   private sending: boolean;
   private stepWhoseImageIsBeingUploaded: number;
 
@@ -28,11 +28,11 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {}
 
-  private get submitButtonText(): string {
+  public get submitButtonText(): string {
     return this.sending ? 'Enviando' : this.submitText;
   }
 
-  private get validVideoUrl(): boolean {
+  public get validVideoUrl(): boolean {
     return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9_]+$/.test(this.container.recipe.videoUrl);
   }
 
@@ -41,7 +41,7 @@ export class RecipeFormComponent implements OnInit {
     return `http://img.youtube.com/vi/${split[1]}/0.jpg`;
   }
 
-  private get imageButtonText(): string {
+  public get imageButtonText(): string {
     if (this.uploadingImage) return 'Subiendo';
     else return 'Agregar';
   }
@@ -51,11 +51,11 @@ export class RecipeFormComponent implements OnInit {
     else return 'Seleccionar imágen';
   }
 
-  private get disabledImageButton(): boolean {
+  public get disabledImageButton(): boolean {
     return this.uploadingImage || this.container.recipe.images.length >= 10;
   }
 
-  private get disabledSubmit():boolean {
+  public get disabledSubmit():boolean {
     return this.sending ||
       (this.container.recipe.videoUrl.length > 0 && !this.validVideoUrl) ||
       this.container.recipe.description.trim().length == 0 ||
@@ -75,7 +75,7 @@ export class RecipeFormComponent implements OnInit {
     document.getElementById('step-image').click();
   }
 
-  private addStepImage(e: Event) {
+  public addStepImage(e: Event) {
     e.preventDefault();
     this.uploadingImage = true;
     const files = (<HTMLInputElement> document.getElementById('step-image')).files;
@@ -87,7 +87,7 @@ export class RecipeFormComponent implements OnInit {
     }, () => { (<HTMLInputElement> document.getElementById('step-image')).value = ''; });
   }
 
-  private addImage(e: Event) {
+  public addImage(e: Event) {
     e.preventDefault();
     this.uploadingImage = true;
     const files = (<HTMLInputElement> document.getElementById('image')).files;
@@ -110,7 +110,7 @@ export class RecipeFormComponent implements OnInit {
     $carousel.find('li').eq(next).addClass('active');
   }
 
-  private addStep() {
+  public addStep() {
     const d = this.stepDescription.trim();
     if (d.length > 0) {
       const step = new RecipeStep();
@@ -120,7 +120,7 @@ export class RecipeFormComponent implements OnInit {
     }
   }
 
-  private selectCategory() {
+  public selectCategory() {
     const c = this.categoryName.toLowerCase().trim();
     if (!this.isAlphaNumSpaceNotEmpty(c)) return;
     if (this.container.categories[c]) {
@@ -136,7 +136,7 @@ export class RecipeFormComponent implements OnInit {
     delete this.container.selectedCategories[c];
   }
 
-  private selectIngredient() {
+  public selectIngredient() {
     const i = this.ingredientName.toLowerCase().trim();
     if (!this.isAlphaNumSpaceNotEmpty(i)) return;
     if (!this.container.selectedIngredients[i]) {
@@ -169,7 +169,7 @@ export class RecipeFormComponent implements OnInit {
     this.sending = false;
   }
 
-  private submit() {
+  public submit() {
     this.sending = true;
     this.container.submit().catch(() => this.sending = false);
   }

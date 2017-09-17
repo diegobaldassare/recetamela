@@ -6,8 +6,10 @@
           <div class="col-md-7">
             <div style="margin-bottom: 50px">
               <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
-              <button style="vertical-align: text-bottom" *ngIf="editButton" routerLink="editar" type="button" class="btn btn-primary btn-sm">
+              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" (click)="checkPremium()">
+                <a href="javascript://">
                 <span class="glyphicon glyphicon-pencil"></span>
+                </a>
               </button>
             </div>
 

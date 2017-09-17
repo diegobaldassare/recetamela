@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { DomSanitizer } from '@angular/platform-browser';
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {User} from "../../shared/models/user-model";
+import {SharedService} from "../../shared/services/shared.service";
 
 @Component({
   selector: 'app-view-recipe',
@@ -19,7 +20,9 @@ export class ViewRecipeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private sharedService: SharedService,
+    private router: Router
   ){}
 
   ngOnInit() {
@@ -32,6 +35,17 @@ export class ViewRecipeComponent implements OnInit {
 
   public get editButton(): boolean {
     return this.viewer.id == this.recipe.author.id;
+  }
+
+  private checkPremium() {
+      const u : User = JSON.parse(localStorage.getItem("user")) as User;
+      if (u.type == 'FreeUser') {
+        this.sharedService.notifyOther({upgradeForm:true});
+      }
+      else {
+        const id = this.route.snapshot.params['id'];
+        this.router.navigate(['/recetas/' + id + '/editar']);
+      }
   }
 
   private get embedVideoUrl() {

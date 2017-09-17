@@ -31,7 +31,7 @@ public class Recipe extends BaseModel {
     private List<Media> images;
 
     @ManyToOne(optional = false)
-    private PremiumUser author;
+    private User author;
 
     @ManyToMany(cascade = REMOVE)
     private List<Ingredient> ingredients;

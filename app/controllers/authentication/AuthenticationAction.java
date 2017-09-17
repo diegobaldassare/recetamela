@@ -2,7 +2,7 @@ package controllers.authentication;
 
 import controllers.SecurityController;
 import models.AuthToken;
-import models.User;
+import models.user.User;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;

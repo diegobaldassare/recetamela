@@ -28,10 +28,9 @@ export class NavComponent implements OnInit {
       if (res.hasOwnProperty('loggedIn')) {
         this.isLoggedIn = res.loggedIn;
         this.cdRef.detectChanges();
-        if (this.isLoggedIn) {
-          this.doUpdate();
-        }
+        if (this.isLoggedIn) this.doUpdate();
       }
+      if (res.hasOwnProperty('premium')) this.updateDropdown(res.premium);
     });
     /*this.sharedService.notifyObservable$.subscribe(res => {
       if (res.hasOwnProperty('isPremium')) {
@@ -45,16 +44,21 @@ export class NavComponent implements OnInit {
     this.auth.logout();
   }
 
+  public updateDropdown(value: boolean) : void {
+    this.isPremium = value;
+    this.cdRef.detectChanges();
+  }
+
   public crearReceta() {
     if (this.isPremium) {
       this.router.navigate(['/recetas/crear']);
     } else {
-      this.sharedService.notifyOther({upgradeForm: true});
+      this.premium();
     }
   }
 
   public premium() {
-    this.sharedService.notifyOther({upgradeForm: true});
+    this.sharedService.notifyOther({upgradeForm: true, expired: false});
   }
 
   private doUpdate() {

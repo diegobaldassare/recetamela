@@ -1,7 +1,7 @@
 package controllers.user;
 
 import com.google.inject.Inject;
-import models.User;
+import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;

@@ -27,6 +27,7 @@ DELETE      /api/user/:id/delete                    controllers.user.FreeUserCon
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
 PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
 PUT         /api/premiumuser/:id/downgradeUser      controllers.user.PremiumUserController.downgradePremiumUser(id: Long)
+PUT         /api/premiumuser/:id/checkDate          controllers.user.PremiumUserController.checkExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateSuscription  controllers.user.PremiumUserController.updatePremiumUserExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateUser         controllers.user.PremiumUserController.updatePremiumUser(id: Long)
 GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)

@@ -2,16 +2,18 @@ package controllers.user;
 
 import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
-import models.FreeUser;
-import models.PremiumUser;
-import models.User;
+import controllers.BaseController;
+import models.user.CheckExpirationDateResponse;
+import models.user.FreeUser;
+import models.user.PremiumUser;
+import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.user.PremiumUserService;
+import services.user.UserService;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class PremiumUserController extends Controller {
+public class PremiumUserController extends BaseController {
 
     private static Form<PremiumUser> userForm;
 
@@ -45,9 +47,13 @@ public class PremiumUserController extends Controller {
     public Result downgradePremiumUser(Long id) {
         Optional<PremiumUser> premiumUserOptional = PremiumUserService.getInstance().get(id);
         if (!premiumUserOptional.isPresent()) return notFound();
-        PremiumUser user = premiumUserOptional.get();
+        return downgradePremiumUser(premiumUserOptional.get());
+    }
+
+    private Result downgradePremiumUser(PremiumUser user) {
         FreeUser freeUser = new FreeUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
         freeUser.setId(user.getId());
+        freeUser.setType("FreeUser");
         freeUser.setFacebookId(user.getFacebookId());
         freeUser.setAuthToken(user.getAuthToken());
         // freeUser.setCreditCards(user.getCreditCards());
@@ -55,7 +61,15 @@ public class PremiumUserController extends Controller {
             user.delete();
             freeUser.save();
         });
-        return ok(Json.toJson(freeUser));
+        return ok(Json.toJson(new CheckExpirationDateResponse(freeUser, true)));
+    }
+
+    public Result checkExpirationDate(Long id) {
+        Optional<User> userOptional = UserService.getInstance().get(id);
+        if (!userOptional.isPresent()) return notFound("User not Found");
+        User user = userOptional.get();
+        if (user.getType().equals("PremiumUser") && ((PremiumUser) user).isExpired()) return downgradePremiumUser((PremiumUser) user);
+        return ok(Json.toJson(new CheckExpirationDateResponse(user, false)));
     }
 
     public Result updatePremiumUser(Long id) {

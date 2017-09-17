@@ -2,10 +2,9 @@ package controllers.user;
 
 import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
-import controllers.authentication.Authenticate;
-import models.FreeUser;
-import models.PremiumUser;
-import models.User;
+import models.user.FreeUser;
+import models.user.PremiumUser;
+import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;

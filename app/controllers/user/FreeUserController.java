@@ -34,7 +34,7 @@ public class FreeUserController extends Controller {
     }
 
     public Result createFreeUser() {
-        User user = userForm.bindFromRequest().get();
+        FreeUser user = userForm.bindFromRequest().get();
         user.save();
         return ok(Json.toJson(user));
     }
@@ -43,6 +43,7 @@ public class FreeUserController extends Controller {
         Optional<FreeUser> freeUserOptional = FreeUserService.getInstance().get(id);
         if (!freeUserOptional.isPresent()) return notFound();
         FreeUser user = freeUserOptional.get();
+//        user.delete();
         PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
         premiumUser.setId(user.getId());
         premiumUser.setType("PremiumUser");
@@ -50,6 +51,7 @@ public class FreeUserController extends Controller {
         premiumUser.setAuthToken(user.getAuthToken());
         premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
 //        premiumUser.setCreditCards(user.getCreditCards());
+        System.out.println(premiumUser.getId());
         premiumUser.update();
         return ok(Json.toJson(premiumUser));
     }

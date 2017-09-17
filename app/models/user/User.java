@@ -15,7 +15,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "type")
 public abstract class User extends BaseModel {
 
-    @Column(name = "type")
+    @Column(name = "type", insertable = false)
     private String type;
 
     private long facebookId;

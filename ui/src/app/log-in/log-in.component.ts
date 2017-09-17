@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
 import {LoginData} from "../shared/models/login-data";
+import {environment} from "../../environments/environment";
 declare const FB: any;
 
 @Component({
@@ -54,13 +55,23 @@ export class LogInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    FB.init({
-      appId      : '114614415891866',
-      cookie     : true,  // enable cookies to allow the server to access
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v2.8' // use graph api version 2.8
-    });
+    if(environment.production){
+      FB.init({
+        appId      : '1944355492501091',
+        cookie     : true,  // enable cookies to allow the server to access
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.8' // use graph api version 2.8
+      });
+    }else {
+      FB.init({
+        appId      : '114614415891866',
+        cookie     : true,  // enable cookies to allow the server to access
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.8' // use graph api version 2.8
+      });
+    }
   }
 
 }

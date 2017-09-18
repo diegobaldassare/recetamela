@@ -9,7 +9,7 @@ import {MyAuthService} from "../auth/my-auth-service";
 })
 export class HomeComponent implements OnInit {
 
-  private loggedIn: boolean = this.authService.isLoggedIn();
+  public loggedIn: boolean = this.authService.isLoggedIn();
 
   constructor(
     private authService: MyAuthService,

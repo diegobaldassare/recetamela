@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RecipeSearchQuery} from "./recipe-search-query";
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
@@ -25,6 +25,7 @@ export class SearchRecipesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private recipeService: RecipeService,
     private toast: ToasterService
   ) {
@@ -35,17 +36,17 @@ export class SearchRecipesComponent implements OnInit {
     this.query.authorName = q['authorName'] || "";
   }
 
+  ngOnInit() {
+    this.search();
+  }
+
   private search(): void {
     if (this.emptyQuery()) return;
     this.recipeService.search(this.query)
-      .then(
-        r => this.results = r,
-        () => this.toast.pop("error", "No se pudo efectuar la búsqueda")
-      );
-  }
-
-  ngOnInit() {
-    this.search();
+      .then(r => {
+          this.router.navigate([], { queryParams: this.query });
+          this.results = r;
+        }, () => this.toast.pop("error", "No se pudo efectuar la búsqueda"));
   }
 
   private emptyQuery(): boolean {

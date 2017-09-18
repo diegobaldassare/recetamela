@@ -6,9 +6,19 @@
           <div class="col-md-7">
             <div style="margin-bottom: 50px">
               <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
-              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" (click)="checkPremium()">
+              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" title="Editar Receta" (click)="checkPremium()">
                 <a href="javascript://">
                 <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+              </button>
+
+              <button style="vertical-align: text-bottom"
+                      *ngIf="canAddToRecipeBook"
+                      type="button" class="btn btn-secondary btn-sm"
+                      data-toggle="modal" data-target="#addToRecipeBookModal"
+                      title="Agregar a Recetario">
+                <a href="javascript://">
+                  <span class="glyphicon glyphicon-plus"></span>
                 </a>
               </button>
             </div>
@@ -117,3 +127,6 @@
   <app-not-found *ngIf="!recipe"></app-not-found>
 </div>
 <div *ngIf="!fetched" class="app-spinner"></div>
+
+
+<app-add-to-recipe-book></app-add-to-recipe-book>

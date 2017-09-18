@@ -80,4 +80,8 @@ export class NavComponent implements OnInit {
     // this.isPremium = this.auth.isPremium():
   }
 
+  private addToRecipeBook(){
+    this.router.navigate(['/recetarios']);
+  }
+
 }

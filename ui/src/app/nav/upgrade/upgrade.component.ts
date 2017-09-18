@@ -79,7 +79,7 @@ export class UpgradeComponent implements OnInit {
         this.toaster.pop("success", "Pago procesado");
         this.close();
         this.sharedService.notifyOther({isPremium: true});
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
         this.sharedService.notifyOther({loggedIn: true});
         }, () => {
         this.toaster.pop("error", "Error de pago");

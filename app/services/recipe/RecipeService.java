@@ -1,9 +1,7 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
-import models.recipe.Recipe;
-import models.recipe.RecipeCategory;
-import models.recipe.RecipeStep;
+import models.recipe.*;
 import services.Service;
 
 import java.util.List;
@@ -37,22 +35,23 @@ public class RecipeService extends Service<Recipe> {
         if (input.getDuration() != 0) r.setDuration(input.getDuration());
     }
 
-    public List<Recipe> search(String name, String categoryName, int difficulty, String authorName) {
+    public List<Recipe> search(RecipeSearchQuery q) {
         final List<Recipe> recipes = getFinder().all();
         recipes.removeIf(r -> {
-            if (!r.getName().toLowerCase().contains(name)) return true;
-            if (difficulty != 0 && r.getDifficulty() != difficulty) return true;
-            if (!r.getAuthor().getName().toLowerCase().contains(authorName)) return true;
-            if (categoryName.length() == 0) return false;
+            if (!r.getName().toLowerCase().contains(q.name)) return true;
+            if (!q.difficulty.equals("0") && !String.valueOf(r.getDifficulty()).equals(q.difficulty)) return true;
+            if (!r.getAuthor().getName().toLowerCase().contains(q.authorName)) return true;
+            if (q.categoryNames.isEmpty()) return false;
+            if (q.ingredientNames.isEmpty()) return false;
 
-            boolean hasSimilarCategory = false;
-            for (final RecipeCategory c : r.getCategories()) {
-                if (c.getName().contains(categoryName)) {
-                    hasSimilarCategory = true;
-                    break;
-                }
-            }
-            return !hasSimilarCategory;
+            for (final RecipeCategory c : r.getCategories())
+                if (!q.categoryNames.contains(c.getName()))
+                    return true;
+            for (final Ingredient i : r.getIngredients())
+                if (!q.ingredientNames.contains(i.getName()))
+                    return true;
+
+            return false;
         });
         return recipes;
     }

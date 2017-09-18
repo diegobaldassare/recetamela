@@ -2,9 +2,11 @@ package controllers.recipe;
 
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.recipe.RecipeSearchQuery;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.recipe.Recipe;
+import models.user.User;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -67,8 +69,16 @@ public class RecipeController extends BaseController {
     }
 
     @Authenticate({ FreeUser.class, PremiumUser.class })
-    public Result search(String name, String categoryName, Integer difficulty, String authorName) {
-        final List<Recipe> results = RecipeService.getInstance().search(name.toLowerCase().trim(), categoryName.toLowerCase().trim(), difficulty, authorName.toLowerCase().trim());
+    public Result search() {
+        final RecipeSearchQuery q = new RecipeSearchQuery(
+                request().getQueryString("name"),
+                request().getQueryString("categoryNames"),
+                request().getQueryString("ingredientNames"),
+                request().getQueryString("difficulty"),
+                request().getQueryString("authorName")
+        );
+        if (getRequester().getType().equals("FreeUser") && !q.ingredientNames.isEmpty()) q.ingredientNames.clear();
+        final List<Recipe> results = RecipeService.getInstance().search(q);
         return ok(Json.toJson(results));
     }
 }

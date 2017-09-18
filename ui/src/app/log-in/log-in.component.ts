@@ -26,7 +26,7 @@ export class LogInComponent implements OnInit {
             result.gender,
             result.id,
             result.picture.data.url);
-          this.zone.run(() => this.userService.sendLoginData(loginData));
+          this.userService.sendLoginData(loginData);
         } else {
           console.log('Unexpected error: ' + result.error);
         }

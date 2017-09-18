@@ -15,14 +15,11 @@ export class HomeComponent implements OnDestroy {
 
   constructor(
     private authService: MyAuthService,
-    private sharedService: SharedService,
-    private cdRef: ChangeDetectorRef
+    private sharedService: SharedService
   ) {
     this.sub = this.sharedService.notifyObservable$.subscribe((res) => {
       if (res.hasOwnProperty('loggedIn')) {
-        window.location.reload(); //TODO fix
         this.loggedIn = res.loggedIn;
-        this.cdRef.detectChanges();
       }
     });
   }

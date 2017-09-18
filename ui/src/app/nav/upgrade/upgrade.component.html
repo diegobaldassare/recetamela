@@ -52,8 +52,7 @@
                        class="form-control"
                        id="cardName"
                        formControlName="cardName"
-                       placeholder="Nombre de Titular"
-                       pattern="^[a-zA-Z]+\s[a-zA-Z]+$">
+                       placeholder="Nombre de Titular">
               </div>
               <span *ngIf="!creditCardForm.get('cardName').valid && creditCardForm.get('cardName').touched"
                     class="help-block">Nombre Incorrecto!</span>
@@ -93,8 +92,6 @@
                   class="form-control"
                   id="cardDate"
                   formControlName="cardDate">
-                  <!--placeholder="MMYY"
-                  pattern="^[0-9]{4}">-->
               </div>
               <span *ngIf="!creditCardForm.get('cardDate').valid && creditCardForm.get('cardDate').touched"
                     class="help-block">Fecha Incorrecta!</span>

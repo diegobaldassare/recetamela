@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
 import {LoginData} from "../shared/models/login-data";
@@ -12,7 +12,7 @@ declare const FB: any;
 })
 export class LogInComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private zone: NgZone) { }
 
   me() {
     FB.api('/me?fields=id,name,email,first_name,last_name,birthday,gender,picture.width(800).height(800),age_range,friends',

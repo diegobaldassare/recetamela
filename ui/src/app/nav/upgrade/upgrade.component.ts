@@ -50,7 +50,7 @@ export class UpgradeComponent implements OnInit {
 
   public activeUpgrade(value: boolean): void {
     this.active = value;
-    this.cdRef.detectChanges();
+    //this.cdRef.detectChanges();
   }
 
   public close(): void {

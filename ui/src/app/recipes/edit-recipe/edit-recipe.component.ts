@@ -69,7 +69,7 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
 
   deleteRecipe() {
     this._recipeService.deleteRecipe(this.recipe.id).then(() => {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }, () => {
       this.toaster.pop('error', 'Receta no eliminada');
     });

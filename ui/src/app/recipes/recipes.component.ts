@@ -15,6 +15,7 @@ export class RecipesComponent implements OnInit {
   ngOnInit() {}
 
   private search(): void {
+    if (this.recipeName.length == 0) return;
     this.router.navigate(["/recetas/buscar"], { queryParams: { name: this.recipeName } });
   }
 }

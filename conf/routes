@@ -17,12 +17,15 @@ PUT         /api/creditcard/:id/update              controllers.payment.CreditCa
 GET         /api/creditcard/:id                     controllers.payment.CreditCardController.get(id: Long)
 DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCardController.delete(id: Long)
 
-POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
+
+
+POST        /api/user                               controllers.user.UserController.createUser()
+PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)
+GET         /api/user/:id                           controllers.user.UserController.getUser(id: Long)
+GET         /api/users                              controllers.user.UserController.getUsers
+DELETE      /api/user/:id/delete                    controllers.user.UserController.deleteUser(id: Long)
+
 PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
-PUT         /api/user/:id/updateUser                controllers.user.FreeUserController.updateFreeUser(id: Long)
-GET         /api/user/:id                           controllers.user.FreeUserController.getFreeUser(id: Long)
-GET         /api/users                              controllers.user.FreeUserController.getFreeUsers
-DELETE      /api/user/:id/delete                    controllers.user.FreeUserController.deleteFreeUser(id: Long)
 
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
 PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)

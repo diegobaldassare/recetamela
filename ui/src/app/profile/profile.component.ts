@@ -10,7 +10,8 @@ import {UserService} from "../shared/services/user.service";
 })
 export class ProfileComponent implements OnInit {
 
-  user: User;
+  private user: User;
+  public fetched: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,8 +22,7 @@ export class ProfileComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     this.userService.getUser(id).then(user => {
       this.user = user;
-    });
+      this.fetched = true;
+    }, () => { this.fetched = true });
   }
-
-
 }

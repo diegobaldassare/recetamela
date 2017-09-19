@@ -38,6 +38,8 @@ import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.component';
+import { CategoryPickerComponent } from './recipes/category-picker/category-picker.component';
+import {FormatService} from "./shared/services/format.service";
 
 
 @NgModule({
@@ -60,6 +62,7 @@ import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.
     NotLoggedComponent,
     KeysPipe,
     SearchRecipesComponent,
+    CategoryPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.
     AuthGuard,
     PremiumGuard,
     CreditCardService,
-    EditRecipeGuard
+    EditRecipeGuard,
+    FormatService
   ],
   bootstrap: [AppComponent]
 })

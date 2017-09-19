@@ -1,17 +1,16 @@
 package models.recipe;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class RecipeSearchQuery {
-    public String name, authorName, difficulty;
-    public List<String> categoryNames, ingredientNames;
+    public String name, author, difficulty;
+    public Set<String> categories, ingredients;
 
-    public RecipeSearchQuery(String name, String authorName, String difficulty, String categoryNames, String ingredientNames) {
-        this.name = name.toLowerCase().trim();
-        this.authorName = authorName.toLowerCase().trim();
+    public RecipeSearchQuery(String name, String categories, String ingredients, String difficulty, String author) {
+        this.name = name;
+        this.categories = categories.length() == 0 ? new HashSet<>() : new HashSet<>(Arrays.asList(categories.split(",")));
+        this.ingredients = ingredients.length() == 0 ? new HashSet<>() : new HashSet<>(Arrays.asList(ingredients.split(",")));
         this.difficulty = difficulty;
-        this.categoryNames = Arrays.asList(categoryNames.toLowerCase().trim().split(","));
-        this.ingredientNames = Arrays.asList(ingredientNames.toLowerCase().trim().split(","));
+        this.author = author;
     }
 }

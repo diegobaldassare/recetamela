@@ -3,18 +3,15 @@
     <div class="col col-md-3">
       <h1>Buscar recetas</h1><br>
       <div class="panel panel-default">
-        <div class="panel-body" (keyup.enter)="search()">
+        <div class="panel-body">
           <div class="form-group">
             <label for="name">Nombre</label>
-            <input type="text" class="form-control" id="name" [(ngModel)]="query.name">
+            <input type="text" class="form-control" id="name" [(ngModel)]="query.name" (keyup.enter)="search()">
           </div>
-          <div class="form-group">
-            <label for="categoryNames">Categorías</label>
-            <input type="text" class="form-control" id="categoryNames" [(ngModel)]="query.categoryNames">
-          </div>
+          <app-category-picker [selected]="selectedCategories" label="Categorías"></app-category-picker>
           <div class="form-group" *ngIf="viewer.type == 'PremiumUser'">
-            <label for="ingredientNames">Ingredientes</label>
-            <input type="text" class="form-control" id="ingredientNames" [(ngModel)]="query.ingredientNames">
+            <label for="ingredients">Ingredientes</label>
+            <input type="text" class="form-control" id="ingredients" [(ngModel)]="query.ingredients">
           </div>
           <div class="form-group">
             <label for="difficulty">Dificultad</label>
@@ -25,8 +22,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="authorName">Autor</label>
-            <input type="text" class="form-control" id="authorName" [(ngModel)]="query.authorName">
+            <label for="author">Autor</label>
+            <input type="text" class="form-control" id="author" [(ngModel)]="query.author" (keyup.enter)="search()">
           </div>
           <button class="btn btn-primary" (click)="search()">Buscar</button>
         </div>

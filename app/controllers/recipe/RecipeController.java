@@ -6,7 +6,6 @@ import models.recipe.RecipeSearchQuery;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.recipe.Recipe;
-import models.user.User;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -69,15 +68,14 @@ public class RecipeController extends BaseController {
     }
 
     @Authenticate({ FreeUser.class, PremiumUser.class })
-    public Result search() {
+    public Result search(String name, String categories, String ingredients, String difficulty, String author) {
         final RecipeSearchQuery q = new RecipeSearchQuery(
-                request().getQueryString("name"),
-                request().getQueryString("categoryNames"),
-                request().getQueryString("ingredientNames"),
-                request().getQueryString("difficulty"),
-                request().getQueryString("authorName")
-        );
-        if (getRequester().getType().equals("FreeUser") && !q.ingredientNames.isEmpty()) q.ingredientNames.clear();
+                name.toLowerCase().trim(),
+                categories.toLowerCase().trim(),
+                ingredients.toLowerCase().trim(),
+                difficulty.trim(),
+                author.toLowerCase().trim());
+        if (getRequester().getType().equals("FreeUser") && !q.ingredients.isEmpty()) q.ingredients.clear();
         final List<Recipe> results = RecipeService.getInstance().search(q);
         return ok(Json.toJson(results));
     }

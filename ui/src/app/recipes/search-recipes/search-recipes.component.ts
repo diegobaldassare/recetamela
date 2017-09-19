@@ -25,8 +25,8 @@ export class SearchRecipesComponent implements OnInit {
     { value: 4, display: "dificil" },
     { value: 5, display: "muy dificil" },
   ];
-
-  private selectedCategories: RecipeCategory[] = [];
+  private selectedCategories: Object = {};
+  private selectedIngredients: Object = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -36,10 +36,10 @@ export class SearchRecipesComponent implements OnInit {
   ) {
     const q = this.route.snapshot.queryParams;
     this.query.name = q['name'] || "";
-    this.query.categoryNames = q['categoryNames'] || "";
-    this.query.ingredientNames = q['ingredientNames'] || "";
+    this.query.categories = q['categories'] || "";
+    this.query.ingredients = q['ingredients'] || "";
     this.query.difficulty = q['difficulty'] || 0;
-    this.query.authorName = q['authorName'] || "";
+    this.query.author = q['author'] || "";
   }
 
   ngOnInit() {
@@ -48,6 +48,8 @@ export class SearchRecipesComponent implements OnInit {
 
   private search(): void {
     if (this.emptyQuery()) return;
+    this.query.categories = Object.keys(this.selectedCategories).join(",");
+    this.query.ingredients = Object.keys(this.selectedIngredients).join(",");
     this.recipeService.search(this.query)
       .then(r => {
           this.router.navigate([], { queryParams: this.query });
@@ -57,8 +59,9 @@ export class SearchRecipesComponent implements OnInit {
 
   private emptyQuery(): boolean {
     return this.query.name == "" &&
-      this.query.categoryNames == "" &&
+      Object.keys(this.selectedCategories).length == 0 &&
+      (this.viewer.type == "PremiumUser" || Object.keys(this.selectedCategories).length == 0) &&
       this.query.difficulty == 0 &&
-      this.query.authorName == "";
+      this.query.author == "";
   }
 }

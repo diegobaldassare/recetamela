@@ -36,8 +36,8 @@ export class SearchRecipesComponent implements OnInit {
   ) {
     const q = this.route.snapshot.queryParams;
     this.query.name = q['name'] || "";
-    this.query.categories = q['categories'] || "";
-    this.query.ingredients = q['ingredients'] || "";
+    if (q['categories']) q['categories'].split(",").forEach(c => this.selectedCategories[c] = c);
+    if (q['ingredients']) q['ingredients'].split(",").forEach(i => this.selectedIngredients[i] = i);
     this.query.difficulty = q['difficulty'] || 0;
     this.query.author = q['author'] || "";
   }

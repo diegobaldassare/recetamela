@@ -9,6 +9,7 @@ import {EditRecipeComponent} from "./recipes/edit-recipe/edit-recipe.component";
 import {AuthGuard} from "./auth/authGuard.service";
 import {PremiumGuard} from "./auth/premium-guard";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'recetas/crear', component: CreateRecipeComponent, canActivate: [AuthGuard, PremiumGuard]},
   { path: 'recetas/:id', component: ViewRecipeComponent, canActivate: [AuthGuard] },
   { path: 'recetas/:id/editar', component: EditRecipeComponent, canActivate: [AuthGuard, PremiumGuard, EditRecipeGuard] },
+  { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
 

@@ -1,0 +1,21 @@
+.follow {
+  padding: 4px 8px;
+  margin-bottom: 11px;
+  margin-left: 17px;
+  border-radius: 20px;
+  background-color: #fc4a1a;
+  color: white;
+}
+
+.name {
+  color: #4ABDAC !important;
+  font-size: 29px;
+}
+
+.icon-type {
+  font-size: 30px;
+}
+
+.container {
+  margin-top: 20px;
+}

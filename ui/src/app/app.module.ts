@@ -37,6 +37,7 @@ import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
 import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
+import {ProfileComponent} from "./profile/profile.component";
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import {EditRecipeGuard} from "./auth/edit-recipe-guard";
     RecipeListComponent,
     NotLoggedComponent,
     KeysPipe,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

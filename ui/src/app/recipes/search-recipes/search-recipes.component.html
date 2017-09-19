@@ -9,8 +9,12 @@
             <input type="text" class="form-control" id="name" [(ngModel)]="query.name">
           </div>
           <div class="form-group">
-            <label for="categoryName">Categoría</label>
-            <input type="text" class="form-control" id="categoryName" [(ngModel)]="query.categoryName">
+            <label for="categoryNames">Categorías</label>
+            <input type="text" class="form-control" id="categoryNames" [(ngModel)]="query.categoryNames">
+          </div>
+          <div class="form-group" *ngIf="viewer.type == 'PremiumUser'">
+            <label for="ingredientNames">Ingredientes</label>
+            <input type="text" class="form-control" id="ingredientNames" [(ngModel)]="query.ingredientNames">
           </div>
           <div class="form-group">
             <label for="difficulty">Dificultad</label>

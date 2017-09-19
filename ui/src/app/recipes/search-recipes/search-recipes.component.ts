@@ -4,6 +4,8 @@ import {RecipeSearchQuery} from "./recipe-search-query";
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
+import {User} from "../../shared/models/user-model";
+import {RecipeCategory} from "../../shared/models/recipe/recipe-category";
 
 @Component({
   selector: 'app-search-recipes',
@@ -12,6 +14,7 @@ import {ToasterService} from "angular2-toaster";
 })
 export class SearchRecipesComponent implements OnInit {
 
+  private viewer: User = JSON.parse(localStorage.getItem("user"));
   private query: RecipeSearchQuery = new RecipeSearchQuery;
   private results: Recipe[] = [];
   private difficulties = [
@@ -23,6 +26,8 @@ export class SearchRecipesComponent implements OnInit {
     { value: 5, display: "muy dificil" },
   ];
 
+  private selectedCategories: RecipeCategory[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -31,7 +36,8 @@ export class SearchRecipesComponent implements OnInit {
   ) {
     const q = this.route.snapshot.queryParams;
     this.query.name = q['name'] || "";
-    this.query.categoryName = q['categoryName'] || "";
+    this.query.categoryNames = q['categoryNames'] || "";
+    this.query.ingredientNames = q['ingredientNames'] || "";
     this.query.difficulty = q['difficulty'] || 0;
     this.query.authorName = q['authorName'] || "";
   }
@@ -51,7 +57,7 @@ export class SearchRecipesComponent implements OnInit {
 
   private emptyQuery(): boolean {
     return this.query.name == "" &&
-      this.query.categoryName == "" &&
+      this.query.categoryNames == "" &&
       this.query.difficulty == 0 &&
       this.query.authorName == "";
   }

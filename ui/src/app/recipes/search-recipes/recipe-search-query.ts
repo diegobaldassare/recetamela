@@ -1,6 +1,7 @@
 export class RecipeSearchQuery {
   name: string = "";
-  categoryName: string = "";
+  categoryNames: string = "";
+  ingredientNames: string = "";
   difficulty: number = 0;
   authorName: string = "";
 }

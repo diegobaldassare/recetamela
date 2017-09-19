@@ -44,7 +44,8 @@ export class RecipeService extends ApiService {
   search(q: RecipeSearchQuery): Promise<Recipe[]> {
     const params = new HttpParams()
       .set("name", q.name)
-      .set("categoryName", q.categoryName)
+      .set("categoryNames", q.categoryNames)
+      .set("ingredientNames", q.ingredientNames)
       .set("difficulty", q.difficulty.toString())
       .set("authorName", q.authorName);
     return this.http.get<Recipe[]>(`${this.URL}s`, { params }).toPromise();

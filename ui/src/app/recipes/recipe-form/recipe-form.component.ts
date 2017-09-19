@@ -33,7 +33,7 @@ export class RecipeFormComponent implements OnInit {
   }
 
   public get validVideoUrl(): boolean {
-    return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9_]+$/.test(this.container.recipe.videoUrl);
+    return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9_-]+$/.test(this.container.recipe.videoUrl);
   }
 
   private get videoThumbnailUrl(): string {

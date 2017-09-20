@@ -36,6 +36,8 @@
               <img src={{user?.profilePic}} alt="Pic" height="25" width="25" class="header-pic">
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
+              <li (click)="myProfile()"><a href="javascript://">Mi Perfil</a></li>
+              <li class="divider"></li>
               <li><a href="#">Opciones</a></li>
               <li class="divider"></li>
               <li *ngIf="!isPremium" (click)="premium()"><a href="javascript://">Hacete Premium</a></li>

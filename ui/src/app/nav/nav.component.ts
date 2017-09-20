@@ -49,6 +49,10 @@ export class NavComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
+  public myProfile() {
+    this.router.navigate([`/usuario/${this.user.id}/perfil`]);
+  }
+
   public crearReceta() {
     if (this.isPremium) {
       this.router.navigate(['/recetas/crear']);

@@ -8,11 +8,8 @@
             <label for="name">Nombre</label>
             <input type="text" class="form-control" id="name" [(ngModel)]="query.name" (keyup.enter)="search()">
           </div>
-          <app-category-picker [selected]="selectedCategories" label="Categorías"></app-category-picker>
-          <div class="form-group" *ngIf="viewer.type == 'PremiumUser'">
-            <label for="ingredients">Ingredientes</label>
-            <input type="text" class="form-control" id="ingredients" [(ngModel)]="query.ingredients">
-          </div>
+          <app-category-picker [picked]="selectedCategories" label="Categorías"></app-category-picker>
+          <app-ingredient-picker *ngIf="viewer.type == 'PremiumUser'" [picked]="selectedIngredients" label="Ingredientes"></app-ingredient-picker>
           <div class="form-group">
             <label for="difficulty">Dificultad</label>
             <select id="difficulty" class="form-control" [(ngModel)]="query.difficulty">

@@ -38,9 +38,9 @@ import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.component';
-import { CategoryPickerComponent } from './recipes/category-picker/category-picker.component';
+import { CategoryPickerComponent } from './recipes/picker/category-picker/category-picker.component';
 import {FormatService} from "./shared/services/format.service";
-
+import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/ingredient-picker.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +63,7 @@ import {FormatService} from "./shared/services/format.service";
     KeysPipe,
     SearchRecipesComponent,
     CategoryPickerComponent,
+    IngredientPickerComponent,
   ],
   imports: [
     BrowserModule,

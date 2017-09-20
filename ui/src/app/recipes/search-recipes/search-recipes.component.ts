@@ -5,7 +5,6 @@ import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {ToasterService} from "angular2-toaster";
 import {User} from "../../shared/models/user-model";
-import {RecipeCategory} from "../../shared/models/recipe/recipe-category";
 
 @Component({
   selector: 'app-search-recipes',
@@ -60,7 +59,7 @@ export class SearchRecipesComponent implements OnInit {
   private emptyQuery(): boolean {
     return this.query.name == "" &&
       Object.keys(this.selectedCategories).length == 0 &&
-      (this.viewer.type == "PremiumUser" || Object.keys(this.selectedCategories).length == 0) &&
+      (this.viewer.type == "PremiumUser" && Object.keys(this.selectedIngredients).length == 0) &&
       this.query.difficulty == 0 &&
       this.query.author == "";
   }

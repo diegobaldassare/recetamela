@@ -11,6 +11,7 @@ import {UserService} from "../shared/services/user.service";
 export class ProfileComponent implements OnInit {
 
   private user: User;
+  private loggedUser: User;
   public fetched: boolean;
 
   constructor(
@@ -24,5 +25,6 @@ export class ProfileComponent implements OnInit {
       this.user = user;
       this.fetched = true;
     }, () => { this.fetched = true });
+    this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
   }
 }

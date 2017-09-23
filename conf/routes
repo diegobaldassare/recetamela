@@ -8,6 +8,13 @@ GET         /api/recipe/:id                         controllers.recipe.RecipeCon
 PUT         /api/recipe/:id                         controllers.recipe.RecipeController.modify(id: Long)
 DELETE      /api/recipe/:id                         controllers.recipe.RecipeController.delete(id: Long)
 
+POST        /api/recipebook/create                  controllers.recipe.RecipeBookController.createRecipeBook()
+GET         /api/recipebook/:id                     controllers.recipe.RecipeBookController.getRecipeBook(id: Long)
+GET         /api/recipebooks                        controllers.recipe.RecipeBookController.getAllRecipeBooks
+GET         /api/recipebook/all/                    controllers.recipe.RecipeBookController.getUserRecipeBooks
+PUT         /api/recipebook/:id/update              controllers.recipe.RecipeBookController.updateRecipeBook(id: Long)
+DELETE      /api/recipebook/:id/delete              controllers.recipe.RecipeBookController.deleteRecipeBook(id: Long)
+
 GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll
 
 GET         /api/recipe/ingredients/all             controllers.recipe.IngredientController.getAll
@@ -15,7 +22,15 @@ GET         /api/recipe/ingredients/all             controllers.recipe.Ingredien
 POST        /api/creditcard/create                  controllers.payment.CreditCardController.create()
 PUT         /api/creditcard/:id/update              controllers.payment.CreditCardController.update(id: Long)
 GET         /api/creditcard/:id                     controllers.payment.CreditCardController.get(id: Long)
+GET         /api/creditcard/all/                    controllers.payment.CreditCardController.getUserCreditCards
 DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCardController.delete(id: Long)
+
+POST        /api/payment/create/:creditCardId       controllers.payment.PaymentController.create(creditCardId: Long)
+PUT         /api/payment/:id/update                 controllers.payment.PaymentController.update(id: Long)
+GET         /api/payment/:id                        controllers.payment.PaymentController.get(id: Long)
+GET         /api/payment/all/                       controllers.payment.PaymentController.getUserPayments
+DELETE      /api/payment/:id/delete                 controllers.payment.PaymentController.delete(id: Long)
+
 
 POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
 PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)

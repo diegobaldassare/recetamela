@@ -41,19 +41,16 @@ public class FreeUserController extends Controller {
 
     public Result upgradeFreeUser(Long id) {
         Optional<FreeUser> freeUserOptional = FreeUserService.getInstance().get(id);
-        if (!freeUserOptional.isPresent()) return notFound();
-        FreeUser user = freeUserOptional.get();
-//        user.delete();
-        PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
-        premiumUser.setId(user.getId());
-        premiumUser.setType("PremiumUser");
-        premiumUser.setFacebookId(user.getFacebookId());
-        premiumUser.setAuthToken(user.getAuthToken());
-        premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
-//        premiumUser.setCreditCards(user.getCreditCards());
-        System.out.println(premiumUser.getId());
-        premiumUser.update();
-        return ok(Json.toJson(premiumUser));
+        return freeUserOptional.map(user -> {
+            PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
+            premiumUser.setId(user.getId());
+            premiumUser.setType("PremiumUser");
+            premiumUser.setFacebookId(user.getFacebookId());
+            premiumUser.setAuthToken(user.getAuthToken());
+            premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+            premiumUser.update();
+            return ok(Json.toJson(premiumUser));
+        }).orElse(notFound());
     }
 
     public Result updateFreeUser(Long id) {
@@ -97,7 +94,6 @@ public class FreeUserController extends Controller {
         if (newFreeUser.getEmail() != null) oldFreeUser.setEmail(newFreeUser.getEmail());
         if (newFreeUser.getProfilePic() != null) oldFreeUser.setProfilePic(newFreeUser.getProfilePic());
         if (newFreeUser.getAuthToken() != null) oldFreeUser.setAuthToken(newFreeUser.getAuthToken());
-//        if (newFreeUser.getCreditCards() != null) oldFreeUser.setCreditCards(newFreeUser.getCreditCards());
         oldFreeUser.setFacebookId(newFreeUser.getFacebookId());
         return function.apply(oldFreeUser);
     }

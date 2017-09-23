@@ -52,9 +52,7 @@ public class PremiumUser extends User {
         this.recipeBooks = recipeBooks;
     }
 
-    public LocalDate getExpirationDate() {
-        return expirationDate;
-    }
+    public LocalDate getExpirationDate() { return expirationDate; }
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;

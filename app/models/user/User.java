@@ -1,11 +1,8 @@
 package models.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.BaseModel;
-import models.payment.CreditCard;
-
 import javax.persistence.*;
-import java.util.List;
+
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
@@ -28,10 +25,6 @@ public abstract class User extends BaseModel {
     private String email;
 
     private String profilePic;
-
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<CreditCard> creditCards;
 
     public User() {}
 
@@ -106,12 +99,4 @@ public abstract class User extends BaseModel {
     public void setType(String type) {
         this.type = type;
     }
-
-//    public List<CreditCard> getCreditCards() {
-//        return creditCards;
-//    }
-//
-//    public void setCreditCards(List<CreditCard> creditCards) {
-//        this.creditCards = creditCards;
-//    }
 }

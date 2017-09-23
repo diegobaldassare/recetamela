@@ -4,17 +4,33 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Agregar Receta a Recetario</h4>
-      </div>
-      <div class="modal-body">
-        <p>ng for de todos los recetarios que tengo, y
-          el que elije mandarlo (quizas un form y submit button)</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addToRecipeBook()">Agregar</button>
-      </div>
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+          <h4 class="modal-title">Agregar Receta a Recetario</h4>
+        </div>
+        <div class="modal-body">
+          <p>Elija a que recetario desea agregar la receta</p>
+
+
+          <div class="radio" *ngFor="let recipeBook of recipeBooks">
+            <p>
+              <input
+                class="with-gap"
+                type="radio"
+                name="recipeBookName"
+                id={{recipeBook}}
+                (click)="selectRecipeBook(recipeBook)">
+              <label for={{recipeBook}}> {{recipeBook}} </label>
+            </p>
+          </div>
+
+        </div>
+        <!--<div class="modal-footer">-->
+          <!--<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addToRecipeBook()">Agregar-->
+          <!--</button>-->
+        <!--</div>-->
+
     </div>
 
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-add-to-recipe-book',
@@ -7,12 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddToRecipeBookComponent implements OnInit {
 
+  recipeBooks: string[] = ["XS", "S", "M", "L", "XL"];
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  private addToRecipeBook(){
-    console.log("Add to RB");
+  private selectRecipeBook(name: String){
+    console.log(name);
+    this.closeBtn.nativeElement.click();
   }
+
+  // private addToRecipeBook(){
+  //   console.log("Add to RB");
+  // }
 }

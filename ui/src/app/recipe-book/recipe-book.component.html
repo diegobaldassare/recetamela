@@ -1,19 +1,36 @@
 <div class="container-fluid header">
   <div class="container">
     <div class="row">
-      <div class="col-lg-12">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#createRecipeBookModal">Crear Recetario
-        </button>
+      <div class="col-md-7">
+        <div style="margin-bottom: 10px">
+          <h1 style="display: inline; margin-right: 10px">Recetarios</h1>
+          <button style="vertical-align: text-bottom"
+                  type="button" class="btn btn-secondary btn-sm"
+                  data-toggle="modal" data-target="#createRecipeBookModal"
+                  title="Crear Recetario">
+            <a href="javascript://">
+              <span class="glyphicon glyphicon-plus"></span>
+            </a>
+          </button>
+        </div>
+
+        <p>
+          <strong>Todos tus recetarios para organizar de la mejor forma todas tus recetas preferidas</strong>
+        </p>
       </div>
     </div>
   </div>
 </div>
 
+Aca hay que ir poniendo los recetarios, me parecia poner cada uno con un color de background altendandose
+entre gris (#f7b733) y blanco.
+
+Incluir nombre del recetario, si se puede, cuantas recertas tiene ese recetario, y una flechita como en spotify
+
 
 <!-- Modal -->
 <div id="createRecipeBookModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <form [formGroup]="recipeBookForm">

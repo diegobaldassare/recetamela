@@ -1,32 +1,28 @@
 @import "../../assets/styles/variables.scss";
 
-.container{
-  width: 100%;
-  overflow: hidden
-}
 
 .home-image{
   width: 100%;
-  max-height: 500px;
+  max-height: 600px;
   position: relative;
 }
 
 p {
   color: white;
-  font-size: 35px;
+  font-size: 30px;
 }
 
 .homeText{
   position: absolute;
   bottom: 350px;
-  margin-left: 5%;
+  margin-left: 20%;
   z-index: 10;
 }
 
 .searchBox {
   position: absolute;
   bottom: 200px;
-  margin-left: 10%;
+  margin-left: 30%;
   z-index: 10;
 }
 

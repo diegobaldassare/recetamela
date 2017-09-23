@@ -8,18 +8,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">🍽 Recetame la Receta</a>
+      <a class="navbar-brand" routerLink="/">🍽 Recetame la Receta</a>
     </div>
     <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
       <ul class="nav navbar-nav navbar-right">
 
-        <div *ngIf="!isLoggedIn; else premiumAccount">
+        <div *ngIf="!isLoggedIn; else loggedIn">
           <!--Notificaciones del usuario premium-->
           <li>
             <app-log-in></app-log-in>
           </li>
         </div>
-        <ng-template #premiumAccount>
+        <ng-template #loggedIn>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notificaciones
               🔔 <span class="caret"></span></a>
@@ -42,6 +42,8 @@
               <li *ngIf="!isPremium" class="divider"></li>
               <li (click)="crearReceta()"><a href="javascript://">Crear Receta</a></li>
               <li class="divider"></li>
+              <li *ngIf="isPremium" (click)="addToRecipeBook()"><a href="javascript://">Recetarios</a></li>
+              <li *ngIf="isPremium" class="divider"></li>
               <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
             </ul>
           </li>

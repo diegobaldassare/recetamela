@@ -19,7 +19,7 @@ export class UpgradeComponent implements OnInit {
   private creditCard: CreditCard;
   private creditCardForm: FormGroup;
   private isPassword = "password";
-  private active: boolean;
+  public active: boolean;
   private expired: boolean;
 
   constructor(private sharedService: SharedService,
@@ -53,7 +53,7 @@ export class UpgradeComponent implements OnInit {
 
   public activeUpgrade(value: boolean): void {
     this.active = value;
-    this.cdRef.detectChanges();
+    //this.cdRef.detectChanges();
   }
 
   public close(): void {

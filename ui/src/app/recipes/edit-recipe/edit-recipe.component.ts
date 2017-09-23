@@ -12,7 +12,7 @@ import {User} from "../../shared/models/user-model";
   styleUrls: ['./edit-recipe.component.css']
 })
 export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
-  private fetched: boolean;
+  public fetched: boolean;
 
   constructor(
     private _recipeService: RecipeService,
@@ -69,7 +69,7 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
 
   deleteRecipe() {
     this._recipeService.deleteRecipe(this.recipe.id).then(() => {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }, () => {
       this.toaster.pop('error', 'Receta no eliminada');
     });

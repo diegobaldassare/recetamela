@@ -34,7 +34,7 @@ public class FreeUserController extends Controller {
     }
 
     public Result createFreeUser() {
-        User user = userForm.bindFromRequest().get();
+        FreeUser user = userForm.bindFromRequest().get();
         user.save();
         return ok(Json.toJson(user));
     }

@@ -36,6 +36,7 @@ import {KeysPipe} from "./shared/pipes/keys-pipe";
 import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
 import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
+import {PaymentService} from "./shared/services/payment.service";
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import {CreditCardService} from "./shared/services/credit-card.service";
     SharedService,
     AuthGuard,
     PremiumGuard,
-    CreditCardService
+    CreditCardService,
+    PaymentService
   ],
   bootstrap: [AppComponent]
 })

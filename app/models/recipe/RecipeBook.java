@@ -2,43 +2,44 @@ package models.recipe;
 
 
 import models.BaseModel;
+import models.user.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class RecipeBook extends BaseModel {
 
     @Column(nullable = false)
-    private String name, description;
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Recipe> recipes;
 
+    @ManyToOne(optional = false)
+    private User creator;
+
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<Recipe> getRecipes() {
-        return recipes;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public List<Recipe> getRecipes() {
+        return recipes;
     }
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

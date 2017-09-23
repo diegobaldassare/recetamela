@@ -1,19 +1,23 @@
 package controllers.recipe;
 
 import com.google.inject.Inject;
+import controllers.BaseController;
+import controllers.authentication.Authenticate;
 import models.recipe.RecipeBook;
+import models.user.PremiumUser;
+import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.recipe.RecipeBookService;
+import services.user.UserService;
 
 import java.util.List;
 import java.util.Optional;
 
-public class RecipeBookController extends Controller {
+public class RecipeBookController extends BaseController {
 
     private static Form<RecipeBook> recipeBookForm;
 
@@ -22,42 +26,55 @@ public class RecipeBookController extends Controller {
         recipeBookForm =  formFactory.form(RecipeBook.class);
     }
 
-
+    @Authenticate({PremiumUser.class})
     public Result createRecipeBook() {
-        RecipeBook recipeBook = recipeBookForm.bindFromRequest().get();
-        recipeBook.save();
-        return ok(Json.toJson(recipeBook));
+        final Optional<User> userOptional = UserService.getInstance().get(getRequester().getId());
+        return userOptional.map(user -> {
+            final RecipeBook recipeBook = recipeBookForm.bindFromRequest().get();
+            recipeBook.setCreator(user);
+            recipeBook.save();
+            return ok(Json.toJson(recipeBook));
+        }).orElse(notFound());
     }
 
-
-    public Result updateRecipeBook() {
-        RecipeBook newRB = Json.fromJson(request().body().asJson(), RecipeBook.class);
-        Optional<RecipeBook> optRB = RecipeBookService.getInstance().get(newRB.getId());
-        RecipeBook oldRB;
-        if(optRB.isPresent()) oldRB = optRB.get();
-        else return Results.notFound();
-        if (newRB.getName() != null) oldRB.setName(newRB.getName());
-        if (newRB.getDescription() != null) oldRB.setDescription(newRB.getDescription());
-        if (newRB.getRecipes() != null) oldRB.setRecipes(newRB.getRecipes());
-        oldRB.update();
-        return ok();
+    @Authenticate({PremiumUser.class})
+    public Result updateRecipeBook(long id) {
+        final RecipeBook newRecipeBook = recipeBookForm.bindFromRequest().get();
+        final Optional<RecipeBook> recipeBookOptional = RecipeBookService.getInstance().get(id);
+        return recipeBookOptional.map(recipeBook -> {
+            recipeBook.setName(newRecipeBook.getName());
+            recipeBook.setRecipes(newRecipeBook.getRecipes());
+            return ok(Json.toJson(recipeBook));
+        }).orElse(notFound());
     }
 
-    public Result getRecipeBooks(){
-        List<RecipeBook> recipeBooks = RecipeBookService.getInstance().getFinder().all();
+    @Authenticate({PremiumUser.class})
+    public Result getAllRecipeBooks() {
+        final List<RecipeBook> recipeBooks = RecipeBookService.getInstance().getFinder().all();
         return ok(Json.toJson(recipeBooks));
     }
 
-    public Result deleteRecipeBook(Long id){
+    @Authenticate({PremiumUser.class})
+    public Result getRecipeBook(Long id) {
+        final Optional<RecipeBook> recipe = RecipeBookService.getInstance().get(id);
+        return recipe.map(r -> ok(Json.toJson(r))).orElseGet(Results::notFound);
+    }
+
+    @Authenticate({PremiumUser.class})
+    public Result getUserRecipeBooks() {
+        final List<RecipeBook> recipeBooks = RecipeBookService.getInstance().getFinder().query()
+                .where()
+                .eq("creator", getRequester())
+                .findList();
+        return ok(Json.toJson(recipeBooks));
+    }
+
+    @Authenticate({PremiumUser.class})
+    public Result deleteRecipeBook(Long id) {
         final Optional<RecipeBook> recipe = RecipeBookService.getInstance().get(id);
         return recipe.map(r -> {
             r.delete();
             return ok();
-        }).orElseGet(Results::notFound);
-    }
-
-    public Result getRecipeBook(Long id) {
-        final Optional<RecipeBook> recipe = RecipeBookService.getInstance().get(id);
-        return recipe.map(r -> ok(Json.toJson(r))).orElseGet(Results::notFound);
+        }).orElse(notFound());
     }
 }

@@ -1,12 +1,14 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SharedService} from '../../shared/services/shared.service';
-import {CreditCard} from "../../shared/models/credit-card";
+import {CreditCard} from "../../shared/models/payment/credit-card";
 import {ToasterService} from "angular2-toaster";
 import {UserService} from "../../shared/services/user.service";
 import {CreditCardService} from "../../shared/services/credit-card.service";
 import {User} from "../../shared/models/user-model";
 import {Router} from "@angular/router";
+import {PaymentService} from "../../shared/services/payment.service";
+import {Payment} from "../../shared/models/payment/payment";
 
 @Component({
   selector: 'app-upgrade',
@@ -25,6 +27,7 @@ export class UpgradeComponent implements OnInit {
               private toaster: ToasterService,
               private _userService: UserService,
               private _creditCardService: CreditCardService,
+              private _paymentService: PaymentService,
               private router: Router,
               private fb: FormBuilder) {
     this.sharedService.notifyObservable$.subscribe(res => {
@@ -68,22 +71,19 @@ export class UpgradeComponent implements OnInit {
 
   upgradeToPremium() {
     this.createCreditCardForm();
-    // this._creditCardService.createCreditCard(this.creditCard).then( result => {
-    //   this.toaster.pop("success", "Pago Procesado");
-    //   }, () => {
-    //   this.toaster.pop("error", "Error de pago");
-    //   }
-    // );
-    this._userService.upgradeFreeUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
-        localStorage.setItem("user", JSON.stringify(result));
-        this.toaster.pop("success", "Pago procesado");
-        this.close();
-        this.sharedService.notifyOther({isPremium: true});
-        this.router.navigate(['/home']);
-        this.sharedService.notifyOther({loggedIn: true});
-        }, () => {
-        this.toaster.pop("error", "Error de pago");
-    });
+    this._creditCardService.createCreditCard(this.creditCard).then( result => {
+        this._paymentService.create(this.createPayment(99.99, "Premium User Upgrade"), result.id).then(() => {
+          this._userService.upgradeFreeUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
+            localStorage.setItem("user", JSON.stringify(result));
+            this.toaster.pop("success", "Pago procesado");
+            this.close();
+            this.sharedService.notifyOther({isPremium: true});
+            this.router.navigate(['/home']);
+            this.sharedService.notifyOther({loggedIn: true});
+          }, () => { this.toaster.pop("error", "Error de pago"); });
+        }, () => { this.toaster.pop("error", "Error de guardado de pago"); });
+      }, () => { this.toaster.pop("error", "Error de guardado de tarjeta"); }
+    );
   }
 
   private createCreditCardForm() {
@@ -92,21 +92,23 @@ export class UpgradeComponent implements OnInit {
     const cardCode = this.creditCardForm.value.cardCode;
     const cardDate = this.creditCardForm.value.cardDate;
 
-    console.log(cardName);
-    console.log(cardNumber);
-    console.log(this.cardType(cardNumber));
-    console.log(cardCode);
-    console.log(Date.parse(cardDate));
-    console.log((new Date()).getTime());
-    this.creditCard = new CreditCard(cardNumber, this.cardType(cardNumber));
+    const datePart = cardDate.split('-');
+    this.creditCard = new CreditCard(cardNumber, this.cardType(cardNumber), cardName, cardCode, new Date(Date.UTC(Number(datePart[0]), Number(datePart[1])-1)));
   }
-
 
   private cardType(num: number): string {
     if (num.toString().charAt(0) == '4') return "visa";
     if (num.toString().startsWith("5")) return "mastercard";
     if (num.toString().startsWith("34") || num.toString().startsWith("37")) return "amex";
     else return null;
+  }
+
+  private createPayment(amount: number, description: string) : Payment {
+    const payment = new Payment();
+    payment.amount = amount;
+    payment.date = new Date();
+    payment.description = description;
+    return payment;
   }
 
 }

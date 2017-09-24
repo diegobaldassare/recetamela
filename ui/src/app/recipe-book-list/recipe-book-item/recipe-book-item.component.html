@@ -1,0 +1,19 @@
+<a
+  style="cursor: pointer;"
+  [routerLink]="[recipeBook.id]"
+  routerLinkActive="active"
+  class="">
+
+  <p>
+    {{recipeBook.name}}
+  </p>
+</a>
+
+<button style="vertical-align: text-bottom"
+        type="button" class="btn btn-secondary btn-sm"
+        (click)="deleteRecepieBook()"
+        title="Eliminar Recetario">
+  <a href="javascript://">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</button>

@@ -39,7 +39,10 @@ import {CreditCardService} from "./shared/services/credit-card.service";
 import {PaymentService} from "./shared/services/payment.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import { AddToRecipeBookComponent } from './recipes/view-recipe/add-to-recipe-book/add-to-recipe-book.component';
-import { RecipeBookComponent } from './recipe-book/recipe-book.component';
+import { RecipeBookListComponent } from './recipe-book-list/recipe-book-list.component';
+import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
+import { RecipeBookItemComponent } from './recipe-book-list/recipe-book-item/recipe-book-item.component';
+import {RecipeBookService} from "./shared/services/recipebook.service";
 
 
 @NgModule({
@@ -63,6 +66,8 @@ import { RecipeBookComponent } from './recipe-book/recipe-book.component';
     KeysPipe,
     AddToRecipeBookComponent,
     RecipeBookComponent,
+    RecipeBookListComponent,
+    RecipeBookItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +102,8 @@ import { RecipeBookComponent } from './recipe-book/recipe-book.component';
     PremiumGuard,
     CreditCardService,
     EditRecipeGuard,
-    PaymentService
+    PaymentService,
+    RecipeBookService
   ],
   bootstrap: [AppComponent]
 })

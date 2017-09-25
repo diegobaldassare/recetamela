@@ -19,9 +19,9 @@
                 class="with-gap"
                 type="radio"
                 name="recipeBookName"
-                id={{recipeBook}}
-                (click)="selectRecipeBook(recipeBook)">
-              <label for={{recipeBook}}> {{recipeBook}} </label>
+                id={{recipeBook.name}}
+                (click)="selectRecipeBook(recipeBook.id)">
+              <label for={{recipeBook.name}}> {{recipeBook.name}} </label>
             </p>
           </div>
 

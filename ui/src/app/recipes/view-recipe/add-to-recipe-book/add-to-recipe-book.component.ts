@@ -1,4 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {RecipeBookService} from "../../../shared/services/recipebook.service";
+import {RecipeBook} from "../../../shared/models/recipe/recipebook";
 
 @Component({
   selector: 'app-add-to-recipe-book',
@@ -7,20 +9,19 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 })
 export class AddToRecipeBookComponent implements OnInit {
 
-  recipeBooks: string[] = ["XS", "S", "M", "L", "XL"];
+  recipeBooks: RecipeBook[] = [];
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor() { }
+  constructor(private recipeBookService: RecipeBookService) { }
 
   ngOnInit() {
+    this.recipeBookService.getUserRecipeBooks().then(recipeBooks => {
+      this.recipeBooks = recipeBooks;
+    })
   }
 
-  private selectRecipeBook(name: String){
-    console.log(name);
+  private selectRecipeBook(recipeBookId: String){
+    console.log(recipeBookId);
     this.closeBtn.nativeElement.click();
   }
-
-  // private addToRecipeBook(){
-  //   console.log("Add to RB");
-  // }
 }

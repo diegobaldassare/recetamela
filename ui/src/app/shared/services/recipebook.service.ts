@@ -28,8 +28,8 @@ export class RecipeBookService extends ApiService {
     return this.http.get<RecipeBook[]>(`${this.URL}/all/`).toPromise();
   }
 
-  update(recipeBookId: string) : Promise<RecipeBook> {
-    return this.http.put<RecipeBook>(`${this.URL}/${recipeBookId}/update`, {}).toPromise();
+  update(recipeBookId: string, recipeBook: RecipeBook) : Promise<RecipeBook> {
+    return this.http.put<RecipeBook>(`${this.URL}/${recipeBookId}/update`, recipeBook).toPromise();
   }
 
   delete(recipeBookId: string) : Promise<any> {

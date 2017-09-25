@@ -26,9 +26,9 @@
         </div>
       </div>
     </div>
-    <div class="col col-md-9" style="margin-top: 30px">
+    <div class="col col-md-9 results">
       <div *ngIf="results.length == 0" class="alert alert-success" role="alert">🎩🐇 Nada que mostrar por aquí...</div>
-      <div class="row" *ngFor="let r of results">
+      <div class="row result" *ngFor="let r of results">
         <div class="col col-md-3">
           <a [routerLink]="'/recetas/' + r.id">
             <img class="thumbnail img-responsive" style="width: 100%" [src]="r.images[0].url">
@@ -40,9 +40,11 @@
               {{ r.name }}
             </a>
           </h4>
-          <p>{{ r.description }}</p>
+          <p>👨🏾‍🍳 {{ r.author.name + " " + r.author.lastName }}</p>
+          <span *ngFor="let cat of r.categories" class="label label-default">{{ cat.name }}</span>
         </div>
       </div>
     </div>
   </div>
 </div>
+<br>

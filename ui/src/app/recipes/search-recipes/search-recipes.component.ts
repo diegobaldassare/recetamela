@@ -9,7 +9,7 @@ import {User} from "../../shared/models/user-model";
 @Component({
   selector: 'app-search-recipes',
   templateUrl: './search-recipes.component.html',
-  styleUrls: ['./search-recipes.component.css']
+  styleUrls: ['./search-recipes.component.scss']
 })
 export class SearchRecipesComponent implements OnInit {
 

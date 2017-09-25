@@ -10,38 +10,40 @@
 </a>
 
 <button style="vertical-align: text-bottom"
-        type="button" class="btn btn-danger btn-sm"
-        data-toggle="modal" data-target="#deleteRecipeBookModal"
-        title="Eliminar Recetario">
+type="button" class="btn btn-danger btn-sm"
+(click)="deleteRecepieBook()"
+title="Eliminar Recetario">
   <a href="javascript://">
     <span class="glyphicon glyphicon-remove"></span>
   </a>
 </button>
 
 
-<!-- Modal -->
-<div id="deleteRecipeBookModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Estas seguro que desea eliminar la receta?</h4>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col-md-8 col-xs-8 col-sm-8 alert-block">
-          </div>
-          <div class="col-md-4 col-xs-4 col-sm-4">
-            <button type="button" class="btn btn-danger"
-                    data-dismiss="modal"
-                    (click)="deleteRecepieBook()">
-              Eliminar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--&lt;!&ndash;No esta funcionando&ndash;&gt;-->
+<!--&lt;!&ndash;data-toggle="modal" data-target="#deleteRecipeBookModal"&ndash;&gt;-->
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div id="deleteRecipeBookModal" class="modal fade" role="dialog">-->
+  <!--<div class="modal-dialog">-->
+    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+    <!--<div class="modal-content">-->
+      <!--<div class="modal-header">-->
+        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <!--<h4 class="modal-title">Estas seguro que desea eliminar la receta?</h4>-->
+      <!--</div>-->
+      <!--<div class="modal-footer">-->
+        <!--<div class="row">-->
+          <!--<div class="col-md-8 col-xs-8 col-sm-8 alert-block">-->
+          <!--</div>-->
+          <!--<div class="col-md-4 col-xs-4 col-sm-4">-->
+            <!--<button type="button" class="btn btn-danger"-->
+                    <!--data-dismiss="modal"-->
+                    <!--(click)="deleteRecepieBook()">-->
+              <!--Eliminar-->
+            <!--</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 

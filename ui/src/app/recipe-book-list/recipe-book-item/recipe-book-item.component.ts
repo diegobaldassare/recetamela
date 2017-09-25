@@ -10,6 +10,7 @@ import {ToasterService} from "angular2-toaster";
 })
 export class RecipeBookItemComponent implements OnInit {
   @Input() recipeBook: RecipeBook;
+  @Input() recipeBooks: RecipeBook[] = [];
 
   constructor(private recipeBookService: RecipeBookService, public toaster: ToasterService) { }
 
@@ -19,6 +20,10 @@ export class RecipeBookItemComponent implements OnInit {
   private deleteRecepieBook(){
     this.recipeBookService.delete(this.recipeBook.id).then(() => {
       this.toaster.pop('success', 'Recetario Eliminado');
+      var index = this.recipeBooks.indexOf(this.recipeBook, 0);
+      if (index > -1) {
+        this.recipeBooks.splice(index, 1);
+      }
     }, () => {
       this.toaster.pop('error', 'No se ha podido eliminar el recetario');
     });

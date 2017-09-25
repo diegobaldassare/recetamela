@@ -1,8 +1,7 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RecipeBook} from "../shared/models/recipe/recipebook";
 import {RecipeBookService} from "../shared/services/recipebook.service";
-import {SharedService} from "../shared/services/shared.service";
 import {ToasterService} from "angular2-toaster";
 
 @Component({
@@ -18,8 +17,7 @@ export class RecipeBookListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private recipeBookService: RecipeBookService,
-              public toaster: ToasterService,
-              private cdRef: ChangeDetectorRef) {
+              public toaster: ToasterService) {
 
     this.recipeBookForm = fb.group({
       'recipeBookName': new FormControl(null, [Validators.required]),
@@ -36,13 +34,12 @@ export class RecipeBookListComponent implements OnInit {
   private createRecipeBook(){
     let recipeBook = new RecipeBook();
     recipeBook.name = this.recipeBookForm.value.recipeBookName;
-    this.recipeBookService.create(recipeBook).then(() => {
+    this.recipeBookService.create(recipeBook).then((res) => {
       this.toaster.pop('success', 'Recetario Creado');
+      this.recipeBooks.push(res);
     }, () => {
       this.toaster.pop('error', 'No se ha podido crear el recetario');
     });
-
-    this.cdRef.detectChanges();
   }
 
 

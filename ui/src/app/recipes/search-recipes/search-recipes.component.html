@@ -27,6 +27,7 @@
       </div>
     </div>
     <div class="col col-md-9" style="margin-top: 30px">
+      <div *ngIf="results.length == 0" class="alert alert-success" role="alert">🎩🐇 Nada que mostrar por aquí...</div>
       <div class="row" *ngFor="let r of results">
         <div class="col col-md-3">
           <a [routerLink]="'/recetas/' + r.id">

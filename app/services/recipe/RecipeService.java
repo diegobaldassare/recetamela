@@ -56,7 +56,13 @@ public class RecipeService extends Service<Recipe> {
         recipes.removeIf(r -> {
             if (!r.getName().toLowerCase().contains(q.name)) return true;
             if (!q.difficulty.equals("0") && !String.valueOf(r.getDifficulty()).equals(q.difficulty)) return true;
-            if (!r.getAuthor().getName().toLowerCase().contains(q.author)) return true;
+            final String author = (r.getAuthor().getName() + r.getAuthor().getLastName()).toLowerCase().replaceAll("[^a-z ]", "");
+            boolean authorMatch = false;
+            for (final String namePart : q.author.split(" ")) {
+                authorMatch = author.contains(namePart);
+                if (authorMatch) break;
+            }
+            if (!authorMatch) return true;
             if (!q.categories.isEmpty()) {
                 final List<String> categories = new ArrayList<>();
                 r.getCategories().forEach(c -> categories.add(c.getName()));

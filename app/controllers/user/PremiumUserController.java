@@ -2,6 +2,7 @@ package controllers.user;
 
 import com.google.inject.Inject;
 import controllers.BaseController;
+import controllers.authentication.Authenticate;
 import models.user.CheckExpirationDateResponse;
 import models.user.PremiumUser;
 import models.user.User;
@@ -12,6 +13,7 @@ import play.mvc.Result;
 import play.mvc.Results;
 import services.user.PremiumUserService;
 import services.user.UserService;
+import util.NotificationManager;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -27,6 +29,12 @@ public class PremiumUserController extends BaseController {
     @Inject
     public PremiumUserController(FormFactory formFactory) {
         userForm =  formFactory.form(PremiumUser.class);
+    }
+
+    //@Authenticate(PremiumUser.class)
+    public Result subscribe() {
+        NotificationManager.getInstance().emitToUser(1, "sub", "i subbed");
+        return ok();
     }
 
     public Result createPremiumUser() {

@@ -24,9 +24,11 @@ PUT         /api/user/:id/updateUser                controllers.user.UserControl
 GET         /api/user/:id                           controllers.user.UserController.getUser(id: Long)
 GET         /api/users                              controllers.user.UserController.getUsers
 DELETE      /api/user/:id/delete                    controllers.user.UserController.deleteUser(id: Long)
+GET         /api/notifications                      controllers.NotificationController.getNotifications
 
 PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
 
+POST        /api/user/sub                           controllers.user.PremiumUserController.subscribe()
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
 PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
 PUT         /api/premiumuser/:id/downgradeUser      controllers.user.PremiumUserController.downgradePremiumUser(id: Long)

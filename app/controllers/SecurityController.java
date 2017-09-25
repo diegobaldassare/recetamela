@@ -31,7 +31,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SecurityController extends Controller {
 
-    public final static String AUTH_TOKEN_HEADER = "X-TOKEN";
+    public final static String AUTH_TOKEN_HEADER = "Authorization";
 
     public static User getUser() {
         return (User) Http.Context.current().args.get("user");

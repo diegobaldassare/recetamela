@@ -85,7 +85,7 @@
             <div class="box-background">
               <h4 class="text-center">🍞 INGREDIENTES</h4>
               <ul>
-                <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
+                <li *ngFor="let ing of recipe.ingredients">{{ formatter.capitalizeFirstChar(ing.name) }}</li>
               </ul>
             </div>
           </div>

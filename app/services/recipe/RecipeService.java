@@ -26,7 +26,7 @@ public class RecipeService extends Service<Recipe> {
 
     public void modify(Recipe r, Recipe input) {
         if (input.getName() != null) r.setName(input.getName());
-        if (input.getDescription() != null) r.setName(input.getName());
+        if (input.getDescription() != null) r.setDescription(input.getDescription());
         if (input.getCategories() != null) r.setCategories(input.getCategories());
         if (input.getIngredients() != null) r.setIngredients(input.getIngredients());
         if (input.getImages() != null) r.setImages(input.getImages());

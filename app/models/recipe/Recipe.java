@@ -34,7 +34,7 @@ public class Recipe extends BaseModel {
     private User author;
 
     @ManyToMany(cascade = REMOVE)
-    private List<Ingredient> ingredients;
+    private List<IngredientFormula> ingredients;
 
     @ManyToMany(cascade = REMOVE)
     private List<RecipeCategory> categories;
@@ -84,11 +84,11 @@ public class Recipe extends BaseModel {
         this.difficulty = difficulty;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientFormula> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<IngredientFormula> ingredients) {
         this.ingredients = ingredients;
     }
 

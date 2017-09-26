@@ -70,7 +70,7 @@ public class RecipeService extends Service<Recipe> {
             }
             if (!q.ingredients.isEmpty()) {
                 final List<String> ingredients = new ArrayList<>();
-                r.getIngredients().forEach(i -> ingredients.add(i.getName()));
+                r.getIngredients().forEach(i -> ingredients.add(i.getIngredient().getName()));
                 if (!ingredients.containsAll(q.ingredients)) return true;
             }
             return false;

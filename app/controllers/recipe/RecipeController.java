@@ -2,6 +2,7 @@ package controllers.recipe;
 
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.Media;
 import models.recipe.RecipeSearchQuery;
 import models.user.FreeUser;
 import models.user.PremiumUser;
@@ -11,6 +12,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.MediaService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
@@ -62,6 +64,7 @@ public class RecipeController extends BaseController {
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> {
+            for (final Media i : r.getImages()) MediaService.getInstance().delete(i.getId());
             r.delete();
             return ok();
         }).orElseGet(Results::notFound);

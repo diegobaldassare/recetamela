@@ -1,15 +1,24 @@
-<p>
-  {{recipeBook.name}}
-</p>
+<div class="container-fluid header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div style="margin-bottom: 10px">
+          <h1 style="display: inline; margin-right: 10px">{{recipeBook.name}}</h1>
+          <button style="vertical-align: text-bottom"
+                  type="button" class="btn btn-secondary btn-sm"
+                  data-toggle="modal" data-target="#modifyRecipeBookModal"
+                  title="Cambiar Nombre">
+            <a href="javascript://">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<button style="vertical-align: text-bottom"
-        type="button" class="btn btn-secondary btn-sm"
-        data-toggle="modal" data-target="#modifyRecipeBookModal"
-        title="Cambiar Nombre">
-  <a href="javascript://">
-    <span class="glyphicon glyphicon-pencil"></span>
-  </a>
-</button>
+
 
 <!-- Modal -->
 <div id="modifyRecipeBookModal" class="modal fade" role="dialog">

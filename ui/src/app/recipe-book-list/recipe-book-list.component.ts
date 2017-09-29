@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RecipeBook} from "../shared/models/recipe/recipebook";
 import {RecipeBookService} from "../shared/services/recipebook.service";
@@ -12,7 +12,7 @@ import {ToasterService} from "angular2-toaster";
 export class RecipeBookListComponent implements OnInit {
 
   private recipeBookForm: FormGroup;
-
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   recipeBooks: RecipeBook[] = [];
 
   constructor(private fb: FormBuilder,
@@ -40,6 +40,9 @@ export class RecipeBookListComponent implements OnInit {
     }, () => {
       this.toaster.pop('error', 'No se ha podido crear el recetario');
     });
+
+    this.recipeBookForm.reset();
+    this.closeBtn.nativeElement.click();
   }
 
 

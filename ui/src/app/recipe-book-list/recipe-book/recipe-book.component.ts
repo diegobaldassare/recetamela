@@ -54,6 +54,8 @@ export class RecipeBookComponent implements OnInit {
     // }, () => {
     //   this.toaster.pop('error', 'No se ha podido modificar el recetario');
     // });
+
+    // this.recipeBookForm.reset();
   }
 
 }

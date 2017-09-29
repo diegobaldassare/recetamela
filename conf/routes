@@ -7,6 +7,7 @@ POST        /api/recipe                             controllers.recipe.RecipeCon
 GET         /api/recipe/:id                         controllers.recipe.RecipeController.get(id: Long)
 PUT         /api/recipe/:id                         controllers.recipe.RecipeController.modify(id: Long)
 DELETE      /api/recipe/:id                         controllers.recipe.RecipeController.delete(id: Long)
+GET         /api/user/:id/recipes                   controllers.recipe.RecipeController.getUserRecipes(id: Long)
 
 GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll
 

@@ -8,6 +8,8 @@ GET         /api/recipe/:id                         controllers.recipe.RecipeCon
 PUT         /api/recipe/:id                         controllers.recipe.RecipeController.modify(id: Long)
 DELETE      /api/recipe/:id                         controllers.recipe.RecipeController.delete(id: Long)
 
+POST        /api/recipe/:id/rate                    controllers.recipe.RecipeRatingController.create(id: Long)
+
 GET         /api/recipes                            controllers.recipe.RecipeController.search(name: String ?= "", categories: String ?= "", ingredients: String ?= "", difficulty: String ?= "0", author: String ?= "")
 
 GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll

@@ -43,6 +43,11 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private int servings, duration;
 
+    private double rating;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<RecipeRating> ratings;
+
     public Recipe() {}
 
     public String getName() {
@@ -131,5 +136,21 @@ public class Recipe extends BaseModel {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public List<RecipeRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<RecipeRating> ratings) {
+        this.ratings = ratings;
     }
 }

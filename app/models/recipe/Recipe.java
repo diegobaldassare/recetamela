@@ -8,6 +8,7 @@ import models.user.User;
 import javax.persistence.*;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
@@ -33,7 +34,7 @@ public class Recipe extends BaseModel {
     @ManyToOne(optional = false)
     private User author;
 
-    @ManyToMany(cascade = REMOVE)
+    @OneToMany(cascade = ALL)
     private List<IngredientFormula> ingredients;
 
     @ManyToMany(cascade = REMOVE)

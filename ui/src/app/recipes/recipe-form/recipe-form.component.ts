@@ -4,6 +4,8 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {RecipeStep} from "../../shared/models/recipe/recipe-step";
 import {RecipeFormContainer} from "./recipe-form-container";
 import {Ingredient} from "../../shared/models/recipe/ingredient";
+import {FormatService} from "../../shared/services/format.service";
+import {IngredientFormula} from "../../shared/models/recipe/ingredient-formula";
 declare var $: any;
 
 @Component({
@@ -24,6 +26,7 @@ export class RecipeFormComponent implements OnInit {
   constructor(
     private mediaService: MediaService,
     public sanitizer: DomSanitizer,
+    private formatter: FormatService
   ) {}
 
   ngOnInit() {}
@@ -59,14 +62,24 @@ export class RecipeFormComponent implements OnInit {
     return this.sending ||
       (this.container.recipe.videoUrl.length > 0 && !this.validVideoUrl) ||
       this.container.recipe.description.trim().length == 0 ||
-      !this.isAlphaNumSpaceNotEmpty(this.container.recipe.name.trim()) ||
+      !this.formatter.isAlphaNumSpaceNotEmpty(this.container.recipe.name.trim()) ||
       this.container.recipe.steps.length == 0 ||
-      Object.keys(this.container.selectedIngredients).length == 0 ||
       Object.keys(this.container.selectedCategories).length == 0 ||
       this.uploadingImage ||
       this.container.recipe.images.length == 0 ||
       this.container.recipe.servings < 1 ||
-      this.container.recipe.duration < 2;
+      this.container.recipe.duration < 2 ||
+      this.invalidIngredients();
+  }
+
+  private invalidIngredients(): boolean {
+    if (Object.keys(this.container.selectedIngredients).length == 0) return true;
+    const k = Object.keys(this.container.selectedIngredients);
+    for (let i = 0; i < k.length; i++) {
+      const f = this.container.selectedIngredients[k[i]];
+      if (!f.quantity || !f.unit) return true;
+    }
+    return false;
   }
 
   private selectStepImage(i) {
@@ -114,7 +127,7 @@ export class RecipeFormComponent implements OnInit {
     const d = this.stepDescription.trim();
     if (d.length > 0) {
       const step = new RecipeStep();
-      step.description = d;
+      step.description = this.formatter.capitalizeFirstChar(d);
       this.container.recipe.steps.push(step);
       this.stepDescription = '';
     }
@@ -122,7 +135,7 @@ export class RecipeFormComponent implements OnInit {
 
   public selectCategory() {
     const c = this.categoryName.toLowerCase().trim();
-    if (!this.isAlphaNumSpaceNotEmpty(c)) return;
+    if (!this.formatter.isAlphaNumSpaceNotEmpty(c)) return;
     if (this.container.categories[c]) {
       this.container.selectedCategories[c] = this.container.categories[c];
       delete this.container.categories[c];
@@ -136,30 +149,24 @@ export class RecipeFormComponent implements OnInit {
     delete this.container.selectedCategories[c];
   }
 
-  public selectIngredient() {
+  private selectIngredient() {
     const i = this.ingredientName.toLowerCase().trim();
-    if (!this.isAlphaNumSpaceNotEmpty(i)) return;
+    if (!this.formatter.isAlphaNumSpaceNotEmpty(i)) return;
     if (!this.container.selectedIngredients[i]) {
       if (this.container.ingredients[i]) {
-        this.container.selectedIngredients[i] = this.container.ingredients[i];
+        this.container.selectedIngredients[i] = new IngredientFormula(this.container.ingredients[i]);
         delete this.container.ingredients[i];
       }
       else {
-        const ingredient = new Ingredient();
-        ingredient.name = i;
-        this.container.selectedIngredients[i] = ingredient;
+        this.container.selectedIngredients[i] = new IngredientFormula(new Ingredient(i));
       }
     }
     this.ingredientName = '';
   }
 
   private deselectIngredient(i: string) {
-    this.container.ingredients[i] = this.container.selectedIngredients[i];
+    this.container.ingredients[i] = this.container.selectedIngredients[i].ingredient;
     delete this.container.selectedIngredients[i];
-  }
-
-  private isAlphaNumSpaceNotEmpty(s: string): boolean {
-    return /^[A-Za-zñ\d\s]+$/.test(s);
   }
 
   private clear() {

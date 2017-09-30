@@ -4,12 +4,13 @@ import models.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
 public class IngredientFormula extends BaseModel {
 
-    @OneToOne
+    @ManyToOne
     @Column(nullable = false)
     private Ingredient ingredient;
 

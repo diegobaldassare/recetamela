@@ -28,7 +28,10 @@ public class RecipeService extends Service<Recipe> {
         if (input.getName() != null) r.setName(input.getName());
         if (input.getDescription() != null) r.setDescription(input.getDescription());
         if (input.getCategories() != null) r.setCategories(input.getCategories());
-        if (input.getIngredients() != null) r.setIngredients(input.getIngredients());
+        if (input.getIngredients() != null) {
+            for (final IngredientFormula i : r.getIngredients()) i.delete();
+            r.setIngredients(input.getIngredients());
+        }
         if (input.getImages() != null) r.setImages(input.getImages());
         if (input.getDifficulty() != 0) r.setDifficulty(input.getDifficulty());
         if (input.getSteps() != null) setSteps(r, input.getSteps());

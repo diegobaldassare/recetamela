@@ -62,10 +62,14 @@
     <div style="margin-bottom: 13px">
       <label for="ingredient">🍞 Ingredientes*</label>
       <br>
-      <span class="label label-default" *ngFor="let i of container.selectedIngredients | keys">
-        {{ i }}
-        <span class="label-button" (click)="deselectIngredient(i)">x</span>
-      </span>
+      <ul>
+        <li style="margin-top: 10px" *ngFor="let f of container.selectedIngredients | keys">
+          <span style="margin-right: 10px">{{ formatter.capitalizeFirstChar(container.selectedIngredients[f].ingredient.name) }}</span>
+          <input placeholder="Cantidad" size="10" [(ngModel)]="container.selectedIngredients[f].quantity">
+          <input placeholder="Unidad" size="10" [(ngModel)]="container.selectedIngredients[f].unit">
+          <button (click)="deselectIngredient(container.selectedIngredients[f].ingredient.name)">x</button>
+        </li>
+      </ul>
     </div>
     <div class="form-group">
       <input id="ingredient" class="form-control" placeholder="Presione enter luego de cada ingrediente" list="ingredients" [(ngModel)]="ingredientName" (keyup.enter)="selectIngredient()">

@@ -33,7 +33,7 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
       this.recipe.difficulty += "";
       const t = this;
       recipe.categories.forEach(c => this.selectedCategories[c.name] = c);
-      recipe.ingredients.forEach(i => this.selectedIngredients[i.name] = i);
+      recipe.ingredients.forEach(f => this.selectedIngredients[f.ingredient.name] = f);
       this._recipeService.getRecipeCategories().then((categories) => {
         categories.forEach(c => {
           if (!t.selectedCategories[c.name]) this.categories[c.name] = c;

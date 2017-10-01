@@ -1,6 +1,8 @@
 import {ApiService} from "./api-service";
 import {HttpClient} from "@angular/common/http";
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class RecipeCategoryService extends ApiService {
 
   private URL: string = `${ApiService.API_URL}/recipe`;

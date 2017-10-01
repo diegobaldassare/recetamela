@@ -1,9 +1,10 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {RecipeBookService} from "../../shared/services/recipebook.service";
 import {RecipeBook} from "../../shared/models/recipe/recipebook";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToasterService} from "angular2-toaster";
+import {Recipe} from "../../shared/models/recipe/recipe";
 
 @Component({
   selector: 'app-recipe-book',
@@ -21,6 +22,7 @@ export class RecipeBookComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private recipeBookService: RecipeBookService,
               public toaster: ToasterService,
+              private router: Router,
               private fb: FormBuilder) {
 
     this.recipeBookForm = fb.group({
@@ -53,5 +55,8 @@ export class RecipeBookComponent implements OnInit {
     this.closeBtn.nativeElement.click();
   }
 
+  backToRecipeBooks(){
+    this.router.navigate(['/recetarios']);
+  }
 }
 

@@ -36,11 +36,19 @@ import {KeysPipe} from "./shared/pipes/keys-pipe";
 import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
 import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
+import {PaymentService} from "./shared/services/payment.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.component';
 import { CategoryPickerComponent } from './recipes/picker/category-picker/category-picker.component';
 import {FormatService} from "./shared/services/format.service";
 import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/ingredient-picker.component';
+import { AddToRecipeBookComponent } from './recipes/view-recipe/add-to-recipe-book/add-to-recipe-book.component';
+import { RecipeBookListComponent } from './recipe-book-list/recipe-book-list.component';
+import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
+import { RecipeBookItemComponent } from './recipe-book-list/recipe-book-item/recipe-book-item.component';
+import {RecipeBookService} from "./shared/services/recipebook.service";
+import { RecipeCategoryService } from "./shared/services/recipecategory.service";
+
 
 @NgModule({
   declarations: [
@@ -64,6 +72,10 @@ import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/in
     SearchRecipesComponent,
     CategoryPickerComponent,
     IngredientPickerComponent,
+    AddToRecipeBookComponent,
+    RecipeBookComponent,
+    RecipeBookListComponent,
+    RecipeBookItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,7 +110,10 @@ import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/in
     PremiumGuard,
     CreditCardService,
     EditRecipeGuard,
-    FormatService
+    FormatService,
+    PaymentService,
+    RecipeBookService,
+    RecipeCategoryService
   ],
   bootstrap: [AppComponent]
 })

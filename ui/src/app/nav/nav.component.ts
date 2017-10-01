@@ -2,8 +2,6 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MyAuthService} from "../auth/my-auth-service";
 import {SharedService} from "../shared/services/shared.service";
 import {isNull} from "util";
-import {AsyncPipe} from "@angular/common";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../shared/models/user-model";
 import {Router} from '@angular/router';
 
@@ -78,6 +76,10 @@ export class NavComponent implements OnInit {
     }
     this.user = JSON.parse(localStorage.getItem("user")) as User;
     // this.isPremium = this.auth.isPremium():
+  }
+
+  private addToRecipeBook(){
+    this.router.navigate(['/recetarios']);
   }
 
 }

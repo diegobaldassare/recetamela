@@ -10,6 +10,8 @@ import {AuthGuard} from "./auth/authGuard.service";
 import {PremiumGuard} from "./auth/premium-guard";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import {SearchRecipesComponent} from "./recipes/search-recipes/search-recipes.component";
+import {RecipeBookListComponent} from "./recipe-book-list/recipe-book-list.component";
+import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'recetas/buscar', component: SearchRecipesComponent, canActivate: [AuthGuard] },
   { path: 'recetas/:id', component: ViewRecipeComponent, canActivate: [AuthGuard] },
   { path: 'recetas/:id/editar', component: EditRecipeComponent, canActivate: [AuthGuard, PremiumGuard, EditRecipeGuard] },
+  { path: 'recetarios', component: RecipeBookListComponent, canActivate: [AuthGuard, PremiumGuard]},
+  { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, PremiumGuard]},
   { path: '**', component: NotFoundComponent },
 ];
 

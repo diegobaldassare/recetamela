@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http"
 import {ApiService} from "./api-service";
-import {CreditCard} from "../models/credit-card";
+import {CreditCard} from "../models/payment/credit-card";
 
 @Injectable()
 export class CreditCardService extends ApiService {
@@ -18,6 +18,10 @@ export class CreditCardService extends ApiService {
 
   getCreditCard(id: string): Promise<CreditCard> {
     return this.http.get<CreditCard>(`${this.URL}/${id}`).toPromise();
+  }
+
+  getUserCreditCards(): Promise<CreditCard[]> {
+    return this.http.get<CreditCard[]>(`${this.URL}/all`).toPromise();
   }
 
   modifyCreditCard(id: string, creditcard: CreditCard): Promise<CreditCard> {

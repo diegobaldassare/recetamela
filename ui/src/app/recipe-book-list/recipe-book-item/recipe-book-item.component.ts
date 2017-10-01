@@ -12,9 +12,12 @@ export class RecipeBookItemComponent implements OnInit {
   @Input() recipeBook: RecipeBook;
   @Input() recipeBooks: RecipeBook[] = [];
 
+  recipeBookRecipes: number;
+
   constructor(private recipeBookService: RecipeBookService, public toaster: ToasterService) { }
 
   ngOnInit() {
+    this.recipeBookRecipes = this.recipeBook.recipes.length;
   }
 
   private deleteRecipeBook(){

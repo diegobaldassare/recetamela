@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {RecipeBookService} from "../../shared/services/recipebook.service";
 import {RecipeBook} from "../../shared/models/recipe/recipebook";
@@ -14,6 +14,7 @@ export class RecipeBookComponent implements OnInit {
 
   recipeBookId: string;
   recipeBook: RecipeBook = new RecipeBook();
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   private recipeBookForm: FormGroup;
 
@@ -42,11 +43,14 @@ export class RecipeBookComponent implements OnInit {
 
   modifyRecipeBook(){
     this.recipeBook.name = this.recipeBookForm.value.recipeBookName;
-    this.recipeBookService.update(this.recipeBookId, this.recipeBook).then(() => {    //No esta funcionando el update
+    this.recipeBookService.update(this.recipeBookId, this.recipeBook).then(() => {
       this.toaster.pop('success', 'Recetario Modificado');
     }, () => {
       this.toaster.pop('error', 'No se ha podido modificar el recetario');
     });
+
+    this.recipeBookForm.reset();
+    this.closeBtn.nativeElement.click();
   }
 
 }

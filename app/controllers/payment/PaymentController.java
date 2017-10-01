@@ -28,12 +28,7 @@ public class PaymentController extends BaseController {
 
     @Authenticate({FreeUser.class, PremiumUser.class})
     public Result create(Long creditCardId) {
-        System.out.println("Pago de tarjetaID: " + creditCardId);
         final Payment payment = paymentBookForm.bindFromRequest().get();
-        System.out.println("Pago de tarjetaID: " + creditCardId);
-        System.out.println(payment.getDescription());
-        System.out.println(payment.getCreditCard());
-        System.out.println(payment.getDate());
         return CreditCardService.getInstance().get(creditCardId).map(creditCard -> {
             payment.setCreditCard(creditCard);
             payment.save();

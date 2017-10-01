@@ -1,7 +1,9 @@
 package models.recipe;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.BaseModel;
+import models.user.PremiumUser;
 import models.user.User;
 
 import javax.persistence.*;
@@ -13,10 +15,11 @@ public class RecipeBook extends BaseModel {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private List<Recipe> recipes;
 
     @ManyToOne(optional = false)
+    @JsonBackReference
     private User creator;
 
     public String getName() {
@@ -39,7 +42,7 @@ public class RecipeBook extends BaseModel {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(PremiumUser creator) {
         this.creator = creator;
     }
 }

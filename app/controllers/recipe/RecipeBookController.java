@@ -5,14 +5,13 @@ import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.recipe.RecipeBook;
 import models.user.PremiumUser;
-import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.recipe.RecipeBookService;
-import services.user.UserService;
+import services.user.PremiumUserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +27,8 @@ public class RecipeBookController extends BaseController {
 
     @Authenticate({PremiumUser.class})
     public Result createRecipeBook() {
-        final Optional<User> userOptional = UserService.getInstance().get(getRequester().getId());
-        return userOptional.map(user -> {
+        final Optional<PremiumUser> premiumUserOptional = PremiumUserService.getInstance().get(getRequester().getId());
+        return premiumUserOptional.map(user -> {
             final RecipeBook recipeBook = recipeBookForm.bindFromRequest().get();
             recipeBook.setCreator(user);
             recipeBook.save();
@@ -44,6 +43,7 @@ public class RecipeBookController extends BaseController {
         return recipeBookOptional.map(recipeBook -> {
             recipeBook.setName(newRecipeBook.getName());
             recipeBook.setRecipes(newRecipeBook.getRecipes());
+            recipeBook.update();
             return ok(Json.toJson(recipeBook));
         }).orElse(notFound());
     }

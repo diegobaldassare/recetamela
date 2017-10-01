@@ -41,7 +41,4 @@ export class RecipeBookListComponent implements OnInit {
       this.toaster.pop('error', 'No se ha podido crear el recetario');
     });
   }
-
-
-
 }

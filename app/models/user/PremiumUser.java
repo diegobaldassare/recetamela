@@ -2,13 +2,13 @@ package models.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.recipe.Recipe;
 import models.recipe.RecipeBook;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @DiscriminatorValue(value = "PremiumUser")
@@ -21,8 +21,9 @@ public class PremiumUser extends User {
     private List<Recipe> recipes;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<RecipeBook> recipeBooks;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator")
+    @JsonManagedReference
+    private List<RecipeBook> recipeBooks;
 
     public PremiumUser() {}
 
@@ -30,7 +31,7 @@ public class PremiumUser extends User {
         super(name, lastName, email, profilePic);
     }
 
-    public PremiumUser(String name, String lastName, String email, String profilePic, List<Recipe> recipes, Set<RecipeBook> recipeBooks) {
+    public PremiumUser(String name, String lastName, String email, String profilePic, List<Recipe> recipes, List<RecipeBook> recipeBooks) {
         this(name, lastName, email, profilePic);
         this.recipes = recipes;
         this.recipeBooks = recipeBooks;
@@ -40,7 +41,7 @@ public class PremiumUser extends User {
         return recipes;
     }
 
-    public Set<RecipeBook> getRecipebooks() {
+    public List<RecipeBook> getRecipebooks() {
         return recipeBooks;
     }
 
@@ -48,7 +49,7 @@ public class PremiumUser extends User {
         this.recipes = recipes;
     }
 
-    public void setRecipebooks(Set<RecipeBook> recipeBooks) {
+    public void setRecipebooks(List<RecipeBook> recipeBooks) {
         this.recipeBooks = recipeBooks;
     }
 

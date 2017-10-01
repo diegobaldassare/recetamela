@@ -17,7 +17,7 @@ export class RecipeBookItemComponent implements OnInit {
   ngOnInit() {
   }
 
-  private deleteRecepieBook(){
+  private deleteRecipeBook(){
     this.recipeBookService.delete(this.recipeBook.id).then(() => {
       this.toaster.pop('success', 'Recetario Eliminado');
       var index = this.recipeBooks.indexOf(this.recipeBook, 0);

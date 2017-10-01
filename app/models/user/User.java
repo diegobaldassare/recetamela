@@ -1,7 +1,10 @@
 package models.user;
 
 import models.BaseModel;
+import models.recipe.RecipeCategory;
+
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -25,6 +28,12 @@ public abstract class User extends BaseModel {
     private String email;
 
     private String profilePic;
+
+    @ManyToMany
+    private List<RecipeCategory> followedCategories;
+
+    @ManyToMany
+    private List<User> followedUsers;
 
     public User() {}
 
@@ -83,6 +92,30 @@ public abstract class User extends BaseModel {
         this.authToken = authToken;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<RecipeCategory> getFollowedCategories() {
+        return followedCategories;
+    }
+
+    public void setFollowedCategories(List<RecipeCategory> followedCategories) {
+        this.followedCategories = followedCategories;
+    }
+
+    public List<User> getFollowedUsers() {
+        return followedUsers;
+    }
+
+    public void setFollowedUsers(List<User> followedUsers) {
+        this.followedUsers = followedUsers;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -90,13 +123,5 @@ public abstract class User extends BaseModel {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

@@ -28,7 +28,6 @@ export class RecipeBookComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -42,18 +41,12 @@ export class RecipeBookComponent implements OnInit {
   }
 
   modifyRecipeBook(){
-    console.log(this.recipeBookForm.value.recipeBookName);
     this.recipeBook.name = this.recipeBookForm.value.recipeBookName;
-    // let newRecipeBook: RecipeBook = new RecipeBook();       //Fijarme si puedo igualar el nuevo al viejo y solo cambiar el nombre
-    // newRecipeBook.name = this.recipeBookForm.value.recipeBookName;
-    // newRecipeBook.recipes = this.recipeBook.recipes;
-    // newRecipeBook.id = this.recipeBookId;
-    // newRecipeBook.creator = this.recipeBook.creator;
-    // this.recipeBookService.update(this.recipeBookId, newRecipeBook).then(() => {    //No esta funcionando el update
-    //   this.toaster.pop('success', 'Recetario Modificado');
-    // }, () => {
-    //   this.toaster.pop('error', 'No se ha podido modificar el recetario');
-    // });
+    this.recipeBookService.update(this.recipeBookId, this.recipeBook).then(() => {    //No esta funcionando el update
+      this.toaster.pop('success', 'Recetario Modificado');
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido modificar el recetario');
+    });
   }
 
 }

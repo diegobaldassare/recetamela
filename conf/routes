@@ -15,7 +15,12 @@ GET         /api/recipebook/all/                    controllers.recipe.RecipeBoo
 PUT         /api/recipebook/:id/update              controllers.recipe.RecipeBookController.updateRecipeBook(id: Long)
 DELETE      /api/recipebook/:id/delete              controllers.recipe.RecipeBookController.deleteRecipeBook(id: Long)
 
+POST        /api/recipe/category/create             controllers.recipe.RecipeCategoryController.create()
+GET         /api/recipe/category/:id                controllers.recipe.RecipeCategoryController.get(id: Long)
 GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll
+PUT         /api/recipe/category/:id/update         controllers.recipe.RecipeCategoryController.update(id: Long)
+DELETE      /api/recipe/category/:id/delete         controllers.recipe.RecipeCategoryController.delete(id: Long)
+
 
 GET         /api/recipe/ingredients/all             controllers.recipe.IngredientController.getAll
 

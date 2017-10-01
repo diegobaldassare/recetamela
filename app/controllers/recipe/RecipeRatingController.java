@@ -4,6 +4,7 @@ import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.recipe.Recipe;
 import models.recipe.RecipeRating;
+import models.user.FreeUser;
 import models.user.PremiumUser;
 import play.libs.Json;
 import play.mvc.Http;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public class RecipeRatingController extends BaseController {
 
-    @Authenticate(PremiumUser.class)
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result create(long recipeId) {
         final RecipeRating recipeRating = getBody(RecipeRating.class);
         recipeRating.setUser(getRequester());

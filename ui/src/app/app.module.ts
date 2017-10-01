@@ -43,6 +43,7 @@ import { RecipeBookListComponent } from './recipe-book-list/recipe-book-list.com
 import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
 import { RecipeBookItemComponent } from './recipe-book-list/recipe-book-item/recipe-book-item.component';
 import {RecipeBookService} from "./shared/services/recipebook.service";
+import { RecipeCategoryService } from "./shared/services/recipecategory.service";
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import {RecipeBookService} from "./shared/services/recipebook.service";
     CreditCardService,
     EditRecipeGuard,
     PaymentService,
-    RecipeBookService
+    RecipeBookService,
+    RecipeCategoryService
   ],
   bootstrap: [AppComponent]
 })

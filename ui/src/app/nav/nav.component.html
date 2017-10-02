@@ -54,6 +54,8 @@
               <li class="divider"></li>
               <li *ngIf="isPremium" (click)="addToRecipeBook()"><a href="javascript://">Recetarios</a></li>
               <li *ngIf="isPremium" class="divider"></li>
+              <li *ngIf="isPremium" data-toggle="modal" data-target="#categories"><a href="javascript://">Categorias</a></li>
+              <li *ngIf="isPremium" class="divider"></li>
               <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
             </ul>
           </li>
@@ -67,4 +69,5 @@
   </div>
 </nav>
 
+<app-categories></app-categories>
 <app-upgrade></app-upgrade>

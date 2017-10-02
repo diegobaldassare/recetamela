@@ -1,0 +1,13 @@
+.createButton{
+  text-align: right;
+  margin-top: 5px;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+p{
+  color: #f7b733;
+}

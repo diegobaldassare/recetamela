@@ -50,6 +50,7 @@ import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.co
 import { RecipeBookItemComponent } from './recipe-book-list/recipe-book-item/recipe-book-item.component';
 import {RecipeBookService} from "./shared/services/recipebook.service";
 import { RecipeCategoryService } from "./shared/services/recipecategory.service";
+import { CategoriesComponent } from './nav/categories/categories.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { RecipeCategoryService } from "./shared/services/recipecategory.service"
     RecipeBookComponent,
     RecipeBookListComponent,
     RecipeBookItemComponent,
+    CategoriesComponent,
   ],
   imports: [
     BrowserModule,

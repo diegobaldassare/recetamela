@@ -7,3 +7,11 @@
 .btn-secondary{
   background-color: #f7b733;
 }
+
+p{
+  font-size: 10px;
+}
+p:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

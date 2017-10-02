@@ -14,7 +14,7 @@ import {FormatService} from "../../shared/services/format.service";
 })
 export class ViewRecipeComponent implements OnInit {
 
-  private recipe: Recipe;
+  recipe: Recipe;
   public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
 

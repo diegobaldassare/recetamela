@@ -3,9 +3,11 @@ package models.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.BaseModel;
 import models.payment.CreditCard;
+import models.recipe.RecipeCategory;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
@@ -28,6 +30,13 @@ public abstract class User extends BaseModel {
     private String email;
 
     private String profilePic;
+
+    @ManyToMany
+    private List<RecipeCategory> followedCategories;
+
+    @ManyToMany
+    private Set<User> followedUsers;
+
 
 //    @JsonIgnore
 //    @OneToMany(cascade = CascadeType.ALL)
@@ -107,7 +116,23 @@ public abstract class User extends BaseModel {
         this.type = type;
     }
 
-//    public List<CreditCard> getCreditCards() {
+    public List<RecipeCategory> getFollowedCategories() {
+        return followedCategories;
+    }
+
+    public void setFollowedCategories(List<RecipeCategory> followedCategories) {
+        this.followedCategories = followedCategories;
+    }
+
+    public Set<User> getFollowedUsers() {
+        return followedUsers;
+    }
+
+    public void setFollowedUsers(Set<User> followedUsers) {
+        this.followedUsers = followedUsers;
+    }
+
+    //    public List<CreditCard> getCreditCards() {
 //        return creditCards;
 //    }
 //

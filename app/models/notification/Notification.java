@@ -28,16 +28,19 @@ public class Notification extends BaseModel {
 
     private String title;
 
+    private String message;
+
     private boolean delivered;
 
     private Date time;
 
-    public Notification(long sender, String senderName, Long receiverId, String senderPic, NotificationType title) {
+    public Notification(long sender, String senderName, Long receiverId, String senderPic, NotificationType title, String message) {
         this.sender = sender;
         this.senderName = senderName;
         this.senderPic = senderPic;
         this.receiver = receiverId;
         this.title = title.name();
+        this.message = message;
         this.time = new Date(System.currentTimeMillis());
     }
 
@@ -105,5 +108,13 @@ public class Notification extends BaseModel {
 
     public void setReceiver(Long receiver) {
         this.receiver = receiver;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

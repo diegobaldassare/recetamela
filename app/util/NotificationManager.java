@@ -52,8 +52,8 @@ public class NotificationManager {
         events.remove(userId);
     }
 
-    public void emitToUser(User sender, Long receiverId, NotificationType name)  {
-        Notification notification = new Notification(sender.getId(), sender.getName() + " " + sender.getLastName(), receiverId, sender.getProfilePic(), name);
+    public void emitToUser(User sender, Long receiverId, NotificationType name, String message)  {
+        Notification notification = new Notification(sender.getId(), sender.getName() + " " + sender.getLastName(), receiverId, sender.getProfilePic(), name, message);
         Queue<EventOutput> queue = events.get(receiverId);
         if (queue != null) {
             EventOutput event = new EventOutput();

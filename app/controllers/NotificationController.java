@@ -1,11 +1,8 @@
 package controllers;
-import akka.stream.javadsl.Source;
 import controllers.authentication.Authenticate;
-import models.Notification;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
-import play.Logger;
 import play.mvc.*;
 import play.libs.*;
 
@@ -19,10 +16,11 @@ public class NotificationController extends BaseController {
     @Authenticate({FreeUser.class, PremiumUser.class})
     public Result getNotifications() {
         User sender = getRequester();
-
-        Logger.debug("Requesting notifications for " + sender.getName());
-
-        return NotificationManager.getInstance().subscribe(sender.getId());
+        NotificationManager.EventOutput eventOutput = NotificationManager.getInstance().requestNotifications(sender.getId());
+        if (eventOutput == null || !eventOutput.isUpdated()) {
+            return ok();
+        }
+        return ok().chunked(eventOutput.getSource().via(EventSource.flow())).as(Http.MimeTypes.EVENT_STREAM);
     }
 
 }

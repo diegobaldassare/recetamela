@@ -21,12 +21,20 @@
         </div>
         <ng-template #premiumAccount>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notificaciones
-              🔔 <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+              Notificaciones {{(notificationList.length != 0) ? ('(' + notificationList.length + ')') : '' }}
+              🔔 <span class="caret"></span>
+            </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">....</a></li>
-              <li class="divider"></li>
-              <li><a href="#">...</a></li>
+              <ng-container *ngFor="let n of notificationList.reverse(); let i = index">
+                <li><a href="javascript://" *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)">
+                  <div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>
+                  <div><h6>{{n.time | date: 'mediumTime'}}</h6></div>
+                  <div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div></a>
+                </li>
+                <li class="divider"></li>
+              </ng-container>
+              <li *ngIf="notificationList.length == 0"><a href="#">No tenés nuevas notificaciones</a></li>
             </ul>
           </li>
           <!--Panel Usuario-->

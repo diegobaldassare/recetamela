@@ -1,6 +1,9 @@
 package controllers.user;
 
 import com.google.inject.Inject;
+import controllers.BaseController;
+import controllers.authentication.Authenticate;
+import models.notification.NotificationType;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Results;
 import services.user.FreeUserService;
 import services.user.UserService;
+import util.NotificationManager;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -20,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class UserController extends Controller {
+public class UserController extends BaseController {
 
     protected Form<User> userForm;
 
@@ -63,6 +67,13 @@ public class UserController extends Controller {
             return ok();
         }
         return notFound();
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result subscribe(Long id) {
+        User me = getRequester();
+        NotificationManager.getInstance().emitToUser(me, id, NotificationType.SUBSCRIPTION);
+        return ok();
     }
 
     private Result updateUser(Long id, Function<User, Result> function) throws NoSuchObjectException {

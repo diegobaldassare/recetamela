@@ -1,9 +1,8 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
 import {HttpClient} from "@angular/common/http";
-import {EventSourcePolyfill} from 'ng-event-source';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +11,7 @@ import {EventSourcePolyfill} from 'ng-event-source';
 })
 export class ProfileComponent implements OnInit {
 
+
   private user: User;
   private loggedUser: User;
   public fetched: boolean;
@@ -19,8 +19,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private http: HttpClient,
-    private zone: NgZone) {
+    private http: HttpClient,) {
   }
 
   ngOnInit() {
@@ -30,21 +29,12 @@ export class ProfileComponent implements OnInit {
       this.fetched = true;
     }, () => { this.fetched = true });
     this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
-
-    let eventSource = new EventSourcePolyfill('/api/notifications', { headers: { Authorization: 'Bearer' + localStorage.getItem("X-TOKEN") } });
-    eventSource.addEventListener('logged', function(e : MessageEvent) {
-      console.log(e.data);
-      //eventSource.close();
-    }, false);
-    eventSource.addEventListener('sub', function (e: MessageEvent) {
-      console.log("got a new subscription");
-    }, false);
   }
 
   sub() {
-    this.http.post('api/user/sub', "").subscribe(e => {
-      console.log("success on sub");
-    })
+    this.http.post(`/api/user/subscribe/${this.user.id}`, "").subscribe(e => {
+      // Do something with response
+    });
   }
 
 

@@ -38,6 +38,7 @@ import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import {ProfileComponent} from "./profile/profile.component";
+import {MessageTimePipe} from "./shared/pipes/message-time.pipe";
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import {ProfileComponent} from "./profile/profile.component";
     NotLoggedComponent,
     KeysPipe,
     ProfileComponent,
+    MessageTimePipe,
   ],
   imports: [
     BrowserModule,

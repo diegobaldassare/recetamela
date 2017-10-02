@@ -19,6 +19,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import services.LoginService;
 import services.user.UserService;
+import util.NotificationManager;
 import util.ShaUtil;
 
 import java.util.Date;
@@ -58,8 +59,8 @@ public class SecurityController extends Controller {
             User user = userOptional.get();
             /* If the accessToken the user claims facebook gave him checks out, then we can log him in. */
             if ( Long.toString(user.getFacebookId()).equals(retrievedId) ) {
-                Logger.debug("Logged in as user " + user.getName() + " id " + user.getFacebookId());
                 JsonNode resp = generateAuthToken(user);
+                NotificationManager.getInstance().subscribe(user.getId());
                 return ok(resp);
             }
             else return unauthorized();
@@ -111,6 +112,9 @@ public class SecurityController extends Controller {
         tokenOptional.ifPresent(AuthToken::update);
         user.setAuthToken(null);
         user.update();
+
+        /* Unsubscribe from notifications */
+        NotificationManager.getInstance().unsubscribe(getUser().getId());
 
         return ok();
     }

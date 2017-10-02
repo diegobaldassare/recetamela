@@ -3,7 +3,9 @@ package controllers.user;
 import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.notification.NotificationType;
 import models.user.CheckExpirationDateResponse;
+import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
 import play.data.Form;
@@ -29,12 +31,6 @@ public class PremiumUserController extends BaseController {
     @Inject
     public PremiumUserController(FormFactory formFactory) {
         userForm =  formFactory.form(PremiumUser.class);
-    }
-
-    //@Authenticate(PremiumUser.class)
-    public Result subscribe() {
-        NotificationManager.getInstance().emitToUser(1, "sub", "i subbed");
-        return ok();
     }
 
     public Result createPremiumUser() {

@@ -1,13 +1,9 @@
 package services;
 
 import com.avaje.ebean.Model;
-import models.AuthToken;
-import models.Notification;
-import models.recipe.Recipe;
-import services.recipe.RecipeService;
+import models.notification.Notification;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Matias Cicilia on 23-Sep-17.
@@ -27,5 +23,12 @@ public class NotificationService extends Service<Notification> {
 
     public List<Notification> findByUser(Long id) {
         return getFinder().where().eq("userId", id).findList();
+    }
+
+    public List<Notification> getUndeliveredByUser(Long id) {
+        return getFinder().where()
+                .eq("receiver", id)
+                .eq("delivered", false)
+                .findList();
     }
 }

@@ -25,7 +25,6 @@ public class RecipeRatingController extends BaseController {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(recipeId);
         if (!recipe.isPresent()) return notFound();
         if (recipe.get().getAuthor().getId().equals(getRequester().getId())) {
-            System.out.println("Unauthorized!!!");
             return unauthorized();
         }
         final Recipe r = recipe.get();

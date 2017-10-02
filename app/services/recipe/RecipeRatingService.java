@@ -7,6 +7,8 @@ import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.Service;
 
+import java.util.Objects;
+
 public class RecipeRatingService extends Service<RecipeRating>{
 
     private static RecipeRatingService instance;
@@ -21,11 +23,30 @@ public class RecipeRatingService extends Service<RecipeRating>{
     }
 
     public void addRating(Recipe recipe, RecipeRating recipeRating) throws BadRequestException {
-        if(recipeRating.getRating() < 1 || recipeRating.getRating() > 5)
-            throw new BadRequestException(RequestError.BAD_FORMAT);
-        recipe.getRatings().add(recipeRating);
+        checkRating(recipeRating);
+        RecipeRating rating = checkUserRate(recipe, recipeRating);
+        if(rating != null){
+            rating.setRating(recipeRating.getRating());
+            rating.save();
+        } else {
+            recipe.getRatings().add(recipeRating);
+        }
         averageRating(recipe);
         recipe.save();
+    }
+
+    private RecipeRating checkUserRate(Recipe recipe, RecipeRating recipeRating) {
+        for (int i = 0; i < recipe.getRatings().size(); i++) {
+            if (Objects.equals(recipeRating.getUser().getId(), recipe.getRatings().get(i).getUser().getId())) {
+                return recipe.getRatings().get(i);
+            }
+        }
+        return null;
+    }
+
+    private void checkRating(RecipeRating recipeRating) throws BadRequestException {
+        if(recipeRating.getRating() < 1 || recipeRating.getRating() > 5)
+            throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
     private void averageRating(Recipe recipe) {
@@ -33,6 +54,6 @@ public class RecipeRatingService extends Service<RecipeRating>{
         for(RecipeRating rating1: recipe.getRatings()){
             rating += rating1.getRating();
         }
-        recipe.setRating(rating/recipe.getRatings().size());
+        recipe.setRating(Math.floor(rating/recipe.getRatings().size() * 10) / 10);
     }
 }

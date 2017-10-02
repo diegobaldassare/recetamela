@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {RecipeService} from "../shared/services/recipe.service";
+import {Recipe} from "../shared/models/recipe/recipe";
 
 @Component({
   selector: 'app-landing',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  private recipes: Recipe[];
+
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit() {
+    this.recipes = [];
+    for(var i = 1; i < 4; i++) {
+      this.recipeService.getRecipe(i).then(recipe => this.recipes[i] = recipe);
+    }
   }
-
 }

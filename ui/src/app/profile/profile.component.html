@@ -23,7 +23,7 @@
       <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab"><b>3</b> recetas</a></li>
+            <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes.length}}</b> recetas</a></li>
             <li><a href="#tab2" data-toggle="tab"><b>4</b> seguidores</a></li>
             <li><a href="#tab3" data-toggle="tab"><b>5</b> seguidos</a></li>
             <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
@@ -32,7 +32,9 @@
         <div class="panel-body">
           <div class="tab-content">
             <div class="tab-pane fade in active" id="tab1">
-              <app-recipe-card></app-recipe-card>
+              <div *ngFor="let recipe of recipes">
+                <app-recipe-card [recipe]="recipe"></app-recipe-card>
+              </div>
             </div>
             <div class="tab-pane fade" id="tab2">
               <ul style="list-style: none;">

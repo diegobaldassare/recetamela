@@ -5,6 +5,8 @@ import models.recipe.Recipe;
 import models.recipe.RecipeStep;
 import services.Service;
 
+import java.util.List;
+
 public class RecipeService extends Service<Recipe> {
 
     private static RecipeService instance;
@@ -32,5 +34,9 @@ public class RecipeService extends Service<Recipe> {
         if (input.getVideoUrl() != null) r.setVideoUrl(input.getVideoUrl());
         if (input.getServings() != 0) r.setServings(input.getServings());
         if (input.getDuration() != 0) r.setDuration(input.getDuration());
+    }
+
+    public List<Recipe> getUserRecipes(long userId) {
+        return getFinder().where().eq("author_id", userId).findList();
     }
 }

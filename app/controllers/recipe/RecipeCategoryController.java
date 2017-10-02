@@ -25,14 +25,14 @@ public class RecipeCategoryController extends Controller {
         recipeCategoryForm =  formFactory.form(RecipeCategory.class);
     }
 
-    @Authenticate({AdminUser.class})
+//    @Authenticate({AdminUser.class})
     public Result create() {
         final RecipeCategory category = recipeCategoryForm.bindFromRequest().get();
         category.save();
         return ok(Json.toJson(category));
     }
 
-    @Authenticate({AdminUser.class})
+//    @Authenticate({AdminUser.class})
     public Result update(Long id) {
         return RecipeCategoryService.getInstance().get(id).map(category -> {
             final RecipeCategory newCategory = recipeCategoryForm.bindFromRequest().get();
@@ -43,19 +43,19 @@ public class RecipeCategoryController extends Controller {
 
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
+//    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
     public Result get(Long id) {
         return RecipeCategoryService.getInstance().get(id)
                 .map(recipeCategory -> ok(Json.toJson(recipeCategory))).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
+//    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
     public Result getAll() {
         final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();
         return ok(Json.toJson(categories));
     }
 
-    @Authenticate({AdminUser.class})
+//    @Authenticate({AdminUser.class})
     public Result delete(Long id) {
         return RecipeCategoryService.getInstance().get(id).map(recipeCategory -> {
             recipeCategory.delete();

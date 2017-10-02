@@ -33,20 +33,24 @@ export class AddToRecipeBookComponent implements OnInit {
     console.log("El id de la receta es: " + this.recipe.id);    // El recipe esta llegando bien
 
 
-    this.recipeBookService.get(recipeBookId).then(recipeBook => {
+    this.recipeBookService.get(recipeBookId).then((recipeBook : RecipeBook)=> {
       this.recipeBook = recipeBook;
+
+      console.log(this.recipeBook);
+
+      this.recipeBook.recipes.push(this.recipe);
+
+      console.log(this.recipeBook);
+
+      this.recipeBookService.update(recipeBookId, this.recipeBook).then(() => {
+        this.toaster.pop('success', 'Se ha agregado correctamente');
+      }, () => {
+        this.toaster.pop('error', 'No se ha podido agregar');
+      });
+
 
     });
 
-    console.log(this.recipeBook.id);    // Nose porque tengo que clikear dos veces para que lo defina...
-
-    // this.recipeBook.recipes.push(this.recipe);
-    //
-    // this.recipeBookService.update(recipeBookId, this.recipeBook).then(() => {
-    //   this.toaster.pop('success', 'Se ha agregado correctamente');
-    // }, () => {
-    //   this.toaster.pop('error', 'No se ha podido agregar');
-    // });
 
     this.closeBtn.nativeElement.click();
   }

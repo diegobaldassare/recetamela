@@ -41,6 +41,7 @@ import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.
 import { CategoryPickerComponent } from './recipes/picker/category-picker/category-picker.component';
 import {FormatService} from "./shared/services/format.service";
 import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/ingredient-picker.component';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/in
     AppRouterModule,
     BrowserAnimationsModule,
     ToasterModule,
+    StarRatingModule.forRoot()
   ],
   providers: [
     {

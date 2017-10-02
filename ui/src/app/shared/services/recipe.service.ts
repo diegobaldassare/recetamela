@@ -7,6 +7,7 @@ import {ApiService} from "./api-service";
 import {Recipe} from "../models/recipe/recipe";
 import {RecipeSearchQuery} from "../../recipes/search-recipes/recipe-search-query";
 import {RequestOptions, RequestOptionsArgs} from "@angular/http";
+import {RecipeRating} from "../models/recipe/recipe-rating";
 
 @Injectable()
 export class RecipeService extends ApiService {
@@ -39,6 +40,10 @@ export class RecipeService extends ApiService {
 
   deleteRecipe(id: string) : Promise<any> {
     return this.http.delete(`${this.URL}/${id}`).toPromise();
+  }
+
+  addRating(id: string, rating: RecipeRating) : Promise<any> {
+    return this.http.post(`${this.URL}/${id}/rate`, rating).toPromise();
   }
 
   search(q: RecipeSearchQuery): Promise<Recipe[]> {

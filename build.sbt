@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   "com.pauldijou" %% "jwt-play" % "0.9.0",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
   "com.restfb" % "restfb" % "2.0.0-rc.3",
-  "com.mercadopago" % "sdk" % "0.3.4"
+  "joda-time" % "joda-time" % "2.9.9"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

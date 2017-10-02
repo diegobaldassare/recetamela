@@ -13,20 +13,28 @@
     <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
       <ul class="nav navbar-nav navbar-right">
 
-        <div *ngIf="!isLoggedIn; else premiumAccount">
+        <div *ngIf="!isLoggedIn; else loggedIn">
           <!--Notificaciones del usuario premium-->
           <li>
             <app-log-in></app-log-in>
           </li>
         </div>
-        <ng-template #premiumAccount>
+        <ng-template #loggedIn>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Notificaciones
-              🔔 <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+              Notificaciones {{(notificationList.length != 0) ? ('(' + notificationList.length + ')') : '' }}
+              🔔 <span class="caret"></span>
+            </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">....</a></li>
-              <li class="divider"></li>
-              <li><a href="#">...</a></li>
+              <ng-container *ngFor="let n of notificationList.reverse(); let i = index">
+                <li><a href="javascript://" *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)">
+                  <div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>
+                  <div><h6>{{n.time | date: 'mediumTime'}}</h6></div>
+                  <div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div></a>
+                </li>
+                <li class="divider"></li>
+              </ng-container>
+              <li *ngIf="notificationList.length == 0"><a href="#">No tenés nuevas notificaciones</a></li>
             </ul>
           </li>
           <!--Panel Usuario-->
@@ -36,12 +44,16 @@
               <img src={{user?.profilePic}} alt="Pic" height="25" width="25" class="header-pic">
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
+              <li (click)="myProfile()"><a href="javascript://">Mi Perfil</a></li>
+              <li class="divider"></li>
               <li><a href="#">Opciones</a></li>
               <li class="divider"></li>
               <li *ngIf="!isPremium" (click)="premium()"><a href="javascript://">Hacete Premium</a></li>
               <li *ngIf="!isPremium" class="divider"></li>
               <li (click)="crearReceta()"><a href="javascript://">Crear Receta</a></li>
               <li class="divider"></li>
+              <li *ngIf="isPremium" (click)="addToRecipeBook()"><a href="javascript://">Recetarios</a></li>
+              <li *ngIf="isPremium" class="divider"></li>
               <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
             </ul>
           </li>

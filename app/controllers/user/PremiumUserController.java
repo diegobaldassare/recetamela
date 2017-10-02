@@ -2,7 +2,10 @@ package controllers.user;
 
 import com.google.inject.Inject;
 import controllers.BaseController;
+import controllers.authentication.Authenticate;
+import models.notification.NotificationType;
 import models.user.CheckExpirationDateResponse;
+import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
 import play.data.Form;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Results;
 import services.user.PremiumUserService;
 import services.user.UserService;
+import util.NotificationManager;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -115,7 +119,6 @@ public class PremiumUserController extends BaseController {
         if (newPremiumUser.getRecipes() != null) oldPremiumUser.setRecipes(newPremiumUser.getRecipes());
         if (newPremiumUser.getRecipebooks() != null) oldPremiumUser.setRecipebooks(newPremiumUser.getRecipebooks());
         if (newPremiumUser.getExpirationDate() != null) oldPremiumUser.setExpirationDate(newPremiumUser.getExpirationDate());
-        // if (newPremiumUser.getCreditCards() != null) oldPremiumUser.setCreditCards(newPremiumUser.getCreditCards());
         oldPremiumUser.setFacebookId(newPremiumUser.getFacebookId());
         return function.apply(oldPremiumUser);
     }

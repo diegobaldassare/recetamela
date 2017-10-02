@@ -22,12 +22,21 @@
     <div class="container">
       <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes.length}}</b> recetas</a></li>
-            <li><a href="#tab2" data-toggle="tab"><b>4</b> seguidores</a></li>
-            <li><a href="#tab3" data-toggle="tab"><b>5</b> seguidos</a></li>
-            <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
-          </ul>
+          <div *ngIf="user.type === 'PremiumUser'; else other">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes.length}}</b> recetas</a></li>
+              <li><a href="#tab2" data-toggle="tab"><b>4</b> siguiendo</a></li>
+              <li><a href="#tab3" data-toggle="tab"><b>5</b> seguidores</a></li>
+              <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
+            </ul>
+          </div>
+          <ng-template #other>
+            <ul class="nav nav-tabs">
+              <li><a class="active" href="#tab2" data-toggle="tab"><b>4</b> siguiendo</a></li>
+              <li><a href="#tab3" data-toggle="tab"><b>5</b> seguidores</a></li>
+              <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
+            </ul>
+          </ng-template>
         </div>
         <div class="panel-body">
           <div class="tab-content">

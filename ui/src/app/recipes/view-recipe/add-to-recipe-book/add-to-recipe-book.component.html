@@ -1,0 +1,37 @@
+<!-- Modal -->
+<div id="addToRecipeBookModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+          <h4 class="modal-title">Agregar Receta a Recetario</h4>
+        </div>
+        <div class="modal-body">
+          <p>Elija a que recetario desea agregar la receta</p>
+
+
+          <div class="radio" *ngFor="let recipeBook of recipeBooks">
+            <p>
+              <input
+                class="with-gap"
+                type="radio"
+                name="recipeBookName"
+                id={{recipeBook.name}}
+                (click)="selectRecipeBook(recipeBook.id)">
+              <label for={{recipeBook.name}}> {{recipeBook.name}} </label>
+            </p>
+          </div>
+
+        </div>
+        <!--<div class="modal-footer">-->
+          <!--<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addToRecipeBook()">Agregar-->
+          <!--</button>-->
+        <!--</div>-->
+
+    </div>
+
+  </div>
+</div>

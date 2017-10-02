@@ -7,6 +7,7 @@ import services.Service;
 import java.util.Optional;
 
 public class RecipeCategoryService extends Service<RecipeCategory> {
+
     private static RecipeCategoryService instance;
 
     private RecipeCategoryService(Finder<Long, RecipeCategory> finder) {
@@ -14,8 +15,7 @@ public class RecipeCategoryService extends Service<RecipeCategory> {
     }
 
     public static RecipeCategoryService getInstance() {
-        if (instance == null)
-            instance = new RecipeCategoryService(new Finder<>(RecipeCategory.class));
+        if (instance == null) instance = new RecipeCategoryService(new Finder<>(RecipeCategory.class));
         return instance;
     }
 

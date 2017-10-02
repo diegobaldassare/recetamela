@@ -2,6 +2,8 @@ package controllers.recipe;
 
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.Media;
+import models.recipe.RecipeSearchQuery;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.recipe.Recipe;
@@ -10,10 +12,12 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.MediaService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeController extends BaseController {
@@ -60,8 +64,22 @@ public class RecipeController extends BaseController {
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> {
+            for (final Media i : r.getImages()) MediaService.getInstance().delete(i.getId());
             r.delete();
             return ok();
         }).orElseGet(Results::notFound);
+    }
+
+    @Authenticate({ FreeUser.class, PremiumUser.class })
+    public Result search(String name, String categories, String ingredients, String difficulty, String author) {
+        final RecipeSearchQuery q = new RecipeSearchQuery(
+                name.toLowerCase().trim(),
+                categories.toLowerCase().trim(),
+                ingredients.toLowerCase().trim(),
+                difficulty.trim(),
+                author.toLowerCase().trim());
+        if (getRequester().getType().equals("FreeUser") && !q.ingredients.isEmpty()) q.ingredients.clear();
+        final List<Recipe> results = RecipeService.getInstance().search(q);
+        return ok(Json.toJson(results));
     }
 }

@@ -11,10 +11,10 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Result;
-import play.mvc.Results;
 import services.payment.CreditCardService;
 import services.user.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CreditCardController extends BaseController {
@@ -28,36 +28,54 @@ public class CreditCardController extends BaseController {
 
     @Authenticate({FreeUser.class, PremiumUser.class})
     public Result create() {
-        User user = UserService.getInstance().getFinder().byId(getRequester().getId());
-        CreditCard creditCard = creditCardForm.bindFromRequest().get();
-//        user.getCreditCards().add(creditCard);
-//        Logger.debug(user.getCreditCards().toString());
-        user.update();
-        return ok(Json.toJson(creditCard));
+        final Optional<User> userOptional = UserService.getInstance().get(getRequester().getId());
+        return userOptional.map(user -> {
+            final CreditCard creditCard = creditCardForm.bindFromRequest().get();
+            final String number = creditCard.getNumber();
+            creditCard.setNumber(number.substring(number.length() - 4));
+            creditCard.setUser(user);
+            creditCard.save();
+            return ok(Json.toJson(creditCard));
+        }).orElse(notFound());
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result update(Long id) {
-        CreditCard newCreditCard = creditCardForm.bindFromRequest().get();
-        Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
-        if (!creditCardOptional.isPresent()) return notFound();
-        CreditCard oldCreditCard = creditCardOptional.get();
-        oldCreditCard.setNumber(newCreditCard.getNumber());
-        oldCreditCard.setCreditCardType(newCreditCard.getCreditCardType());
-        oldCreditCard.update();
-        return ok(Json.toJson(oldCreditCard));
+        final CreditCard newCreditCard = creditCardForm.bindFromRequest().get();
+        final String number = newCreditCard.getNumber();
+        final Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
+        return creditCardOptional.map(creditCard -> {
+            creditCard.setNumber(number.substring(number.length() - 4));
+            creditCard.setCreditCardType(newCreditCard.getCreditCardType());
+            creditCard.setExpirationDate(newCreditCard.getExpirationDate().toDate());
+            creditCard.setCode(newCreditCard.getCode());
+            creditCard.setOwnerName(newCreditCard.getOwnerName());
+            creditCard.update();
+            return ok(Json.toJson(creditCard));
+        }).orElse(notFound());
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result delete(Long id) {
-        Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
-        if (creditCardOptional.isPresent()) {
-            creditCardOptional.get().delete();
+        final Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
+        return creditCardOptional.map(creditCard -> {
+            creditCard.delete();
             return ok();
-        }
-        return notFound();
+        }).orElse(notFound());
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class})
     public Result get(Long id) {
-        Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
-        return creditCardOptional.map(c -> ok(Json.toJson(c))).orElseGet(Results::notFound);
+        final Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
+        return creditCardOptional.map(c -> ok(Json.toJson(c))).orElse(notFound());
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result getUserCreditCards() {
+        final List<CreditCard> creditCards = CreditCardService.getInstance().getFinder().query()
+                .where()
+                .eq("user", getRequester())
+                .findList();
+        return ok(Json.toJson(creditCards));
     }
 }

@@ -71,7 +71,7 @@ public class RecipeValidator {
     }
 
     private static void validateVideoUrl(Recipe r) throws BadRequestException {
-        if (r.getVideoUrl() == null || r.getVideoUrl().matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9_]+$")) return;
+        if (r.getVideoUrl() == null || r.getVideoUrl().matches("^(https?://(www\\.)?)?youtube\\.com/watch\\?v=[a-zA-Z0-9_-]+$")) return;
         throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 

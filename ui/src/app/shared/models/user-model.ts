@@ -1,4 +1,4 @@
-import {CreditCard} from "./credit-card";
+import {CreditCard} from "./payment/credit-card";
 
 export class User {
 

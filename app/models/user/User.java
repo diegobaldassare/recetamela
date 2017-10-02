@@ -1,13 +1,11 @@
 package models.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.BaseModel;
-import models.payment.CreditCard;
 import models.recipe.RecipeCategory;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * Created by Matias Cicilia on 30-Aug-17.
@@ -35,12 +33,7 @@ public abstract class User extends BaseModel {
     private List<RecipeCategory> followedCategories;
 
     @ManyToMany
-    private Set<User> followedUsers;
-
-
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<CreditCard> creditCards;
+    private List<User> followedUsers;
 
     public User() {}
 
@@ -99,15 +92,6 @@ public abstract class User extends BaseModel {
         this.authToken = authToken;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
     public String getType() {
         return type;
     }
@@ -124,19 +108,20 @@ public abstract class User extends BaseModel {
         this.followedCategories = followedCategories;
     }
 
-    public Set<User> getFollowedUsers() {
+    public List<User> getFollowedUsers() {
         return followedUsers;
     }
 
-    public void setFollowedUsers(Set<User> followedUsers) {
+    public void setFollowedUsers(List<User> followedUsers) {
         this.followedUsers = followedUsers;
     }
 
-    //    public List<CreditCard> getCreditCards() {
-//        return creditCards;
-//    }
-//
-//    public void setCreditCards(List<CreditCard> creditCards) {
-//        this.creditCards = creditCards;
-//    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

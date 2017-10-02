@@ -118,4 +118,8 @@ export class NavComponent implements OnInit, OnDestroy {
     this.unsubscribeFromServerEvents();
   }
 
+  private addToRecipeBook(){
+    this.router.navigate(['/recetarios']);
+  }
+
 }

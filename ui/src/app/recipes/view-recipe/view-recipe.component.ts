@@ -5,6 +5,7 @@ import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {User} from "../../shared/models/user-model";
 import {SharedService} from "../../shared/services/shared.service";
+import {FormatService} from "../../shared/services/format.service";
 
 @Component({
   selector: 'app-view-recipe',
@@ -22,7 +23,8 @@ export class ViewRecipeComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private recipeService: RecipeService,
     private sharedService: SharedService,
-    private router: Router
+    private router: Router,
+    private formatter: FormatService
   ){}
 
   ngOnInit() {
@@ -38,14 +40,19 @@ export class ViewRecipeComponent implements OnInit {
   }
 
   private checkPremium() {
-      const u : User = JSON.parse(localStorage.getItem("user")) as User;
-      if (u.type == 'FreeUser') {
-        this.sharedService.notifyOther({upgradeForm:true});
-      }
-      else {
-        const id = this.route.snapshot.params['id'];
-        this.router.navigate(['/recetas/' + id + '/editar']);
-      }
+    const u : User = JSON.parse(localStorage.getItem("user")) as User;
+    if (u.type == 'FreeUser') {
+      this.sharedService.notifyOther({upgradeForm:true});
+    }
+    else {
+      const id = this.route.snapshot.params['id'];
+      this.router.navigate(['/recetas/' + id + '/editar']);
+    }
+  }
+
+  public get canAddToRecipeBook(): boolean{
+    const u : User = JSON.parse(localStorage.getItem("user")) as User;
+    return (u.type != 'FreeUser');
   }
 
   private get embedVideoUrl() {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-recipes',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecipesComponent implements OnInit {
 
-  constructor() { }
+  private recipeName: string = "";
 
-  ngOnInit() {
+  constructor(private router: Router) {}
+
+  ngOnInit() {}
+
+  private search(): void {
+    if (this.recipeName.length == 0) return;
+    this.router.navigate(["/recetas/buscar"], { queryParams: { name: this.recipeName } });
   }
-
 }

@@ -1,0 +1,25 @@
+.recipeBook{
+  padding-left: 10%;
+}
+
+.eliminateButton{
+  text-align: right;
+}
+
+.breakLine{
+  width: 80%;
+}
+
+p{
+  color: #f7b733;
+  font-size: 20px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.numRecipes{
+  color: #95a5a6;
+  font-size: 12px;
+}

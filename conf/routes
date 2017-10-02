@@ -21,13 +21,14 @@ DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCa
 
 
 POST        /api/user                               controllers.user.UserController.createUser()
+POST        /api/user/subscribe/:id                 controllers.user.UserController.subscribe(id: Long)
 PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)
 GET         /api/user/:id                           controllers.user.UserController.getUser(id: Long)
 GET         /api/users                              controllers.user.UserController.getUsers
 DELETE      /api/user/:id/delete                    controllers.user.UserController.deleteUser(id: Long)
+GET         /api/notifications                      controllers.NotificationController.getNotifications
 
 PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
-
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
 PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
 PUT         /api/premiumuser/:id/downgradeUser      controllers.user.PremiumUserController.downgradePremiumUser(id: Long)

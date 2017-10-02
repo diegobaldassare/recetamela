@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
 import {RecipeService} from "../shared/services/recipe.service";
 import {Recipe} from "../shared/models/recipe/recipe";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private recipeService: RecipeService) {
+    private recipeService: RecipeService,
+    private http: HttpClient,
+  ) {
   }
 
   ngOnInit() {
@@ -34,6 +37,12 @@ export class ProfileComponent implements OnInit {
       this.recipes = recipes
     );
     this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
+  }
+
+  sub() {
+    this.http.post(`/api/user/subscribe/${this.user.id}`, "").subscribe(e => {
+      // Do something with response
+    });
   }
 
 

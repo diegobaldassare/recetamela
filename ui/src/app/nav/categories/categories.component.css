@@ -8,6 +8,19 @@ textarea.ng-invalid.ng-touched{
   border: 1px solid red;
 }
 
-p{
+.header{
   color: #f7b733;
+}
+
+.btn-secondary{
+  background-color: #f7b733;
+}
+
+hr{
+  margin: 3px;
+
+}
+
+.buttons{
+  text-align: right;
 }

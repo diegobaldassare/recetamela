@@ -15,7 +15,7 @@
 
           <div class="col-xs-6">  <!--Crear-->
             <form [formGroup]="createCategoryForm">
-              <p>Crear Categoria</p>
+              <p class="header">Crear Categoria</p>
               <input type="text"
                      class="form-control"
                      id="categoryName"
@@ -37,18 +37,64 @@
           </div>
 
           <div class="col-xs-6"> <!--Mod/Eliminar-->
-            <!--<div class="categoryList" *ngFor="let category of categories">-->
-              <!--<p>{{category}}</p>-->
-              <!--Modificar-->
-              <!--Elimiminar-->
-            <!--</div>-->
+            <form [formGroup]="modifyCategoryForm">
+              <p class="header">Modificar/Eliminar</p>
+
+
+              <div class="categoryList" *ngFor="let category of categories">
+                <div class="row">
+                  <div class="col-xs-7">
+
+                    <div id="{{category.id}}-name">{{category.name}}</div>
+
+                    <input type='text'
+                           id="{{category.id}}-input"
+                           formControlName="newCategoryName"
+                           placeholder="{{category.name}}"
+                           style="display: none">
+                  </div>
+
+                  <div class="col-xs-5 buttons">
+
+                    <button type="button" class="btn btn-secondary btn-xs"
+                            (click)="editCategory(category.id)"
+                            title="Modificar Categoria"
+                            id="{{category.id}}-edit">
+                      <a href="javascript://">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                      </a>
+                    </button>
+
+                    <button type="button" class="btn btn-primary btn-xs"
+                            (click)="modifyCategory(category.id)"
+                            title="Modificar Categoria"
+                            style="display: none"
+                            id="{{category.id}}-ok">
+                      <a href="javascript://">
+                        <span class="glyphicon glyphicon-ok"></span>
+                      </a>
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-xs"
+                            (click)="deleteCategory(category.id)"
+                            title="Eliminar Categoria">
+                      <a href="javascript://">
+                        <span class="glyphicon glyphicon-remove"></span>
+                      </a>
+                    </button>
+                  </div>
+
+                </div>
+                <hr>
+              </div><!--end for-->
+            </form>
           </div>
 
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+      <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+      <!--</div>-->
     </div>
 
   </div>

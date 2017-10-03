@@ -21,12 +21,11 @@ export class CreateRecipeComponent extends RecipeFormContainer implements OnInit
   }
 
   ngOnInit() {
-    const t = this;
     this._recipeService.getRecipeCategories().then((categories) => {
       categories.forEach(c => this.categories[c.name] = c);
     });
     this._recipeService.getIngredients().then((ingredients) => {
-      ingredients.forEach(i => t.ingredients[i.name] = i);
+      ingredients.forEach(i => this.ingredients[i.name] = i);
     });
   }
 

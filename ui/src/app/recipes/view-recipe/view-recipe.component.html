@@ -4,13 +4,27 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <div style="margin-bottom: 50px">
+            <div style="margin-bottom: 10px">
               <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
-              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" (click)="checkPremium()">
+              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" title="Editar Receta" (click)="checkPremium()">
                 <a href="javascript://">
                 <span class="glyphicon glyphicon-pencil"></span>
                 </a>
               </button>
+
+              <button style="vertical-align: text-bottom"
+                      *ngIf="canAddToRecipeBook"
+                      type="button" class="btn btn-secondary btn-sm"
+                      data-toggle="modal" data-target="#addToRecipeBookModal"
+                      title="Agregar a Recetario">
+                <a href="javascript://">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </a>
+              </button>
+            </div>
+
+            <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
+              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="getViewerRating()" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
             </div>
 
             <p>
@@ -72,6 +86,9 @@
             </span>
           </div>
           <div>
+            <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true"></star-rating-comp>
+          </div>
+          <div>
             <span class="emoji">🍽</span>
             <span>{{ recipe.servings }} {{ recipe.servings > 1 ? 'porciones' : 'porción' }}</span>
           </div>
@@ -85,7 +102,7 @@
             <div class="box-background">
               <h4 class="text-center">🍞 INGREDIENTES</h4>
               <ul>
-                <li *ngFor="let ing of recipe.ingredients">{{ ing.name }}</li>
+                <li *ngFor="let f of recipe.ingredients">{{ formatter.capitalizeFirstChar(f.ingredient.name) }}: {{ f.quantity }} {{ f.unit }}</li>
               </ul>
             </div>
           </div>
@@ -117,3 +134,6 @@
   <app-not-found *ngIf="!recipe"></app-not-found>
 </div>
 <div *ngIf="!fetched" class="app-spinner"></div>
+
+
+<app-add-to-recipe-book></app-add-to-recipe-book>

@@ -47,4 +47,12 @@ export class UserService {
   public getUser(id: string) : Promise<User> {
     return this.http.get<User>(`/api/user/${id}`).toPromise();
   }
+
+  public getFollowers(id: string) : Promise<User[]> {
+    return this.http.get<User[]>(`/api/user/followers/${id}`).toPromise();
+  }
+
+  public getFollowing(id: string) : Promise<User[]> {
+    return this.http.get<User[]>(`/api/user/following/${id}`).toPromise();
+  }
 }

@@ -1,0 +1,14 @@
+<div style="margin-bottom: 13px">
+  <label for="category">{{ label }}</label>
+  <br>
+  <span class="label label-default" *ngFor="let e of picked | keys">
+    {{ e }}
+    <span class="label-button" (click)="unpick(e)">x</span>
+  </span>
+</div>
+<div class="form-group">
+  <input id="category" class="form-control" placeholder="Separe presionando enter" list="categories" [(ngModel)]="name" (keyup.enter)="pick()">
+  <datalist id="categories">
+    <option *ngFor="let e of unpicked | keys" [value]="e"></option>
+  </datalist>
+</div>

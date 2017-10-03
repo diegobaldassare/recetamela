@@ -1,10 +1,7 @@
 package services.recipe;
 
 import models.Media;
-import models.recipe.Ingredient;
-import models.recipe.Recipe;
-import models.recipe.RecipeCategory;
-import models.recipe.RecipeStep;
+import models.recipe.*;
 import services.MediaService;
 
 import java.util.ListIterator;
@@ -59,20 +56,31 @@ public class RecipeFormatter {
 
     private static void formatIngredients(Recipe r) {
         if (r.getIngredients() == null) return;
-        final ListIterator<Ingredient> it = r.getIngredients().listIterator();
+        final ListIterator<IngredientFormula> it = r.getIngredients().listIterator();
         while (it.hasNext()) {
-            Ingredient i = it.next();
-            if (i == null || i.getName() == null) {
+            IngredientFormula i = it.next();
+            if (
+                i == null ||
+                i.getIngredient().getName() == null ||
+                i.getQuantity() == 0 ||
+                i.getUnit() == null
+            ) {
                 it.remove();
                 continue;
             }
-            i.setName(i.getName().trim().toLowerCase());
-            final Optional<Ingredient> ingredient = IngredientService.getInstance().getByName(i.getName());
-            if (ingredient.isPresent()) i = ingredient.get();
-            else {
-                i.setId(null);
-                i.save();
+            i.getIngredient().setName(i.getIngredient().getName().trim().toLowerCase());
+            i.setUnit(i.getUnit().trim().toLowerCase());
+            if (i.getIngredient().getName().isEmpty() || i.getUnit().isEmpty()) {
+                it.remove();
+                continue;
             }
+            final Optional<Ingredient> ingredient = IngredientService.getInstance().getByName(i.getIngredient().getName());
+            if (ingredient.isPresent()) i.setIngredient(ingredient.get());
+            else {
+                i.getIngredient().setId(null);
+                i.getIngredient().save();
+            }
+            i.setId(null);
             it.set(i);
         }
     }

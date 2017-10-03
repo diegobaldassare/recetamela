@@ -69,13 +69,6 @@ public class UserController extends BaseController {
         return notFound();
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
-    public Result subscribe(Long id) {
-        User me = getRequester();
-        NotificationManager.getInstance().emitToUser(me, id, NotificationType.SUBSCRIPTION);
-        return ok();
-    }
-
     private Result updateUser(Long id, Function<User, Result> function) throws NoSuchObjectException {
         User newFreeUser = userForm.bindFromRequest().get();
         Optional<User> userOptional = UserService.getInstance().get(id);

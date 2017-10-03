@@ -5,6 +5,7 @@ export class Notification {
   senderPic: String;
   receiver: String;
   title: String;
+  message: String;
   delivered: boolean;
   time: String;
 }

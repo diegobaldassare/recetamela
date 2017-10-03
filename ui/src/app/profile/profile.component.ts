@@ -15,6 +15,9 @@ export class ProfileComponent implements OnInit {
   private user: User;
   private loggedUser: User;
   public fetched: boolean;
+  followers: User[] = [];
+  following: User[] = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +38,19 @@ export class ProfileComponent implements OnInit {
     this.http.post(`/api/user/subscribe/${this.user.id}`, "").subscribe(e => {
       // Do something with response
     });
+  }
+
+  fetchFollowers() {
+    this.userService.getFollowers(this.route.snapshot.params['id']).then((res : User[]) => {
+      this.followers = res;
+    })
+  }
+
+  fetchFollowing() {
+    this.userService.getFollowing(this.route.snapshot.params['id']).then((res : User[]) => {
+      console.log("following " + res);
+      this.following = res;
+    })
   }
 
 

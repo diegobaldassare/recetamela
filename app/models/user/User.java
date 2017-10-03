@@ -32,8 +32,6 @@ public abstract class User extends BaseModel {
     @ManyToMany
     private List<RecipeCategory> followedCategories;
 
-    @ManyToMany
-    private List<User> followedUsers;
 
     public User() {}
 
@@ -106,14 +104,6 @@ public abstract class User extends BaseModel {
 
     public void setFollowedCategories(List<RecipeCategory> followedCategories) {
         this.followedCategories = followedCategories;
-    }
-
-    public List<User> getFollowedUsers() {
-        return followedUsers;
-    }
-
-    public void setFollowedUsers(List<User> followedUsers) {
-        this.followedUsers = followedUsers;
     }
 
     @Override

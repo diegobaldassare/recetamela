@@ -31,9 +31,11 @@ GET         /api/creditcard/all/                    controllers.payment.CreditCa
 DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCardController.delete(id: Long)
 
 
+POST        /api/user/subscribe/:id                 controllers.user.SubscriptionController.subscribe(id: Long)
+GET        /api/user/followers/:id                  controllers.user.SubscriptionController.getFollowers(id: Long)
+GET        /api/user/following/:id                  controllers.user.SubscriptionController.getFollowing(id: Long)
 
 POST        /api/user                               controllers.user.UserController.createUser()
-POST        /api/user/subscribe/:id                 controllers.user.SubscriptionController.subscribe(id: Long)
 PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)
 GET         /api/user/:id                           controllers.user.UserController.getUser(id: Long)
 GET         /api/users                              controllers.user.UserController.getUsers

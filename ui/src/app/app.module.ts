@@ -44,6 +44,7 @@ import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.
 import { CategoryPickerComponent } from './recipes/picker/category-picker/category-picker.component';
 import {FormatService} from "./shared/services/format.service";
 import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/ingredient-picker.component';
+import { StarRatingModule } from 'angular-star-rating';
 import { AddToRecipeBookComponent } from './recipes/view-recipe/add-to-recipe-book/add-to-recipe-book.component';
 import { RecipeBookListComponent } from './recipe-book-list/recipe-book-list.component';
 import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
@@ -90,6 +91,7 @@ import { RecipeCategoryService } from "./shared/services/recipecategory.service"
     AppRouterModule,
     BrowserAnimationsModule,
     ToasterModule,
+    StarRatingModule.forRoot()
   ],
   providers: [
     {

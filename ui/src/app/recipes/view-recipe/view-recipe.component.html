@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <div style="margin-bottom: 50px">
+            <div style="margin-bottom: 10px">
               <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
               <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" title="Editar Receta" (click)="checkPremium()">
                 <a href="javascript://">
@@ -21,6 +21,10 @@
                   <span class="glyphicon glyphicon-plus"></span>
                 </a>
               </button>
+            </div>
+
+            <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
+              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="getViewerRating()" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
             </div>
 
             <p>
@@ -80,6 +84,9 @@
               <span class="label label-default" *ngSwitchCase="4">dificil</span>
               <span class="label label-default" *ngSwitchDefault>muy dificil</span>
             </span>
+          </div>
+          <div>
+            <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true"></star-rating-comp>
           </div>
           <div>
             <span class="emoji">🍽</span>

@@ -42,12 +42,6 @@ export class NavComponent implements OnInit, OnDestroy {
       }
       if (res.hasOwnProperty('premium')) this.updateDropdown(res.premium);
     });
-    /*this.sharedService.notifyObservable$.subscribe(res => {
-      if (res.hasOwnProperty('isPremium')) {
-        this.isPremium = res.isPremium;
-        this.cdRef.detectChanges();
-      }
-    })*/
   }
 
   public navDropdownLogoout() {

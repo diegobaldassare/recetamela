@@ -6,15 +6,18 @@
       </div>
       <div class="container head">
         <p>
-          <span class="name">{{user.name}} {{user.lastName}} </span>
-          <span *ngIf="user.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
-          <span *ngIf="user.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
-          <span *ngIf="user.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
-          <button *ngIf="user.id === loggedUser.id"  class="btn subscribe">Editar</button>
-          <button *ngIf="user.id !== loggedUser.id"  class="btn subscribe" (click)="sub()">Suscribir</button>
+          <span class="name">{{user?.name}} {{user?.lastName}} </span>
+          <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
+          <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
+          <span *ngIf="user?.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
+          <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe">Editar</button>
+          <button *ngIf="!subscribed; else subscripto"  class="btn subscribe" (click)="subscribe()">suscribir</button>
+          <ng-template #subscripto>
+            <button class="btn subscribe" (click)="unSubscribe()">desuscribir</button>
+          </ng-template>
         </p>
         <p class="mail">
-          <span class="glyphicon glyphicon-envelope one"></span><a href="mailto:{{user.email}}">{{user.email}}</a>
+          <span class="glyphicon glyphicon-envelope one"></span><a href="mailto:{{user?.email}}">{{user?.email}}</a>
         </p>
       </div>
     </div>
@@ -24,8 +27,8 @@
         <div class="panel-heading">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab"><b>3</b> recetas</a></li>
-            <li><a href="#tab2" (click)="fetchFollowers()" data-toggle="tab"><b>4</b> seguidores</a></li>
-            <li><a href="#tab3" (click)="fetchFollowing()" data-toggle="tab"><b>5</b> seguidos</a></li>
+            <li><a href="#tab2" (click)="fetchFollowers()" data-toggle="tab"><b>{{this.followers?.length}}</b> seguidores</a></li>
+            <li><a href="#tab3" (click)="fetchFollowing()" data-toggle="tab"><b>{{this.following?.length}}</b> seguidos</a></li>
             <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
           </ul>
         </div>

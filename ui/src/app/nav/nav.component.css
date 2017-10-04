@@ -12,7 +12,10 @@ nav {
 }
 
 .dropdown-menu {
-  max-height: 200px;
+  max-height: 206px;
+  min-width: 240px;
+  font-size: 13px;
+  border: 0 solid;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -46,6 +49,14 @@ nav {
 }
 
 li {
+  display: flex;
+}
+
+.notification-hover:hover {
+  background: #f0f0f0;
+}
+
+.notification-flex {
   display: flex;
 }
 

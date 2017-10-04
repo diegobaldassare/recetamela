@@ -35,6 +35,7 @@ DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCa
 
 
 POST        /api/user/subscribe/:id                 controllers.user.SubscriptionController.subscribe(id: Long)
+POST        /api/user/unSubscribe/:id               controllers.user.SubscriptionController.unSubscribe(id: Long)
 GET        /api/user/followers/:id                  controllers.user.SubscriptionController.getFollowers(id: Long)
 GET        /api/user/following/:id                  controllers.user.SubscriptionController.getFollowing(id: Long)
 

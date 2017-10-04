@@ -25,17 +25,28 @@
               Notificaciones {{(notificationList.length != 0) ? ('(' + notificationList.length + ')') : '' }}
               🔔 <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" role="menu">
-              <ng-container *ngFor="let n of notificationList.reverse(); let i = index">
-                <li><a href="javascript://" *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)">
-                  <div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>
-                  <div><h6>{{n.time | date: 'mediumTime'}}</h6></div>
-                  <div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div></a>
-                </li>
-                <li class="divider"></li>
-              </ng-container>
-              <li *ngIf="notificationList.length == 0"><a href="#">No tenés nuevas notificaciones</a></li>
-            </ul>
+            <div class="dropdown-menu" role="menu">
+              <!--<ng-container *ngFor="let n of notificationList.reverse(); let i = index">-->
+                <!--<li><a href="javascript://" *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)">-->
+                  <!--<div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>-->
+                  <!--<div><h6>{{n.time | date: 'mediumTime'}}</h6></div>-->
+                  <!--<div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div></a>-->
+                <!--</li>-->
+                <!--<li class="divider"></li>-->
+              <!--</ng-container>-->
+              <div *ngFor="let n of notificationList.reverse(); let i = index" class="notification-hover">
+                <div *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)" class="notification-flex">
+                  <div class="left">
+                    <div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div>
+                  </div>
+                  <div class="right">
+                    <div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>
+                    <div><h6>{{n.time | date: 'mediumTime'}}</h6></div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="notificationList.length == 0"><a href="#">No tenés nuevas notificaciones</a></div>
+            </div>
           </li>
           <!--Panel Usuario-->
           <li class="dropdown">

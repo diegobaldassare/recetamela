@@ -8,6 +8,7 @@ import {AuthToken} from "../models/auth-token";
 import {Router} from "@angular/router";
 import {ToasterService} from "angular2-toaster";
 import {CheckExpirationDateResponse} from "../models/ced-response";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class UserService {
@@ -48,11 +49,19 @@ export class UserService {
     return this.http.get<User>(`/api/user/${id}`).toPromise();
   }
 
-  public getFollowers(id: string) : Promise<User[]> {
-    return this.http.get<User[]>(`/api/user/followers/${id}`).toPromise();
+  public followUser(id: string) : Observable<User> {
+    return this.http.post<User>(`/api/user/subscribe/${id}`, "");
   }
 
-  public getFollowing(id: string) : Promise<User[]> {
-    return this.http.get<User[]>(`/api/user/following/${id}`).toPromise();
+  public unFollowUser(id: string) : Observable<User> {
+    return this.http.post<User>(`/api/user/unSubscribe/${id}`, "");
+  }
+
+  public getFollowers(id: string) : Observable<User[]> {
+    return this.http.get<User[]>(`/api/user/followers/${id}`);
+  }
+
+  public getFollowing(id: string) : Observable<User[]> {
+    return this.http.get<User[]>(`/api/user/following/${id}`);
   }
 }

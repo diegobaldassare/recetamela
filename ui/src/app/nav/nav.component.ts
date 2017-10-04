@@ -1,20 +1,26 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MyAuthService} from "../auth/my-auth-service";
 import {SharedService} from "../shared/services/shared.service";
 import {isNull} from "util";
 import {User} from "../shared/models/user-model";
+import {EventSourcePolyfill} from 'ng-event-source';
 import {Router} from '@angular/router';
+import {MessageEvent} from "../shared/models/message-event";
+import {Notification} from "../shared/models/notification";
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
+
 
   isLoggedIn: boolean;
   isPremium: boolean;
   user : User;
+  private eventSource : EventSourcePolyfill;
+  notificationList: Notification[] = [];
 
   //Both SharedService and ChangeDetectorRef are necessary to listen to changes on logged in variable to show different nav.
   constructor(private auth: MyAuthService,
@@ -26,7 +32,13 @@ export class NavComponent implements OnInit {
       if (res.hasOwnProperty('loggedIn')) {
         this.isLoggedIn = res.loggedIn;
         this.cdRef.detectChanges();
-        if (this.isLoggedIn) this.doUpdate();
+        if (this.isLoggedIn) {
+          this.doUpdate();
+          this.listenForServerEvents();
+        }
+        else {
+          this.unsubscribeFromServerEvents();
+        }
       }
       if (res.hasOwnProperty('premium')) this.updateDropdown(res.premium);
     });
@@ -45,6 +57,10 @@ export class NavComponent implements OnInit {
   public updateDropdown(value: boolean) : void {
     this.isPremium = value;
     this.cdRef.detectChanges();
+  }
+
+  public myProfile() {
+    this.router.navigate([`/usuario/${this.user.id}/perfil`]);
   }
 
   public crearReceta() {
@@ -73,9 +89,33 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     if (this.auth.isLoggedIn()) {
       this.doUpdate();
+      this.listenForServerEvents();
     }
     this.user = JSON.parse(localStorage.getItem("user")) as User;
-    // this.isPremium = this.auth.isPremium():
+  }
+
+  private listenForServerEvents() {
+    this.eventSource = new EventSourcePolyfill('/api/notifications', { headers: { Authorization: 'Bearer' + localStorage.getItem("X-TOKEN") } });
+    this.eventSource.addEventListener('SUBSCRIPTION',(e: MessageEvent) => {
+      let notification : Notification = JSON.parse(e.data) as Notification;
+      this.notificationList.push(notification);
+    }, false);
+  }
+
+  notificationClicklistener(i : number) : void {
+    // Redirect user to sender profile if notification was clicked.
+    // To do: Manage each different notifcation type. For example: If a new recipe is created, redirect to recipe.
+    const senderId = this.notificationList[i].sender;
+    this.router.navigate([`/usuario/${senderId}/perfil`]);
+    this.notificationList.splice(i, 1);
+  }
+
+  unsubscribeFromServerEvents() {
+    this.eventSource.close();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeFromServerEvents();
   }
 
   private addToRecipeBook(){

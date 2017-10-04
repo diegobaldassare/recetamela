@@ -7,6 +7,16 @@ nav {
   margin-bottom: 0px;
 }
 
+.dropdown-menu::-webkit-scrollbar{
+  display: none;
+}
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .form-control{
   max-width: 80%;
   margin-bottom: 5px;
@@ -33,6 +43,10 @@ nav {
 .header-pic {
   border-radius: 3px;
   margin-left: 2px;
+}
+
+li {
+  display: flex;
 }
 
 

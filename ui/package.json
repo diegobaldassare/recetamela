@@ -38,6 +38,7 @@
     "core-js": "2.4.1",
     "font-awesome": "4.7.0",
     "jquery": "^3.2.1",
+    "ng-event-source": "^1.0.3",
     "ng2-charts": "1.6.0",
     "ng2-completer": "1.6.0",
     "ng2-smart-table": "1.2.1",

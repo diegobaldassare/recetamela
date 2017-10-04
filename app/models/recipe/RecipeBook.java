@@ -1,7 +1,7 @@
 package models.recipe;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import models.BaseModel;
 import models.user.PremiumUser;
 import models.user.User;
@@ -15,12 +15,15 @@ public class RecipeBook extends BaseModel {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("author")
     private List<Recipe> recipes;
 
     @ManyToOne(optional = false)
     @JsonBackReference
     private User creator;
+
+    public RecipeBook() {}
 
     public String getName() {
         return name;

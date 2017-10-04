@@ -38,6 +38,12 @@ import {PremiumGuard} from "./auth/premium-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {PaymentService} from "./shared/services/payment.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
+import {ProfileComponent} from "./profile/profile.component";
+import {MessageTimePipe} from "./shared/pipes/message-time.pipe";
+import { SearchRecipesComponent } from './recipes/search-recipes/search-recipes.component';
+import { CategoryPickerComponent } from './recipes/picker/category-picker/category-picker.component';
+import {FormatService} from "./shared/services/format.service";
+import { IngredientPickerComponent } from './recipes/picker/ingredient-picker/ingredient-picker.component';
 import { AddToRecipeBookComponent } from './recipes/view-recipe/add-to-recipe-book/add-to-recipe-book.component';
 import { RecipeBookListComponent } from './recipe-book-list/recipe-book-list.component';
 import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
@@ -68,6 +74,11 @@ import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
     NotLoggedComponent,
     KeysPipe,
     CapitalizeFirstPipe,
+    ProfileComponent,
+    MessageTimePipe,
+    SearchRecipesComponent,
+    CategoryPickerComponent,
+    IngredientPickerComponent,
     AddToRecipeBookComponent,
     RecipeBookComponent,
     RecipeBookListComponent,
@@ -107,6 +118,7 @@ import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
     PremiumGuard,
     CreditCardService,
     EditRecipeGuard,
+    FormatService,
     PaymentService,
     RecipeBookService,
     RecipeCategoryService

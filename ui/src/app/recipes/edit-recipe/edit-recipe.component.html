@@ -3,7 +3,7 @@
     <div *ngIf="fetched">
       <div *ngIf="recipe">
         <div class="page-header">
-          <h1>Editar receta </h1>
+          <h1>Editar receta</h1>
           <h2><small><a [routerLink]="this.recipeRoute">Ver receta</a></small></h2>
         </div>
         <app-recipe-form [container]="instance" submitText="Guardar"></app-recipe-form>
@@ -17,17 +17,12 @@
   </div>
 </div>
 
-<!-- Modal -->
 <div id="confirmDeleteModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
-
         <div class="modal-header">
-          <h3 class="modal-title">Estas seguro que desea eliminar la receta?</h3>
+          <h3 class="modal-title">¿Está seguro que desea eliminar la receta?</h3>
         </div>
-
-
         <div class="modal-footer">
           <div class="row">
             <div class="col-md-8 col-xs-8 col-sm-8 alert-block" >
@@ -41,7 +36,6 @@
             </div>
           </div>
         </div>
-
     </div>
   </div>
 </div>

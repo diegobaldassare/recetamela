@@ -26,12 +26,14 @@ public class RecipeRatingService extends Service<RecipeRating>{
         checkRating(recipeRating);
         RecipeRating rating = checkUserRate(recipe, recipeRating);
         if(rating != null){
+            int size = recipe.getRatings().size();
+            recipe.setRating((recipe.getRating()*size - rating.getRating() + recipeRating.getRating()) / (size));
             rating.setRating(recipeRating.getRating());
             rating.save();
         } else {
+            avRating(recipe, recipeRating.getRating());
             recipe.getRatings().add(recipeRating);
         }
-        averageRating(recipe);
         recipe.save();
     }
 
@@ -49,11 +51,8 @@ public class RecipeRatingService extends Service<RecipeRating>{
             throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 
-    private void averageRating(Recipe recipe) {
-        double rating = 0;
-        for(RecipeRating rating1: recipe.getRatings()){
-            rating += rating1.getRating();
-        }
-        recipe.setRating(Math.floor(rating/recipe.getRatings().size() * 10) / 10);
+    private void avRating(Recipe recipe, int rating) {
+        if(recipe.getRating() == 0) recipe.setRating(rating);
+        recipe.setRating((recipe.getRating()*recipe.getRatings().size() + rating) / (recipe.getRatings().size()+1));
     }
 }

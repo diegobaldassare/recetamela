@@ -136,4 +136,4 @@
 <div *ngIf="!fetched" class="app-spinner"></div>
 
 
-<app-add-to-recipe-book></app-add-to-recipe-book>
+<app-add-to-recipe-book *ngIf="viewer.type != 'FreeUser'"></app-add-to-recipe-book>

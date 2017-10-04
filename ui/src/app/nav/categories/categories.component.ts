@@ -66,7 +66,8 @@ export class CategoriesComponent implements OnInit {
     document.getElementById(categoryId+"-name").innerHTML = this.modifyCategoryForm.value.newCategoryName;
 
     let category = new RecipeCategory();
-    category.name = this.modifyCategoryForm.value.newCategoryName;
+    category.name = (this.modifyCategoryForm.value.newCategoryName);
+    category.name = category.name.toLowerCase();
     this.categoryService.update(categoryId, category).then(() => {
       this.toaster.pop('success', 'Categoria Modificada');
     }, () => {
@@ -80,11 +81,12 @@ export class CategoriesComponent implements OnInit {
 
     this.categoryService.get(categoryId).then((res) => {
 
-      console.log(this.categories);
-      console.log(res)
-      var index: number = this.categories.indexOf(res, 0);
-      console.log(index);               //El index me esta dando -1
-
+      let index;
+      for (let i=0; i<this.categories.length; i++){
+        if(this.categories[i].id == res.id){
+          index = i;
+        }
+      }
 
       this.categoryService.delete(categoryId).then(() => {
         this.toaster.pop('success', 'Categoria Eliminada');

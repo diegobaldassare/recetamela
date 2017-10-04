@@ -1,6 +1,7 @@
 package models.user;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.recipe.Recipe;
@@ -20,7 +21,6 @@ public class PremiumUser extends User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Recipe> recipes;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator")
     @JsonManagedReference
     private List<RecipeBook> recipeBooks;

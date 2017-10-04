@@ -23,9 +23,6 @@ export class AddToRecipeBookComponent implements OnInit {
     this.recipeBookService.getUserRecipeBooks().then(recipeBooks => {
       this.recipeBooks = recipeBooks;
     })
-
-
-
   }
 
   private selectRecipeBook(recipeBookId: string){
@@ -35,20 +32,12 @@ export class AddToRecipeBookComponent implements OnInit {
 
     this.recipeBookService.get(recipeBookId).then((recipeBook : RecipeBook)=> {
       this.recipeBook = recipeBook;
-
-      console.log(this.recipeBook);
-
       this.recipeBook.recipes.push(this.recipe);
-
-      console.log(this.recipeBook);
-
       this.recipeBookService.update(recipeBookId, this.recipeBook).then(() => {
         this.toaster.pop('success', 'Se ha agregado correctamente');
       }, () => {
         this.toaster.pop('error', 'No se ha podido agregar');
       });
-
-
     });
 
 

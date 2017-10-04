@@ -45,6 +45,7 @@ import { RecipeBookItemComponent } from './recipe-book-list/recipe-book-item/rec
 import {RecipeBookService} from "./shared/services/recipebook.service";
 import { RecipeCategoryService } from "./shared/services/recipecategory.service";
 import { CategoriesComponent } from './nav/categories/categories.component';
+import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { CategoriesComponent } from './nav/categories/categories.component';
     RecipeListComponent,
     NotLoggedComponent,
     KeysPipe,
+    CapitalizeFirstPipe,
     AddToRecipeBookComponent,
     RecipeBookComponent,
     RecipeBookListComponent,

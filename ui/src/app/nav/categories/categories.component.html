@@ -45,7 +45,7 @@
                 <div class="row">
                   <div class="col-xs-7">
 
-                    <div id="{{category.id}}-name">{{category.name}}</div>
+                    <div id="{{category.id}}-name">{{category.name | capitalizeFirst}}</div>
 
                     <input type='text'
                            id="{{category.id}}-input"
@@ -68,6 +68,7 @@
                     <button type="button" class="btn btn-primary btn-xs"
                             (click)="modifyCategory(category.id)"
                             title="Modificar Categoria"
+                            [disabled]="!modifyCategoryForm.valid"
                             style="display: none"
                             id="{{category.id}}-ok">
                       <a href="javascript://">

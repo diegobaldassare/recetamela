@@ -52,31 +52,17 @@ export class CategoriesComponent implements OnInit {
   }
 
   editCategory(categoryId: string) {
-    const x = document.getElementById(categoryId + "-edit");
-    x.style.display = "none";
-    const y = document.getElementById(categoryId + "-ok");
-    y.style.display = "inline";
-
-    const w = document.getElementById(categoryId + "-name");
-    w.style.display = "none";
-    const z = document.getElementById(categoryId + "-input");
-    z.style.display = "inline";
-
-    document.getElementById(categoryId + "-name").innerHTML =
-      "<input type='text' id='{{categoryId}}-input' formControlName='newCategoryName' placeholder='" + document.getElementById(categoryId + "-name").innerHTML + "' />";
+    document.getElementById(categoryId + "-edit").style.display = "none";
+    document.getElementById(categoryId + "-ok").style.display = "inline";
+    document.getElementById(categoryId + "-name").style.display = "none";
+    document.getElementById(categoryId + "-input").style.display = "inline";
   }
 
   modifyCategory(categoryId: string) {
-    const x = document.getElementById(categoryId + "-edit");
-    x.style.display = "inline";
-    const y = document.getElementById(categoryId + "-ok");
-    y.style.display = "none";
-
-    const w = document.getElementById(categoryId + "-name");
-    w.style.display = "inline";
-    const z = document.getElementById(categoryId + "-input");
-    z.style.display = "none";
-
+    document.getElementById(categoryId + "-edit").style.display = "inline";
+    document.getElementById(categoryId + "-ok").style.display = "none";
+    document.getElementById(categoryId + "-name").style.display = "inline";
+    document.getElementById(categoryId + "-input").style.display = "none";
     document.getElementById(categoryId+"-name").innerHTML = this.modifyCategoryForm.value.newCategoryName;
 
     let category = new RecipeCategory();
@@ -86,7 +72,6 @@ export class CategoriesComponent implements OnInit {
     }, () => {
       this.toaster.pop('error', 'No se ha podido modificar la categoria');
     });
-
     this.modifyCategoryForm.reset();
   }
 
@@ -98,13 +83,13 @@ export class CategoriesComponent implements OnInit {
       console.log(this.categories);
       console.log(res)
       var index: number = this.categories.indexOf(res, 0);
-      console.log(index);
+      console.log(index);               //El index me esta dando -1
 
 
       this.categoryService.delete(categoryId).then(() => {
         this.toaster.pop('success', 'Categoria Eliminada');
 
-        if (index > -1) {
+        if (index > -1) {                               //No esta funcionando
           this.categories.splice(index, 1);
         }
 

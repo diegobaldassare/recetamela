@@ -2,6 +2,7 @@ GET         /                                       controllers.HomeController.i
 
 POST        /api/media                              controllers.MediaController.create()
 GET         /api/media/:id                          controllers.MediaController.get(id: Long)
+DELETE      /api/media/:id/delete                   controllers.MediaController.delete(id: Long)
 
 POST        /api/recipe                             controllers.recipe.RecipeController.create()
 GET         /api/recipe/:id                         controllers.recipe.RecipeController.get(id: Long)

@@ -20,7 +20,6 @@ public class PremiumUser extends User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Recipe> recipes;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator")
     @JsonManagedReference
     private List<RecipeBook> recipeBooks;

@@ -50,7 +50,7 @@ public class RecipeService extends Service<Recipe> {
         for (final RecipeStep s : steps)
             if (s.getImage() != null && imagesToDelete.contains(s.getImage()))
                 imagesToDelete.remove(s.getImage());
-        for (final Media i : imagesToDelete) MediaService.getInstance().delete(i.getId());
+        for (final Media i : imagesToDelete) MediaService.getInstance().delete(i);
         r.setSteps(steps);
     }
 

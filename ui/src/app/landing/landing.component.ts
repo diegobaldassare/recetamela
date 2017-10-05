@@ -9,14 +9,15 @@ import {Recipe} from "../shared/models/recipe/recipe";
 })
 export class LandingComponent implements OnInit {
 
-  private recipes: Recipe[];
+  // private recipes: Recipe[] = [];
 
-  constructor(private recipeService: RecipeService) { }
+  constructor(
+    // private recipeService: RecipeService
+  ) { }
 
   ngOnInit() {
-    this.recipes = [];
-    for(var i = 1; i < 4; i++) {
-      this.recipeService.getRecipe(i).then(recipe => this.recipes[i] = recipe);
-    }
+    // for(let i = 1; i < 4; i++) {
+    //   this.recipeService.getRecipe(i).then(recipe => this.recipes[i] = recipe);
+    // }
   }
 }

@@ -33,6 +33,7 @@
             </p>
 
             <strong>Categorias:</strong>
+            <span *ngIf="recipe.categories.length == 0" class="label label-default">Sin categoria</span>
             <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
           </div>
           <div class="col-md-5">

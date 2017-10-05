@@ -54,15 +54,16 @@ public class RecipeCategoryController extends Controller {
 
 //    @Authenticate({AdminUser.class})
     public Result delete(Long id) {
-        return RecipeCategoryService.getInstance().get(id).map(recipeCategory ->
-                RecipeCategoryService.getInstance().getByName("sin categoria").map(defaultCategory ->
-                        deleteCategory(recipeCategory, defaultCategory.getId()))
-                .orElseGet(() -> {
-                    RecipeCategory defaultCategory = new RecipeCategory();
-                    defaultCategory.setName("sin categoria");
-                    defaultCategory.save();
-                    return deleteCategory(recipeCategory, defaultCategory.getId());
-        })).orElse(notFound());
+        return RecipeCategoryService.getInstance().get(id).map(recipeCategory -> deleteCategory(recipeCategory, 0)
+//                RecipeCategoryService.getInstance().getByName("sin categoria").map(defaultCategory ->
+//                        deleteCategory(recipeCategory, defaultCategory.getId()))
+//                .orElseGet(() -> {
+//                    RecipeCategory defaultCategory = new RecipeCategory();
+//                    defaultCategory.setName("sin categoria");
+//                    defaultCategory.save();
+//                    return deleteCategory(recipeCategory, defaultCategory.getId());
+//        })
+        ).orElse(notFound());
     }
 
     private Result deleteCategory(RecipeCategory recipeCategory, long defaultCategoryId) {
@@ -72,20 +73,20 @@ public class RecipeCategoryController extends Controller {
         delete.setParameter("id", recipeCategory.getId());
         Ebean.execute(delete);
 
-        Ebean.createSqlQuery("select id " +
-                "from recipe " +
-                "left join recipe_recipe_category " +
-                "on (id = recipe_id) " +
-                "where (recipe_id is null)")
-                .findList()
-                .forEach(recipe -> {
-                    SqlUpdate insert = Ebean.createSqlUpdate(
-                            "insert into recipe_recipe_category " +
-                                    "values (:recipe, :category)");
-                    insert.setParameter("recipe", recipe.getInteger("id"));
-                    insert.setParameter("category", defaultCategoryId);
-                    Ebean.execute(insert);
-                });
+//        Ebean.createSqlQuery("select id " +
+//                "from recipe " +
+//                "left join recipe_recipe_category " +
+//                "on (id = recipe_id) " +
+//                "where (recipe_id is null)")
+//                .findList()
+//                .forEach(recipe -> {
+//                    SqlUpdate insert = Ebean.createSqlUpdate(
+//                            "insert into recipe_recipe_category " +
+//                                    "values (:recipe, :category)");
+//                    insert.setParameter("recipe", recipe.getInteger("id"));
+//                    insert.setParameter("category", defaultCategoryId);
+//                    Ebean.execute(insert);
+//                });
 
         recipeCategory.delete();
         return ok();

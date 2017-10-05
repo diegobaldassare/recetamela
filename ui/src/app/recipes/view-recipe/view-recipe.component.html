@@ -33,6 +33,7 @@
             </p>
 
             <strong>Categorias:</strong>
+            <span *ngIf="recipe.categories.length == 0" class="label label-default">Sin categoria</span>
             <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
           </div>
           <div class="col-md-5">
@@ -86,7 +87,7 @@
             </span>
           </div>
           <div>
-            <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true"></star-rating-comp>
+            <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
           </div>
           <div>
             <span class="emoji">🍽</span>
@@ -136,4 +137,4 @@
 <div *ngIf="!fetched" class="app-spinner"></div>
 
 
-<app-add-to-recipe-book [recipe]="recipe"></app-add-to-recipe-book>
+<app-add-to-recipe-book *ngIf="viewer.type != 'FreeUser'" [recipe]="recipe"></app-add-to-recipe-book>

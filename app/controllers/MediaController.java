@@ -58,4 +58,12 @@ public class MediaController extends Controller {
         if (file.exists()) return ok(file);
         else return notFound();
     }
+
+    @Authenticate({PremiumUser.class})
+    public Result delete(long id) {
+        return MediaService.getInstance().get(id).map(media -> {
+            MediaService.getInstance().delete(media);
+            return ok();
+        }).orElse(notFound());
+    }
 }

@@ -5,5 +5,5 @@ export class RecipeBook {
   public id: string;
   public name: string;
   public recipes: Recipe[];
-  creator: User;
+  public creator: User;
 }

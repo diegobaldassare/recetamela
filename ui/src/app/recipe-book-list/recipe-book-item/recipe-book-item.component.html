@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-md-7 col-sm-7 col-xs-7 recipeBook">
-      <a
-        style="cursor: pointer;"
-        [routerLink]="[recipeBook.id]"
-        routerLinkActive="active"
-        class="">
-        <p>
-          {{recipeBook.name}}<span class="numRecipes"> - {{recipeBookRecipes}} Recetas</span>
-        </p>
-      </a>
+    <a
+      style="cursor: pointer;"
+      [routerLink]="[recipeBook.id]"
+      routerLinkActive="active"
+      class="">
+      <p>
+        {{recipeBook.name}}<span class="numRecipes"> - {{recipeBookRecipes}} Recetas</span>
+      </p>
+    </a>
   </div>
   <div class="col-md-4 col-sm-4 col-xs-4 eliminateButton">
     <button type="button" class="btn btn-danger btn-xs"
-            (click)="deleteRecepieBook()"
+            (click)="deleteRecipeBook()"
             title="Eliminar Recetario">
       <a href="javascript://">
         <span class="glyphicon glyphicon-remove"></span>
@@ -23,8 +23,15 @@
 
 <hr class="breakLine">
 
-<!--&lt;!&ndash;No esta funcionando&ndash;&gt;-->
-<!--&lt;!&ndash;data-toggle="modal" data-target="#deleteRecipeBookModal"&ndash;&gt;-->
+
+<!--No esta funcionando-->
+<!--<button type="button" class="btn btn-danger btn-xs"-->
+<!--data-toggle="modal" data-target="#deleteRecipeBookModal">-->
+<!--<a href="javascript://">-->
+<!--<span class="glyphicon glyphicon-remove"></span>-->
+<!--</a>-->
+<!--</button>-->
+
 <!--&lt;!&ndash; Modal &ndash;&gt;-->
 <!--<div id="deleteRecipeBookModal" class="modal fade" role="dialog">-->
 <!--<div class="modal-dialog">-->
@@ -41,7 +48,7 @@
 <!--<div class="col-md-4 col-xs-4 col-sm-4">-->
 <!--<button type="button" class="btn btn-danger"-->
 <!--data-dismiss="modal"-->
-<!--(click)="deleteRecepieBook()">-->
+<!--(click)="deleteRecipeBook()">-->
 <!--Eliminar-->
 <!--</button>-->
 <!--</div>-->

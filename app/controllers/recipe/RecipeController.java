@@ -1,9 +1,11 @@
 package controllers.recipe;
 
+import com.avaje.ebean.Ebean;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.Media;
 import models.recipe.RecipeSearchQuery;
+import models.recipe.RecipeStep;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.recipe.Recipe;
@@ -13,12 +15,16 @@ import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
 import services.MediaService;
+import services.recipe.RecipeBookService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RecipeController extends BaseController {
 
@@ -63,9 +69,25 @@ public class RecipeController extends BaseController {
     @Authenticate(PremiumUser.class)
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        final MediaService mediaService = MediaService.getInstance();
         return recipe.map(r -> {
-            for (final Media i : r.getImages()) MediaService.getInstance().delete(i.getId());
+            final List<Media> images = new ArrayList<>(r.getImages());
+            r.getSteps().stream()
+                    .map(RecipeStep::getImage)
+                    .filter(Objects::nonNull)
+                    .forEach(i -> mediaService.deleteFile(mediaService.getFile(i.getName())));
+
+            RecipeBookService.getInstance().getFinder().query()
+                    .where()
+                    .in("recipes", r)
+                    .findList()
+                    .forEach(recipeBook -> {
+                        recipeBook.getRecipes().remove(r);
+                        recipeBook.update();
+                    });
+
             r.delete();
+            images.forEach(mediaService::delete);
             return ok();
         }).orElseGet(Results::notFound);
     }

@@ -16,7 +16,7 @@ import {RecipeRating} from "../../shared/models/recipe/recipe-rating";
 })
 export class ViewRecipeComponent implements OnInit {
 
-  private recipe: Recipe;
+  recipe: Recipe;
   public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
 

@@ -1,46 +1,16 @@
-<div class="col-md-4">
-  <div class="recipe-card shadow card card-inverse">
-    <img class="card-img" src="assets/images/home/sopa.jpg" alt="Card image">
+<div class="container">
+  <div class="recipe-card shadow">
+      <img src="{{recipe.images[0].url}}" class="image card-img">
     <div class="card-img-overlay">
-
-        <h4 class="card-title">Sopa juliana de verduras</h4>
+      <div class="text">
+        <h3 class="card-title">{{recipe.name}}</h3>
         <p class="card-text">
-          Los ingredientes para esta receta de sopa de verduras son totalmente variables. En este caso usé los que tenía a mano. Haz lo mismo. Eso sí, el cilantro y perejil trata de usarlos a toda costa, dan mucho sabor.
-          <a href="#"> Seguir leyendo...</a>
+          {{recipe.description}}
+          <a href="recetas/{{recipe.id}}">Seguir leyendo...</a>
         </p>
+      </div>
     </div>
   </div>
 </div>
-
-
-<div class="col-md-4">
-  <div class="recipe-card shadow card card-inverse">
-    <img class="card-img" src="assets/images/home/pollo.jpg" alt="Card image">
-    <div class="card-img-overlay">
-
-      <h4 class="card-title">Pollo entomatado</h4>
-      <p class="card-text">
-        Incorpora las cebollas sofritas, la guindilla y los 3 tomates previamente pelados y cortados rústicamente, es decir, no importa si son julianas, cuadritos medianos o lo que quieras. Con un poco de
-        <a href="#"> Seguir leyendo...</a>
-      </p>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-4">
-  <div class="recipe-card shadow card card-inverse">
-    <img class="card-img" src="assets/images/home/galletas.jpg" alt="Card image">
-    <div class="card-img-overlay">
-
-      <h4 class="card-title">Galletas de mantequilla</h4>
-      <p class="card-text">
-        En esta receta incluyo entre los ingredientes una pizca de canela (como ½ cucharadita aproximadamente), me parece que le dan un toque de aroma y sabor interesantes sin llegar a convertirse en “galletas de canela”.
-        <a href="#"> Seguir leyendo...</a>
-      </p>
-    </div>
-  </div>
-</div>
-
 
 <app-not-logged></app-not-logged>

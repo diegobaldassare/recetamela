@@ -2,6 +2,9 @@ import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
+import {RecipeService} from "../shared/services/recipe.service";
+import {Recipe} from "../shared/models/recipe/recipe";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-profile',
@@ -10,8 +13,8 @@ import {UserService} from "../shared/services/user.service";
 })
 export class ProfileComponent implements OnInit {
 
-
   private user: User;
+  public recipes: Recipe[];
   private loggedUser: User;
   public fetched: boolean;
   followers: User[] = [];
@@ -19,28 +22,34 @@ export class ProfileComponent implements OnInit {
   subscribed: boolean;
 
 
-  constructor(
-    private route: ActivatedRoute,
-    private userService: UserService) {
-
-  }
-
   ngOnInit() {
     this.route.params
       .subscribe(
-        (params: Params) => {
-          const id = params['id'];
-          this.userService.getUser(id).then(user => {
-            this.user = user;
-            this.fetched = true;
-            this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
-            this.fetchFollowers();
-            this.fetchFollowing();
-          }, () => { this.fetched = true });
+      (params: Params) => {
+        const id = params['id'];
+        this.userService.getUser(id).then(user => {
+          this.user = user;
+          this.fetched = true;
+          this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
+          this.fetchFollowers();
+          this.fetchFollowing();
+        }, () => { this.fetched = true });
+      }
+    );
 
-        }
-      );
+    this.recipes = [];
+    const id = this.route.snapshot.params['id'];
+    this.recipeService.getUserRecipes(id).then(recipes =>
+      this.recipes = recipes
+    );
+    this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
+  }
 
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private recipeService: RecipeService,
+    private http: HttpClient,) {
   }
 
   subscribe() {

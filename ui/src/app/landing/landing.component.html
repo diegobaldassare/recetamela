@@ -57,7 +57,9 @@
       </div>
       <br>
       <div class="row">
-          <app-recipe-list></app-recipe-list>
+        <div *ngFor="let recipe of recipes">
+          <app-recipe-card [recipe]="recipe"></app-recipe-card>
+        </div>
       </div>
     </div>
   </div>

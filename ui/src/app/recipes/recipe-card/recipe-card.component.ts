@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MyAuthService} from "../../auth/my-auth-service";
+import {Recipe} from "../../shared/models/recipe/recipe";
 
 @Component({
   selector: 'app-recipe-card',
@@ -8,12 +8,10 @@ import {MyAuthService} from "../../auth/my-auth-service";
 })
 export class RecipeCardComponent implements OnInit {
 
-  @Input() recipe;
-
+  @Input() recipe: Recipe;
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }

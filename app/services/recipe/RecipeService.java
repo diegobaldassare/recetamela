@@ -40,6 +40,10 @@ public class RecipeService extends Service<Recipe> {
         if (input.getDuration() != 0) r.setDuration(input.getDuration());
     }
 
+    public List<Recipe> getUserRecipes(long userId) {
+        return getFinder().where().eq("author_id", userId).findList();
+    }
+
     private void setSteps(Recipe r, List<RecipeStep> steps) {
         final List<Media> imagesToDelete = new ArrayList<>();
         for (final RecipeStep s : r.getSteps()) {

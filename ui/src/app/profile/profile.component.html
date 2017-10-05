@@ -28,15 +28,15 @@
           <div *ngIf="user.type === 'PremiumUser'; else other">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
-              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> siguiendo</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> seguidores</a></li>
+              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> seguidores</a></li>
+              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
               <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
             </ul>
           </div>
           <ng-template #other>
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>4</b> siguiendo</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowers()"><b>5</b> seguidores</a></li>
+              <li class="active"><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
+              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> seguidores</a></li>
               <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
             </ul>
           </ng-template>
@@ -48,15 +48,15 @@
             </div>
             <div class="tab-pane fade" id="tab2">
               <ul style="list-style: none;">
-                <ng-container *ngFor="let n of followers">
-                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="" class="follower">{{n.name}} {{n.lastName}}</a></li>
+                <ng-container *ngFor="let n of following; let i = index;">
+                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="userClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
                 </ng-container>
               </ul>
             </div>
             <div class="tab-pane fade" id="tab3">
               <ul style="list-style: none;">
-                <ng-container *ngFor="let n of following">
-                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="" class="follower">{{n.name}} {{n.lastName}}</a></li>
+                <ng-container *ngFor="let n of followers; let i = index;">
+                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="userClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
                 </ng-container>
               </ul>
             </div>

@@ -1,10 +1,9 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
 import {RecipeService} from "../shared/services/recipe.service";
 import {Recipe} from "../shared/models/recipe/recipe";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +25,7 @@ export class ProfileComponent implements OnInit {
     this.route.params
       .subscribe(
       (params: Params) => {
+        console.log(99999);
         const id = params['id'];
         this.userService.getUser(id).then(user => {
           this.user = user;
@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private recipeService: RecipeService,
-    private http: HttpClient,) {
+    private router: Router) {
   }
 
   subscribe() {
@@ -80,6 +80,10 @@ export class ProfileComponent implements OnInit {
     this.userService.getFollowing(this.route.snapshot.params['id']).subscribe((res : User[]) => {
       this.following = res;
     });
+  }
+
+  userClickListener(i: number) {
+    this.router.navigate([`/usuario/${this.followers[i].id}/perfil`]);
   }
 
 

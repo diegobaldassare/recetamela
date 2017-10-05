@@ -1,15 +1,16 @@
-<a href="recetas/{{recipe.id}}">
 <div class="container">
-
-  <img src="{{recipe.images[0].url}}" class="image card-img">
-  <div class="overlay">
-    <div class="text">
-      <h3>{{recipe.name}}</h3>
-      <p>{{recipe.description}}</p>
+  <div class="recipe-card shadow">
+      <img src="{{recipe.images[0].url}}" class="image card-img">
+    <div class="card-img-overlay">
+      <div class="text">
+        <h3 class="card-title">{{recipe.name}}</h3>
+        <p class="card-text">
+          {{recipe.description}}
+          <a href="recetas/{{recipe.id}}">Seguir leyendo...</a>
+        </p>
+      </div>
     </div>
   </div>
-
 </div>
-</a>
 
 <app-not-logged></app-not-logged>

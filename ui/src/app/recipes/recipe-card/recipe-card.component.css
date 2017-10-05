@@ -1,67 +1,31 @@
-/** Fade in Overlay */
 .container {
-  flex-wrap: wrap;
-  position: relative;
-  width: 40%;
-  padding: 20px 20px;
+  padding: 20px;
 }
 
-.image {
-  display: block;
+.recipe-card {
+  text-align: center;
+  padding: 5px;
+  width: 500px;
+}
+
+.card-img {
   width: 100%;
-  height: auto;
-}
-
-.overlay {
-  position: absolute;
-  top: 25px;
-  bottom: 0;
-  left: 24px;
-  right: 0;
-  height: 84.7%;
-  width: 89%;
-  opacity: 0;
-  transition: .5s ease;
-  background-color: black;
+  height: 60%;
   border-radius: 5px;
 }
 
-.container:hover .overlay {
-  opacity: 0.7;
+.card-img-overlay{
+  height: 40%;
 }
 
-.text {
-  color: white;
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+.shadow {
+  background: #f5f5f5;
 }
 
-
-
-/*.recipe-card {*/
-  /*text-align: left;*/
-  /*padding: 10px;*/
-  /*height: 400px;*/
-/*}*/
-
-.card-img {
-  border-radius: 10px;
-  border: 5px solid #4abdac;
+.btn {
+  padding: 4px 13px;
 }
 
-/*.card-img-overlay{*/
-  /*height: 40%;*/
-/*}*/
-
-/*.shadow {*/
-  /*background: #f5f5f5;*/
-/*}*/
-
-
-/*.btn {*/
-  /*padding: 4px 13px;*/
-/*}*/
+.card-title {
+  text-align: center;
+}

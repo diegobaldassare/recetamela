@@ -44,9 +44,7 @@
         <div class="panel-body">
           <div class="tab-content">
             <div class="tab-pane fade in active" id="tab1">
-              <div *ngFor="let recipe of recipes">
-                <app-recipe-card [recipe]="recipe"></app-recipe-card>
-              </div>
+              <app-recipe-list [recipes]="recipes"></app-recipe-list>
             </div>
             <div class="tab-pane fade" id="tab2">
               <ul style="list-style: none;">

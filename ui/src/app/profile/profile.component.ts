@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit {
           this.fetchFollowers();
           this.fetchFollowing();
         }, () => { this.fetched = true });
-
       }
     );
 
@@ -50,10 +49,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private recipeService: RecipeService,
-    private http: HttpClient,
-  ) {
-  }
-
+    private http: HttpClient,) {
   }
 
   subscribe() {

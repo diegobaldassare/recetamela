@@ -28,8 +28,8 @@
           <div *ngIf="user.type === 'PremiumUser'; else other">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
-              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> seguidores</a></li>
+              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> siguiendo</a></li>
+              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> seguidores</a></li>
               <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
             </ul>
           </div>

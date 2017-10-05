@@ -63,6 +63,7 @@ li {
 .account-hover {
   padding: 8px;
   color: #7b8a8b;
+  cursor: pointer;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box; /* Cualquier padding que agreguemos no va a aumentar su tamaño. */
   min-width: 100px;

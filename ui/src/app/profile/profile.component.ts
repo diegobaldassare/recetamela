@@ -5,6 +5,7 @@ import {UserService} from "../shared/services/user.service";
 import {RecipeService} from "../shared/services/recipe.service";
 import {Recipe} from "../shared/models/recipe/recipe";
 import {HttpClient} from "@angular/common/http";
+import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 
 @Component({
   selector: 'app-profile',
@@ -14,11 +15,12 @@ import {HttpClient} from "@angular/common/http";
 export class ProfileComponent implements OnInit {
 
   private user: User;
-  public recipes: Recipe[];
   private loggedUser: User;
   public fetched: boolean;
+  recipes: Recipe[] = [];
   followers: User[] = [];
   following: User[] = [];
+  categories: RecipeCategory[] = [];
   subscribed: boolean;
 
 
@@ -33,11 +35,11 @@ export class ProfileComponent implements OnInit {
           this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
           this.fetchFollowers();
           this.fetchFollowing();
+          this.fetchCategories();
         }, () => { this.fetched = true });
       }
     );
 
-    this.recipes = [];
     const id = this.route.snapshot.params['id'];
     this.recipeService.getUserRecipes(id).then(recipes =>
       this.recipes = recipes
@@ -83,4 +85,9 @@ export class ProfileComponent implements OnInit {
   }
 
 
+  fetchCategories() {
+    this.userService.getCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
+      this.categories = res;
+    });
+  }
 }

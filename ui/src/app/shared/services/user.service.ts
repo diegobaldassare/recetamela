@@ -10,6 +10,7 @@ import {ToasterService} from "angular2-toaster";
 import {CheckExpirationDateResponse} from "../models/ced-response";
 import {Observable} from "rxjs/Observable";
 import {Notification} from "../models/notification";
+import {RecipeCategory} from "../models/recipe/recipe-category";
 
 @Injectable()
 export class UserService {
@@ -64,6 +65,10 @@ export class UserService {
 
   public getFollowing(id: string) : Observable<User[]> {
     return this.http.get<User[]>(`/api/user/following/${id}`);
+  }
+
+  public getCategories(id: string) : Observable<RecipeCategory[]> {
+    return this.http.get<RecipeCategory[]>(`/api/user/categories/${id}`);
   }
 
   public persistNotification(notification: Notification) : void {

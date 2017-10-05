@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.notification.NotificationType;
+import models.recipe.RecipeCategory;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
@@ -21,6 +22,7 @@ import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -82,5 +84,9 @@ public class UserController extends BaseController {
         if (newFreeUser.getAuthToken() != null) oldFreeUser.setAuthToken(newFreeUser.getAuthToken());
         oldFreeUser.setFacebookId(newFreeUser.getFacebookId());
         return function.apply(oldFreeUser);
+    }
+
+    public Result getRecipeCategories(Long id) {
+        return UserService.getInstance().get(id).map(user -> ok(Json.toJson(user.getFollowedCategories()))).orElseGet(Results::notFound);
     }
 }

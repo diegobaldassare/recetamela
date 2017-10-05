@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.notification.NotificationType;
+import models.recipe.RecipeCategory;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
@@ -13,6 +14,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.recipe.RecipeCategoryService;
 import services.user.FreeUserService;
 import services.user.UserService;
 import util.NotificationManager;
@@ -21,6 +23,7 @@ import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -82,5 +85,33 @@ public class UserController extends BaseController {
         if (newFreeUser.getAuthToken() != null) oldFreeUser.setAuthToken(newFreeUser.getAuthToken());
         oldFreeUser.setFacebookId(newFreeUser.getFacebookId());
         return function.apply(oldFreeUser);
+    }
+
+    public Result getRecipeCategories(Long id) {
+        return UserService.getInstance().get(id).map(user -> ok(Json.toJson(user.getFollowedCategories()))).orElseGet(Results::notFound);
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result subscribeToCategory(long id) {
+        User me = getRequester();
+        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+
+        if (!category.isPresent()) return notFound();
+        me.getFollowedCategories().add(category.get());
+        me.save();
+
+        return ok(Json.toJson(me));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result unSubscribeToCategory(long id) {
+        User me = getRequester();
+        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+
+        if (!category.isPresent()) return notFound();
+        me.getFollowedCategories().remove(category.get());
+        me.save();
+
+        return ok(Json.toJson(me));
     }
 }

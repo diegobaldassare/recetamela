@@ -13,7 +13,6 @@ nav {
 
 .dropdown-menu {
   max-height: 250px;
-  min-width: 240px;
   font-size: 13px;
   padding: 0;
   border: 0 solid;
@@ -58,9 +57,22 @@ li {
   padding: 8px;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box; /* Cualquier padding que agreguemos no va a aumentar su tamaño. */
+  min-width: 240px;
+}
+
+.account-hover {
+  padding: 8px;
+  color: #7b8a8b;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box; /* Cualquier padding que agreguemos no va a aumentar su tamaño. */
+  min-width: 100px;
 }
 
 .notification-hover:hover {
+  background: #f0f0f0;
+}
+
+.account-hover:hover {
   background: #f0f0f0;
 }
 

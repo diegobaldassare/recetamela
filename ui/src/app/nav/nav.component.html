@@ -56,17 +56,12 @@
               <img src={{user?.profilePic}} alt="Pic" height="25" width="25" class="header-pic">
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li (click)="myProfile()"><a href="javascript://">Mi Perfil</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Opciones</a></li>
-              <li class="divider"></li>
-              <li *ngIf="!isPremium" (click)="premium()"><a href="javascript://">Hacete Premium</a></li>
-              <li *ngIf="!isPremium" class="divider"></li>
-              <li (click)="crearReceta()"><a href="javascript://">Crear Receta</a></li>
-              <li class="divider"></li>
-              <li *ngIf="isPremium" (click)="addToRecipeBook()"><a href="javascript://">Recetarios</a></li>
-              <li *ngIf="isPremium" class="divider"></li>
-              <li><a href="javascript://" (click)="navDropdownLogoout()">Cerrar Sesión</a></li>
+              <li (click)="myProfile()" class="account-hover">Mi Perfil</li>
+              <li class="account-hover">Opciones</li>
+              <li *ngIf="!isPremium" (click)="premium()" class="account-hover">Hacete Premium</li>
+              <li (click)="crearReceta()" class="account-hover">Crear Receta</li>
+              <li *ngIf="isPremium" (click)="addToRecipeBook()" class="account-hover">Recetarios</li>
+              <li (click)="navDropdownLogoout()" class="account-hover">Cerrar Sesión</li>
             </ul>
           </li>
         </ng-template>

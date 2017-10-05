@@ -6,5 +6,6 @@ package models.notification;
 public enum NotificationType {
     SUBSCRIPTION,
     CATEGORY,
+    RATING,
     OTHER
 }

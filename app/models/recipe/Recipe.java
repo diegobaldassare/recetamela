@@ -28,7 +28,7 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private int difficulty;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = REMOVE)
     private List<Media> images;
 
     @ManyToOne(optional = false)

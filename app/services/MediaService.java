@@ -5,6 +5,7 @@ import models.Media;
 import play.mvc.Http.MultipartFormData.FilePart;
 import server.Constant;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -53,10 +54,12 @@ public class MediaService extends Service<Media> {
         return new File(Constant.STATIC_PATH + name);
     }
 
-    public void delete(long id) {
-        get(id).ifPresent(media -> {
-            getFile(media.getName()).delete();
-            getFinder().deleteById(id);
-        });
+    public void deleteFile(File file) {
+        file.delete();
+    }
+
+    public void delete(Media media) {
+        deleteFile(getFile(media.getName()));
+        media.delete();
     }
 }

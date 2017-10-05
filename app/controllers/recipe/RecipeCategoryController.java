@@ -1,11 +1,8 @@
 package controllers.recipe;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlUpdate;
 import com.google.inject.Inject;
-import controllers.authentication.Authenticate;
-import models.recipe.RecipeBook;
-import models.user.AdminUser;
-import models.user.FreeUser;
-import models.user.PremiumUser;
 import models.recipe.RecipeCategory;
 import play.data.Form;
 import play.data.FormFactory;
@@ -57,9 +54,40 @@ public class RecipeCategoryController extends Controller {
 
 //    @Authenticate({AdminUser.class})
     public Result delete(Long id) {
-        return RecipeCategoryService.getInstance().get(id).map(recipeCategory -> {
-            recipeCategory.delete();
-            return ok();
-        }).orElse(notFound());
+        return RecipeCategoryService.getInstance().get(id).map(recipeCategory ->
+                RecipeCategoryService.getInstance().getByName("sin categoria").map(defaultCategory ->
+                        deleteCategory(recipeCategory, defaultCategory.getId()))
+                .orElseGet(() -> {
+                    RecipeCategory defaultCategory = new RecipeCategory();
+                    defaultCategory.setName("sin categoria");
+                    defaultCategory.save();
+                    return deleteCategory(recipeCategory, defaultCategory.getId());
+        })).orElse(notFound());
+    }
+
+    private Result deleteCategory(RecipeCategory recipeCategory, long defaultCategoryId) {
+        SqlUpdate delete = Ebean.createSqlUpdate(
+                "delete from recipe_recipe_category " +
+                        "where recipe_category_id = :id");
+        delete.setParameter("id", recipeCategory.getId());
+        Ebean.execute(delete);
+
+        Ebean.createSqlQuery("select id " +
+                "from recipe " +
+                "left join recipe_recipe_category " +
+                "on (id = recipe_id) " +
+                "where (recipe_id is null)")
+                .findList()
+                .forEach(recipe -> {
+                    SqlUpdate insert = Ebean.createSqlUpdate(
+                            "insert into recipe_recipe_category " +
+                                    "values (:recipe, :category)");
+                    insert.setParameter("recipe", recipe.getInteger("id"));
+                    insert.setParameter("category", defaultCategoryId);
+                    Ebean.execute(insert);
+                });
+
+        recipeCategory.delete();
+        return ok();
     }
 }

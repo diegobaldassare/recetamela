@@ -95,10 +95,7 @@ export class CategoriesComponent implements OnInit {
 
     this.categoryService.get(categoryId).then((res) => {
 
-      console.log(this.categories);
-      console.log(res)
       var index: number = this.categories.indexOf(res, 0);
-      console.log(index);
 
 
       this.categoryService.delete(categoryId).then(() => {

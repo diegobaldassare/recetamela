@@ -41,6 +41,8 @@ GET         /api/user/followers/:id                 controllers.user.Subscriptio
 GET         /api/user/following/:id                 controllers.user.SubscriptionController.getFollowing(id: Long)
 
 GET         /api/user/categories/:id                controllers.user.UserController.getRecipeCategories(id: Long)
+POST        /api/user/categories/subscribe/:id      controllers.user.UserController.subscribeToCategory(id: Long)
+POST        /api/user/categories/unSubscribe/:id    controllers.user.UserController.unSubscribeToCategory(id: Long)
 
 POST        /api/user                               controllers.user.UserController.createUser()
 PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)

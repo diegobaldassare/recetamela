@@ -14,6 +14,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.recipe.RecipeCategoryService;
 import services.user.FreeUserService;
 import services.user.UserService;
 import util.NotificationManager;
@@ -88,5 +89,29 @@ public class UserController extends BaseController {
 
     public Result getRecipeCategories(Long id) {
         return UserService.getInstance().get(id).map(user -> ok(Json.toJson(user.getFollowedCategories()))).orElseGet(Results::notFound);
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result subscribeToCategory(long id) {
+        User me = getRequester();
+        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+
+        if (!category.isPresent()) return notFound();
+        me.getFollowedCategories().add(category.get());
+        me.save();
+
+        return ok(Json.toJson(me));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result unSubscribeToCategory(long id) {
+        User me = getRequester();
+        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+
+        if (!category.isPresent()) return notFound();
+        me.getFollowedCategories().remove(category.get());
+        me.save();
+
+        return ok(Json.toJson(me));
     }
 }

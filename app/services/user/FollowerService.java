@@ -27,5 +27,12 @@ public class FollowerService extends Service<Followers> {
     public List<Followers> getFollowing(Long id) {
         return getFinder().fetch("following").where().eq("follower_id", id).findList();
     }
+
+    public Optional<Followers> getByIds(Long followerId, Long followingId) {
+        return Optional.ofNullable(getFinder().where()
+                .eq("follower_id", followerId)
+                .eq("following_id", followingId)
+                .findUnique());
+    }
 }
 

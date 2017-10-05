@@ -6,15 +6,18 @@
       </div>
       <div class="container head">
         <p>
-          <span class="name">{{user.name}} {{user.lastName}} </span>
-          <span *ngIf="user.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
-          <span *ngIf="user.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
-          <span *ngIf="user.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
-          <button *ngIf="user.id === loggedUser.id"  class="btn subscribe">Editar</button>
-          <button *ngIf="user.id !== loggedUser.id"  class="btn subscribe" (click)="sub()">Suscribir</button>
+          <span class="name">{{user?.name}} {{user?.lastName}} </span>
+          <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
+          <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
+          <span *ngIf="user?.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
+          <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe">Editar</button>
+          <button *ngIf="!subscribed && this.user.id !== this.loggedUser.id; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
+          <ng-template #subscripto>
+            <button *ngIf="subscribed;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
+          </ng-template>
         </p>
         <p class="mail">
-          <span class="glyphicon glyphicon-envelope one"></span><a href="mailto:{{user.email}}">{{user.email}}</a>
+          <span class="glyphicon glyphicon-envelope one"></span><a href="mailto:{{user?.email}}">{{user?.email}}</a>
         </p>
       </div>
     </div>
@@ -24,9 +27,9 @@
         <div class="panel-heading">
           <div *ngIf="user.type === 'PremiumUser'; else other">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes.length}}</b> recetas</a></li>
-              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>4</b> siguiendo</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowers()"><b>5</b> seguidores</a></li>
+              <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
+              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
+              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> seguidores</a></li>
               <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
             </ul>
           </div>

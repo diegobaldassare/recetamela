@@ -11,9 +11,9 @@
           <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
           <span *ngIf="user?.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
           <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe">Editar</button>
-          <button *ngIf="!subscribed; else subscripto"  class="btn subscribe" (click)="subscribe()">suscribir</button>
+          <button *ngIf="!subscribed && this.user.id !== this.loggedUser.id; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
           <ng-template #subscripto>
-            <button class="btn subscribe" (click)="unSubscribe()">desuscribir</button>
+            <button *ngIf="subscribed;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
           </ng-template>
         </p>
         <p class="mail">

@@ -12,9 +12,10 @@ nav {
 }
 
 .dropdown-menu {
-  max-height: 206px;
+  max-height: 250px;
   min-width: 240px;
   font-size: 13px;
+  padding: 0;
   border: 0 solid;
   overflow-x: hidden;
   overflow-y: auto;
@@ -45,11 +46,18 @@ nav {
 
 .header-pic {
   border-radius: 3px;
+  margin-right: 10px;
   margin-left: 2px;
 }
 
 li {
   display: flex;
+}
+
+.notification-hover {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box; /* Cualquier padding que agreguemos no va a aumentar su tamaño. */
 }
 
 .notification-hover:hover {
@@ -58,6 +66,21 @@ li {
 
 .notification-flex {
   display: flex;
+}
+
+.right > div > h6{
+  font-size: 12px;
+  color: #999 !important;
+}
+
+.close-button {
+  color: #999;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #000000;
 }
 
 

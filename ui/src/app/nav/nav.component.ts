@@ -7,6 +7,7 @@ import {EventSourcePolyfill} from 'ng-event-source';
 import {Router} from '@angular/router';
 import {MessageEvent} from "../shared/models/message-event";
 import {Notification} from "../shared/models/notification";
+import {UserService} from "../shared/services/user.service";
 
 @Component({
   selector: 'app-nav',
@@ -25,9 +26,11 @@ export class NavComponent implements OnInit, OnDestroy {
   //Both SharedService and ChangeDetectorRef are necessary to listen to changes on logged in variable to show different nav.
   constructor(private auth: MyAuthService,
               private sharedService: SharedService,
+              private userService: UserService,
               private cdRef: ChangeDetectorRef,
               private router: Router) {
     this.isLoggedIn = !isNull(localStorage.getItem("X-TOKEN"));
+    this.notificationList = this.userService.getNotifications().reverse();
     this.sharedService.notifyObservable$.subscribe((res) => {
       if (res.hasOwnProperty('loggedIn')) {
         this.isLoggedIn = res.loggedIn;
@@ -93,6 +96,7 @@ export class NavComponent implements OnInit, OnDestroy {
     this.eventSource.addEventListener('SUBSCRIPTION',(e: MessageEvent) => {
       let notification : Notification = JSON.parse(e.data) as Notification;
       this.notificationList.push(notification);
+      this.userService.persistNotification(notification);
     }, false);
   }
 
@@ -101,7 +105,11 @@ export class NavComponent implements OnInit, OnDestroy {
     // To do: Manage each different notifcation type. For example: If a new recipe is created, redirect to recipe.
     const senderId = this.notificationList[i].sender;
     this.router.navigate([`/usuario/${senderId}/perfil`]);
-    this.notificationList.splice(i, 1);
+  }
+
+  deleteNotification(i: number) :void {
+    this.notificationList.splice((this.notificationList.length -1 - i), 1);
+    this.userService.deleteNotification(i);
   }
 
   unsubscribeFromServerEvents() {

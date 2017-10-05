@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit {
   fetchFollowers() {
     this.userService.getFollowers(this.route.snapshot.params['id']).subscribe((res : User[]) => {
       this.followers = res;
-      this.subscribed = this.user.id !== this.loggedUser.id && (this.followers.map(u => u.id).indexOf(this.loggedUser.id, 0) > -1);
+      this.subscribed = (this.followers.map(u => u.id).indexOf(this.loggedUser.id, 0) > -1);
     });
   }
 

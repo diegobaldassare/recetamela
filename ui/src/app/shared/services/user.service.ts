@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {ToasterService} from "angular2-toaster";
 import {CheckExpirationDateResponse} from "../models/ced-response";
 import {Observable} from "rxjs/Observable";
+import {Notification} from "../models/notification";
 
 @Injectable()
 export class UserService {
@@ -63,5 +64,28 @@ export class UserService {
 
   public getFollowing(id: string) : Observable<User[]> {
     return this.http.get<User[]>(`/api/user/following/${id}`);
+  }
+
+  public persistNotification(notification: Notification) : void {
+    let notifications: Notification[] = JSON.parse(localStorage.getItem("notifications")) as Notification[];
+    if (notifications == null) {
+      notifications = [];
+    }
+    notifications.push(notification);
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+  }
+
+  public getNotifications() : Notification[] {
+    let notifications: Notification[] = JSON.parse(localStorage.getItem("notifications")) as Notification[];
+    if (notifications == null) {
+      notifications = [];
+    }
+    return notifications;
+  }
+
+  public deleteNotification(i: number) : void {
+    let notifications: Notification[] = this.getNotifications();
+    notifications.splice(notifications.length -1 -i, 1);
+    localStorage.setItem("notifications", JSON.stringify(notifications));
   }
 }

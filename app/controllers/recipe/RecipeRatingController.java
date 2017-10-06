@@ -47,7 +47,6 @@ public class RecipeRatingController extends BaseController {
     public Result getRatingFromUser(long recipeId) {
         final User user = getRequester();
         return RecipeService.getInstance().get(recipeId).map(recipe -> {
-            if (recipe.getAuthor().getId().equals(getRequester().getId())) return unauthorized();
             RecipeRating recipeRating = RecipeRatingService.getInstance().getRatingByUser(user.getId(), recipe);
             return ok(Json.toJson(recipeRating));
         }).orElse(notFound());

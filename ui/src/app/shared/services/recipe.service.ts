@@ -46,6 +46,10 @@ export class RecipeService extends ApiService {
     return this.http.post(`${this.URL}/${id}/rate`, rating).toPromise();
   }
 
+  getRatingFromUser(recipeId: string) : Promise<any> {
+    return this.http.get(`${this.URL}/rating/${recipeId}`).toPromise();
+  }
+
   search(q: RecipeSearchQuery): Promise<Recipe[]> {
     const params = new HttpParams()
       .set("name", q.name)

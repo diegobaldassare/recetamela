@@ -55,4 +55,11 @@ public class RecipeRatingService extends Service<RecipeRating>{
         if(recipe.getRating() == 0) recipe.setRating(rating);
         recipe.setRating((recipe.getRating()*recipe.getRatings().size() + rating) / (recipe.getRatings().size()+1));
     }
+
+    public RecipeRating getRatingByUser(long userId, Recipe recipe) {
+        for (RecipeRating r: recipe.getRatings()) {
+            if(r.getUser().getId() == userId) return r;
+        }
+        return new RecipeRating();
+    }
 }

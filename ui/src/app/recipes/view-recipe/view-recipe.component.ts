@@ -19,6 +19,7 @@ export class ViewRecipeComponent implements OnInit {
   recipe: Recipe;
   public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
+  private recipeRating: RecipeRating;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,10 @@ export class ViewRecipeComponent implements OnInit {
       this.recipe = recipe;
       this.fetched = true;
     }, () => { this.fetched = true });
+    this.recipeService.getRatingFromUser(id).then( recipeRating => {
+      this.recipeRating = recipeRating;
+    }
+  )
   }
 
   public get editButton(): boolean {
@@ -71,12 +76,20 @@ export class ViewRecipeComponent implements OnInit {
     )
   }
 
-  private getViewerRating(): number {
-      for(let i = 0; i < this.recipe.ratings.length; i++) {
-        if(this.recipe.ratings[i].user.id == this.viewer.id) {
-          return this.recipe.ratings[i].rating;
-        }
-      }
-      return 0;
-  }
+  // private getViewerRating(): number {
+  //     for(let i = 0; i < this.recipe.ratings.length; i++) {
+  //       if(this.recipe.ratings[i].user.id == this.viewer.id) {
+  //         return this.recipe.ratings[i].rating;
+  //       }
+  //     }
+  //     return 0;
+  // }
+
+  // private getRatingFromUser(): number {
+  //   let rating: RecipeRating = new RecipeRating();
+  //   this.recipeService.getRatingFromUser(this.recipe.id).then(recipeRating =>
+  //       rating = recipeRating
+  //     );
+  //   return rating.rating;
+  // }
 }

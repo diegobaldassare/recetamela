@@ -24,7 +24,7 @@
             </div>
 
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
-              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="getViewerRating()" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
+              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
             </div>
 
             <p>

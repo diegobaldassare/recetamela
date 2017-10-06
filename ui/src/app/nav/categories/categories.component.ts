@@ -91,7 +91,7 @@ export class CategoriesComponent implements OnInit {
       this.categoryService.delete(categoryId).then(() => {
         this.toaster.pop('success', 'Categoria Eliminada');
 
-        if (index > -1) {                               //No esta funcionando
+        if (index > -1) {
           this.categories.splice(index, 1);
         }
 

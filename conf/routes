@@ -24,6 +24,7 @@ DELETE      /api/recipebook/:id/delete              controllers.recipe.RecipeBoo
 POST        /api/recipe/category/create             controllers.recipe.RecipeCategoryController.create()
 GET         /api/recipe/category/:id                controllers.recipe.RecipeCategoryController.get(id: Long)
 GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll
+GET         /api/recipe/categories/:q               controllers.recipe.RecipeCategoryController.search(q: String)
 PUT         /api/recipe/category/:id/update         controllers.recipe.RecipeCategoryController.update(id: Long)
 DELETE      /api/recipe/category/:id/delete         controllers.recipe.RecipeCategoryController.delete(id: Long)
 

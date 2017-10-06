@@ -148,3 +148,28 @@
   background: #fc4a1a;
   color:white;
 }
+
+
+/** Search Categories */
+.searchBox {
+  bottom: 200px;
+  margin-left: 4%;
+  z-index: 10;
+}
+
+.stylish-input-group .input-group-addon{
+  background: white;
+}
+.stylish-input-group .form-control{
+  border-right:0;
+  box-shadow:0 0 0;
+  border-color:#ccc;
+}
+.stylish-input-group button{
+  border:0;
+  background:transparent;
+}
+
+.row {
+  padding: 20px;
+}

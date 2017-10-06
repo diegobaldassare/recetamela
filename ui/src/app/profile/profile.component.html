@@ -55,12 +55,44 @@
               </ul>
             </div>
             <div class="tab-pane fade" id="tab4">
-              <div class="categories">
-                <ul>
-                  <ng-container *ngFor="let n of categories">
-                    <li>{{n.name}}</li>
-                  </ng-container>
-                </ul>
+              <div class="row">
+                <div class="searchBox">
+                  <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Buscar categorías" [(ngModel)]="categoryQuery" (keyup.enter)="search()">
+                    <span class="input-group-addon">
+                      <button type="submit" (click)="search()">🔎</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="categories">
+                  <ul>
+                    <ng-container *ngFor="let c of resultCategories">
+                      <li>
+                        <label>
+                          <span class="label-button" (click)="subscribeToCategory(c.id)">x </span>
+                          {{c.name}}
+                        </label>
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
+              </div>
+              <div class="row">
+                <h3 style="margin-left: 4.5%">Mis categorías</h3>
+                <div class="categories">
+                  <ul>
+                    <ng-container *ngFor="let c of categories">
+                      <li>
+                        <label>
+                          <span class="label-button" (click)="unSubscribeToCategory(c.id)">x </span>
+                          {{c.name}}
+                        </label>
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import com.avaje.ebean.Model.Finder;
 import models.recipe.RecipeCategory;
 import services.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeCategoryService extends Service<RecipeCategory> {
@@ -27,5 +28,9 @@ public class RecipeCategoryService extends Service<RecipeCategory> {
      */
     public Optional<RecipeCategory> getByName(String name){
         return Optional.ofNullable(getFinder().where().eq("name", name).findUnique());
+    }
+
+    public List<RecipeCategory> search(String query) {
+        return getFinder().where().like("name", query + "%").findList();
     }
 }

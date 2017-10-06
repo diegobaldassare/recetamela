@@ -31,4 +31,16 @@ export class RecipeCategoryService extends ApiService {
   delete(categoryId: string) : Promise<any> {
     return this.http.delete<any>(`${this.URL}/category/${categoryId}/delete`).toPromise();
   }
+
+  searchCategories(query: string) : Promise<RecipeCategory[]> {
+    return this.http.get<RecipeCategory[]>(`${this.URL}/categories/${query}`).toPromise();
+  }
+
+  subscribeToCategory(id: string) {
+    return this.http.post<RecipeCategory>(`/api/user/categories/subscribe/${id}`, "").toPromise();
+  }
+
+  unSubscribeToCategory(id: string) {
+    return this.http.post<RecipeCategory>(`/api/user/categories/unSubscribe/${id}`, "").toPromise();
+  }
 }

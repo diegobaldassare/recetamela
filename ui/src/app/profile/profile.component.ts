@@ -5,6 +5,7 @@ import {UserService} from "../shared/services/user.service";
 import {RecipeService} from "../shared/services/recipe.service";
 import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
+import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 
 
 @Component({
@@ -22,7 +23,17 @@ export class ProfileComponent implements OnInit {
   following: User[] = [];
   categories: RecipeCategory[] = [];
   subscribed: boolean;
+  resultCategories: RecipeCategory[] = [];
+  private categoryQuery: string = "";
 
+
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private recipeService: RecipeService,
+    private recipeCategoryService: RecipeCategoryService,
+    private router: Router) {
+  }
 
   ngOnInit() {
     this.route.params
@@ -45,13 +56,6 @@ export class ProfileComponent implements OnInit {
       this.recipes = recipes
     );
     this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
-  }
-
-  constructor(
-    private route: ActivatedRoute,
-    private userService: UserService,
-    private recipeService: RecipeService,
-    private router: Router) {
   }
 
   private subscribe() {
@@ -96,5 +100,22 @@ export class ProfileComponent implements OnInit {
     this.userService.getCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
       this.categories = res;
     });
+  }
+
+  private search() {
+    if (this.categoryQuery.length == 0) return;
+    this.recipeCategoryService.searchCategories(this.categoryQuery).then((res : RecipeCategory[]) => {
+      this.resultCategories = res;
+    });
+  }
+
+  private subscribeToCategory(id: string) {
+    console.log("subscribed");
+    this.recipeCategoryService.subscribeToCategory(id).then();
+  }
+
+  private unSubscribeToCategory(id: string) {
+    console.log("unSubscribed");
+    this.recipeCategoryService.unSubscribeToCategory(id).then();
   }
 }

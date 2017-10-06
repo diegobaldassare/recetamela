@@ -3,7 +3,10 @@ package controllers.recipe;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlUpdate;
 import com.google.inject.Inject;
+import controllers.authentication.Authenticate;
 import models.recipe.RecipeCategory;
+import models.user.FreeUser;
+import models.user.PremiumUser;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -12,6 +15,7 @@ import play.mvc.Result;
 import services.recipe.RecipeCategoryService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RecipeCategoryController extends Controller {
 
@@ -22,7 +26,7 @@ public class RecipeCategoryController extends Controller {
         recipeCategoryForm =  formFactory.form(RecipeCategory.class);
     }
 
-//    @Authenticate({AdminUser.class})
+    //    @Authenticate({AdminUser.class})
     public Result create() {
         final RecipeCategory category = recipeCategoryForm.bindFromRequest().get();
         category.save();
@@ -90,5 +94,11 @@ public class RecipeCategoryController extends Controller {
 
         recipeCategory.delete();
         return ok();
+    }
+
+    @Authenticate({ FreeUser.class, PremiumUser.class })
+    public Result search(String query) {
+        final List<RecipeCategory> results = RecipeCategoryService.getInstance().search(query);
+        return ok(Json.toJson(results));
     }
 }

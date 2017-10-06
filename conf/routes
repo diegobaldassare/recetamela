@@ -12,6 +12,7 @@ DELETE      /api/recipe/:id                         controllers.recipe.RecipeCon
 GET         /api/user/:id/recipes                   controllers.recipe.RecipeController.getUserRecipes(id: Long)
 
 POST        /api/recipe/:id/rate                    controllers.recipe.RecipeRatingController.create(id: Long)
+GET         /api/recipe/rating/:id                  controllers.recipe.RecipeRatingController.getRatingFromUser(id: Long)
 
 GET         /api/recipes                            controllers.recipe.RecipeController.search(name: String ?= "", categories: String ?= "", ingredients: String ?= "", difficulty: String ?= "0", author: String ?= "")
 POST        /api/recipebook/create                  controllers.recipe.RecipeBookController.createRecipeBook()

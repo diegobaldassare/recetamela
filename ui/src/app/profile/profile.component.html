@@ -25,41 +25,32 @@
     <div class="container">
       <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
-          <div *ngIf="user.type === 'PremiumUser'; else other">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
-              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> seguidores</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
-              <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
-              <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> siguiendo</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> seguidores</a></li>
-              <li><a href="#tab4" data-toggle="tab" (click)="fetchCategories()"><b>{{this.categories?.length}}</b> categorías</a></li>
-            </ul>
-          </div>
-          <ng-template #other>
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
-              <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowers()"><b>{{this.followers?.length}}</b> seguidores</a></li>
-              <li><a href="#tab4" data-toggle="tab"><b>6</b> categorías</a></li>
-            </ul>
-          </ng-template>
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
+            <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
+            <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.followers?.length}}</b> seguidores</a></li>
+            <li><a href="#tab4" data-toggle="tab" (click)="fetchCategories()"><b>{{this.categories?.length}}</b> categorías</a></li>
+          </ul>
         </div>
         <div class="panel-body">
           <div class="tab-content">
             <div class="tab-pane fade in active" id="tab1">
               <app-recipe-list [recipes]="recipes"></app-recipe-list>
+              <ng-container *ngIf="recipes.length == 0">No hay recetas que mostrar</ng-container>
             </div>
             <div class="tab-pane fade" id="tab2">
               <ul style="list-style: none;">
+                <ng-container *ngIf="following?.length == 0">El usuario no sigue a otras personas. </ng-container>
                 <ng-container *ngFor="let n of following; let i = index;">
-                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="userClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
+                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followingClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
                 </ng-container>
               </ul>
             </div>
             <div class="tab-pane fade" id="tab3">
               <ul style="list-style: none;">
+                <ng-container *ngIf="followers?.length == 0">El usuario no tiene seguidores. <a href="javascript://" *ngIf="user?.id != loggedUser?.id" (click)="subscribe()">Seguilo!</a></ng-container>
                 <ng-container *ngFor="let n of followers; let i = index;">
-                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="userClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
+                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followerClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
                 </ng-container>
               </ul>
             </div>

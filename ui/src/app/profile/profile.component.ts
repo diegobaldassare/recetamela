@@ -54,14 +54,14 @@ export class ProfileComponent implements OnInit {
     private router: Router) {
   }
 
-  subscribe() {
+  private subscribe() {
     this.userService.followUser(this.user.id).subscribe((res : User) => {
       this.followers.push(res);
       this.subscribed = true;
     });
   }
 
-  unSubscribe() {
+  private unSubscribe() {
     this.userService.unFollowUser(this.user.id).subscribe((res : User) => {
       const index = this.followers.map(u => u.id).indexOf(res.id, 0);
       if (index > -1) {
@@ -71,25 +71,28 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  fetchFollowers() {
+  private fetchFollowers() {
     this.userService.getFollowers(this.route.snapshot.params['id']).subscribe((res : User[]) => {
       this.followers = res;
       this.subscribed = (this.followers.map(u => u.id).indexOf(this.loggedUser.id, 0) > -1);
     });
   }
 
-  fetchFollowing() {
+  private fetchFollowing() {
     this.userService.getFollowing(this.route.snapshot.params['id']).subscribe((res : User[]) => {
       this.following = res;
     });
   }
 
-  userClickListener(i: number) {
+  private followerClickListener(i: number) {
     this.router.navigate([`/usuario/${this.followers[i].id}/perfil`]);
   }
 
+  private followingClickListener(i: number) {
+    this.router.navigate([`/usuario/${this.following[i].id}/perfil`]);
+  }
 
-  fetchCategories() {
+  private fetchCategories() {
     this.userService.getCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
       this.categories = res;
     });

@@ -1,8 +1,7 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-              aria-expanded="true">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Abrir menú</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -10,7 +9,7 @@
       </button>
       <a class="navbar-brand" routerLink="/">🍽 Recetame la Receta</a>
     </div>
-    <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
+    <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" style="">
       <ul class="nav navbar-nav navbar-right">
 
         <div *ngIf="!isLoggedIn; else loggedIn">
@@ -21,19 +20,11 @@
         </div>
         <ng-template #loggedIn>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Notificaciones {{(notificationList.length != 0) ? ('(' + notificationList.length + ')') : '' }}
               🔔 <span class="caret"></span>
             </a>
             <div class="dropdown-menu" role="menu">
-              <!--<ng-container *ngFor="let n of notificationList.reverse(); let i = index">-->
-                <!--<li><a href="javascript://" *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)">-->
-                  <!--<div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>-->
-                  <!--<div><h6>{{n.time | date: 'mediumTime'}}</h6></div>-->
-                  <!--<div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div></a>-->
-                <!--</li>-->
-                <!--<li class="divider"></li>-->
-              <!--</ng-container>-->
               <div *ngFor="let n of notificationList.reverse(); let i = index" class="notification-hover">
                 <div *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)" class="notification-flex">
                   <div class="left">
@@ -51,8 +42,8 @@
           </li>
           <!--Panel Usuario-->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">{{user?.name}} {{user?.lastName}}
-              <!--<span class="glyphicon glyphicon-user"></span>-->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              {{user?.name}} {{user?.lastName}}
               <img src={{user?.profilePic}} alt="Pic" height="25" width="25" class="header-pic">
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">

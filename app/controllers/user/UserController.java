@@ -3,6 +3,8 @@ package controllers.user;
 import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import controllers.recipe.RecipeCategoryController;
+import controllers.recipe.RecipeController;
 import models.notification.NotificationType;
 import models.recipe.RecipeCategory;
 import models.user.FreeUser;
@@ -11,11 +13,9 @@ import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.recipe.RecipeCategoryService;
-import services.user.FreeUserService;
 import services.user.UserService;
 import util.NotificationManager;
 
@@ -23,7 +23,6 @@ import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 

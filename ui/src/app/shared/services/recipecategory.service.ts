@@ -43,4 +43,8 @@ export class RecipeCategoryService extends ApiService {
   unSubscribeToCategory(id: string) {
     return this.http.post<RecipeCategory>(`/api/user/categories/unSubscribe/${id}`, "").toPromise();
   }
+
+  // isSubscribeToCategory(id: string) : boolean {
+    // return this.http.get<boolean>(`/api/user/categories/isSubscribed/${id}`, "").;
+  // }
 }

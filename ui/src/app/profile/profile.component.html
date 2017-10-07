@@ -36,7 +36,7 @@
           <div class="tab-content">
             <div class="tab-pane fade in active" id="tab1">
               <app-recipe-list [recipes]="recipes"></app-recipe-list>
-              <ng-container *ngIf="recipes.length == 0">No hay recetas que mostrar</ng-container>
+              <ng-container *ngIf="recipes.length == 0">No hay recetas que mostrar. </ng-container>
             </div>
             <div class="tab-pane fade" id="tab2">
               <ul style="list-style: none;">
@@ -66,33 +66,13 @@
                 </div>
               </div>
               <div class="row">
-                <div class="categories">
-                  <ul>
-                    <ng-container *ngFor="let c of resultCategories">
-                      <li>
-                        <label>
-                          <span class="label-button" (click)="subscribeToCategory(c.id)">x </span>
-                          {{c.name}}
-                        </label>
-                      </li>
-                    </ng-container>
-                  </ul>
-                </div>
+                <div *ngIf="resultCategories.length == 0" style="margin-left: 4%" class="alert alert-success" role="alert">🎩🐇 Nada que mostrar por aquí...</div>
+                <app-category-list [categories]="resultCategories"></app-category-list>
               </div>
               <div class="row">
-                <h3 style="margin-left: 4.5%">Mis categorías</h3>
-                <div class="categories">
-                  <ul>
-                    <ng-container *ngFor="let c of categories">
-                      <li>
-                        <label>
-                          <span class="label-button" (click)="unSubscribeToCategory(c.id)">x </span>
-                          {{c.name}}
-                        </label>
-                      </li>
-                    </ng-container>
-                  </ul>
-                </div>
+                <h3 style="margin-left: 3.5%">Categorías seguidas</h3>
+                <ng-container *ngIf="categories.length == 0">Todavía no sigue a ninguna categoría. </ng-container>
+                <app-category-list [categories]="categories"></app-category-list>
               </div>
             </div>
           </div>

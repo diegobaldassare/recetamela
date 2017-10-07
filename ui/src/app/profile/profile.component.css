@@ -124,32 +124,6 @@
 }
 
 
-/** Categories */
-.categories {
-  width: 15%;
-  float: left;
-}
-.categories li {
-  list-style:none;
-  background-color:#4abdac;
-  color: white;
-  margin:5px 10px;
-  text-align:left;
-  padding: 10px 0 10px 20px;
-  border-radius:5px 5px;
-  cursor:pointer;
-}
-.categories li a {
-  text-decoration:none;
-  color:white !important;
-  font-family: Century Gothic, sans-serif;
-}
-.categories li:hover {
-  background: #fc4a1a;
-  color:white;
-}
-
-
 /** Search Categories */
 .searchBox {
   bottom: 200px;
@@ -171,5 +145,5 @@
 }
 
 .row {
-  padding: 20px;
+  padding: 10px;
 }

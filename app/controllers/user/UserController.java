@@ -111,6 +111,6 @@ public class UserController extends BaseController {
         me.getFollowedCategories().remove(category.get());
         me.update();
 
-        return ok(Json.toJson(me));
+        return ok(Json.toJson(category.get()));
     }
 }

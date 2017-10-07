@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
@@ -15,6 +15,7 @@ import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 })
 export class ProfileComponent implements OnInit {
 
+
   private user: User;
   private loggedUser: User;
   public fetched: boolean;
@@ -23,7 +24,7 @@ export class ProfileComponent implements OnInit {
   following: User[] = [];
   subscribed: boolean;
   categories: RecipeCategory[] = [];
-  resultCategories: RecipeCategory[] = [];
+  resultCategories: any[] = [];
   private categoryQuery: string = "";
 
 
@@ -33,6 +34,7 @@ export class ProfileComponent implements OnInit {
     private recipeService: RecipeService,
     private recipeCategoryService: RecipeCategoryService,
     private router: Router) {
+
   }
 
   ngOnInit() {
@@ -104,8 +106,28 @@ export class ProfileComponent implements OnInit {
 
   private search() {
     if (this.categoryQuery.length == 0) return;
-    this.recipeCategoryService.searchCategories(this.categoryQuery).then((res : RecipeCategory[]) => {
+    this.recipeCategoryService.searchCategories(this.categoryQuery).then(res => {
+      console.log(res);
       this.resultCategories = res;
+    });
+  }
+
+  private subscribeToCategory(index: number) {
+    const category = this.resultCategories[index].category;
+    if (this.resultCategories[index].followed) {
+      this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
+      return;
+    }
+    this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
+      this.categories.push(category);
+      this.resultCategories.splice(index, 1);
+    });
+  }
+
+  private unSubscribeToCategory(index: number) {
+    const category: RecipeCategory = this.categories[index];
+    this.recipeCategoryService.unSubscribeToCategory(category.id).then(res => {
+      this.categories.splice(index, 1);
     });
   }
 }

@@ -55,8 +55,7 @@
               </ul>
             </div>
             <div class="tab-pane fade" id="tab4">
-              <div class="row">
-                <div class="searchBox">
+                <div *ngIf="user?.id === loggedUser?.id"class="searchBox">
                   <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" placeholder="Buscar categorías" [(ngModel)]="categoryQuery" (keyup.enter)="search()">
                     <span class="input-group-addon">
@@ -64,16 +63,31 @@
                     </span>
                   </div>
                 </div>
+              <div *ngIf="user?.id === loggedUser?.id">
+                <div *ngIf="resultCategories?.length == 0" style="margin-left: 4%" class="alert alert-success" role="alert">🎩🐇 Nada que mostrar por aquí...</div>
+                  <div class="categories">
+                    <ul>
+                      <ng-container *ngFor="let c of resultCategories; let i = index">
+                        <li (click)="subscribeToCategory(i)">
+                          <span *ngIf="!c.followed; else followed">➕</span>
+                          <ng-template #followed>➖</ng-template>
+                          {{c.category?.name}}
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </div>
               </div>
-              <div class="row">
-                <div *ngIf="resultCategories.length == 0" style="margin-left: 4%" class="alert alert-success" role="alert">🎩🐇 Nada que mostrar por aquí...</div>
-                <app-category-list [categories]="resultCategories"></app-category-list>
-              </div>
-              <div class="row">
-                <h3 style="margin-left: 3.5%">Categorías seguidas</h3>
-                <ng-container *ngIf="categories.length == 0">Todavía no sigue a ninguna categoría. </ng-container>
-                <app-category-list [categories]="categories"></app-category-list>
-              </div>
+              <h3 style="margin-left: 3.5%">Categorías seguidas</h3>
+              <ng-container *ngIf="categories.length == 0">Todavía no sigue a ninguna categoría. </ng-container>
+                <div class="categories">
+                  <ul>
+                    <ng-container *ngFor="let c of categories; let i = index">
+                      <li (click)="unSubscribeToCategory(i)">
+                        ➖{{c.name}}
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
             </div>
           </div>
         </div>

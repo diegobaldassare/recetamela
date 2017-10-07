@@ -114,7 +114,6 @@ public class RecipeCategoryController extends BaseController {
             else return new CategoryListQuery(e, false);
         }).collect(Collectors.toList());
 
-        System.out.println(Json.toJson(mappedResults));
         return ok(Json.toJson(mappedResults));
     }
 

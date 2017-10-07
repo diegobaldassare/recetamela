@@ -1,5 +1,7 @@
 package models.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import models.BaseModel;
 import models.recipe.RecipeCategory;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
+@JsonDeserialize(as = PremiumUser.class)
 public abstract class User extends BaseModel {
 
     @Column(name = "type", insertable = false)

@@ -97,6 +97,8 @@ public class UserController extends BaseController {
 
         if (!category.isPresent()) return notFound();
         me.getFollowedCategories().add(category.get());
+        category.get().getFollowers().add(me);
+        category.get().update();
         me.update();
 
         return ok(Json.toJson(me));
@@ -109,6 +111,8 @@ public class UserController extends BaseController {
 
         if (!category.isPresent()) return notFound();
         me.getFollowedCategories().remove(category.get());
+        category.get().getFollowers().remove(me);
+        category.get().update();
         me.update();
 
         return ok(Json.toJson(category.get()));

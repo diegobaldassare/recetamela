@@ -30,7 +30,7 @@ public class SubscriptionController extends BaseController{
         following.ifPresent(followers::setFollowing);
         followers.save();
 
-        NotificationManager.getInstance().emitToUser(me, id, NotificationType.SUBSCRIPTION, "");
+        NotificationManager.getInstance().emitToUser(me, id, NotificationType.SUBSCRIPTION, "se subscribó a tu perfil", me.getId().toString());
 
         return ok(Json.toJson(me));
     }

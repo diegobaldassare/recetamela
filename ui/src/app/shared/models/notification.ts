@@ -8,4 +8,5 @@ export class Notification {
   message: String;
   delivered: boolean;
   time: String;
+  redirectId: String;
 }

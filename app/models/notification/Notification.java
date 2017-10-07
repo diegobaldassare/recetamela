@@ -34,7 +34,9 @@ public class Notification extends BaseModel {
 
     private Date time;
 
-    public Notification(long sender, String senderName, Long receiverId, String senderPic, NotificationType title, String message) {
+    private String redirectId;
+
+    public Notification(long sender, String senderName, Long receiverId, String senderPic, NotificationType title, String message, String redirectId) {
         this.sender = sender;
         this.senderName = senderName;
         this.senderPic = senderPic;
@@ -42,6 +44,7 @@ public class Notification extends BaseModel {
         this.title = title.name();
         this.message = message;
         this.time = new Date(System.currentTimeMillis());
+        this.redirectId = redirectId;
     }
 
     public Date getTime() {
@@ -116,5 +119,13 @@ public class Notification extends BaseModel {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getRedirectId() {
+        return redirectId;
+    }
+
+    public void setRedirectId(String redirectId) {
+        this.redirectId = redirectId;
     }
 }

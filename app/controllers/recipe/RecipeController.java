@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.Media;
+import models.notification.NotificationType;
 import models.recipe.RecipeSearchQuery;
 import models.recipe.RecipeStep;
 import models.user.FreeUser;
@@ -19,6 +20,7 @@ import services.recipe.RecipeBookService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
+import util.NotificationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,10 @@ public class RecipeController extends BaseController {
         try {
             RecipeValidator.validateAllFields(r);
             r.save();
+            NotificationManager.getInstance().notifyFollowers(getRequester(), NotificationType.RECIPE, "subió una nueva receta: " + r.getName(), r.getId().toString());
+            r.getCategories().forEach(category -> {
+                NotificationManager.getInstance().notifyCategoryFollowers(getRequester(), NotificationType.CATEGORY, "subió una nueva receta: " + "'" + r.getName() + "'" + " a la categoría " + category.getName(), category.getId().toString());
+            });
             return ok(Json.toJson(r));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);

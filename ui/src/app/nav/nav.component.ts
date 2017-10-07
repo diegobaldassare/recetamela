@@ -93,7 +93,14 @@ export class NavComponent implements OnInit, OnDestroy {
 
   private listenForServerEvents() {
     this.eventSource = new EventSourcePolyfill('/api/notifications', { headers: { Authorization: 'Bearer' + localStorage.getItem("X-TOKEN") } });
-    this.eventSource.addEventListener('SUBSCRIPTION',(e: MessageEvent) => {
+    this.handleEvent('SUBSCRIPTION');
+    this.handleEvent('RECIPE');
+    this.handleEvent('CATEGORY');
+    this.handleEvent('RATING');
+  }
+
+  private handleEvent(type: string) {
+    this.eventSource.addEventListener(type,(e: MessageEvent) => {
       let notification : Notification = JSON.parse(e.data) as Notification;
       this.notificationList.push(notification);
       this.userService.persistNotification(notification);
@@ -101,10 +108,19 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   notificationClicklistener(i : number) : void {
-    // Redirect user to sender profile if notification was clicked.
-    // To do: Manage each different notifcation type. For example: If a new recipe is created, redirect to recipe.
-    const senderId = this.notificationList[i].sender;
-    this.router.navigate([`/usuario/${senderId}/perfil`]);
+    const notification : Notification = this.notificationList[i];
+    switch (notification.title) {
+      case 'SUBSCRIPTION':
+        this.router.navigate([`/usuario/${notification.sender}/perfil`]);
+        break;
+      case 'RECIPE':
+        this.router.navigate([`/recetas/${notification.redirectId}`]);
+        break;
+      case 'CATEGORY':
+        this.router.navigate([`/recetas/${notification.redirectId}`]);
+        break;
+    }
+    this.deleteNotification(i);
   }
 
   deleteNotification(i: number) :void {

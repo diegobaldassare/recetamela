@@ -26,12 +26,12 @@
             </a>
             <div class="dropdown-menu" role="menu">
               <div *ngFor="let n of notificationList.reverse(); let i = index" class="notification-hover">
-                <div *ngIf="n.title=='SUBSCRIPTION'" (click)="notificationClicklistener(i)" class="notification-flex">
+                <div (click)="notificationClicklistener(i)" class="notification-flex">
                   <div class="left">
                     <div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div>
                   </div>
                   <div class="right">
-                    <div><b>{{ n.senderName }}</b> se subscribió a tu perfil</div>
+                    <div><b>{{ n.senderName }}</b> {{n.message}}</div>
                     <div><h6>{{n.time | date: 'mediumTime'}}</h6></div>
                   </div>
                   <div class="close-button" (click)="deleteNotification(i)">X</div>

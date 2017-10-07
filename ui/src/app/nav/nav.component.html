@@ -36,6 +36,16 @@
                   </div>
                   <div class="close-button" (click)="deleteNotification(i)">X</div>
                 </div>
+                <div *ngIf="n.title=='RATING'" (click)="notificationClicklistener(i)" class="notification-flex">
+                  <div class="left">
+                    <div><img src={{n.senderPic}} alt="Pic" height="25" width="25" class="header-pic"></div>
+                  </div>
+                  <div class="right">
+                    <div><b>{{ n.senderName }}</b> {{n.message}} </div>
+                    <div><h6>{{n.time | date: 'mediumTime'}}</h6></div>
+                  </div>
+                  <div class="close-button" (click)="deleteNotification(i)">X</div>
+                </div>
               </div>
               <div *ngIf="notificationList.length == 0" class="notification-hover">No tenés nuevas notificaciones</div>
             </div>

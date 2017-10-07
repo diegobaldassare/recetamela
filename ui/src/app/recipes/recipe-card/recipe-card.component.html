@@ -1,15 +1,29 @@
 <div class="container">
   <div class="recipe-card shadow">
-      <img src="{{recipe.images[0].url}}" class="image card-img">
+    <img src="{{recipe.images[0].url}}" class="image card-img">
     <div class="card-img-overlay">
-      <div class="text">
-        <h3 class="card-title">{{recipe.name}}</h3>
-        <p class="card-title">👨🏾‍🍳{{recipe.author.name}} {{recipe.author.lastName}}</p>
+
+      <div class="row">
+        <div class="col-xs-9 ">
+          <h3 class="card-title">{{recipe.name}}</h3>
+        </div>
+        <div class="col-xs-3 eliminateButton">
+          <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"
+                  (click)="deleteFromRecipeBook()"
+                  title="Eliminar Receta del Recetario">
+            <a href="javascript://">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
         <p class="card-text">
-          {{recipe.description}}
-          <a href="recetas/{{recipe.id}}">Seguir leyendo...</a>
+          {{recipe.description}} <a (click)="toRecipe()">Seguir leyendo...</a>
         </p>
       </div>
+
     </div>
   </div>
 </div>

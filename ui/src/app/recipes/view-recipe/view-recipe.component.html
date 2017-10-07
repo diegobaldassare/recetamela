@@ -24,7 +24,7 @@
             </div>
 
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
-              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="getViewerRating()" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
+              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
             </div>
 
             <p>
@@ -74,7 +74,7 @@
         <div class="recipe-info-up">
           <div>
             <span class="emoji">👨🏾‍🍳</span>
-            <span>{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
+            <span routerLink="/usuario/{{recipe.author.id}}/perfil">{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
           </div>
           <div>
             <span class="emoji">🏋🏽</span>

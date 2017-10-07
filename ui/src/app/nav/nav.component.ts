@@ -105,6 +105,11 @@ export class NavComponent implements OnInit, OnDestroy {
       this.notificationList.push(notification);
       this.userService.persistNotification(notification);
     }, false);
+    this.eventSource.addEventListener('RATING',(e: MessageEvent) => {
+      let notification : Notification = JSON.parse(e.data) as Notification;
+      this.notificationList.push(notification);
+      this.userService.persistNotification(notification);
+    }, false);
   }
 
   notificationClicklistener(i : number) : void {

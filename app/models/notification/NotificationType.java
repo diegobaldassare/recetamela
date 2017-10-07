@@ -7,5 +7,6 @@ public enum NotificationType {
     SUBSCRIPTION,
     CATEGORY,
     RECIPE,
+    RATING,
     OTHER
 }

@@ -40,7 +40,7 @@
               {{ r.name }}
             </a>
           </h4>
-          <p>👨🏾‍🍳 {{ r.author.name + " " + r.author.lastName }}</p>
+          <p routerLink="/usuario/{{r.author.id}}/perfil">👨🏾‍🍳 {{ r.author.name + " " + r.author.lastName }}</p>
           <span *ngFor="let cat of r.categories" class="label label-default">{{ cat.name }}</span>
         </div>
       </div>

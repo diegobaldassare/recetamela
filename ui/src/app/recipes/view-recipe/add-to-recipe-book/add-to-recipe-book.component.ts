@@ -25,21 +25,26 @@ export class AddToRecipeBookComponent implements OnInit {
     })
   }
 
-  private selectRecipeBook(recipeBookId: string){
-    console.log("El id que estoy mandado del front es: " + recipeBookId);
-    console.log("El id de la receta es: " + this.recipe.id);    // El recipe esta llegando bien
-
-
+  private selectRecipeBook(recipeBookId: string) {
     this.recipeBookService.get(recipeBookId).then((recipeBook : RecipeBook)=> {
       this.recipeBook = recipeBook;
-      this.recipeBook.recipes.push(this.recipe);
-      this.recipeBookService.update(recipeBookId, this.recipeBook).then(() => {
-        this.toaster.pop('success', 'Se ha agregado correctamente');
-      }, () => {
-        this.toaster.pop('error', 'No se ha podido agregar');
-      });
+      var found = false;
+      for(var i = 0; i < this.recipeBook.recipes.length; i++) {
+        if (this.recipeBook.recipes[i].id == this.recipe.id) {
+          this.toaster.pop('success', 'La receta ya fue añadida');
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        this.recipeBook.recipes.push(this.recipe);
+        this.recipeBookService.update(recipeBookId, this.recipeBook).then(() => {
+          this.toaster.pop('success', 'Se ha agregado correctamente');
+        }, () => {
+          this.toaster.pop('error', 'No se ha podido agregar');
+        });
+      }
     });
-
 
     this.closeBtn.nativeElement.click();
   }

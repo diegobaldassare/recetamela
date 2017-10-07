@@ -49,8 +49,8 @@
       </span>
     </div>
     <div class="form-group">
-      <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categories" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
-      <datalist id="categories">
+      <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categoryList" [(ngModel)]="categoryName" (keyup.enter)="selectCategory()">
+      <datalist id="categoryList">
         <option *ngFor="let c of container.categories | keys" [value]="c"></option>
       </datalist>
     </div>

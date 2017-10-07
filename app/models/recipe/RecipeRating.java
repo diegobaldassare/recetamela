@@ -1,5 +1,6 @@
 package models.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.BaseModel;
 import models.user.User;
 
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 public class RecipeRating extends BaseModel{
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     private User user;
 
     @Column(nullable = false)

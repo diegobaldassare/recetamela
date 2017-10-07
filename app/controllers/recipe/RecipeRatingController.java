@@ -36,7 +36,7 @@ public class RecipeRatingController extends BaseController {
             NotificationManager.getInstance().emitToUser(getRequester(),
                     r.getAuthor().getId(),
                     NotificationType.RATING,
-                    " acaba de hacer un rating de " + recipeRating.getRating() + " a tu receta " + r.getName());
+                    " acaba de hacer un rating de " + recipeRating.getRating() + " a tu receta " + r.getName(), r.getId().toString());
             return ok(Json.toJson(r));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);

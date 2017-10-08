@@ -39,6 +39,12 @@ public class RecipeCategoryService extends Service<RecipeCategory> {
         return getFinder().where().like("name", query + "%").findList();
     }
 
+    public List<RecipeCategory> getUnFollowed(String id) {
+        String sql = "SELECT c.id FROM RECIPE_CATEGORY c JOIN USER_RECIPE_CATEGORY u ON u.id = r.user_id WHERE r.recipe_category_id = :id";
+        RawSql rawSql = RawSqlBuilder.parse(sql).columnMapping("c.id", "id").create();
+     return Ebean.find(RecipeCategory.class).setRawSql(rawSql).setParameter("id", id).findList();
+    }
+
     public List<User> getFollowers(long id) {
         Optional<RecipeCategory> category = get(id);
 

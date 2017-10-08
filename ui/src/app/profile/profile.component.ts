@@ -6,6 +6,7 @@ import {RecipeService} from "../shared/services/recipe.service";
 import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 import {RecipeCategoryService} from "../shared/services/recipecategory.service";
+import {FormatService} from "../shared/services/format.service";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
   subscribed: boolean;
   categories: RecipeCategory[] = [];
   resultCategories: any[] = [];
+  unFollowedCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
 
 
@@ -34,7 +36,6 @@ export class ProfileComponent implements OnInit {
     private recipeService: RecipeService,
     private recipeCategoryService: RecipeCategoryService,
     private router: Router) {
-
   }
 
   ngOnInit() {
@@ -49,6 +50,7 @@ export class ProfileComponent implements OnInit {
           this.fetchFollowers();
           this.fetchFollowing();
           this.fetchCategories();
+          this.fetchUnFollowedCategories();
         }, () => { this.fetched = true });
       }
     );
@@ -107,27 +109,41 @@ export class ProfileComponent implements OnInit {
   private search() {
     if (this.categoryQuery.length == 0) return;
     this.recipeCategoryService.searchCategories(this.categoryQuery).then(res => {
-      console.log(res);
       this.resultCategories = res;
     });
   }
 
   private subscribeToCategory(index: number) {
-    const category = this.resultCategories[index].category;
-    if (this.resultCategories[index].followed) {
-      this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
-      return;
-    }
-    this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
-      this.categories.push(category);
-      this.resultCategories.splice(index, 1);
+    const c = this.categoryQuery.toLowerCase().trim();
+    this.recipeCategoryService.getByName(this.categoryQuery).then(res => {
+      const category = res;
+      this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
+        this.categories.push(category);
+        this.categoryQuery = '';
+        this.fetchUnFollowedCategories();
+      });
     });
+    // const category = this.resultCategories[index].category;
+    // if (this.resultCategories[index].followed) {
+    //   this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
+    //   return;
+    // }
+    // this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
+    //   this.categories.push(category);
+    //   this.resultCategories.splice(index, 1);
+    // });
   }
 
   private unSubscribeToCategory(index: number) {
     const category: RecipeCategory = this.categories[index];
     this.recipeCategoryService.unSubscribeToCategory(category.id).then(res => {
       this.categories.splice(index, 1);
+    });
+  }
+
+  private fetchUnFollowedCategories() {
+    this.recipeCategoryService.getAll().then((res : RecipeCategory[]) => {
+        this.unFollowedCategories= res;
     });
   }
 }

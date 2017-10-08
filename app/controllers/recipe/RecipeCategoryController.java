@@ -53,6 +53,11 @@ public class RecipeCategoryController extends BaseController {
                 .map(recipeCategory -> ok(Json.toJson(recipeCategory))).orElse(notFound());
     }
 
+    public Result getByName(String name) {
+        return RecipeCategoryService.getInstance().getByName(name)
+                .map(recipeCategory -> ok(Json.toJson(recipeCategory))).orElse(notFound());
+    }
+
 //    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
     public Result getAll() {
         final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();

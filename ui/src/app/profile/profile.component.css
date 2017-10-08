@@ -161,6 +161,7 @@
   padding: 5px 5px 5px 5px;
   border-radius:5px 5px;
   cursor:pointer;
+  width: 250%;
 }
 .categories li a {
   text-decoration:none;
@@ -170,4 +171,8 @@
 .categories li:hover {
   background: #fc4a1a;
   color:white;
+}
+
+.form-control {
+  width: 60%;
 }

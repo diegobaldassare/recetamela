@@ -60,8 +60,11 @@
                 <div class="categories">
                   <ul>
                     <ng-container *ngFor="let c of categories; let i = index">
-                      <li (click)="unSubscribeToCategory(i)">
+                      <li *ngIf="user?.id === loggedUser?.id" (click)="unSubscribeToCategory(i)">
                         x {{c.name}}
+                      </li>
+                      <li *ngIf="user?.id !== loggedUser?.id">
+                        {{c.name}}
                       </li>
                     </ng-container>
                   </ul>

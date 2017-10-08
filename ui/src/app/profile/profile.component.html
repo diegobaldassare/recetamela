@@ -69,17 +69,6 @@
                     </ng-container>
                   </ul>
                 </div>
-                <!--<div class="categories">-->
-                <!--<ul>-->
-                <!--<ng-container *ngFor="let c of resultCategories; let i = index">-->
-                <!--<li (click)="subscribeToCategory(i)">-->
-                <!--<span *ngIf="!c.followed; else followed">➕</span>-->
-                <!--<ng-template #followed>x </ng-template>-->
-                <!--{{c.category?.name}}-->
-                <!--</li>-->
-                <!--</ng-container>-->
-                <!--</ul>-->
-                <!--</div>-->
               </div>
               <div class="col-lg-6">
                 <div *ngIf="user?.id === loggedUser?.id">
@@ -89,15 +78,6 @@
                       <option *ngFor="let c of unFollowedCategories" [value]="c.name"></option>
                     </datalist>
                   </div>
-                  <!--<div class="searchBox">-->
-                    <!--<div class="input-group stylish-input-group">-->
-                      <!--<input type="text" class="form-control" placeholder="Buscar categorías" [(ngModel)]="categoryQuery" (keyup.enter)="search()">-->
-                      <!--<span class="input-group-addon">-->
-                        <!--<button type="submit" (click)="search()">🔎</button>-->
-                      <!--</span>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div *ngIf="resultCategories?.length == 0" style="margin-left: 4%" class="alert alert-success" role="alert">🎩🐇 Nada que mostrar por aquí...</div>-->
                 </div>
               </div>
             </div>

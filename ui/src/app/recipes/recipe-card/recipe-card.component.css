@@ -29,7 +29,6 @@
   text-align: center;
   opacity: 1;
   color: #4abdac;
-  /*font-size: 20px;*/
   position: absolute;
   top: 80%;
   left: 50%;
@@ -50,10 +49,32 @@
   /*overflow-x: hidden;*/
 /*}*/
 
-/*.card-title {*/
-  /*text-align: left;*/
-  /*padding-left: 10px;*/
-/*}*/
+.card {
+  /*padding: 20px;*/
+}
+
+.card-title {
+  text-align: center;
+  opacity: 1;
+  color: #4abdac;
+  position: absolute;
+  margin-top: 35%;
+  margin-left: 60%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.card-stars {
+
+}
+
+.card-author {
+  margin-bottom: -5%;
+}
+
+.card-description {
+
+}
 
 
 .eliminateButton{

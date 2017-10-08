@@ -77,7 +77,12 @@ export class RecipeFormComponent implements OnInit {
     const k = Object.keys(this.container.selectedIngredients);
     for (let i = 0; i < k.length; i++) {
       const f = this.container.selectedIngredients[k[i]];
-      if (!f.quantity || !f.unit) return true;
+      if (
+        !f.quantity ||
+        !f.unit ||
+        !/^[0-9]*$/.test(f.quantity) ||
+        !/^[a-zA-Z ]*$/.test(f.unit)
+      ) return true;
     }
     return false;
   }

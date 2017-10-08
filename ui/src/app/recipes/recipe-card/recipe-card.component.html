@@ -1,9 +1,10 @@
-<div class="container">
+<div class="container card">
   <img src="{{recipe.images[0].url}}" class="image">
   <div class="overlay">
     <div class="row">
       <div class="col-xs-9">
         <h2 class="card-title">{{recipe.name}}</h2>
+        <!--<star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" [size]="'large'"></star-rating-comp>-->
       </div>
       <div class="col-xs-3 eliminateButton">
         <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"

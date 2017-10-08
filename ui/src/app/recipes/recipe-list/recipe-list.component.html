@@ -1,10 +1,12 @@
 <div *ngIf="recipeBook; else profileRecipes">
   <div *ngFor="let recipe of recipes">
     <app-recipe-card [recipe]="recipe" [recipeBook]="recipeBook"></app-recipe-card>
+    <br>
   </div>
 </div>
 <ng-template #profileRecipes>
   <div *ngFor="let recipe of recipes">
     <app-recipe-card [recipe]="recipe"></app-recipe-card>
+    <br>
   </div>
 </ng-template>

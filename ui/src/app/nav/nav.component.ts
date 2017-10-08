@@ -108,7 +108,7 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   notificationClicklistener(i : number) : void {
-    const notification : Notification = this.notificationList[i];
+    const notification : Notification = this.notificationList.reverse()[i];
     switch (notification.title) {
       case 'SUBSCRIPTION':
         this.router.navigate([`/usuario/${notification.sender}/perfil`]);
@@ -124,10 +124,11 @@ export class NavComponent implements OnInit, OnDestroy {
         break;
     }
     this.deleteNotification(i);
+    this.notificationList.reverse();
   }
 
   deleteNotification(i: number) :void {
-    this.notificationList.splice((this.notificationList.length -1 - i), 1);
+    this.notificationList.splice(i, 1);
     this.userService.deleteNotification(i);
   }
 

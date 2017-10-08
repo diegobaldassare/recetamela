@@ -15,6 +15,7 @@ export class MyAuthService {
     this.http.post('/api/auth/logout', "logout").subscribe(res => {
       localStorage.removeItem("X-TOKEN");
       localStorage.removeItem("user");
+      localStorage.removeItem("notifications");
       this.sharedService.notifyOther({loggedIn: false});
       this.router.navigate(['/']);
     })

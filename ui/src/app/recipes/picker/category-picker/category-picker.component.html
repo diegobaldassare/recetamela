@@ -7,8 +7,8 @@
   </span>
 </div>
 <div class="form-group">
-  <input id="category" class="form-control" placeholder="Separe presionando enter" list="categories" [(ngModel)]="name" (keyup.enter)="pick()">
-  <datalist id="categories">
+  <input id="category" class="form-control" placeholder="Separe presionando enter" list="categoryList" [(ngModel)]="name" (keyup.enter)="pick()">
+  <datalist id="categoryList">
     <option *ngFor="let e of unpicked | keys" [value]="e"></option>
   </datalist>
 </div>

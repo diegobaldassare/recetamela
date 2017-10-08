@@ -19,6 +19,7 @@ import java.rmi.NoSuchObjectException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class UserController extends BaseController {
 
@@ -81,11 +82,19 @@ public class UserController extends BaseController {
     }
 
     public Result getRecipeCategories(Long id) {
-        return UserService.getInstance().get(id).map(user -> ok(Json.toJson(user.getFollowedCategories()))).orElseGet(Results::notFound);
+        return UserService.getInstance().get(id)
+                .map(user -> ok(Json.toJson(user.getFollowedCategories())))
+                .orElseGet(Results::notFound);
     }
 
     public Result getUnFollowedCategories(String id) {
-        return ok(Json.toJson(RecipeCategoryService.getInstance().getUnFollowed(id)));
+        Optional<User> me = UserService.getInstance().get(Long.parseLong(id));
+        if (!me.isPresent()) return notFound();
+        final List<RecipeCategory> allCategories = RecipeCategoryService.getInstance().getFinder().all();
+        final List<RecipeCategory> unFollowed = allCategories.stream()
+                .filter(c -> !me.get().getFollowedCategories().contains(c))
+                .collect(Collectors.toList());
+        return ok(Json.toJson(unFollowed));
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class})

@@ -47,6 +47,7 @@ export class ProfileComponent implements OnInit {
           this.user = user;
           this.fetched = true;
           this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
+          this.fetchRecipes();
           this.fetchFollowers();
           this.fetchFollowing();
           this.fetchCategories();
@@ -55,10 +56,6 @@ export class ProfileComponent implements OnInit {
       }
     );
 
-    const id = this.route.snapshot.params['id'];
-    this.recipeService.getUserRecipes(id).then(recipes =>
-      this.recipes = recipes
-    );
     this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
   }
 
@@ -77,6 +74,12 @@ export class ProfileComponent implements OnInit {
         this.subscribed = false;
       }
     });
+  }
+
+  private fetchRecipes() {
+    this.recipeService.getUserRecipes(this.route.snapshot.params['id']).then((recipes: Recipe[]) =>
+      this.recipes = recipes
+    );
   }
 
   private fetchFollowers() {
@@ -142,7 +145,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private fetchUnFollowedCategories() {
-    this.recipeCategoryService.getAll().then((res : RecipeCategory[]) => {
+    this.userService.getUnfollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
         this.unFollowedCategories= res;
     });
   }

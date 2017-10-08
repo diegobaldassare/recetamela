@@ -6,6 +6,7 @@ import {RecipeService} from "../shared/services/recipe.service";
 import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 import {RecipeCategoryService} from "../shared/services/recipecategory.service";
+import {FormatService} from "../shared/services/format.service";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
   subscribed: boolean;
   categories: RecipeCategory[] = [];
   resultCategories: any[] = [];
+  unFollowedCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
 
 
@@ -34,7 +36,6 @@ export class ProfileComponent implements OnInit {
     private recipeService: RecipeService,
     private recipeCategoryService: RecipeCategoryService,
     private router: Router) {
-
   }
 
   ngOnInit() {
@@ -46,17 +47,15 @@ export class ProfileComponent implements OnInit {
           this.user = user;
           this.fetched = true;
           this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
+          this.fetchRecipes();
           this.fetchFollowers();
           this.fetchFollowing();
           this.fetchCategories();
+          this.fetchUnFollowedCategories();
         }, () => { this.fetched = true });
       }
     );
 
-    const id = this.route.snapshot.params['id'];
-    this.recipeService.getUserRecipes(id).then(recipes =>
-      this.recipes = recipes
-    );
     this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
   }
 
@@ -75,6 +74,12 @@ export class ProfileComponent implements OnInit {
         this.subscribed = false;
       }
     });
+  }
+
+  private fetchRecipes() {
+    this.recipeService.getUserRecipes(this.route.snapshot.params['id']).then((recipes: Recipe[]) =>
+      this.recipes = recipes
+    );
   }
 
   private fetchFollowers() {
@@ -107,27 +112,41 @@ export class ProfileComponent implements OnInit {
   private search() {
     if (this.categoryQuery.length == 0) return;
     this.recipeCategoryService.searchCategories(this.categoryQuery).then(res => {
-      console.log(res);
       this.resultCategories = res;
     });
   }
 
   private subscribeToCategory(index: number) {
-    const category = this.resultCategories[index].category;
-    if (this.resultCategories[index].followed) {
-      this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
-      return;
-    }
-    this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
-      this.categories.push(category);
-      this.resultCategories.splice(index, 1);
+    const c = this.categoryQuery.toLowerCase().trim();
+    this.recipeCategoryService.getByName(this.categoryQuery).then(res => {
+      const category = res;
+      this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
+        this.categories.push(category);
+        this.categoryQuery = '';
+        this.fetchUnFollowedCategories();
+      });
     });
+    // const category = this.resultCategories[index].category;
+    // if (this.resultCategories[index].followed) {
+    //   this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
+    //   return;
+    // }
+    // this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
+    //   this.categories.push(category);
+    //   this.resultCategories.splice(index, 1);
+    // });
   }
 
   private unSubscribeToCategory(index: number) {
     const category: RecipeCategory = this.categories[index];
     this.recipeCategoryService.unSubscribeToCategory(category.id).then(res => {
       this.categories.splice(index, 1);
+    });
+  }
+
+  private fetchUnFollowedCategories() {
+    this.userService.getUnfollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
+        this.unFollowedCategories= res;
     });
   }
 }

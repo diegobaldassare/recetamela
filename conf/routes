@@ -24,6 +24,7 @@ DELETE      /api/recipebook/:id/delete              controllers.recipe.RecipeBoo
 
 POST        /api/recipe/category/create             controllers.recipe.RecipeCategoryController.create()
 GET         /api/recipe/category/:id                controllers.recipe.RecipeCategoryController.get(id: Long)
+GET         /api/recipe/category/name/:name         controllers.recipe.RecipeCategoryController.getByName(name: String)
 GET         /api/recipe/categories/all              controllers.recipe.RecipeCategoryController.getAll
 GET         /api/recipe/categories/:q               controllers.recipe.RecipeCategoryController.search(q: String)
 PUT         /api/recipe/category/:id/update         controllers.recipe.RecipeCategoryController.update(id: Long)
@@ -44,6 +45,7 @@ GET         /api/user/followers/:id                 controllers.user.Subscriptio
 GET         /api/user/following/:id                 controllers.user.SubscriptionController.getFollowing(id: Long)
 
 GET         /api/user/categories/:id                controllers.user.UserController.getRecipeCategories(id: Long)
+GET         /api/user/categories/unFollowed/:id     controllers.user.UserController.getUnFollowedCategories(id: String)
 POST        /api/user/categories/subscribe/:id      controllers.user.UserController.subscribeToCategory(id: Long)
 POST        /api/user/categories/unSubscribe/:id    controllers.user.UserController.unSubscribeToCategory(id: Long)
 

@@ -1,35 +1,59 @@
+/** Fade Overlay */
 .container {
-  padding: 20px;
+  position: relative;
+  width: 50%;
 }
 
-.recipe-card {
-  text-align: center;
-  padding: 5px;
-  width: 500px;
-}
-
-.card-img {
-  width: 100%;
-  height: 60%;
+.image {
+  display: block;
+  max-width: 80%;
+  height: auto;
   border-radius: 5px;
 }
 
-.card-img-overlay{
-  height: 40%;
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 15px;
+  right: 0;
+  height: 100%;
+  width: 75.7%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: black;
+  border-radius: 5px;
 }
 
-.shadow {
-  background: #f5f5f5;
+.text {
+  text-align: center;
+  opacity: 1;
+  color: #4abdac;
+  /*font-size: 20px;*/
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
 
-.btn {
-  padding: 4px 13px;
+.container:hover .overlay {
+  opacity: 0.6;
 }
 
-.card-title {
-  text-align: left;
-  padding-left: 10px;
-}
+/*.recipe-card {*/
+  /*text-align: center;*/
+  /*padding: 5px;*/
+  /*width: 500px;*/
+  /*float: left;*/
+  /*overflow-y: scroll;*/
+  /*overflow-x: hidden;*/
+/*}*/
+
+/*.card-title {*/
+  /*text-align: left;*/
+  /*padding-left: 10px;*/
+/*}*/
 
 
 .eliminateButton{

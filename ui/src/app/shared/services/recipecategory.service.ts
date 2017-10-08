@@ -24,6 +24,10 @@ export class RecipeCategoryService extends ApiService {
     return this.http.get<RecipeCategory>(`${this.URL}/category/${categoryId}`).toPromise();
   }
 
+  getByName(categoryName: string) : Promise<RecipeCategory> {
+    return this.http.get<RecipeCategory>(`${this.URL}/category/name/${categoryName}`).toPromise();
+  }
+
   getAll() : Promise<RecipeCategory[]> {
     return this.http.get<RecipeCategory[]>(`${this.URL}/categories/all`).toPromise();
   }
@@ -43,8 +47,4 @@ export class RecipeCategoryService extends ApiService {
   unSubscribeToCategory(id: string) {
     return this.http.post<RecipeCategory>(`/api/user/categories/unSubscribe/${id}`, "").toPromise();
   }
-
-  // isSubscribeToCategory(id: string) : boolean {
-    // return this.http.get<boolean>(`/api/user/categories/isSubscribed/${id}`, "").;
-  // }
 }

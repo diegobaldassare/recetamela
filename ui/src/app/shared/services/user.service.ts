@@ -71,6 +71,10 @@ export class UserService {
     return this.http.get<RecipeCategory[]>(`/api/user/categories/${id}`);
   }
 
+  public getUnfollowedCategories(id: string) : Observable<RecipeCategory[]> {
+    return this.http.get<RecipeCategory[]>(`/api/user/categories/unFollowed/${id}`);
+  }
+
   public persistNotification(notification: Notification) : void {
     let notifications: Notification[] = JSON.parse(localStorage.getItem("notifications")) as Notification[];
     if (notifications == null) {

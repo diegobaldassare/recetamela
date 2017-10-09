@@ -1,26 +1,24 @@
-<div class="container card">
+<div class="card">
+<div class="container">
   <img src="{{recipe.images[0].url}}" class="image">
+  <button class="btn text recipe-name">{{recipe.name}}</button>
   <div class="overlay">
-    <div class="row">
-      <div class="col-xs-9">
-        <h2 class="card-title">{{recipe.name}}</h2>
-        <!--<star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" [size]="'large'"></star-rating-comp>-->
-      </div>
-      <div class="col-xs-3 eliminateButton">
-        <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"
-                (click)="deleteFromRecipeBook()"
-                title="Eliminar Receta del Recetario">
-          <a href="javascript://">
-            <span class="glyphicon glyphicon-remove"></span>
-          </a>
-        </button>
-      </div>
+    <div class="row eliminateButton">
+      <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"
+              (click)="deleteFromRecipeBook()"
+              title="Eliminar Receta del Recetario">
+        <a href="javascript://"><span class="glyphicon glyphicon-remove"></span></a>
+      </button>
     </div>
-    <div class="row">
-      <div class="text">
+    <div class="text">
+      <div class="row card-title">
+        <h2 style="margin-bottom: 10%;">{{recipe.name}}</h2>
+        <star-rating-comp [starType]="'svg'" [rating]="recipe.rating"></star-rating-comp>
+      </div>
+      <div class="row">
         <p class="card-author">👨🏾‍🍳 {{recipe.author.name}} {{recipe.author.lastName}}</p>
         <P>_____________________________</P>
-        <p class="card-description">
+        <p>
           {{recipe.description.substring(0, 35).concat('...')}}
           <a (click)="toRecipe()">Seguir leyendo</a>
         </p>
@@ -28,5 +26,5 @@
     </div>
   </div>
 </div>
-
+</div>
 <app-not-logged></app-not-logged>

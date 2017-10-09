@@ -6,9 +6,10 @@
 
 .image {
   display: block;
-  max-width: 80%;
-  height: auto;
+  width: auto;
+  height: 300px;
   border-radius: 5px;
+  border:5px solid #4abdac;
 }
 
 .overlay {
@@ -18,7 +19,7 @@
   left: 15px;
   right: 0;
   height: 100%;
-  width: 75.7%;
+  width: 186%;
   opacity: 0;
   transition: .5s ease;
   background-color: black;
@@ -40,17 +41,24 @@
   opacity: 0.6;
 }
 
-/*.recipe-card {*/
-  /*text-align: center;*/
-  /*padding: 5px;*/
-  /*width: 500px;*/
-  /*float: left;*/
-  /*overflow-y: scroll;*/
-  /*overflow-x: hidden;*/
-/*}*/
-
 .card {
-  /*padding: 20px;*/
+  padding: 20px;
+}
+
+.container:hover .recipe-name {
+  opacity: 0;
+}
+
+.container:not(:hover) .recipe-name  {
+  padding: 4px 8px;
+  border-radius: 20px;
+  background-color: #4abdac;
+  color: white;
+  left: 100%;
+  top: 50%;
+  width: 60%;
+  height: 13%;
+  font-size: 20px;
 }
 
 .card-title {
@@ -58,24 +66,15 @@
   opacity: 1;
   color: #4abdac;
   position: absolute;
-  margin-top: 35%;
-  margin-left: 60%;
+  left: 56%;
+  top: -115%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
 
-.card-stars {
-
-}
-
 .card-author {
-  margin-bottom: -5%;
+  margin-bottom: -4%;
 }
-
-.card-description {
-
-}
-
 
 .eliminateButton{
   text-align: right;

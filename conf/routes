@@ -53,6 +53,7 @@ POST        /api/user/categories/unSubscribe/:id    controllers.user.UserControl
 
 POST        /api/user                               controllers.user.UserController.createUser()
 PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)
+PUT         /api/user/:id/checkDate                 controllers.user.UserController.checkExpirationDate(id: Long)
 GET         /api/user/:id                           controllers.user.UserController.getUser(id: Long)
 GET         /api/users                              controllers.user.UserController.getUsers
 DELETE      /api/user/:id/delete                    controllers.user.UserController.deleteUser(id: Long)
@@ -68,13 +69,16 @@ POST        /api/user                               controllers.user.FreeUserCon
 PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
 PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
-PUT         /api/premiumuser/:id/downgradeUser      controllers.user.PremiumUserController.downgradePremiumUser(id: Long)
-PUT         /api/premiumuser/:id/checkDate          controllers.user.PremiumUserController.checkExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateSuscription  controllers.user.PremiumUserController.updatePremiumUserExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateUser         controllers.user.PremiumUserController.updatePremiumUser(id: Long)
 GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)
 GET         /api/premiumusers                       controllers.user.PremiumUserController.getPremiumUsers
 DELETE      /api/premiumuser/:id/delete             controllers.user.PremiumUserController.deletePremiumUser(id: Long)
+
+PUT         /api/chefuser/:id/update                controllers.user.ChefUserController.updateChefUser(id: Long)
+GET         /api/chefuser/:id                       controllers.user.ChefUserController.getChefUser(id: Long)
+GET         /api/chefusers                          controllers.user.ChefUserController.getChefUsers
+DELETE      /api/chefuser/:id/delete                controllers.user.ChefUserController.deleteChefUser(id: Long)
 
 POST        /api/auth/login                         controllers.SecurityController.login()
 POST        /api/auth/logout                        controllers.SecurityController.logout()

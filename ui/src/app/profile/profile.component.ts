@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
@@ -7,6 +7,8 @@ import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 import {FormatService} from "../shared/services/format.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ToasterService} from "angular2-toaster";
 
 
 @Component({
@@ -28,14 +30,23 @@ export class ProfileComponent implements OnInit {
   resultCategories: any[] = [];
   unFollowedCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
-
+  private profileForm: FormGroup;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
     private recipeService: RecipeService,
     private recipeCategoryService: RecipeCategoryService,
-    private router: Router) {
+    private router: Router,
+    public toaster: ToasterService,
+    private fb: FormBuilder) {
+
+    this.profileForm = fb.group({
+      'name': new FormControl(null, [Validators.required]),
+      'lastName': new FormControl(null, [Validators.required]),
+      'email': new FormControl(null, [Validators.required]),
+    });
   }
 
   ngOnInit() {
@@ -126,15 +137,6 @@ export class ProfileComponent implements OnInit {
         this.fetchUnFollowedCategories();
       });
     });
-    // const category = this.resultCategories[index].category;
-    // if (this.resultCategories[index].followed) {
-    //   this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
-    //   return;
-    // }
-    // this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
-    //   this.categories.push(category);
-    //   this.resultCategories.splice(index, 1);
-    // });
   }
 
   private unSubscribeToCategory(index: number) {
@@ -148,5 +150,19 @@ export class ProfileComponent implements OnInit {
     this.userService.getUnfollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
         this.unFollowedCategories= res;
     });
+  }
+
+  private editProfile(){
+    this.user.name = this.profileForm.value.name;
+    this.user.lastName = this.profileForm.value.lastName;
+    this.user.email = this.profileForm.value.email;
+    // this.userService.update(this.user.id, this.user).then(() => {
+    //   this.toaster.pop('success', 'Perfil Modificado');
+    // }, () => {
+    //   this.toaster.pop('error', 'No se ha podido modificar el perfil');
+    // });
+
+    this.profileForm.reset();
+    this.closeBtn.nativeElement.click();
   }
 }

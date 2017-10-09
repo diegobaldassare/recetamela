@@ -176,3 +176,43 @@
 .form-control {
   width: 60%;
 }
+
+
+/** Edit Profile Modal */
+.header{
+  color: #f7b733;
+  text-align: left;
+  margin-left: 5px;
+}
+
+.btn-secondary{
+  background-color: #f7b733;
+}
+
+p {
+  margin: 0 0 5px;
+}
+
+.form-control {
+  padding: 10px 10px;
+  width: 100%;
+}
+
+.modal-content {
+  width: 70%;
+}
+
+.btn-danger {
+  background-color: #fc4a1a;
+  opacity: 0.9;
+}
+
+.btn-danger:hover {
+  background-color: #fc4a1a;
+  opacity: 1;
+}
+
+.btn-warning {
+  background-color: #f7b733;
+  opacity: 0.9;
+}

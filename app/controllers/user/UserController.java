@@ -37,14 +37,13 @@ public class UserController extends BaseController {
     }
 
     public Result updateUser(Long id) {
-        try {
-            return updateUser(id, user -> {
-                user.update();
-                return ok(Json.toJson(user));
-            });
-        } catch (NoSuchObjectException err) {
-            return notFound(err.getMessage());
-        }
+        User newUser = userForm.bindFromRequest().get();
+        return UserService.getInstance().get(id).map(user -> {
+            user.setName(newUser.getName());
+            user.setLastName(newUser.getLastName());
+            user.setEmail(newUser.getEmail());
+            return ok(Json.toJson(user));
+        }).orElse(notFound());
     }
 
     public Result getUser(Long id) {
@@ -64,21 +63,6 @@ public class UserController extends BaseController {
             return ok();
         }
         return notFound();
-    }
-
-    private Result updateUser(Long id, Function<User, Result> function) throws NoSuchObjectException {
-        User newFreeUser = userForm.bindFromRequest().get();
-        Optional<User> userOptional = UserService.getInstance().get(id);
-        User oldFreeUser;
-        if(userOptional.isPresent()) oldFreeUser = userOptional.get();
-        else throw new NoSuchObjectException("The user was not found");
-        if (newFreeUser.getName() != null) oldFreeUser.setName(newFreeUser.getName());
-        if (newFreeUser.getLastName() != null) oldFreeUser.setLastName(newFreeUser.getLastName());
-        if (newFreeUser.getEmail() != null) oldFreeUser.setEmail(newFreeUser.getEmail());
-        if (newFreeUser.getProfilePic() != null) oldFreeUser.setProfilePic(newFreeUser.getProfilePic());
-        if (newFreeUser.getAuthToken() != null) oldFreeUser.setAuthToken(newFreeUser.getAuthToken());
-        oldFreeUser.setFacebookId(newFreeUser.getFacebookId());
-        return function.apply(oldFreeUser);
     }
 
     public Result getRecipeCategories(Long id) {

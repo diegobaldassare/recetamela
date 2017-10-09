@@ -18,8 +18,8 @@
       <div class="row">
         <p class="card-author">👨🏾‍🍳 {{recipe.author.name}} {{recipe.author.lastName}}</p>
         <P>_____________________________</P>
-        <p class="card-description">
-          {{recipe.description.substring(0, 40).concat('...')}}
+        <p>
+          {{recipe.description.substring(0, 35).concat('...')}}
           <a (click)="toRecipe()">Seguir leyendo</a>
         </p>
       </div>

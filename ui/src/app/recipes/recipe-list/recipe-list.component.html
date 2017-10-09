@@ -1,6 +1,6 @@
 <div class="scrollmenu">
   <div *ngIf="recipeBook; else profileRecipes">
-    <div *ngFor="let recipe of recipes">
+    <div *ngFor="let recipe of recipeBook.recipes">
       <app-recipe-card [recipe]="recipe" [recipeBook]="recipeBook"></app-recipe-card>
     </div>
   </div>

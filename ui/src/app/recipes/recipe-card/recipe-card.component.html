@@ -2,7 +2,7 @@
 <div class="container">
   <img src="{{recipe.images[0].url}}" class="image">
   <button class="btn text recipe-name">{{recipe.name}}</button>
-  <div class="overlay">
+  <div class="container overlay">
     <div class="row eliminateButton">
       <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"
               (click)="deleteFromRecipeBook()"
@@ -16,10 +16,10 @@
         <star-rating-comp [starType]="'svg'" [rating]="recipe.rating"></star-rating-comp>
       </div>
       <div class="row">
-        <p class="card-author">👨🏾‍🍳 {{recipe.author.name}} {{recipe.author.lastName}}</p>
+        <p class="card-author">👨🏾‍🍳 {{recipe.author?.name}} {{recipe.author?.lastName}}</p>
         <P>_____________________________</P>
-        <p>
-          {{recipe.description.substring(0, 35).concat('...')}}
+        <p class="card-description">
+          {{recipe.description.substring(0, 22).concat('...')}}
           <a (click)="toRecipe()">Seguir leyendo</a>
         </p>
       </div>

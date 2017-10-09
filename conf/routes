@@ -13,6 +13,7 @@ GET         /api/user/:id/recipes                   controllers.recipe.RecipeCon
 GET         /api/recipe/author/:id                  controllers.recipe.RecipeController.getRecipeAuthor(id: Long)
 
 POST        /api/recipe/:id/rate                    controllers.recipe.RecipeRatingController.create(id: Long)
+PUT         /api/recipe/:recipeId/rate/:id          controllers.recipe.RecipeRatingController.updateRating(id: Long)
 GET         /api/recipe/rating/:id                  controllers.recipe.RecipeRatingController.getRatingFromUser(id: Long)
 
 GET         /api/recipes                            controllers.recipe.RecipeController.search(name: String ?= "", categories: String ?= "", ingredients: String ?= "", difficulty: String ?= "0", author: String ?= "")

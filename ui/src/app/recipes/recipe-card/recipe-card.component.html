@@ -1,6 +1,7 @@
 <div class="card">
 <div class="container">
   <img src="{{recipe.images[0].url}}" class="image">
+  <button class="btn text recipe-name">{{recipe.name}}</button>
   <div class="overlay">
     <div class="row eliminateButton">
       <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"

@@ -8,6 +8,7 @@ import {Recipe} from "../models/recipe/recipe";
 import {RecipeSearchQuery} from "../../recipes/search-recipes/recipe-search-query";
 import {RequestOptions, RequestOptionsArgs} from "@angular/http";
 import {RecipeRating} from "../models/recipe/recipe-rating";
+import {User} from "../models/user-model";
 
 @Injectable()
 export class RecipeService extends ApiService {
@@ -20,6 +21,10 @@ export class RecipeService extends ApiService {
 
   getRecipe(id): Promise<Recipe> {
     return this.http.get<Recipe>(`${this.URL}/${id}`).toPromise();
+  }
+
+  getRecipeAuthor(id): Promise<User> {
+    return this.http.get<User>(`${this.URL}/author/${id}`).toPromise();
   }
 
   getRecipeCategories(): Promise<RecipeCategory[]> {

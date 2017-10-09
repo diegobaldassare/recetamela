@@ -103,6 +103,11 @@ public class RecipeController extends BaseController {
         return ok(Json.toJson(recipes));
     }
 
+    public Result getRecipeAuthor(long id){
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        return recipe.map(r -> ok(Json.toJson(r.getAuthor()))).orElseGet(Results::notFound);
+    }
+
     @Authenticate({ FreeUser.class, PremiumUser.class })
     public Result search(String name, String categories, String ingredients, String difficulty, String author) {
         final RecipeSearchQuery q = new RecipeSearchQuery(

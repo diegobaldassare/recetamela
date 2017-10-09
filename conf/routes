@@ -10,6 +10,7 @@ GET         /api/recipes                            controllers.recipe.RecipeCon
 PUT         /api/recipe/:id                         controllers.recipe.RecipeController.modify(id: Long)
 DELETE      /api/recipe/:id                         controllers.recipe.RecipeController.delete(id: Long)
 GET         /api/user/:id/recipes                   controllers.recipe.RecipeController.getUserRecipes(id: Long)
+GET         /api/recipe/author/:id                  controllers.recipe.RecipeController.getRecipeAuthor(id: Long)
 
 POST        /api/recipe/:id/rate                    controllers.recipe.RecipeRatingController.create(id: Long)
 GET         /api/recipe/rating/:id                  controllers.recipe.RecipeRatingController.getRatingFromUser(id: Long)

@@ -4,6 +4,8 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {RecipeBookService} from "../../shared/services/recipebook.service";
 import {RecipeBook} from "../../shared/models/recipe/recipebook";
 import {ToasterService} from "angular2-toaster";
+import {User} from "../../shared/models/user-model";
+import {RecipeService} from "../../shared/services/recipe.service";
 
 @Component({
   selector: 'app-recipe-card',
@@ -14,16 +16,21 @@ export class RecipeCardComponent implements OnInit {
 
   @Input() recipe: Recipe;
   @Input() recipeBook: RecipeBook;
+  author: User;
 
   onRecipeBook: boolean;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               public toaster: ToasterService,
-              private recipeBookService: RecipeBookService) { }
+              private recipeBookService: RecipeBookService,
+              private recipeService: RecipeService) { }
 
   ngOnInit(){
     if(this.recipeBook) this.onRecipeBook = true;
+    this.recipeService.getRecipeAuthor(this.recipe.id).then((res: User) => {
+      this.author = res;
+    })
   }
 
   toRecipe(){

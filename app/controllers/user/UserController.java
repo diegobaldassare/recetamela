@@ -4,9 +4,7 @@ import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.recipe.RecipeCategory;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -27,7 +25,7 @@ public class UserController extends BaseController {
 
     @Inject
     public UserController(FormFactory formFactory) {
-        userForm =  formFactory.form(User.class);
+        userForm = formFactory.form(User.class);
     }
 
     public Result createUser() {
@@ -51,14 +49,14 @@ public class UserController extends BaseController {
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 
-    public Result getUsers(){
+    public Result getUsers() {
         List<User> users = UserService.getInstance().getFinder().all();
         return ok(Json.toJson(users));
     }
 
-    public Result deleteUser(Long id){
+    public Result deleteUser(Long id) {
         Optional<User> user = UserService.getInstance().get(id);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             user.get().delete();
             return ok();
         }
@@ -107,5 +105,20 @@ public class UserController extends BaseController {
         me.update();
 
         return ok(Json.toJson(category.get()));
+    }
+
+    public Result checkExpirationDate(Long id) {
+        Optional<User> userOptional = UserService.getInstance().get(id);
+        if (!userOptional.isPresent()) return notFound("User not Found");
+        User user = userOptional.get();
+        if (user.getType().equals("PremiumUser") && ((PremiumUser) user).isExpired()) return downgradeUser(user);
+        if (user.getType().equals("ChefUser") && ((ChefUser) user).isExpired()) return downgradeUser(user);
+        return ok(Json.toJson(new CheckExpirationDateResponse(user, false)));
+    }
+
+    private Result downgradeUser(User user) {
+        user.setType("FreeUser");
+        user.update();
+        return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
     }
 }

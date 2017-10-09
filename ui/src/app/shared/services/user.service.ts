@@ -44,7 +44,7 @@ export class UserService {
   }
 
   public checkExpirationDate(id: string) : Promise<CheckExpirationDateResponse> {
-    return this.http.put<CheckExpirationDateResponse>(`/api/premiumuser/${id}/checkDate`, {}).toPromise();
+    return this.http.put<CheckExpirationDateResponse>(`/api/user/${id}/checkDate`, {}).toPromise();
   }
 
   public getUser(id: string) : Promise<User> {

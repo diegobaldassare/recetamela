@@ -97,4 +97,8 @@ export class UserService {
     notifications.splice(notifications.length -1 -i, 1);
     localStorage.setItem("notifications", JSON.stringify(notifications));
   }
+
+  public modify(id: string, u: User): Promise<User> {
+    return this.http.put<User>(`/api/user/${id}/modify`, u).toPromise();
+  }
 }

@@ -10,10 +10,14 @@ import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import server.exception.BadRequestException;
 import services.recipe.RecipeCategoryService;
+import services.recipe.RecipeValidator;
 import services.user.UserService;
+import services.user.UserValidator;
 
 import java.rmi.NoSuchObjectException;
 import java.util.List;
@@ -123,5 +127,20 @@ public class UserController extends BaseController {
         me.update();
 
         return ok(Json.toJson(category.get()));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result modify(long id) {
+        final Optional<User> user = UserService.getInstance().get(id);
+        if (!user.isPresent()) return notFound();
+        final User u = getBody(User.class);
+        try {
+            UserValidator.validateNotNullFields(u);
+            UserService.getInstance().modify(user.get(), u);
+            user.get().save();
+            return ok(Json.toJson(user.get()));
+        } catch (BadRequestException e) {
+            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
+        }
     }
 }

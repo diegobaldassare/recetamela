@@ -7,7 +7,10 @@ import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 import {FormatService} from "../shared/services/format.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {
+  AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {ToasterService} from "angular2-toaster";
 
 
@@ -40,13 +43,25 @@ export class ProfileComponent implements OnInit {
     private recipeCategoryService: RecipeCategoryService,
     private router: Router,
     public toaster: ToasterService,
-    private fb: FormBuilder) {
+    private formBuilder: FormBuilder) {
 
-    this.profileForm = fb.group({
-      'name': new FormControl(null, [Validators.required]),
-      'lastName': new FormControl(null, [Validators.required]),
-      'email': new FormControl(null, [Validators.required]),
-    });
+    const atLeastOne = (validator: ValidatorFn) => (
+      group: FormGroup,
+    ): ValidationErrors | null => {
+      const hasAtLeastOne = group && group.controls && Object.keys(group.controls)
+          .some(k => !validator(group.controls[k]));
+
+      return hasAtLeastOne ? null : {
+        atLeastOne: true,
+      };
+    };
+
+    this.profileForm = formBuilder.group({
+      'name': [''],
+      'lastName': [''],
+      'email': [''],
+    }, { validator: atLeastOne(Validators.required) }
+    );
   }
 
   ngOnInit() {
@@ -155,14 +170,18 @@ export class ProfileComponent implements OnInit {
   private editProfile(){
     this.user.name = this.profileForm.value.name;
     this.user.lastName = this.profileForm.value.lastName;
-    this.user.email = this.profileForm.value.email;
-    // this.userService.update(this.user.id, this.user).then(() => {
-    //   this.toaster.pop('success', 'Perfil Modificado');
-    // }, () => {
-    //   this.toaster.pop('error', 'No se ha podido modificar el perfil');
-    // });
+    if (this.profileForm.value.email !== null) this.user.email = this.profileForm.value.email;
+    this.userService.modify(this.user.id, this.user).then(() => {
+      this.toaster.pop('success', 'Perfil Modificado');
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido modificar el perfil');
+    });
 
     this.profileForm.reset();
     this.closeBtn.nativeElement.click();
+  }
+
+  private deleteAccount() {
+
   }
 }

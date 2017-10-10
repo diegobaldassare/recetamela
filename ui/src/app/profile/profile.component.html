@@ -111,13 +111,13 @@
           </div>
           <div class="row">
             <p class="header">Mail</p>
-            <input type="text" class="form-control" id="email" formControlName="email" placeholder={{user?.email}}>
+            <input type="email" name="email" class="form-control" id="email" formControlName="email" placeholder={{user?.email}}>
           </div>
           <div class="row">
             <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteAccount()">
               Eliminar Cuenta
             </button>
-            <button type="button" class="btn btn-warning" data-dismiss="modal" [disabled]="!profileForm.valid" (click)="editProfile()">
+            <button type="submit" class="btn btn-warning" data-dismiss="modal" [disabled]="!profileForm.valid" (click)="editProfile()">
               Guardar
             </button>
           </div>

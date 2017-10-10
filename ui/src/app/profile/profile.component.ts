@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
     this.profileForm = formBuilder.group({
       'name': [''],
       'lastName': [''],
-      'email': [''],
+      'email': ['', [this.checkEmail]],
     }, { validator: atLeastOne(Validators.required) }
     );
   }
@@ -167,10 +167,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  private checkEmail(control: AbstractControl){
+    if(control.value !== '') {
+      control.setValidators([Validators.email, Validators.minLength(5)]);
+    }
+  }
+
   private editProfile(){
-    this.user.name = this.profileForm.value.name;
-    this.user.lastName = this.profileForm.value.lastName;
-    if (this.profileForm.value.email !== null) this.user.email = this.profileForm.value.email;
+    if (this.profileForm.value.name.length !== 0) this.user.name = this.profileForm.value.name;
+    if (this.profileForm.value.lastName.length !== 0) this.user.lastName = this.profileForm.value.lastName;
+    if (this.profileForm.value.email.length !== 0) this.user.email = this.profileForm.value.email;
     this.userService.modifyUser(this.user.id, this.user).then(() => {
       this.toaster.pop('success', 'Perfil Modificado');
     }, () => {
@@ -181,7 +187,7 @@ export class ProfileComponent implements OnInit {
     this.closeBtn.nativeElement.click();
   }
 
-  private deleteAccount() {
+  private deleteUser() {
     this.userService.deleteUser(this.user.id).then(() => {
       this.router.navigate(['/']);
     }, () => {

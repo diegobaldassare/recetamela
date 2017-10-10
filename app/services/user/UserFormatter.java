@@ -16,7 +16,7 @@ public class UserFormatter {
 
     private static void formatLastName(User u) {
         if (u.getLastName() == null) return;
-        u.setName(capitalizeFirstCharacter(u.getLastName()).trim());
+        u.setLastName(capitalizeFirstCharacter(u.getLastName()).trim());
     }
 
     private static String capitalizeFirstCharacter(String text) {

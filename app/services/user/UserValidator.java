@@ -32,7 +32,7 @@ public class UserValidator {
     }
 
     private static void validateEmail(User u) throws BadRequestException {
-        if (u.getEmail() == null || u.getEmail().isEmpty() || !u.getEmail().contains("@") || !u.getEmail().contains("."))
+        if (u.getEmail() == null || u.getEmail().length() < 3 || !u.getEmail().contains("@"))
             throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 

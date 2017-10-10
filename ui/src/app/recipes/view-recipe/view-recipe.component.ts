@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import { DomSanitizer } from '@angular/platform-browser';
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
@@ -31,15 +31,20 @@ export class ViewRecipeComponent implements OnInit {
   ){}
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id'];
-    this.recipeService.getRecipe(id).then(recipe => {
-      this.recipe = recipe;
-      this.fetched = true;
-    }, () => { this.fetched = true });
-    this.recipeService.getRatingFromUser(id).then( recipeRating => {
-      this.recipeRating = recipeRating;
-    }
-  )
+    this.route.params
+      .subscribe(
+        (params: Params) => {
+          const id = this.route.snapshot.params['id'];
+          this.recipeService.getRecipe(id).then(recipe => {
+            this.recipe = recipe;
+            this.fetched = true;
+          }, () => { this.fetched = true });
+          this.recipeService.getRatingFromUser(id).then( recipeRating => {
+              this.recipeRating = recipeRating;
+            }
+          )
+        }
+      );
   }
 
   public get editButton(): boolean {

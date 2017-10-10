@@ -8,9 +8,10 @@
               <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
               <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" title="Editar Receta" (click)="checkPremium()">
                 <a href="javascript://">
-                <span class="glyphicon glyphicon-pencil"></span>
+                  <span class="glyphicon glyphicon-pencil"></span>
                 </a>
               </button>
+
 
               <button style="vertical-align: text-bottom"
                       *ngIf="canAddToRecipeBook"
@@ -23,9 +24,13 @@
               </button>
             </div>
 
+            <app-facebook-share [recipe]="recipe"></app-facebook-share>
+
+
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
               <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
             </div>
+
 
             <p>
               <strong>Descripción:</strong>

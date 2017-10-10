@@ -53,6 +53,9 @@ import {RecipeBookService} from "./shared/services/recipebook.service";
 import { RecipeCategoryService } from "./shared/services/recipecategory.service";
 import { CategoriesComponent } from './nav/categories/categories.component';
 import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
+import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { CreateNewsComponent } from './news-feed/create-news/create-news.component';
+import {NewsService} from "./shared/services/news-service";
 import {FacebookShareComponent} from "./facebook-share/facebook-share.component";
 
 
@@ -86,6 +89,8 @@ import {FacebookShareComponent} from "./facebook-share/facebook-share.component"
     RecipeBookListComponent,
     RecipeBookItemComponent,
     CategoriesComponent,
+    NewsFeedComponent,
+    CreateNewsComponent,
     FacebookShareComponent,
   ],
   imports: [
@@ -125,7 +130,8 @@ import {FacebookShareComponent} from "./facebook-share/facebook-share.component"
     FormatService,
     PaymentService,
     RecipeBookService,
-    RecipeCategoryService
+    RecipeCategoryService,
+    NewsService
   ],
   bootstrap: [AppComponent]
 })

@@ -62,4 +62,10 @@ public class RecipeRatingService extends Service<RecipeRating>{
         }
         return new RecipeRating();
     }
+
+    public void updateRating(RecipeRating newRecipeRating, RecipeRating oldRecipeRating) throws BadRequestException{
+        checkRating(newRecipeRating);
+        oldRecipeRating.setRating(newRecipeRating.getRating());
+        oldRecipeRating.save();
+    }
 }

@@ -13,6 +13,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {SearchRecipesComponent} from "./recipes/search-recipes/search-recipes.component";
 import {RecipeBookListComponent} from "./recipe-book-list/recipe-book-list.component";
 import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
+import {NewsFeedComponent} from "./news-feed/news-feed.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'recetarios', component: RecipeBookListComponent, canActivate: [AuthGuard, PremiumGuard]},
   { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, PremiumGuard]},
   { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'noticias', component: NewsFeedComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
 

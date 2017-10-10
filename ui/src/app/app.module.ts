@@ -53,6 +53,7 @@ import {RecipeBookService} from "./shared/services/recipebook.service";
 import { RecipeCategoryService } from "./shared/services/recipecategory.service";
 import { CategoriesComponent } from './nav/categories/categories.component';
 import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
+import {FacebookShareComponent} from "./facebook-share/facebook-share.component";
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
     RecipeBookListComponent,
     RecipeBookItemComponent,
     CategoriesComponent,
+    FacebookShareComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,20 +2,13 @@ package controllers.user;
 
 import com.google.inject.Inject;
 import controllers.BaseController;
-import controllers.authentication.Authenticate;
-import models.notification.NotificationType;
-import models.user.CheckExpirationDateResponse;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.user.PremiumUserService;
-import services.user.UserService;
-import util.NotificationManager;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -30,7 +23,7 @@ public class PremiumUserController extends BaseController {
 
     @Inject
     public PremiumUserController(FormFactory formFactory) {
-        userForm =  formFactory.form(PremiumUser.class);
+        userForm = formFactory.form(PremiumUser.class);
     }
 
     public Result createPremiumUser() {
@@ -40,30 +33,21 @@ public class PremiumUserController extends BaseController {
         return ok(Json.toJson(user));
     }
 
-
     public Result upgradePremiumUser(Long id) {
-        //Para upgradear a Chef
-        return ok();
-    }
-
-    public Result downgradePremiumUser(Long id) {
-        Optional<PremiumUser> premiumUserOptional = PremiumUserService.getInstance().get(id);
-        if (!premiumUserOptional.isPresent()) return notFound();
-        return downgradePremiumUser(premiumUserOptional.get());
-    }
-
-    private Result downgradePremiumUser(PremiumUser user) {
-        user.setType("FreeUser");
-        user.update();
-        return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
-    }
-
-    public Result checkExpirationDate(Long id) {
-        Optional<User> userOptional = UserService.getInstance().get(id);
-        if (!userOptional.isPresent()) return notFound("User not Found");
-        User user = userOptional.get();
-        if (user.getType().equals("PremiumUser") && ((PremiumUser) user).isExpired()) return downgradePremiumUser((PremiumUser) user);
-        return ok(Json.toJson(new CheckExpirationDateResponse(user, false)));
+        return PremiumUserService.getInstance().get(id).map(user -> {
+            ChefUser chefUser = new ChefUser();
+            chefUser.setName(user.getName());
+            chefUser.setLastName(user.getLastName());
+            chefUser.setEmail(user.getEmail());
+            chefUser.setProfilePic(user.getProfilePic());
+            chefUser.setId(user.getId());
+            chefUser.setType("ChefUser");
+            chefUser.setFacebookId(user.getFacebookId());
+            chefUser.setAuthToken(user.getAuthToken());
+            chefUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+            chefUser.update();
+            return ok(Json.toJson(chefUser));
+        }).orElse(notFound());
     }
 
     public Result updatePremiumUser(Long id) {
@@ -91,14 +75,14 @@ public class PremiumUserController extends BaseController {
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 
-    public Result getPremiumUsers(){
+    public Result getPremiumUsers() {
         List<PremiumUser> premiumUsers = PremiumUserService.getInstance().getFinder().all();
         return ok(Json.toJson(premiumUsers));
     }
 
-    public Result deletePremiumUser(Long id){
+    public Result deletePremiumUser(Long id) {
         Optional<PremiumUser> user = PremiumUserService.getInstance().get(id);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             user.get().delete();
             return ok();
         }
@@ -109,7 +93,7 @@ public class PremiumUserController extends BaseController {
         PremiumUser newPremiumUser = userForm.bindFromRequest().get();
         Optional<PremiumUser> optionalPremiumUser = PremiumUserService.getInstance().get(id);
         PremiumUser oldPremiumUser;
-        if(optionalPremiumUser.isPresent()) oldPremiumUser = optionalPremiumUser.get();
+        if (optionalPremiumUser.isPresent()) oldPremiumUser = optionalPremiumUser.get();
         else throw new NoSuchObjectException("The user was not found");
         if (newPremiumUser.getName() != null) oldPremiumUser.setName(newPremiumUser.getName());
         if (newPremiumUser.getLastName() != null) oldPremiumUser.setLastName(newPremiumUser.getLastName());
@@ -118,7 +102,8 @@ public class PremiumUserController extends BaseController {
         if (newPremiumUser.getAuthToken() != null) oldPremiumUser.setAuthToken(newPremiumUser.getAuthToken());
         if (newPremiumUser.getRecipes() != null) oldPremiumUser.setRecipes(newPremiumUser.getRecipes());
         if (newPremiumUser.getRecipebooks() != null) oldPremiumUser.setRecipebooks(newPremiumUser.getRecipebooks());
-        if (newPremiumUser.getExpirationDate() != null) oldPremiumUser.setExpirationDate(newPremiumUser.getExpirationDate());
+        if (newPremiumUser.getExpirationDate() != null)
+            oldPremiumUser.setExpirationDate(newPremiumUser.getExpirationDate());
         oldPremiumUser.setFacebookId(newPremiumUser.getFacebookId());
         return function.apply(oldPremiumUser);
     }

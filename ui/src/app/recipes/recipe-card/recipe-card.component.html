@@ -16,7 +16,12 @@
         <star-rating-comp [starType]="'svg'" [rating]="recipe.rating"></star-rating-comp>
       </div>
       <div class="row">
-        <p class="card-author">👨🏾‍🍳 {{author?.name}} {{author?.lastName}}</p>
+        <p class="card-author">
+          👨🏾‍🍳
+          <a [routerLink]="'/usuario/' + author?.id + '/perfil' ">
+            {{author?.name}} {{author?.lastName}}
+          </a>
+        </p>
         <P>_____________________________</P>
         <p class="card-description">
           {{recipe.description.substring(0, 22).concat('...')}}

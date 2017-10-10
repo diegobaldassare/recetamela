@@ -171,7 +171,7 @@ export class ProfileComponent implements OnInit {
     this.user.name = this.profileForm.value.name;
     this.user.lastName = this.profileForm.value.lastName;
     if (this.profileForm.value.email !== null) this.user.email = this.profileForm.value.email;
-    this.userService.modify(this.user.id, this.user).then(() => {
+    this.userService.modifyUser(this.user.id, this.user).then(() => {
       this.toaster.pop('success', 'Perfil Modificado');
     }, () => {
       this.toaster.pop('error', 'No se ha podido modificar el perfil');
@@ -182,6 +182,10 @@ export class ProfileComponent implements OnInit {
   }
 
   private deleteAccount() {
-
+    this.userService.deleteUser(this.user.id).then(() => {
+      this.router.navigate(['/']);
+    }, () => {
+      this.toaster.pop('error', 'Usuario no eliminado');
+    });
   }
 }

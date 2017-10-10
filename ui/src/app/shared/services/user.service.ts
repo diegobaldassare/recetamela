@@ -98,7 +98,11 @@ export class UserService {
     localStorage.setItem("notifications", JSON.stringify(notifications));
   }
 
-  public modify(id: string, u: User): Promise<User> {
+  public modifyUser(id: string, u: User): Promise<User> {
     return this.http.put<User>(`/api/user/${id}/modify`, u).toPromise();
+  }
+
+  public deleteUser(id: string) : Promise<any> {
+    return this.http.delete(`/api/user/${id}/delete`).toPromise();
   }
 }

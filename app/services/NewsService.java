@@ -5,6 +5,8 @@ import models.News;
 import server.error.RequestError;
 import server.exception.BadRequestException;
 
+import java.sql.Timestamp;
+
 public class NewsService extends Service<News> {
 
     private static NewsService instance;
@@ -25,6 +27,7 @@ public class NewsService extends Service<News> {
 
     private static void format(News n) throws BadRequestException {
         try {
+            n.setCreated(new Timestamp(System.currentTimeMillis()));
             n.setTitle(StringFormatter.capitalizeFirstCharacter(n.getTitle()).trim());
             if (n.getTitle().isEmpty()) throw new BadRequestException(RequestError.BAD_FORMAT);
             n.setDescription(StringFormatter.capitalizeFirstCharacter(n.getDescription()).trim());

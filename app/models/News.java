@@ -3,6 +3,7 @@ package models;
 import models.user.User;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class News extends BaseModel {
@@ -21,6 +22,9 @@ public class News extends BaseModel {
     @ManyToOne
     @Column(nullable = false)
     private User author;
+
+    @Column(nullable = false)
+    private Timestamp created;
 
     public String getTitle() {
         return title;
@@ -60,5 +64,13 @@ public class News extends BaseModel {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 }

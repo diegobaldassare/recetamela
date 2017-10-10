@@ -1,23 +1,25 @@
 package models;
 
-import models.user.ChefUser;
 import models.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class News extends BaseModel {
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String description;
 
+    @OneToOne(cascade = CascadeType.ALL)
     private Media image;
 
-    private String videoURL;
+    private String videoUrl;
 
     @ManyToOne
+    @Column(nullable = false)
     private User author;
 
     public String getTitle() {
@@ -44,19 +46,19 @@ public class News extends BaseModel {
         this.image = image;
     }
 
-    public String getVideoURL() {
-        return videoURL;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(ChefUser author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 }

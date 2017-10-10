@@ -13,7 +13,6 @@ GET         /api/user/:id/recipes                   controllers.recipe.RecipeCon
 GET         /api/recipe/author/:id                  controllers.recipe.RecipeController.getRecipeAuthor(id: Long)
 
 POST        /api/recipe/:id/rate                    controllers.recipe.RecipeRatingController.create(id: Long)
-PUT         /api/recipe/:recipeId/rate/:id          controllers.recipe.RecipeRatingController.updateRating(id: Long)
 GET         /api/recipe/rating/:id                  controllers.recipe.RecipeRatingController.getRatingFromUser(id: Long)
 
 GET         /api/recipes                            controllers.recipe.RecipeController.search(name: String ?= "", categories: String ?= "", ingredients: String ?= "", difficulty: String ?= "0", author: String ?= "")
@@ -83,6 +82,9 @@ DELETE      /api/chefuser/:id/delete                controllers.user.ChefUserCon
 POST        /api/auth/login                         controllers.SecurityController.login()
 POST        /api/auth/logout                        controllers.SecurityController.logout()
 GET         /api/auth/logged-data                   controllers.SecurityController.getLoggedData
+
+POST        /api/news                               controllers.NewsController.create()
+DELETE      /api/news/:id                           controllers.NewsController.delete(id: Long)
 
 GET         /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
 GET         /static/*file                           controllers.MediaController.getFile(file)

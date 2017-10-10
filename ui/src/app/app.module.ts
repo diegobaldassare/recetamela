@@ -53,7 +53,9 @@ import {RecipeBookService} from "./shared/services/recipebook.service";
 import { RecipeCategoryService } from "./shared/services/recipecategory.service";
 import { CategoriesComponent } from './nav/categories/categories.component';
 import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
-
+import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { CreateNewsComponent } from './news-feed/create-news/create-news.component';
+import {NewsService} from "./shared/services/news-service";
 
 @NgModule({
   declarations: [
@@ -85,6 +87,8 @@ import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
     RecipeBookListComponent,
     RecipeBookItemComponent,
     CategoriesComponent,
+    NewsFeedComponent,
+    CreateNewsComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,7 +127,8 @@ import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
     FormatService,
     PaymentService,
     RecipeBookService,
-    RecipeCategoryService
+    RecipeCategoryService,
+    NewsService
   ],
   bootstrap: [AppComponent]
 })

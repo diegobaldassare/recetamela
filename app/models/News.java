@@ -3,7 +3,7 @@ package models;
 import models.user.User;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class News extends BaseModel {
@@ -11,7 +11,7 @@ public class News extends BaseModel {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10000)
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -24,7 +24,7 @@ public class News extends BaseModel {
     private User author;
 
     @Column(nullable = false)
-    private Timestamp created;
+    private Date created;
 
     public String getTitle() {
         return title;
@@ -66,11 +66,11 @@ public class News extends BaseModel {
         this.author = author;
     }
 
-    public Timestamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Timestamp created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 }

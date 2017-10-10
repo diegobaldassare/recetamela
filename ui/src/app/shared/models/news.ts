@@ -1,5 +1,6 @@
 import {Media} from "./media";
 import {User} from "./user-model";
+import {Timestamp} from "rxjs/Rx";
 
 export class News {
   id: string;
@@ -8,4 +9,5 @@ export class News {
   videoUrl: string = '';
   image: Media;
   author: User;
+  created: Date;
 }

@@ -57,7 +57,7 @@ import { NewsFeedComponent } from './news-feed/news-feed.component';
 import { CreateNewsComponent } from './news-feed/create-news/create-news.component';
 import {NewsService} from "./shared/services/news-service";
 import {FacebookShareComponent} from "./facebook-share/facebook-share.component";
-
+import { NewsPreviewComponent } from './news-feed/news-preview/news-preview.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +92,7 @@ import {FacebookShareComponent} from "./facebook-share/facebook-share.component"
     NewsFeedComponent,
     CreateNewsComponent,
     FacebookShareComponent,
+    NewsPreviewComponent,
   ],
   imports: [
     BrowserModule,

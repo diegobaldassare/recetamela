@@ -12,7 +12,7 @@ public class RecipeStep extends Model {
     @Id
     private Long id;
 
-    @Column(nullable = false, length = 2048)
+    @Column(nullable = false, length = 4096)
     private String description;
 
     @OneToOne(cascade = CascadeType.REMOVE)

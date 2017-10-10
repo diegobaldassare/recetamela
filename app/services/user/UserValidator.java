@@ -1,6 +1,5 @@
 package services.user;
 
-import models.recipe.Recipe;
 import models.user.User;
 import org.apache.commons.lang3.StringUtils;
 import server.error.RequestError;

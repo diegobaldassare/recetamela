@@ -16,6 +16,7 @@ import play.mvc.Results;
 import server.exception.BadRequestException;
 import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeValidator;
+import services.user.UserFormatter;
 import services.user.UserService;
 import services.user.UserValidator;
 
@@ -134,6 +135,7 @@ public class UserController extends BaseController {
         final Optional<User> user = UserService.getInstance().get(id);
         if (!user.isPresent()) return notFound();
         final User u = getBody(User.class);
+        UserFormatter.format(u);
         try {
             UserValidator.validateNotNullFields(u);
             UserService.getInstance().modify(user.get(), u);

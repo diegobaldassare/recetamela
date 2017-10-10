@@ -7,12 +7,8 @@ import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 import {FormatService} from "../shared/services/format.service";
-import {
-  AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn,
-  Validators
-} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {ToasterService} from "angular2-toaster";
-
 
 @Component({
   selector: 'app-profile',
@@ -43,7 +39,8 @@ export class ProfileComponent implements OnInit {
     private recipeCategoryService: RecipeCategoryService,
     private router: Router,
     public toaster: ToasterService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private formatter: FormatService) {
 
     const atLeastOne = (validator: ValidatorFn) => (
       group: FormGroup,
@@ -59,7 +56,7 @@ export class ProfileComponent implements OnInit {
     this.profileForm = formBuilder.group({
       'name': [''],
       'lastName': [''],
-      'email': ['', [this.checkEmail]],
+      'email': ['', [ProfileComponent.checkEmail]],
     }, { validator: atLeastOne(Validators.required) }
     );
   }
@@ -167,22 +164,29 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private checkEmail(control: AbstractControl){
+  private static checkEmail(control: AbstractControl){
     if(control.value !== '') {
       control.setValidators([Validators.email, Validators.minLength(5)]);
     }
   }
 
   private editProfile(){
-    if (this.profileForm.value.name.length !== 0) this.user.name = this.profileForm.value.name;
-    if (this.profileForm.value.lastName.length !== 0) this.user.lastName = this.profileForm.value.lastName;
-    if (this.profileForm.value.email.length !== 0) this.user.email = this.profileForm.value.email;
+    const name = this.profileForm.value.name;
+    if (name !== null && name.length !== 0) {
+      this.user.name = this.formatter.capitalizeFirstChar(name);
+    }
+    const lastName = this.profileForm.value.lastName;
+    if (lastName !== null && lastName.length !== 0) {
+      this.user.lastName = this.formatter.capitalizeFirstChar(lastName);
+    }
+    const email = this.profileForm.value.email;
+    if (email !== null && email.length !== 0) this.user.email = email;
+
     this.userService.modifyUser(this.user.id, this.user).then(() => {
       this.toaster.pop('success', 'Perfil Modificado');
     }, () => {
       this.toaster.pop('error', 'No se ha podido modificar el perfil');
     });
-
     this.profileForm.reset();
     this.closeBtn.nativeElement.click();
   }

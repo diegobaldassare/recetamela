@@ -11,11 +11,13 @@ import {CheckExpirationDateResponse} from "../models/ced-response";
 import {Observable} from "rxjs/Observable";
 import {Notification} from "../models/notification";
 import {RecipeCategory} from "../models/recipe/recipe-category";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class UserService {
 
   private headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json'});
+  private subject = new Subject<User>();
   constructor(private http:HttpClient, private router: Router, private toaster: ToasterService, private auth: MyAuthService, private sharedService: SharedService) { }
 
   public registerUser(user: User) {
@@ -49,6 +51,10 @@ export class UserService {
 
   public getUser(id: string) : Promise<User> {
     return this.http.get<User>(`/api/user/${id}`).toPromise();
+  }
+
+  public getModifiedUser(): Observable<User> {
+    return this.subject.asObservable();
   }
 
   public followUser(id: string) : Observable<User> {
@@ -99,6 +105,7 @@ export class UserService {
   }
 
   public modifyUser(id: string, u: User): Promise<User> {
+    this.subject.next(u);
     return this.http.put<User>(`/api/user/${id}/modify`, u).toPromise();
   }
 

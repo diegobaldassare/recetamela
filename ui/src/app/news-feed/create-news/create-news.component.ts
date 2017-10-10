@@ -3,6 +3,7 @@ import {News} from "../../shared/models/news";
 import {NewsService} from "../../shared/services/news-service";
 import {ToasterService} from "angular2-toaster";
 import {MediaService} from "../../shared/services/media.service";
+import {FormatService} from "../../shared/services/format.service";
 
 @Component({
   selector: 'app-create-news',
@@ -17,7 +18,8 @@ export class CreateNewsComponent implements OnInit {
   constructor(
     private newsService: NewsService,
     private toaster: ToasterService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private formatter: FormatService
   ) {}
 
   ngOnInit() {}
@@ -42,12 +44,11 @@ export class CreateNewsComponent implements OnInit {
   }
 
   private get videoThumbnailUrl(): string {
-    const split = this.news.videoUrl.split('v=');
-    return `http://img.youtube.com/vi/${split[1]}/0.jpg`;
+    return this.formatter.youtubeThumbnailUrl(this.news.videoUrl);
   }
 
   private get validVideoUrl(): boolean {
-    return /^(https?:\/\/(www\.)?)?youtube\.com\/watch\?v=[a-zA-Z0-9_-]+$/.test(this.news.videoUrl);
+    return this.formatter.isValidYoutubeUrl(this.news.videoUrl);
   }
 
   private create() {

@@ -1,12 +1,13 @@
 <div class="thumbnail">
-  <img *ngIf="news.image && news.videoUrl" [src]="news.image.url">
-  <img *ngIf="news.image && !news.videoUrl" [src]="news.image.url">
-  <img *ngIf="!news.image && news.videoUrl" [src]="videoThumbnailUrl">
+  <img *ngIf="thumbnailUrl" [src]="thumbnailUrl">
   <div class="caption">
     <h3>{{ news.title }}</h3>
     <p>👨‍🍳<i style="margin-left: 10px">{{ news.author.name + ' ' + news.author.lastName }}</i></p>
     <p><i>{{ news.created.toLocaleDateString() }}</i></p>
     <p>{{ description }}</p>
-    <p><a class="btn btn-primary" role="button">Ampliar</a></p>
+    <p>
+      <a class="btn btn-primary" role="button">Ampliar</a>
+      <a class="btn btn-danger" role="button" (click)="deleteNews()">Eliminar</a>
+    </p>
   </div>
 </div>

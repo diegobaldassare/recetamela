@@ -114,10 +114,10 @@
             <input type="email" name="email" class="form-control" id="email" formControlName="email" placeholder={{user?.email}}>
           </div>
           <div class="row">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser()">
+            <button class="btn btn-danger" data-toggle="modal" data-dismiss="modal" data-target="#confirm">
               Eliminar Cuenta
             </button>
-            <button type="submit" class="btn btn-warning" data-dismiss="modal" [disabled]="!profileForm.valid" (click)="editProfile()">
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="!profileForm.valid" (click)="editProfile()">
               Guardar
             </button>
           </div>
@@ -128,5 +128,30 @@
   </div>
 </div>
 
+<!-- Confirm Dialog -->
+<div id="confirm" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+        <h4 class="modal-title">¿Seguro desea eliminar su cuenta?</h4>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <p>Perderás todas tus recetas, comentarios y seguidores</p>
+          <p>Esta acción no tiene vuelta atrás. </p>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser()">
+            Eliminar Cuenta
+          </button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            No! Quiero continuar ️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 

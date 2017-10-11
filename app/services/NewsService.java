@@ -7,6 +7,7 @@ import server.exception.BadRequestException;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class NewsService extends Service<News> {
 
@@ -24,6 +25,10 @@ public class NewsService extends Service<News> {
     public static void create(News n) throws BadRequestException {
         format(n);
         n.save();
+    }
+
+    public List<News> getNewsPublishedByuser(Long id) {
+        return getFinder().where().eq("author_id", id).findList();
     }
 
     private static void format(News n) throws BadRequestException {

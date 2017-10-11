@@ -5,6 +5,7 @@ import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.AuthToken;
 import models.Followers;
+import models.News;
 import models.payment.CreditCard;
 import models.payment.Payment;
 import models.recipe.Recipe;
@@ -19,6 +20,7 @@ import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
 import services.LoginService;
+import services.NewsService;
 import services.payment.CreditCardService;
 import services.payment.PaymentService;
 import services.recipe.RecipeBookService;
@@ -73,6 +75,7 @@ public class UserController extends BaseController {
         final FollowerService followerService = FollowerService.getInstance();
         final RecipeService recipeService = RecipeService.getInstance();
         final RecipeBookService recipeBookService = RecipeBookService.getInstance();
+        final NewsService newsService = NewsService.getInstance();
         Optional<User> user = UserService.getInstance().get(id);
         return user.map(r -> {
             //* Step 1: Delete all credit cards associated with the User *//*
@@ -98,7 +101,8 @@ public class UserController extends BaseController {
             recipeBooks.forEach(RecipeBook::delete);
 
             /* Step 5: Delete all user News */
-
+            final List<News> news = newsService.getNewsPublishedByuser(r.getId());
+            news.forEach(News::delete);
 
             /* Step 5: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);

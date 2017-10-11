@@ -97,7 +97,7 @@ public class RecipeService extends Service<Recipe> {
             r.getSteps().stream()
                     .map(RecipeStep::getImage)
                     .filter(Objects::nonNull)
-                    .forEach(i -> mediaService.deleteFile(mediaService.getFile(i.getName())));
+                    .forEach(mediaService::deleteFile);
 
             RecipeBookService.getInstance().getFinder().query()
                     .where()

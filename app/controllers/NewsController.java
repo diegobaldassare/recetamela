@@ -32,4 +32,9 @@ public class NewsController extends BaseController {
             return ok();
         }).orElse(notFound());
     }
+
+    @Authenticate({FreeUser.class, ChefUser.class})
+    public Result get(long id) {
+        return NewsService.getInstance().get(id).map(n -> ok(Json.toJson(n))).orElse(notFound());
+    }
 }

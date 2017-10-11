@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {News} from "../../shared/models/news";
-import {User} from "../../shared/models/user-model";
-import {NewsService} from "../../shared/services/news-service";
-import {ToasterService} from "angular2-toaster";
-import {FormatService} from "../../shared/services/format.service";
+import {Component, OnInit} from '@angular/core';
+import {News} from "../../../shared/models/news";
+import {User} from "../../../shared/models/user-model";
+import {FormatService} from "../../../shared/services/format.service";
 
 @Component({
   selector: 'app-news-preview',
@@ -15,8 +13,6 @@ export class NewsPreviewComponent implements OnInit {
   private news: News;
 
   constructor(
-    private newsService: NewsService,
-    private toaster: ToasterService,
     private formatter: FormatService
   ) {
     this.mock();
@@ -34,14 +30,6 @@ export class NewsPreviewComponent implements OnInit {
   private get thumbnailUrl(): string {
     if (this.news.image) return this.news.image.url;
     else if (this.news.videoUrl) return this.formatter.youtubeThumbnailUrl(this.news.videoUrl);
-  }
-
-  private deleteNews() {
-    this.newsService.deleteNews(this.news.id).then(() => {
-      this.toaster.pop("success", "Noticia eliminada");
-    }, () => {
-      this.toaster.pop("error", "Noticia no eliminada");
-    });
   }
 
   private mock() {

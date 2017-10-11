@@ -13,10 +13,14 @@ export class NewsService extends ApiService {
   }
 
   public createNews(news: News): Promise<News> {
-    return this.http.post<any>(`${this.URL}`, news).toPromise();
+    return this.http.post<News>(`${this.URL}`, news).toPromise();
   }
 
   public deleteNews(id: string): Promise<any> {
-    return this.http.delete<any>(`${this.URL}/${id}/delete`).toPromise();
+    return this.http.delete<any>(`${this.URL}/${id}`).toPromise();
+  }
+
+  public getNews(id: string): Promise<News> {
+    return this.http.get<News>(`${this.URL}/${id}`).toPromise();
   }
 }

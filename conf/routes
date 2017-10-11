@@ -85,6 +85,7 @@ GET         /api/auth/logged-data                   controllers.SecurityControll
 
 POST        /api/news                               controllers.NewsController.create()
 DELETE      /api/news/:id                           controllers.NewsController.delete(id: Long)
+GET         /api/news/:id                           controllers.NewsController.get(id: Long)
 
 GET         /assets/*file                           controllers.Assets.versioned(path="/public", file: Asset)
 GET         /static/*file                           controllers.MediaController.getFile(file)

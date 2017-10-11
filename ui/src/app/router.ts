@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { NotFoundComponent } from "./not-found/not-found.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NotFoundComponent} from "./not-found/not-found.component";
 import {RecipesComponent} from "./recipes/recipes.component";
 import {ViewRecipeComponent} from "./recipes/view-recipe/view-recipe.component";
 import {HomeComponent} from "./home/home.component";
@@ -13,7 +13,8 @@ import {ProfileComponent} from "./profile/profile.component";
 import {SearchRecipesComponent} from "./recipes/search-recipes/search-recipes.component";
 import {RecipeBookListComponent} from "./recipe-book-list/recipe-book-list.component";
 import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
-import {NewsFeedComponent} from "./news-feed/news-feed.component";
+import {NewsFeedComponent} from "./news/news-feed/news-feed.component";
+import {NewsComponent} from "./news/news/news.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, PremiumGuard]},
   { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'noticias', component: NewsFeedComponent, canActivate: [AuthGuard] },
+  { path: 'noticias/:id', component: NewsComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
 

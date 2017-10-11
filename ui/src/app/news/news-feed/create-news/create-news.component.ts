@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {News} from "../../shared/models/news";
-import {NewsService} from "../../shared/services/news-service";
+import {Component, OnInit} from '@angular/core';
+import {News} from "../../../shared/models/news";
+import {NewsService} from "../../../shared/services/news-service";
 import {ToasterService} from "angular2-toaster";
-import {MediaService} from "../../shared/services/media.service";
-import {FormatService} from "../../shared/services/format.service";
+import {MediaService} from "../../../shared/services/media.service";
+import {FormatService} from "../../../shared/services/format.service";
 
 @Component({
   selector: 'app-create-news',

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {Recipe} from "../../shared/models/recipe/recipe";
 import {RecipeService} from "../../shared/services/recipe.service";
 import {User} from "../../shared/models/user-model";
@@ -76,7 +76,7 @@ export class ViewRecipeComponent implements OnInit {
   private addRating($event:OnClickEvent) {
     const rating = new RecipeRating();
     rating.rating = $event.rating;
-    this.recipeService.addRating(this.recipe.id, rating).then( recipe =>
+    this.recipeService.addRating(this.recipe.id, rating).then(recipe =>
       this.recipe = recipe
     )
   }

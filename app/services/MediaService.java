@@ -54,12 +54,12 @@ public class MediaService extends Service<Media> {
         return new File(Constant.STATIC_PATH + name);
     }
 
-    public void deleteFile(File file) {
-        file.delete();
+    public void deleteFile(Media m) {
+        getFile(m.getName()).delete();
     }
 
-    public void delete(Media media) {
-        deleteFile(getFile(media.getName()));
-        media.delete();
+    public void delete(Media m) {
+        deleteFile(m);
+        m.delete();
     }
 }

@@ -52,4 +52,19 @@ public class RecipeRatingController extends BaseController {
         }).orElse(notFound());
 
     }
+
+    @Authenticate({FreeUser.class, PremiumUser.class})
+    public Result updateRating(long recipeRatingId) {
+        final Optional<RecipeRating> oldRecipeRating = RecipeRatingService.getInstance().get(recipeRatingId);
+        if(!oldRecipeRating.isPresent()) return notFound();
+        final RecipeRating r = oldRecipeRating.get();
+        final RecipeRating recipeRating = getBody(RecipeRating.class); //New recipeRating
+        try {
+            RecipeRatingService.getInstance().updateRating(recipeRating, r);
+            return ok(Json.toJson(r));
+        } catch (BadRequestException e) {
+            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
+        }
+
+    }
 }

@@ -3,6 +3,7 @@ package services.recipe;
 import models.Media;
 import models.recipe.*;
 import services.MediaService;
+import services.StringFormatter;
 
 import java.util.ListIterator;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class RecipeFormatter {
 
     private static void formatDescription(Recipe r) {
         if (r.getDescription() == null) return;
-        r.setDescription(capitalizeFirstCharacter(r.getDescription().trim()));
+        r.setDescription(StringFormatter.capitalizeFirstCharacter(r.getDescription().trim()));
     }
 
     private static void formatImages(Recipe r) {
@@ -87,7 +88,7 @@ public class RecipeFormatter {
 
     private static void formatName(Recipe r) {
         if (r.getName() == null) return;
-        r.setName(capitalizeFirstCharacter(r.getName()).trim());
+        r.setName(StringFormatter.capitalizeFirstCharacter(r.getName()).trim());
     }
 
     private static void formatSteps(Recipe r) {
@@ -102,17 +103,12 @@ public class RecipeFormatter {
             if (s.getImage() != null && (s.getImage().getId() == null || !MediaService.getInstance().get(s.getImage().getId()).isPresent()))
                 s.setImage(null);
             s.setId(null);
-            s.setDescription(capitalizeFirstCharacter(s.getDescription().trim()));
+            s.setDescription(StringFormatter.capitalizeFirstCharacter(s.getDescription().trim()));
             it.set(s);
         }
     }
 
     private static void formatVideoUrl(Recipe r) {
         if (r.getVideoUrl() != null && r.getVideoUrl().length() == 0) r.setVideoUrl(null);
-    }
-
-    private static String capitalizeFirstCharacter(String text) {
-        if (text.length() < 2) return "" + Character.toUpperCase(text.charAt(0));
-        return Character.toUpperCase(text.charAt(0)) + text.substring(1);
     }
 }

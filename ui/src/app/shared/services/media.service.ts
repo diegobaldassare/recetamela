@@ -19,7 +19,7 @@ export class MediaService extends ApiService {
     return this.http.post<Media>(this.URL, data).toPromise();
   }
 
-  public delete(id: string) : Promise<any> {
+  public deleteMedia(id: string) : Promise<any> {
     return this.http.delete<any>(`${this.URL}/${id}/delete`).toPromise();
   }
 }

@@ -17,7 +17,7 @@ public class Recipe extends BaseModel {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 2048)
+    @Column(nullable = false, length = 4096)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL)

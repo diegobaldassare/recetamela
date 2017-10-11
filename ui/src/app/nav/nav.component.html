@@ -48,7 +48,6 @@
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li (click)="myProfile()" class="account-hover">Mi Perfil</li>
-              <li class="account-hover">Opciones</li>
               <li *ngIf="!isPremium" (click)="premium()" class="account-hover">Hacete Premium</li>
               <li (click)="crearReceta()" class="account-hover">Crear Receta</li>
               <li *ngIf="isPremium" (click)="addToRecipeBook()" class="account-hover">Recetarios</li>

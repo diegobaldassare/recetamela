@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {User} from "../shared/models/user-model";
 import {UserService} from "../shared/services/user.service";
@@ -7,7 +7,8 @@ import {Recipe} from "../shared/models/recipe/recipe";
 import {RecipeCategory} from "../shared/models/recipe/recipe-category";
 import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 import {FormatService} from "../shared/services/format.service";
-
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {ToasterService} from "angular2-toaster";
 
 @Component({
   selector: 'app-profile',
@@ -28,14 +29,36 @@ export class ProfileComponent implements OnInit {
   resultCategories: any[] = [];
   unFollowedCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
-
+  private profileForm: FormGroup;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
     private recipeService: RecipeService,
     private recipeCategoryService: RecipeCategoryService,
-    private router: Router) {
+    private router: Router,
+    public toaster: ToasterService,
+    private formBuilder: FormBuilder,
+    private formatter: FormatService) {
+
+    const atLeastOne = (validator: ValidatorFn) => (
+      group: FormGroup,
+    ): ValidationErrors | null => {
+      const hasAtLeastOne = group && group.controls && Object.keys(group.controls)
+          .some(k => !validator(group.controls[k]));
+
+      return hasAtLeastOne ? null : {
+        atLeastOne: true,
+      };
+    };
+
+    this.profileForm = formBuilder.group({
+      'name': [''],
+      'lastName': [''],
+      'email': ['', [ProfileComponent.checkEmail]],
+    }, { validator: atLeastOne(Validators.required) }
+    );
   }
 
   ngOnInit() {
@@ -126,15 +149,6 @@ export class ProfileComponent implements OnInit {
         this.fetchUnFollowedCategories();
       });
     });
-    // const category = this.resultCategories[index].category;
-    // if (this.resultCategories[index].followed) {
-    //   this.unSubscribeToCategory(this.categories.map(e => e.id).indexOf(category.id));
-    //   return;
-    // }
-    // this.recipeCategoryService.subscribeToCategory(category.id).then(res => {
-    //   this.categories.push(category);
-    //   this.resultCategories.splice(index, 1);
-    // });
   }
 
   private unSubscribeToCategory(index: number) {
@@ -147,6 +161,41 @@ export class ProfileComponent implements OnInit {
   private fetchUnFollowedCategories() {
     this.userService.getUnfollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
         this.unFollowedCategories= res;
+    });
+  }
+
+  private static checkEmail(control: AbstractControl){
+    if(control.value !== '') {
+      control.setValidators([Validators.email, Validators.minLength(5)]);
+    }
+  }
+
+  private editProfile(){
+    const name = this.profileForm.value.name;
+    if (name !== null && name.length !== 0) {
+      this.user.name = this.formatter.capitalizeFirstChar(name);
+    }
+    const lastName = this.profileForm.value.lastName;
+    if (lastName !== null && lastName.length !== 0) {
+      this.user.lastName = this.formatter.capitalizeFirstChar(lastName);
+    }
+    const email = this.profileForm.value.email;
+    if (email !== null && email.length !== 0) this.user.email = email;
+
+    this.userService.modifyUser(this.user.id, this.user).then(() => {
+      this.toaster.pop('success', 'Perfil Modificado');
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido modificar el perfil');
+    });
+    this.profileForm.reset();
+    this.closeBtn.nativeElement.click();
+  }
+
+  private deleteUser() {
+    this.userService.deleteUser(this.user.id).then(() => {
+      this.router.navigate(['/']);
+    }, () => {
+      this.toaster.pop('error', 'Usuario no eliminado');
     });
   }
 }

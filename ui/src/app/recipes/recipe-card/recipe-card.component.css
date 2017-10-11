@@ -43,6 +43,10 @@
   opacity: 0.6;
 }
 
+.container:hover .text {
+  opacity: 1;
+}
+
 .card {
   padding: 20px;
 }
@@ -58,9 +62,11 @@
   color: white;
   left: 50%;
   top: 50%;
-  width: 40%;
+  max-width: max-content;
+  min-width: 100px;
   height: 13%;
   font-size: 20px;
+  text-align: center;
 }
 
 .card-title {

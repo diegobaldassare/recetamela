@@ -3,6 +3,12 @@ package controllers.user;
 import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.AuthToken;
+import models.Followers;
+import models.payment.CreditCard;
+import models.payment.Payment;
+import models.recipe.Recipe;
+import models.recipe.RecipeBook;
 import models.recipe.RecipeCategory;
 import models.user.*;
 import play.data.Form;
@@ -12,16 +18,18 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.LoginService;
+import services.payment.CreditCardService;
+import services.payment.PaymentService;
+import services.recipe.RecipeBookService;
 import services.recipe.RecipeCategoryService;
-import services.recipe.RecipeValidator;
+import services.recipe.RecipeService;
+import services.user.FollowerService;
 import services.user.UserFormatter;
 import services.user.UserService;
 import services.user.UserValidator;
-
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class UserController extends BaseController {
@@ -60,12 +68,44 @@ public class UserController extends BaseController {
     }
 
     public Result deleteUser(Long id) {
+        final CreditCardService cardService = CreditCardService.getInstance();
+        final PaymentService paymentService = PaymentService.getInstance();
+        final FollowerService followerService = FollowerService.getInstance();
+        final RecipeService recipeService = RecipeService.getInstance();
+        final RecipeBookService recipeBookService = RecipeBookService.getInstance();
         Optional<User> user = UserService.getInstance().get(id);
-        if (user.isPresent()) {
-            user.get().delete();
+        return user.map(r -> {
+            //* Step 1: Delete all credit cards associated with the User *//*
+            final List<CreditCard> userCreditCards = cardService.getAllUserCreditCards(r.getId());
+            userCreditCards.forEach(c -> {
+                final List<Payment> payments = paymentService.getAllPaymentsWithCreditCard(c.getId());
+                payments.forEach(Payment::delete);
+                c.delete();
+            });
+
+            /* Step 2: Delete records of followers/following */
+            List<Followers> followers = followerService.getFollowers(r.getId());
+            List<Followers> following = followerService.getFollowing(r.getId());
+            followers.forEach(Followers::delete);
+            following.forEach(Followers::delete);
+
+            /* Step 3: Delete all user Recipes */
+            final List<Recipe> recipes = recipeService.getUserRecipes(r.getId());
+            recipes.forEach(recipe -> recipeService.deleteRecipe(recipe.getId()));
+
+            /* Step 4: Delete all user RecipeBooks */
+            final List<RecipeBook> recipeBooks = recipeBookService.getAllUserRecipeBook(r.getId());
+            recipeBooks.forEach(RecipeBook::delete);
+
+            /* Step 5: Delete all user News */
+
+
+            /* Step 5: Delete the User */
+            LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
+            r.delete();
+
             return ok();
-        }
-        return notFound();
+        }).orElseGet(Results::notFound);
     }
 
     public Result getRecipeCategories(Long id) {

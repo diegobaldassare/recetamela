@@ -9,6 +9,7 @@ import {RecipeCategoryService} from "../shared/services/recipecategory.service";
 import {FormatService} from "../shared/services/format.service";
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {ToasterService} from "angular2-toaster";
+import {MyAuthService} from "../auth/my-auth-service";
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +41,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     public toaster: ToasterService,
     private formBuilder: FormBuilder,
-    private formatter: FormatService) {
+    private formatter: FormatService,
+    private myAuthService: MyAuthService) {
 
     const atLeastOne = (validator: ValidatorFn) => (
       group: FormGroup,
@@ -193,7 +195,7 @@ export class ProfileComponent implements OnInit {
 
   private deleteUser() {
     this.userService.deleteUser(this.user.id).then(() => {
-      this.router.navigate(['/']);
+      this.myAuthService.logout();
     }, () => {
       this.toaster.pop('error', 'Usuario no eliminado');
     });

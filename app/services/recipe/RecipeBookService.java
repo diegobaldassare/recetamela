@@ -4,6 +4,8 @@ import com.avaje.ebean.Model;
 import models.recipe.RecipeBook;
 import services.Service;
 
+import java.util.List;
+
 public class RecipeBookService extends Service<RecipeBook> {
 
     private static RecipeBookService instance;
@@ -15,5 +17,9 @@ public class RecipeBookService extends Service<RecipeBook> {
     public static RecipeBookService getInstance(){
         if (instance == null) instance = new RecipeBookService(new Model.Finder<>(RecipeBook.class));
         return instance;
+    }
+
+    public List<RecipeBook> getAllUserRecipeBook(Long id) {
+        return getFinder().where().eq("creator_id", id).findList();
     }
 }

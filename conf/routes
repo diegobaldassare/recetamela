@@ -74,6 +74,7 @@ GET         /api/premiumuser/:id                    controllers.user.PremiumUser
 GET         /api/premiumusers                       controllers.user.PremiumUserController.getPremiumUsers
 DELETE      /api/premiumuser/:id/delete             controllers.user.PremiumUserController.deletePremiumUser(id: Long)
 
+POST        /api/user/chefRequest                   controllers.user.ChefUserController.sendChefRequest()
 PUT         /api/chefuser/:id/update                controllers.user.ChefUserController.updateChefUser(id: Long)
 GET         /api/chefuser/:id                       controllers.user.ChefUserController.getChefUser(id: Long)
 GET         /api/chefusers                          controllers.user.ChefUserController.getChefUsers

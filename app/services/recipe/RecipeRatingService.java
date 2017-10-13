@@ -31,8 +31,8 @@ public class RecipeRatingService extends Service<RecipeRating>{
             rating.setRating(recipeRating.getRating());
             rating.save();
         } else {
-            avRating(recipe, recipeRating.getRating());
-            recipe.getRatings().add(recipeRating);
+        avRating(recipe, recipeRating.getRating());
+        recipe.getRatings().add(recipeRating);
         }
         recipe.save();
     }
@@ -63,9 +63,12 @@ public class RecipeRatingService extends Service<RecipeRating>{
         return new RecipeRating();
     }
 
-    public void updateRating(RecipeRating newRecipeRating, RecipeRating oldRecipeRating) throws BadRequestException{
-        checkRating(newRecipeRating);
-        oldRecipeRating.setRating(newRecipeRating.getRating());
-        oldRecipeRating.save();
-    }
+//    public void updateRating(Recipe recipe, RecipeRating newRecipeRating, RecipeRating oldRecipeRating) throws BadRequestException{
+//        checkRating(newRecipeRating);
+//        int size = recipe.getRatings().size();
+//        recipe.setRating((recipe.getRating()*size - oldRecipeRating.getRating() + newRecipeRating.getRating()) / (size));
+//        oldRecipeRating.setRating(newRecipeRating.getRating());
+//        oldRecipeRating.save();
+//        recipe.save();
+//    }
 }

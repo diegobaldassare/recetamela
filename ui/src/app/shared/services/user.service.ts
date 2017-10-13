@@ -11,6 +11,7 @@ import {CheckExpirationDateResponse} from "../models/ced-response";
 import {Observable} from "rxjs/Observable";
 import {Notification} from "../models/notification";
 import {RecipeCategory} from "../models/recipe/recipe-category";
+import {ChefRequest} from "../models/chef-request";
 
 @Injectable()
 export class UserService {
@@ -41,6 +42,10 @@ export class UserService {
 
   public upgradeFreeUser(id: string) : Promise<User> {
     return this.http.put<User>(`/api/user/${id}/upgradeUser`, {}).toPromise();
+  }
+
+  public postChefRequest(chefRequest: ChefRequest) : Promise<ChefRequest> {
+    return this.http.post<ChefRequest>(`api/user/chefRequest`, chefRequest).toPromise();
   }
 
   public checkExpirationDate(id: string) : Promise<CheckExpirationDateResponse> {

@@ -80,21 +80,4 @@ export class ViewRecipeComponent implements OnInit {
       this.recipe = recipe
     )
   }
-
-  // private getViewerRating(): number {
-  //     for(let i = 0; i < this.recipe.ratings.length; i++) {
-  //       if(this.recipe.ratings[i].user.id == this.viewer.id) {
-  //         return this.recipe.ratings[i].rating;
-  //       }
-  //     }
-  //     return 0;
-  // }
-
-  // private getRatingFromUser(): number {
-  //   let rating: RecipeRating = new RecipeRating();
-  //   this.recipeService.getRatingFromUser(this.recipe.id).then(recipeRating =>
-  //       rating = recipeRating
-  //     );
-  //   return rating.rating;
-  // }
 }

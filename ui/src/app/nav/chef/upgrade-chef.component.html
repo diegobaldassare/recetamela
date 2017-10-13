@@ -1,0 +1,47 @@
+<!--Modal-->
+<div id="chef" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal Content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+        <h4 class="modal-title">Solicita ser chef!</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+          <form [formGroup]="textChefForm">
+            <p class="header">Contanos un poco de vos!</p>
+            <input type="text" class="form-control" id="resumeChef" formControlName="resumeChef" placeholder="Resumen">
+            <!--<span-->
+              <!--*ngIf="!textChefForm.get('resumeChef').valid && textChefForm.get('resumeChef').touched"-->
+              <!--class="help-block"></span>-->
+          </form>
+
+        </div>
+        <div *ngIf="image != null" style="margin: 5px 0 3px">
+          <img style="width: 100%" [src]="image.url">
+        </div>
+        <div class="row">
+          <div>
+            <input style="display: none" (change)="addImage($event)" type="file" id="image" accept="image/*">
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">{{ imageButtonText }}</button>
+            <button *ngIf="image != null" class="btn btn-danger btn-sm" (click)="removeImage()">Eliminar</button>
+          </div>
+          <div class="createButton">
+            <button type="submit"
+                    class="btn btn-default"
+                    [disabled]="disableButton()"
+                    (click)="postChefRequest()"
+                    data-dismiss="modal"
+                    style="float: right">
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

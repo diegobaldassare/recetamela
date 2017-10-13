@@ -53,18 +53,25 @@ public class RecipeRatingController extends BaseController {
 
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
-    public Result updateRating(long recipeRatingId) {
-        final Optional<RecipeRating> oldRecipeRating = RecipeRatingService.getInstance().get(recipeRatingId);
-        if(!oldRecipeRating.isPresent()) return notFound();
-        final RecipeRating r = oldRecipeRating.get();
-        final RecipeRating recipeRating = getBody(RecipeRating.class); //New recipeRating
-        try {
-            RecipeRatingService.getInstance().updateRating(recipeRating, r);
-            return ok(Json.toJson(r));
-        } catch (BadRequestException e) {
-            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
-        }
-
-    }
+//    @Authenticate({FreeUser.class, PremiumUser.class})
+//    public Result updateRating(long recipeId, long recipeRatingId) {
+//        final Optional<RecipeRating> oldRecipeRating = RecipeRatingService.getInstance().get(recipeRatingId);
+//        if(!oldRecipeRating.isPresent()) return notFound();
+//        final RecipeRating r = oldRecipeRating.get();
+//        final RecipeRating recipeRating = getBody(RecipeRating.class); //New recipeRating
+//        ///
+//        final Optional<Recipe> recipe = RecipeService.getInstance().get(recipeId);
+//        if (!recipe.isPresent()) return notFound();
+//        if (recipe.get().getAuthor().getId().equals(getRequester().getId())) {
+//            return unauthorized();
+//        }
+//        final Recipe recipe1 = recipe.get();
+//        ////
+//        try {
+//            RecipeRatingService.getInstance().updateRating(recipe1, recipeRating, r);
+//            return ok(Json.toJson(r));
+//        } catch (BadRequestException e) {
+//            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
+//        }
+//    }
 }

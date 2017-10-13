@@ -59,6 +59,7 @@ import {NewsService} from "./shared/services/news-service";
 import {FacebookShareComponent} from "./facebook-share/facebook-share.component";
 import {NewsPreviewComponent} from './news/news-feed/news-preview/news-preview.component';
 import {NewsComponent} from './news/news/news.component';
+import {UpgradeChefComponent} from "./nav/chef/upgrade-chef.component";
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import {NewsComponent} from './news/news/news.component';
     FacebookShareComponent,
     NewsPreviewComponent,
     NewsComponent,
+    UpgradeChefComponent
   ],
   imports: [
     BrowserModule,

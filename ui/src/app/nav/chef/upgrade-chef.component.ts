@@ -17,15 +17,14 @@ export class UpgradeChefComponent implements OnInit {
   private textChefForm: FormGroup;
   private chefRequest: ChefRequest = new ChefRequest();
   private image: Media;
-  private uploadingImage: boolean;
+  private uploadingCertificate: boolean;
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private fb: FormBuilder,
               private mediaService: MediaService,
               private userService: UserService,
-              private toaster: ToasterService,
-              private router: Router){
+              private toaster: ToasterService){
     this.textChefForm = fb.group({
       'resumeChef': new FormControl(null, [Validators.required]),
     });
@@ -36,32 +35,30 @@ export class UpgradeChefComponent implements OnInit {
   postChefRequest() {
     this.chefRequest.resume = this.textChefForm.value.resumeChef;
     this.chefRequest.media = this.image;
-    console.log(this.chefRequest);
     this.userService.postChefRequest(this.chefRequest).then(() => {
         this.toaster.pop("success", "Solicitud enviada correctamente");
-        this.router.navigate(['']);
       }, () => { this.toaster.pop("error", "No se pudo enviar"); }
     );
   }
 
-  public addImage(e: Event) {
+  public addCertificate(e: Event) {
     e.preventDefault();
-    this.uploadingImage = true;
-    const files = (<HTMLInputElement> document.getElementById('image')).files;
+    this.uploadingCertificate = true;
+    const files = (<HTMLInputElement> document.getElementById('certificate')).files;
     if (!files.length) return;
     this.mediaService.uploadMedia(files[0]).then(media => {
-      this.uploadingImage = false;
-      (<HTMLInputElement> document.getElementById('image')).value = '';
+      this.uploadingCertificate = false;
+      (<HTMLInputElement> document.getElementById('certificate')).value = '';
       this.image = media;
-    }, () => { (<HTMLInputElement> document.getElementById('image')).value = ''; });
+    }, () => { (<HTMLInputElement> document.getElementById('certificate')).value = ''; });
   }
 
-  public get imageButtonText(): string {
-    if (this.uploadingImage) return 'Subiendo';
+  public get imageButton(): string {
+    if (this.uploadingCertificate) return 'Subiendo';
     else return 'Agregar';
   }
 
-  public removeImage() {
+  public removeCertificate() {
     this.chefRequest.media = null;
     this.image = null;
   }

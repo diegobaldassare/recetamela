@@ -14,9 +14,9 @@
           <form [formGroup]="textChefForm">
             <p class="header">Contanos un poco de vos!</p>
             <input type="text" class="form-control" id="resumeChef" formControlName="resumeChef" placeholder="Resumen">
-            <!--<span-->
-              <!--*ngIf="!textChefForm.get('resumeChef').valid && textChefForm.get('resumeChef').touched"-->
-              <!--class="help-block"></span>-->
+            <span
+              *ngIf="!textChefForm.get('resumeChef').valid && textChefForm.get('resumeChef').touched"
+              class="help-block"></span>
           </form>
 
         </div>
@@ -25,9 +25,9 @@
         </div>
         <div class="row">
           <div>
-            <input style="display: none" (change)="addImage($event)" type="file" id="image" accept="image/*">
-            <button class="btn btn-primary btn-sm" onclick="document.getElementById('image').click()" [disabled]="uploadingImage">{{ imageButtonText }}</button>
-            <button *ngIf="image != null" class="btn btn-danger btn-sm" (click)="removeImage()">Eliminar</button>
+            <input style="display: none" (change)="addCertificate($event)" type="file" id="certificate" accept="image/*">
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('certificate').click()" [disabled]="uploadingCertificate">{{ imageButton }}</button>
+            <button *ngIf="image != null" class="btn btn-danger btn-sm" (click)="removeCertificate()">Eliminar</button>
           </div>
           <div class="createButton">
             <button type="submit"

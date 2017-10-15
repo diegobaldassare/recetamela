@@ -44,7 +44,6 @@ public class AuthenticationAction extends Action<Authenticate> {
             String token = authToken.get().substring("Bearer".length()).trim();
             Optional<User> userOptional = userService.findByAuthToken(token);
             if (!userOptional.isPresent()) {
-                Logger.debug("Could not find token in DB for user");
                 return CompletableFuture.completedFuture(unauthorized());
             }
             for (Class<? extends User> authorized: configuration.value()){

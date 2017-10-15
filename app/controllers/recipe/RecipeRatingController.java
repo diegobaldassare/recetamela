@@ -5,9 +5,7 @@ import controllers.authentication.Authenticate;
 import models.notification.NotificationType;
 import models.recipe.Recipe;
 import models.recipe.RecipeRating;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -20,7 +18,7 @@ import java.util.Optional;
 
 public class RecipeRatingController extends BaseController {
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result create(long recipeId) {
         final RecipeRating recipeRating = getBody(RecipeRating.class);
         recipeRating.setUser(getRequester());
@@ -43,7 +41,7 @@ public class RecipeRatingController extends BaseController {
         }
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getRatingFromUser(long recipeId) {
         final User user = getRequester();
         return RecipeService.getInstance().get(recipeId).map(recipe -> {
@@ -52,4 +50,26 @@ public class RecipeRatingController extends BaseController {
         }).orElse(notFound());
 
     }
+
+//    @Authenticate({FreeUser.class, PremiumUser.class})
+//    public Result updateRating(long recipeId, long recipeRatingId) {
+//        final Optional<RecipeRating> oldRecipeRating = RecipeRatingService.getInstance().get(recipeRatingId);
+//        if(!oldRecipeRating.isPresent()) return notFound();
+//        final RecipeRating r = oldRecipeRating.get();
+//        final RecipeRating recipeRating = getBody(RecipeRating.class); //New recipeRating
+//        ///
+//        final Optional<Recipe> recipe = RecipeService.getInstance().get(recipeId);
+//        if (!recipe.isPresent()) return notFound();
+//        if (recipe.get().getAuthor().getId().equals(getRequester().getId())) {
+//            return unauthorized();
+//        }
+//        final Recipe recipe1 = recipe.get();
+//        ////
+//        try {
+//            RecipeRatingService.getInstance().updateRating(recipe1, recipeRating, r);
+//            return ok(Json.toJson(r));
+//        } catch (BadRequestException e) {
+//            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
+//        }
+//    }
 }

@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {MessageEvent} from "../shared/models/message-event";
 import {Notification} from "../shared/models/notification";
 import {UserService} from "../shared/services/user.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-nav',
@@ -22,15 +23,17 @@ export class NavComponent implements OnInit, OnDestroy {
   user : User;
   private eventSource : EventSourcePolyfill;
   notificationList: Notification[] = [];
+  subscription: Subscription;
 
   //Both SharedService and ChangeDetectorRef are necessary to listen to changes on logged in variable to show different nav.
   constructor(private auth: MyAuthService,
               private sharedService: SharedService,
               private userService: UserService,
               private cdRef: ChangeDetectorRef,
-              private router: Router) {
+              private router: Router,) {
     this.isLoggedIn = !isNull(localStorage.getItem("X-TOKEN"));
     this.notificationList = this.userService.getNotifications().reverse();
+    this.subscription = this.userService.getModifiedUser().subscribe(user => { this.user = user; });
     this.sharedService.notifyObservable$.subscribe((res) => {
       if (res.hasOwnProperty('loggedIn')) {
         this.isLoggedIn = res.loggedIn;
@@ -76,7 +79,7 @@ export class NavComponent implements OnInit, OnDestroy {
     this.auth.requestLoggedUser().then((user : User) => {
       localStorage.setItem("user", JSON.stringify(user));
       this.user = user;
-      if (user.type === 'PremiumUser') {
+      if (user.type != 'FreeUser') {
         this.isPremium = true;
       }
       this.cdRef.detectChanges();
@@ -138,6 +141,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribeFromServerEvents();
+    this.subscription.unsubscribe();
   }
 
   private addToRecipeBook(){

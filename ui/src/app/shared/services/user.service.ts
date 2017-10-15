@@ -11,11 +11,14 @@ import {CheckExpirationDateResponse} from "../models/ced-response";
 import {Observable} from "rxjs/Observable";
 import {Notification} from "../models/notification";
 import {RecipeCategory} from "../models/recipe/recipe-category";
+import {ChefRequest} from "../models/chef-request";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class UserService {
 
   private headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json'});
+  private subject = new Subject<User>();
   constructor(private http:HttpClient, private router: Router, private toaster: ToasterService, private auth: MyAuthService, private sharedService: SharedService) { }
 
   public registerUser(user: User) {
@@ -39,12 +42,20 @@ export class UserService {
     });
   }
 
-  public upgradeFreeUser(id: string) : Promise<User> {
-    return this.http.put<User>(`/api/user/${id}/upgradeUser`, {}).toPromise();
+  public upgradeToPremiumUser(id: string) : Promise<User> {
+    return this.http.put<User>(`/api/user/${id}/upgradePremium`, {}).toPromise();
+  }
+
+  public upgradeToChefUser(id: string) : Promise<User> {
+    return this.http.put<User>(`/api/user/${id}/upgradeChef`, {}).toPromise();
+  }
+
+  public postChefRequest(chefRequest: ChefRequest) : Promise<ChefRequest> {
+    return this.http.post<ChefRequest>(`api/user/chefRequest`, chefRequest).toPromise();
   }
 
   public checkExpirationDate(id: string) : Promise<CheckExpirationDateResponse> {
-    return this.http.put<CheckExpirationDateResponse>(`/api/premiumuser/${id}/checkDate`, {}).toPromise();
+    return this.http.put<CheckExpirationDateResponse>(`/api/user/${id}/checkDate`, {}).toPromise();
   }
 
   public getUser(id: string) : Promise<User> {
@@ -53,6 +64,10 @@ export class UserService {
 
   public getUsers() : Promise<User[]>{
     return this.http.get<User[]>('/api/users').toPromise();
+  }
+
+  public getModifiedUser(): Observable<User> {
+    return this.subject.asObservable();
   }
 
   public followUser(id: string) : Observable<User> {
@@ -100,5 +115,14 @@ export class UserService {
     let notifications: Notification[] = this.getNotifications();
     notifications.splice(notifications.length -1 -i, 1);
     localStorage.setItem("notifications", JSON.stringify(notifications));
+  }
+
+  public modifyUser(id: string, u: User): Promise<User> {
+    this.subject.next(u);
+    return this.http.put<User>(`/api/user/${id}/modify`, u).toPromise();
+  }
+
+  public deleteUser(id: string) : Promise<any> {
+    return this.http.delete(`/api/user/${id}/delete`).toPromise();
   }
 }

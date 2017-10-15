@@ -9,6 +9,7 @@ import {RecipeSearchQuery} from "../../recipes/search-recipes/recipe-search-quer
 import {RequestOptions, RequestOptionsArgs} from "@angular/http";
 import {RecipeRating} from "../models/recipe/recipe-rating";
 import {User} from "../models/user-model";
+import {RecipeCommentary} from "../models/recipe/recipe-comment";
 
 @Injectable()
 export class RecipeService extends ApiService {
@@ -67,5 +68,9 @@ export class RecipeService extends ApiService {
       .set("difficulty", q.difficulty.toString())
       .set("author", q.author);
     return this.http.get<Recipe[]>(`${this.URL}s`, { params }).toPromise();
+  }
+
+  getComments(id: string) : Promise<RecipeCommentary[]> {
+    return this.http.get<RecipeCommentary[]>(`${this.URL}/${id}/comments`).toPromise();
   }
 }

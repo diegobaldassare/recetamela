@@ -59,7 +59,7 @@ export class SearchRecipesComponent implements OnInit {
   private emptyQuery(): boolean {
     return this.query.name == "" &&
       Object.keys(this.selectedCategories).length == 0 &&
-      (this.viewer.type == "PremiumUser" && Object.keys(this.selectedIngredients).length == 0) &&
+      (this.viewer.type != "FreeUser" && Object.keys(this.selectedIngredients).length == 0) &&
       this.query.difficulty == 0 &&
       this.query.author == "";
   }

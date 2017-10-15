@@ -1,15 +1,20 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
+import models.Comment;
 import models.Media;
 import models.recipe.Recipe;
 import models.recipe.RecipeStep;
+import play.mvc.Result;
+import play.mvc.Results;
 import services.MediaService;
 import models.recipe.*;
 import services.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class RecipeService extends Service<Recipe> {
 
@@ -83,5 +88,35 @@ public class RecipeService extends Service<Recipe> {
             return false;
         });
         return recipes;
+    }
+
+    public Result deleteRecipe(Long id) {
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
+        final MediaService mediaService = MediaService.getInstance();
+        return recipe.map(r -> {
+            final List<Media> images = new ArrayList<>(r.getImages());
+            r.getSteps().stream()
+                    .map(RecipeStep::getImage)
+                    .filter(Objects::nonNull)
+                    .forEach(mediaService::deleteFile);
+
+            RecipeBookService.getInstance().getFinder().query()
+                    .where()
+                    .in("recipes", r)
+                    .findList()
+                    .forEach(recipeBook -> {
+                        recipeBook.getRecipes().remove(r);
+                        recipeBook.update();
+                    });
+
+            r.delete();
+            images.forEach(mediaService::delete);
+            return Results.ok();
+        }).orElseGet(Results::notFound);
+    }
+
+    public void addComment(Recipe recipe, Comment comment) {
+        recipe.getComments().add(comment);
+        recipe.update();
     }
 }

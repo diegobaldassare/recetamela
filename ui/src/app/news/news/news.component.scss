@@ -1,0 +1,16 @@
+@import "../../../assets/styles/variables";
+
+.news-header {
+  border-radius: 5px;
+  background-color: $gray-white;
+  border: 1px solid $gray-lighter;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.video-display {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}

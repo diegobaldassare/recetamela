@@ -26,4 +26,10 @@ public class UserService extends Service<User> {
     public Optional<User> findByAuthToken(String authToken) {
         return Optional.ofNullable(getFinder().where().eq("auth_token", authToken).findUnique());
     }
+
+    public void modify(User u, User input) {
+        if (input.getName() != null) u.setName(input.getName());
+        if (input.getLastName() != null) u.setLastName(input.getLastName());
+        if (input.getEmail() != null) u.setEmail(input.getEmail());
+    }
 }

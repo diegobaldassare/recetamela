@@ -10,7 +10,7 @@
           <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
           <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
           <span *ngIf="user?.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
-          <!--<button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe">Editar</button>-->
+          <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe" data-toggle="modal" data-target="#editUserModal">Editar</button>
           <button *ngIf="!subscribed && this.user.id !== this.loggedUser.id; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
           <ng-template #subscripto>
             <button *ngIf="subscribed;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
@@ -90,3 +90,68 @@
   <app-not-found *ngIf="!user"></app-not-found>
 </div>
 <div *ngIf="!fetched" class="app-spinner"></div>
+
+<!-- Modal -->
+<div id="editUserModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="profileForm">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+          <h4 class="modal-title">Editar Perfil</h4>
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <p class="header">Nombre</p>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder={{user?.name}}>
+          </div>
+          <div class="row">
+            <p class="header">Apellido</p>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder={{user?.lastName}}>
+          </div>
+          <div class="row">
+            <p class="header">Mail</p>
+            <input type="email" name="email" class="form-control" id="email" formControlName="email" placeholder={{user?.email}}>
+          </div>
+          <div class="row">
+            <button class="btn btn-danger" data-toggle="modal" data-dismiss="modal" data-target="#confirm">
+              Eliminar Cuenta
+            </button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="!profileForm.valid" (click)="editProfile()">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Confirm Dialog -->
+<div id="confirm" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+        <h4 class="modal-title">¿Seguro desea eliminar su cuenta?</h4>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <p>Perderás todas tus recetas, comentarios y seguidores</p>
+          <p>Esta acción no tiene vuelta atrás. </p>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser()">
+            Eliminar Cuenta
+          </button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            No! Quiero continuar ️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

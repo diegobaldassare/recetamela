@@ -1,0 +1,33 @@
+<div *ngIf="fetched">
+  <div *ngIf="news" class="container">
+    <br>
+    <p><a routerLink="/noticias">Volver a mis noticias</a></p>
+    <div class="row news-header">
+      <div [ngClass]="{ 'col-md-7': news.image || news.videoUrl }">
+        <h1>{{ news.title }}</h1>
+        <p>👨‍🍳<i style="margin-left: 5px"><a [routerLink]="'/usuario/' + news.author.id + '/perfil'">{{ news.author.name + ' ' + news.author.lastName }}</a></i></p>
+        <p><i>{{ news.created.toLocaleTimeString() }}</i></p>
+        <p><a style="cursor: pointer" *ngIf="viewer.id == news.author.id" (click)="deleteNews()">Eliminar</a></p>
+      </div>
+      <div *ngIf="news.image || news.videoUrl" class="col-md-5">
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+          <li *ngIf="news.image" role="presentation" [ngClass]="{ 'active': news.image }"><a href="#image" role="tab" data-toggle="tab">Imágen</a></li>
+          <li *ngIf="news.videoUrl" role="presentation" [ngClass]="{ 'active': !news.image }"><a href="#video" role="tab" data-toggle="tab">Video</a></li>
+        </ul>
+        <br>
+        <div class="tab-content">
+          <div [ngClass]="{ 'active': !news.image }" *ngIf="news.videoUrl" role="tabpanel" class="tab-pane" id="video">
+            <iframe class="video-display" width="560" height="315" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div [ngClass]="{ 'active': news.image }" *ngIf="news.image" role="tabpanel" id="image" class="tab-pane">
+            <img style="width: 100%" [src]="news.image.url">
+          </div>
+        </div>
+      </div>
+    </div>
+    <p>{{ news.description }}</p>
+    <br>
+  </div>
+  <app-not-found *ngIf="!news"></app-not-found>
+</div>
+<div *ngIf="!fetched" class="app-spinner"></div>

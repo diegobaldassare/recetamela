@@ -13,6 +13,7 @@
                 </a>
               </button>
 
+
               <button style="vertical-align: text-bottom"
                       *ngIf="canAddToRecipeBook"
                       type="button" class="btn btn-secondary btn-sm"
@@ -24,11 +25,15 @@
               </button>
             </div>
 
+            <app-facebook-share [recipe]="recipe"></app-facebook-share>
+
+
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
               <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true"
                                 [rating]="recipeRating.rating" (onClick)="addRating($event)"
                                 [size]="'large'"></star-rating-comp>
             </div>
+
 
             <p>
               <strong>Descripción:</strong>

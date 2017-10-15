@@ -14,11 +14,13 @@ public class ChefRequest extends BaseModel {
 
     private boolean answered;
 
+    private boolean accepted;
+
     @OneToOne(optional = false)
     private User user;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    private Media media;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Media certificate;
 
     @Column(nullable = false, length = 4096)
     private String resume;
@@ -33,6 +35,22 @@ public class ChefRequest extends BaseModel {
         this.answered = answered;
     }
 
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public Media getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(Media certificate) {
+        this.certificate = certificate;
+    }
+
     public User getUser() {
         return user;
     }
@@ -42,11 +60,11 @@ public class ChefRequest extends BaseModel {
     }
 
     public Media getMedia() {
-        return media;
+        return certificate;
     }
 
-    public void setMedia(Media media) {
-        this.media = media;
+    public void setMedia(Media certificate) {
+        this.certificate = certificate;
     }
 
     public String getResume() {

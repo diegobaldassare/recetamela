@@ -1,8 +1,11 @@
 import {Media} from "./media";
+import {User} from "./user-model";
 
 export class ChefRequest {
   id: string;
-  answered: boolean = false;
-  media: Media;
+  answered: boolean;
+  accepted: boolean;
+  user: User;
+  certificate: Media;
   resume: string;
 }

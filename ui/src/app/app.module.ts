@@ -34,7 +34,7 @@ import {AuthGuard} from "./auth/authGuard.service";
 import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
 import {KeysPipe} from "./shared/pipes/keys-pipe";
 import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
-import {PremiumGuard} from "./auth/premium-guard";
+import {PremiumGuard} from "./auth/not-free-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {PaymentService} from "./shared/services/payment.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";

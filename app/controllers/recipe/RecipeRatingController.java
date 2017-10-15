@@ -5,9 +5,7 @@ import controllers.authentication.Authenticate;
 import models.notification.NotificationType;
 import models.recipe.Recipe;
 import models.recipe.RecipeRating;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -20,7 +18,7 @@ import java.util.Optional;
 
 public class RecipeRatingController extends BaseController {
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result create(long recipeId) {
         final RecipeRating recipeRating = getBody(RecipeRating.class);
         recipeRating.setUser(getRequester());
@@ -43,7 +41,7 @@ public class RecipeRatingController extends BaseController {
         }
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getRatingFromUser(long recipeId) {
         final User user = getRequester();
         return RecipeService.getInstance().get(recipeId).map(recipe -> {

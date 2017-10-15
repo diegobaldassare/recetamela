@@ -1,6 +1,8 @@
 package controllers;
 
 import controllers.authentication.Authenticate;
+import models.user.AdminUser;
+import models.user.ChefUser;
 import models.user.FreeUser;
 import models.Media;
 import models.user.PremiumUser;
@@ -30,7 +32,7 @@ public class MediaController extends Controller {
      * @throws IOException If the file cannot be written to disk. A response
      * with 500 error is returned to the client.
      */
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result create() throws IOException {
         final MultipartFormData<File> body = request().body().asMultipartFormData();
         if (body == null)
@@ -47,7 +49,7 @@ public class MediaController extends Controller {
      * @return MediaJson that represents a Media instance with provided id
      * persisted in the database.
      */
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result get(long id) {
         final Optional<Media> media = MediaService.getInstance().get(id);
         return media.map(m -> ok(Json.toJson(m))).orElseGet(Results::notFound);
@@ -59,7 +61,7 @@ public class MediaController extends Controller {
         else return notFound();
     }
 
-    @Authenticate({PremiumUser.class})
+    @Authenticate({PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result delete(long id) {
         return MediaService.getInstance().get(id).map(media -> {
             MediaService.getInstance().delete(media);

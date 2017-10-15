@@ -1,6 +1,7 @@
 package models.recipe;
 
 import models.BaseModel;
+import models.Comment;
 import models.Media;
 import models.user.PremiumUser;
 import models.user.User;
@@ -47,6 +48,9 @@ public class Recipe extends BaseModel {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<RecipeRating> ratings;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     public Recipe() {}
 
@@ -152,5 +156,13 @@ public class Recipe extends BaseModel {
 
     public void setRatings(List<RecipeRating> ratings) {
         this.ratings = ratings;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -5,6 +5,8 @@ import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.payment.CreditCard;
 import models.payment.Payment;
+import models.user.AdminUser;
+import models.user.ChefUser;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import play.data.Form;
@@ -26,7 +28,7 @@ public class PaymentController extends BaseController {
         paymentBookForm =  formFactory.form(Payment.class);
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result create(Long creditCardId) {
         final Payment payment = paymentBookForm.bindFromRequest().get();
         return CreditCardService.getInstance().get(creditCardId).map(creditCard -> {
@@ -36,7 +38,7 @@ public class PaymentController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result update(Long id) {
         final Payment newPayment = paymentBookForm.bindFromRequest().get();
         final Optional<Payment> paymentOptional = PaymentService.getInstance().get(id);
@@ -49,13 +51,13 @@ public class PaymentController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result get(Long id) {
         final Optional<Payment> paymentOptional = PaymentService.getInstance().get(id);
         return paymentOptional.map(p -> ok(Json.toJson(p))).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getUserPayments() {
         final List<CreditCard> creditCards = CreditCardService.getInstance().getFinder().query()
                 .where()

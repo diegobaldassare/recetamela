@@ -42,8 +42,12 @@ export class UserService {
     });
   }
 
-  public upgradeFreeUser(id: string) : Promise<User> {
-    return this.http.put<User>(`/api/user/${id}/upgradeUser`, {}).toPromise();
+  public upgradeToPremiumUser(id: string) : Promise<User> {
+    return this.http.put<User>(`/api/user/${id}/upgradePremium`, {}).toPromise();
+  }
+
+  public upgradeToChefUser(id: string) : Promise<User> {
+    return this.http.put<User>(`/api/user/${id}/upgradeChef`, {}).toPromise();
   }
 
   public postChefRequest(chefRequest: ChefRequest) : Promise<ChefRequest> {

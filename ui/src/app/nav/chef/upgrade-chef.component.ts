@@ -3,7 +3,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ChefRequest} from "../../shared/models/chef-request";
 import {MediaService} from "../../shared/services/media.service";
 import {UserService} from "../../shared/services/user.service";
-import {Router} from "@angular/router";
 import {ToasterService} from "angular2-toaster";
 import {Media} from "../../shared/models/media";
 
@@ -34,7 +33,7 @@ export class UpgradeChefComponent implements OnInit {
 
   postChefRequest() {
     this.chefRequest.resume = this.textChefForm.value.resumeChef;
-    this.chefRequest.media = this.image;
+    this.chefRequest.certificate = this.image;
     this.userService.postChefRequest(this.chefRequest).then(() => {
         this.toaster.pop("success", "Solicitud enviada correctamente");
       }, () => { this.toaster.pop("error", "No se pudo enviar"); }
@@ -59,7 +58,7 @@ export class UpgradeChefComponent implements OnInit {
   }
 
   public removeCertificate() {
-    this.chefRequest.media = null;
+    this.chefRequest.certificate = null;
     this.image = null;
   }
 

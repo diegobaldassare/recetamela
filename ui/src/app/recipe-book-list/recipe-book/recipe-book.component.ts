@@ -4,7 +4,6 @@ import {RecipeBookService} from "../../shared/services/recipebook.service";
 import {RecipeBook} from "../../shared/models/recipe/recipebook";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToasterService} from "angular2-toaster";
-import {Recipe} from "../../shared/models/recipe/recipe";
 
 @Component({
   selector: 'app-recipe-book',

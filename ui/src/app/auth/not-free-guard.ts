@@ -4,7 +4,7 @@ import {User} from "../shared/models/user-model";
 import {SharedService} from "../shared/services/shared.service";
 
 @Injectable()
-export class PremiumGuard implements CanActivate {
+export class NotFreeGuard implements CanActivate {
 
   constructor(
     private router: Router,
@@ -13,7 +13,7 @@ export class PremiumGuard implements CanActivate {
 
   canActivate() {
     const user : User = JSON.parse(localStorage.getItem("user"));
-    if (user.type === 'PremiumUser') return true;
+    if (user.type != 'FreeUser') return true;
     this.router.navigate(['/']);
     this.sharedService.notifyOther({upgradeForm: true});
   }

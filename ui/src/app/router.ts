@@ -7,7 +7,7 @@ import {HomeComponent} from "./home/home.component";
 import {CreateRecipeComponent} from "./recipes/create-recipe/create-recipe.component";
 import {EditRecipeComponent} from "./recipes/edit-recipe/edit-recipe.component";
 import {AuthGuard} from "./auth/authGuard.service";
-import {PremiumGuard} from "./auth/premium-guard";
+import {PremiumGuard} from "./auth/not-free-guard";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
 import {ProfileComponent} from "./profile/profile.component";
 import {SearchRecipesComponent} from "./recipes/search-recipes/search-recipes.component";

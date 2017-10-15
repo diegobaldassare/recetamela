@@ -52,7 +52,8 @@
               <li *ngIf="!isPremium" (click)="premium()" class="account-hover">Hacete Premium</li>
               <li (click)="crearReceta()" class="account-hover">Crear Receta</li>
               <li *ngIf="isPremium" (click)="addToRecipeBook()" class="account-hover">Recetarios</li>
-              <li *ngIf="isPremium" data-toggle="modal" data-target="#categories" class="account-hover">Categorias</li>
+              <li *ngIf="isPremium" data-toggle="modal" data-target="#categories" class="account-hover">Categorias</li>   <!--Deberia ser isAdmin-->
+              <li *ngIf="isPremium" (click)="chefRequest()" class="account-hover">Solicitudes</li>
               <li (click)="navDropdownLogoout()" class="account-hover">Cerrar Sesión</li>
             </ul>
           </li>

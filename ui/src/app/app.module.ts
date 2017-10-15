@@ -53,6 +53,8 @@ import {RecipeBookService} from "./shared/services/recipebook.service";
 import { RecipeCategoryService } from "./shared/services/recipecategory.service";
 import { CategoriesComponent } from './nav/categories/categories.component';
 import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
+import { ChefRequestComponent } from './chef-request/chef-request.component';
+import { ChefRequestDetailsComponent } from './chef-request/chef-request-details/chef-request-details.component';
 
 
 @NgModule({
@@ -85,6 +87,8 @@ import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
     RecipeBookListComponent,
     RecipeBookItemComponent,
     CategoriesComponent,
+    ChefRequestComponent,
+    ChefRequestDetailsComponent,
   ],
   imports: [
     BrowserModule,

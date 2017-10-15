@@ -144,4 +144,8 @@ export class NavComponent implements OnInit, OnDestroy {
     this.router.navigate(['/recetarios']);
   }
 
+  private chefRequest(){
+    this.router.navigate(['/solicitudes']);
+  }
+
 }

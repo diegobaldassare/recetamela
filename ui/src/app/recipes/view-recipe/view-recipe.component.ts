@@ -8,6 +8,8 @@ import {SharedService} from "../../shared/services/shared.service";
 import {FormatService} from "../../shared/services/format.service";
 import {OnClickEvent} from "angular-star-rating";
 import {RecipeRating} from "../../shared/models/recipe/recipe-rating";
+import {ToasterService} from "angular2-toaster";
+import {RecipeCommentary} from "../../shared/models/recipe/recipe-commentary";
 
 @Component({
   selector: 'app-view-recipe',
@@ -20,6 +22,7 @@ export class ViewRecipeComponent implements OnInit {
   public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
   private recipeRating: RecipeRating;
+  commentaries: RecipeCommentary[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +30,9 @@ export class ViewRecipeComponent implements OnInit {
     private recipeService: RecipeService,
     private sharedService: SharedService,
     private router: Router,
-    private formatter: FormatService
-  ){}
+    private formatter: FormatService,
+    public toaster: ToasterService
+  ){ }
 
   ngOnInit() {
     this.route.params
@@ -97,4 +101,32 @@ export class ViewRecipeComponent implements OnInit {
   //     );
   //   return rating.rating;
   // }
+
+  publishComment(textComment: string){
+      if(textComment!='') {
+        let commentary = new RecipeCommentary();
+        commentary.id = "1";
+        commentary.text = textComment;
+        commentary.author = this.viewer;
+        commentary.date = new Date();
+        this.commentaries.push(commentary);
+      }
+      else{
+        this.toaster.pop('error', 'Ingresa un comentario');
+      }
+
+  }
+
+  deleteComment(id: string){
+    let index;
+    for (let i=0; i<this.commentaries.length; i++){
+      if(this.commentaries[i].id == id){
+        index = i;
+      }
+    }
+    if (index > -1) {
+      this.commentaries.splice(index, 1);
+    }
+  }
+
 }

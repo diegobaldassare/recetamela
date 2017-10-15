@@ -6,9 +6,10 @@
           <div class="col-md-7">
             <div style="margin-bottom: 10px">
               <h1 style="display: inline; margin-right: 10px">{{ recipe.name }}</h1>
-              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button" class="btn btn-primary btn-sm" title="Editar Receta" (click)="checkPremium()">
+              <button style="vertical-align: text-bottom" *ngIf="editButton" type="button"
+                      class="btn btn-primary btn-sm" title="Editar Receta" (click)="checkPremium()">
                 <a href="javascript://">
-                <span class="glyphicon glyphicon-pencil"></span>
+                  <span class="glyphicon glyphicon-pencil"></span>
                 </a>
               </button>
 
@@ -24,7 +25,9 @@
             </div>
 
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
-              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
+              <star-rating-comp style="margin-left: -6px" [starType]="'svg'" [hoverEnabled]="true"
+                                [rating]="recipeRating.rating" (onClick)="addRating($event)"
+                                [size]="'large'"></star-rating-comp>
             </div>
 
             <p>
@@ -38,20 +41,25 @@
           </div>
           <div class="col-md-5">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-              <li role="presentation" class="active"><a href="#general-images" aria-controls="imagenes" role="tab" data-toggle="tab">Imágenes</a></li>
-              <li *ngIf="recipe.videoUrl" role="presentation"><a href="#video" aria-controls="video" role="tab" data-toggle="tab">Video</a></li>
+              <li role="presentation" class="active"><a href="#general-images" aria-controls="imagenes" role="tab"
+                                                        data-toggle="tab">Imágenes</a></li>
+              <li *ngIf="recipe.videoUrl" role="presentation"><a href="#video" aria-controls="video" role="tab"
+                                                                 data-toggle="tab">Video</a></li>
             </ul>
             <br>
             <div class="tab-content">
               <div *ngIf="recipe.videoUrl" role="tabpanel" class="tab-pane" id="video">
-                <iframe class="video-display" width="560" height="315" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
+                <iframe class="video-display" width="560" height="315" [src]="embedVideoUrl" frameborder="0"
+                        allowfullscreen></iframe>
               </div>
               <div role="tabpanel" id="general-images" class="carousel slide tab-pane active" data-ride="carousel">
                 <ol class="carousel-indicators">
-                  <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images" [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
+                  <li *ngFor="let image of recipe.images; let first = first" data-target="#general-images"
+                      [attr.data-slide-to]="i" [ngClass]="{ active: first }"></li>
                 </ol>
                 <div class="carousel-inner" role="listbox">
-                  <div *ngFor="let image of recipe.images; let first = first" class="item" [ngClass]="{ active: first }">
+                  <div *ngFor="let image of recipe.images; let first = first" class="item"
+                       [ngClass]="{ active: first }">
                     <img style="width: 100%" [src]="image.url">
                   </div>
                 </div>
@@ -87,7 +95,8 @@
             </span>
           </div>
           <div>
-            <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
+            <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true"
+                              [readOnly]="true"></star-rating-comp>
           </div>
           <div>
             <span class="emoji">🍽</span>
@@ -103,7 +112,9 @@
             <div class="box-background">
               <h4 class="text-center">🍞 INGREDIENTES</h4>
               <ul>
-                <li *ngFor="let f of recipe.ingredients">{{ formatter.capitalizeFirstChar(f.ingredient.name) }}: {{ f.quantity }} {{ f.unit }}</li>
+                <li *ngFor="let f of recipe.ingredients">{{ formatter.capitalizeFirstChar(f.ingredient.name) }}: {{
+                  f.quantity }} {{ f.unit }}
+                </li>
               </ul>
             </div>
           </div>
@@ -126,9 +137,76 @@
             </div>
           </div>
         </div>
+
         <div class="recipe-comments">
-          <h4 class="text-center">COMENTARIOS</h4>
+          <h3 class="text-center commentary-header">COMENTARIOS</h3>
+
+          <div class="container">  <!--YO-->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="widget-area no-padding blank">
+                  <div class="status-upload">
+                    <form>
+                      <textarea placeholder="Que opinas de la receta {{viewer?.name}}?" #textArea></textarea>
+
+                      <button (click)="publishComment(textArea.value); textArea.value='' "
+                              class="btn btn-success comment">
+                        <!--[disabled]="textArea.value==''">-->
+                        Compartir
+                      </button>
+                    </form>
+                  </div><!-- Status Upload  -->
+                </div><!-- Widget Area -->
+              </div>
+            </div>
+          </div>    <!--YO-->
+
+
+          <div *ngFor="let commentary of commentaries" class="row">
+            <div class="col-sm-offset-1 col-xs-1 col-sm-1 col-md-1">
+              <div class="thumbnail">
+                <img class="img-responsive user-photo img-circle" src="{{commentary.author.profilePic}}">
+              </div><!-- /thumbnail -->
+            </div><!-- /col-sm-1 -->
+
+
+            <div class="col-sm-6 col-xs-6 col-md-6">
+              <div class="panel panel-default comment-body">
+                <div class="panel-heading">
+                  <strong>{{commentary.author.name}}</strong> <span class="text-muted">comentado {{commentary.date | messageTime}}</span>
+                  <div class="delete-comment" *ngIf="viewer.id == commentary.author.id">
+                    <button type="button" class="btn btn-danger btn-xs btn-eliminate"
+                            (click)="deleteComment(commentary.id)"
+                            title="Eliminar Comentario">
+                      eliminar
+                      <!--<a href="javascript://">-->
+                        <!--<span class="glyphicon glyphicon-remove"></span>-->
+                      <!--</a>-->
+                    </button>
+                  </div>
+                </div>
+                <div class="panel-body comment-text">
+                  {{commentary.text}}
+                </div><!-- /panel-body -->
+              </div><!-- /panel panel-default -->
+            </div><!-- /col-sm-5 -->
+
+            <!--<div class="col-sm-1" *ngIf="viewer.id == commentary.author.id">-->
+            <!--<div class="delete-comment">-->
+            <!--<button type="button" class="btn btn-danger btn-xs"-->
+            <!--(click)="deleteComment(commentary.id)"-->
+            <!--title="Eliminar Comentario">-->
+            <!--<a href="javascript://">-->
+            <!--<span class="glyphicon glyphicon-remove"></span>-->
+            <!--</a>-->
+            <!--</button>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+
+
         </div>
+
       </div>
     </div>
   </div>

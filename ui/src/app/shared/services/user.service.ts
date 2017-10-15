@@ -51,6 +51,10 @@ export class UserService {
     return this.http.get<User>(`/api/user/${id}`).toPromise();
   }
 
+  public getUsers() : Promise<User[]>{
+    return this.http.get<User[]>('/api/users').toPromise();
+  }
+
   public followUser(id: string) : Observable<User> {
     return this.http.post<User>(`/api/user/subscribe/${id}`, "");
   }

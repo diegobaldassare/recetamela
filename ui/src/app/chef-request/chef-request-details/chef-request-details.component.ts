@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../shared/models/user-model";
+import {ChefRequest} from "../../shared/models/chef-request";
 
 @Component({
   selector: 'app-chef-request-details',
@@ -8,11 +9,12 @@ import {User} from "../../shared/models/user-model";
 })
 export class ChefRequestDetailsComponent implements OnInit {
 
-  @Input() userRequest: User;
+  @Input() userRequest: ChefRequest;
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

@@ -7,11 +7,12 @@
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
-        <h4 class="modal-title">{{userRequest?.name}} {{userRequest?.lastName}}</h4>
+        <h4 class="modal-title">{{userRequest?.user.name}} {{userRequest?.user.lastName}}</h4>
       </div>
 
       <div class="modal-body">
-        {{userRequest?.name}}
+        Resumen: {{userRequest?.resume}}
+        <img style="width: 100%" [src]="userRequest?.certificate.url">
       </div>
 
       <div class="modal-footer">

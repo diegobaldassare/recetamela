@@ -93,6 +93,7 @@ GET         /api/chefrequest/:id                    controllers.ChefRequestContr
 GET         /api/chefrequest/sent/                  controllers.ChefRequestController.isUserChefRequest
 GET         /api/chefrequest/accepted/              controllers.ChefRequestController.isUserChefRequestAccepted
 GET         /api/chefrequest/all/                   controllers.ChefRequestController.getAll
+GET         /api/chefrequest/all/unanswered         controllers.ChefRequestController.getAllUnanswered
 DELETE      /api/chefrequest/:id/delete             controllers.ChefRequestController.delete(id: Long)
 
 PUT         /api/admin/:id/update                   controllers.user.AdminUserController.updateAdminUser(id: Long)

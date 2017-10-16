@@ -38,6 +38,14 @@ export class ChefRequestComponent implements OnInit {
 
     this.chefRequestService.updateChefRequest(chefRequest, chefRequest.id).then(() => {
       this.toaster.pop('success', 'Usario Aceptado');
+
+      this.userService.upgradeToChefUser(chefRequest.user.id).then(() => {
+        this.toaster.pop('success', 'Usario Actualizado');
+      }, () => {
+        this.toaster.pop('error', 'No se ha podido actualizar');
+      });
+
+
     }, () => {
       this.toaster.pop('error', 'No se ha podido aceptar');
     });

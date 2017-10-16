@@ -42,10 +42,6 @@ export class UserService {
     });
   }
 
-  public acceptChefRequest(id: string) : Promise<User> {
-    return this.http.put<User>(`/api/premiumuser/${id}/upgradeUser`, {}).toPromise();
-  }
-
   public upgradeToPremiumUser(id: string) : Promise<User> {
     return this.http.put<User>(`/api/user/${id}/upgradePremium`, {}).toPromise();
   }

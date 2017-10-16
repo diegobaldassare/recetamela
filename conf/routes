@@ -57,8 +57,8 @@ POST        /api/user/categories/subscribe/:id      controllers.user.UserControl
 POST        /api/user/categories/unSubscribe/:id    controllers.user.UserController.unSubscribeToCategory(id: Long)
 
 POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
-PUT         /api/user/:id/upgradePremium            controllers.user.FreeUserController.upgradeFreeUserToPremium(id: Long)
-PUT         /api/user/:id/upgradeChef               controllers.user.FreeUserController.upgradeFreeUserToChef(id: Long)
+PUT         /api/user/:id/upgradePremium            controllers.user.UserController.upgradeToPremium(id: Long)
+PUT         /api/user/:id/upgradeChef               controllers.user.UserController.upgradeToChef(id: Long)
 PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)
 PUT         /api/user/:id/checkDate                 controllers.user.UserController.checkExpirationDate(id: Long)
 PUT         /api/user/:id/modify                    controllers.user.UserController.modify(id: Long)
@@ -74,7 +74,6 @@ GET         /api/payment/all/                       controllers.payment.PaymentC
 DELETE      /api/payment/:id/delete                 controllers.payment.PaymentController.delete(id: Long)
 
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
-PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
 PUT         /api/premiumuser/:id/updateSuscription  controllers.user.PremiumUserController.updatePremiumUserExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateUser         controllers.user.PremiumUserController.updatePremiumUser(id: Long)
 GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)

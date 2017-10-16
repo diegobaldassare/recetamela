@@ -33,14 +33,6 @@ public class PremiumUserController extends UserController {
         return ok(Json.toJson(user));
     }
 
-    public Result upgradePremiumUser(Long id) {
-        return PremiumUserService.getInstance().get(id).map(user -> {
-            ChefUser chefUser = buildChefUser(user);
-            chefUser.update();
-            return ok(Json.toJson(chefUser));
-        }).orElse(notFound());
-    }
-
     public Result updatePremiumUser(Long id) {
         try {
             return updatePremiumUser(id, user -> {

@@ -175,6 +175,22 @@ public class UserController extends BaseController {
         return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
     }
 
+    public Result upgradeToPremium(Long id) {
+        return UserService.getInstance().get(id).map(user -> {
+            PremiumUser premiumUser = buildPremiumUser(user);
+            premiumUser.update();
+            return ok(Json.toJson(premiumUser));
+        }).orElse(notFound());
+    }
+
+    public Result upgradeToChef(Long id) {
+        return UserService.getInstance().get(id).map(user -> {
+            ChefUser chefUser = buildChefUser(user);
+            chefUser.update();
+            return ok(Json.toJson(chefUser));
+        }).orElse(notFound());
+    }
+
     protected PremiumUser buildPremiumUser(User user) {
         PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
         premiumUser.setId(user.getId());

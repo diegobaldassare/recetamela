@@ -70,6 +70,13 @@ public class ChefRequestController extends BaseController {
         return ok(Json.toJson(ChefRequestService.getInstance().getFinder().all()));
     }
 
+    public Result getAllUnanswered() {
+        return ok(Json.toJson(ChefRequestService.getInstance().getFinder().query()
+                .where()
+                .eq("answered", false)
+                .findList()));
+    }
+
     public Result delete(Long id) {
         return ChefRequestService.getInstance().get(id).map(chefRequest -> {
             chefRequest.delete();

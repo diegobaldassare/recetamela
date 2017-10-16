@@ -12,6 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.user.FreeUserService;
+import services.user.UserService;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -36,22 +37,6 @@ public class FreeUserController extends UserController {
         FreeUser user = userForm.bindFromRequest().get();
         user.save();
         return ok(Json.toJson(user));
-    }
-
-    public Result upgradeFreeUserToPremium(Long id) {
-        return FreeUserService.getInstance().get(id).map(user -> {
-            PremiumUser premiumUser = buildPremiumUser(user);
-            premiumUser.update();
-            return ok(Json.toJson(premiumUser));
-        }).orElse(notFound());
-    }
-
-    public Result upgradeFreeUserToChef(Long id) {
-        return FreeUserService.getInstance().get(id).map(user -> {
-            ChefUser chefUser = buildChefUser(user);
-            chefUser.update();
-            return ok(Json.toJson(chefUser));
-        }).orElse(notFound());
     }
 
     public Result updateFreeUser(Long id) {

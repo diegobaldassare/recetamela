@@ -46,7 +46,7 @@ export class ViewRecipeComponent implements OnInit {
             this.fetched = true;
 
             this.recipeService.getComments(this.recipe.id).then(res => {
-              this.commentaries = res;
+              this.commentaries = res.reverse();
             });
 
           }, () => { this.fetched = true });
@@ -99,7 +99,10 @@ export class ViewRecipeComponent implements OnInit {
 
         this.recipeCommentaryService.createRecipeCommentary(commentary, this.recipe.id).then((res) => {
           this.toaster.pop('success', 'Comentado');
-          this.commentaries.push(res);
+
+          this.commentaries.unshift(res);
+
+
         }, () => {
           this.toaster.pop('error', 'No se ha podido comentar');
         });

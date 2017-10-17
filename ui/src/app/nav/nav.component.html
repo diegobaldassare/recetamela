@@ -68,5 +68,5 @@
 </nav>
 
 <app-upgrade-chef></app-upgrade-chef>
-<app-categories *ngIf="isPremium"></app-categories>
+<app-categories *ngIf="user?.type == 'AdminUser'"></app-categories>
 <app-upgrade></app-upgrade>

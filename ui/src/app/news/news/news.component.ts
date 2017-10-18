@@ -14,7 +14,6 @@ import {User} from "../../shared/models/user-model";
 export class NewsComponent {
 
   private news: News;
-  private fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
   private embedVideoUrl;
 
@@ -29,8 +28,7 @@ export class NewsComponent {
       this.news = n;
       this.news.created = new Date(n.created);
       if (this.news.videoUrl) this.embedVideoUrl = this.setEmbedVideoUrl(this.news.videoUrl);
-      this.fetched = true;
-    }, () => this.fetched = true);
+    });
   }
 
   private deleteNews() {

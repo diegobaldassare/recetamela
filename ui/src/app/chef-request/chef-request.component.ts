@@ -25,7 +25,7 @@ export class ChefRequestComponent implements OnInit {
       this.users = users;
     });
 
-    this.chefRequestService.getAllChefRequest().then(usersCR => {
+    this.chefRequestService.getAllChefRequestUnanswered().then(usersCR => {
       this.usersRequesting = usersCR;
     });
 

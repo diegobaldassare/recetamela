@@ -26,10 +26,9 @@ import services.payment.PaymentService;
 import services.recipe.RecipeBookService;
 import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeService;
-import services.user.FollowerService;
-import services.user.UserFormatter;
-import services.user.UserService;
-import services.user.UserValidator;
+import services.user.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -185,5 +184,14 @@ public class UserController extends BaseController {
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
+    }
+
+    public Result getNewsFeed(Long id) {
+        List<News> result = new ArrayList<>();
+        NewsService newsService = NewsService.getInstance();
+        for (Followers followers: FollowerService.getInstance().getFollowing(id)) {
+            result.addAll(newsService.getNewsPublishedByuser(followers.getFollowing().getId()));
+        }
+        return ok(Json.toJson(result));
     }
 }

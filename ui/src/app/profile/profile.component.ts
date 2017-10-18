@@ -21,7 +21,6 @@ export class ProfileComponent implements OnInit {
 
   private user: User;
   private loggedUser: User;
-  public fetched: boolean;
   recipes: Recipe[] = [];
   followers: User[] = [];
   following: User[] = [];
@@ -70,14 +69,13 @@ export class ProfileComponent implements OnInit {
         const id = params['id'];
         this.userService.getUser(id).then(user => {
           this.user = user;
-          this.fetched = true;
           this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
           this.fetchRecipes();
           this.fetchFollowers();
           this.fetchFollowing();
           this.fetchCategories();
           this.fetchUnFollowedCategories();
-        }, () => { this.fetched = true });
+        });
       }
     );
 

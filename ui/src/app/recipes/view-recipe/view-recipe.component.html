@@ -178,7 +178,7 @@
             <div class="col-sm-6 col-xs-6 col-md-6">
               <div class="panel panel-default comment-body">
                 <div class="panel-heading">
-                  <strong>{{commentary?.author.name}}</strong> <span class="text-muted">comentado {{commentary?.date | messageTime}}</span>
+                  <strong>{{commentary?.author.name}}</strong> <span class="text-muted">comentado {{commentary?.date | date: 'mediumTime'}}</span>
                   <div class="delete-comment" *ngIf="viewer.id == commentary?.author.id">
                     <button type="button" class="btn btn-danger btn-xs btn-eliminate"
                             (click)="deleteComment(commentary?.id)"

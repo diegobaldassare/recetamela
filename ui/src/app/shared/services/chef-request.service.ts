@@ -37,6 +37,10 @@ export class ChefRequestService extends ApiService {
     return this.http.get<ChefRequest[]>(`${this.URL}/all/`).toPromise();
   }
 
+  getAllChefRequestUnanswered() : Promise<ChefRequest[]> {
+    return this.http.get<ChefRequest[]>(`${this.URL}/all/unanswered`).toPromise();
+  }
+
   deleteChefRequest(chefRequestId: string) : Promise<any> {
     return this.http.delete<any>(`${this.URL}/${chefRequestId}/delete`).toPromise();
   }

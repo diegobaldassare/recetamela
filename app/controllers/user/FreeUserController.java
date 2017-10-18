@@ -30,7 +30,7 @@ public class FreeUserController extends UserController {
 
     @Inject
     public FreeUserController(FormFactory formFactory) {
-        userForm =  formFactory.form(FreeUser.class);
+        userForm = formFactory.form(FreeUser.class);
     }
 
     public Result createFreeUser() {
@@ -55,14 +55,14 @@ public class FreeUserController extends UserController {
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 
-    public Result getFreeUsers(){
+    public Result getFreeUsers() {
         List<FreeUser> users = FreeUserService.getInstance().getFinder().all();
         return ok(Json.toJson(users));
     }
 
-    public Result deleteFreeUser(Long id){
+    public Result deleteFreeUser(Long id) {
         Optional<FreeUser> user = FreeUserService.getInstance().get(id);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             user.get().delete();
             return ok();
         }
@@ -73,7 +73,7 @@ public class FreeUserController extends UserController {
         FreeUser newFreeUser = userForm.bindFromRequest().get();
         Optional<FreeUser> optionalFreeUser = FreeUserService.getInstance().get(id);
         FreeUser oldFreeUser;
-        if(optionalFreeUser.isPresent()) oldFreeUser = optionalFreeUser.get();
+        if (optionalFreeUser.isPresent()) oldFreeUser = optionalFreeUser.get();
         else throw new NoSuchObjectException("The user was not found");
         if (newFreeUser.getName() != null) oldFreeUser.setName(newFreeUser.getName());
         if (newFreeUser.getLastName() != null) oldFreeUser.setLastName(newFreeUser.getLastName());

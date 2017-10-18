@@ -57,8 +57,8 @@ public class ChefRequestController extends BaseController {
                         .where()
                         .eq("user", getRequester())
                         .findUnique())
-                .map(chefRequest -> ok(Json.parse("{\"value\" : "+ true +"}")))
-                .orElse(ok(Json.parse("{\"value\" : "+ false +"}")));
+                .map(chefRequest -> ok(Json.parse("{\"value\" : " + true + "}")))
+                .orElse(ok(Json.parse("{\"value\" : " + false + "}")));
     }
 
     //Checks if the chef request was accepted
@@ -69,8 +69,8 @@ public class ChefRequestController extends BaseController {
                         .where()
                         .eq("user", getRequester())
                         .findUnique())
-                .map(chefRequest -> ok(Json.parse("{\"value\" : "+ chefRequest.isAccepted() +"}")))
-                .orElse(ok(Json.parse("{\"value\" : "+ false +"}")));
+                .map(chefRequest -> ok(Json.parse("{\"value\" : " + chefRequest.isAccepted() + "}")))
+                .orElse(ok(Json.parse("{\"value\" : " + false + "}")));
     }
 
     @Authenticate({AdminUser.class})

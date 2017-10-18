@@ -46,7 +46,8 @@ public class UserController extends BaseController {
         userForm = formFactory.form(User.class);
     }
 
-    public UserController() {}
+    public UserController() {
+    }
 
     public Result createUser() {
         User user = userForm.bindFromRequest().get();

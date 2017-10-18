@@ -1,0 +1,41 @@
+.thumbnail {
+  padding: 15px 30px 15px 30px;
+  margin-top: 15px;
+}
+
+.header {
+  margin-left: -30px;
+}
+
+.profile-picture {
+  width: 70px;
+  height: 70px;
+}
+
+.title {
+  margin-top: 15px;
+  margin-bottom: -5px;
+}
+
+.date {
+  color: #95a5a6;
+  font-size: 12px;
+  margin-top: -5px;
+}
+
+.author {
+  margin-left: -20px;
+  margin-top: 10px;
+}
+
+.media {
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.video-display {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  height: 343px;
+}

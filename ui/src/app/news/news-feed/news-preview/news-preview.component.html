@@ -1,9 +1,23 @@
 <div class="thumbnail">
-  <img *ngIf="thumbnailUrl" [src]="thumbnailUrl">
-  <div class="caption">
-    <h3><a [routerLink]="'/noticias/' + news.id">{{ news.title }}</a></h3>
-    <p>👨‍🍳<i style="margin-left: 5px"><a [routerLink]="'/usuario/' + news.author.id + '/perfil'">{{ news.author.name + ' ' + news.author.lastName }}</a></i></p>
-    <p><i>{{ news.created.toLocaleDateString() }}</i></p>
+  <div class="row header">
+    <div class="col-lg-2">
+      <img class="img-circle profile-picture" alt="Profile Picture" [src]="news?.author.profilePic">
+    </div>
+    <div class="col-lg-10 author">
+      <h4><a [routerLink]="'/usuario/' + news?.author.id + '/perfil'">{{ news?.author.name + ' ' + news?.author.lastName }}</a></h4>
+      <div class="date">{{news?.created | messageTime}}</div>
+    </div>
+  </div>
+  <div class="row">
+    <h3 class="title"><a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>
+    <div class="media">
+      <div *ngIf="news?.videoUrl">
+        <iframe class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div *ngIf="!news?.videoUrl && news?.image">
+        <img width="100%" [src]="news?.image.url">
+      </div>
+    </div>
     <p>{{ description }}</p>
   </div>
 </div>

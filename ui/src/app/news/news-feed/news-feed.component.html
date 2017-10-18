@@ -1,4 +1,10 @@
 <div class="container">
-  <app-create-news></app-create-news>
-  <app-news-preview></app-news-preview>
+  <div *ngIf="viewer?.type === 'Chef' ">
+    <app-create-news></app-create-news>
+  </div>
+  <div *ngIf="newsArray">
+    <div *ngFor="let news of newsArray">
+      <app-news-preview [news]="news"></app-news-preview>
+    </div>
+  </div>
 </div>

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
-@JsonDeserialize(as = PremiumUser.class)
+@JsonDeserialize(as = ChefUser.class)
 public abstract class User extends BaseModel {
 
     @Column(name = "type", insertable = false)

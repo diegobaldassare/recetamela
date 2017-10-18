@@ -13,16 +13,19 @@ import services.NewsService;
 
 public class NewsController extends BaseController {
 
-    @Authenticate({FreeUser.class, ChefUser.class})
+    @Authenticate({ChefUser.class})
     public Result create() {
         final News n = getBody(News.class);
         n.setAuthor(getRequester());
-        try { NewsService.create(n); }
-        catch (BadRequestException e) { return badRequest(e.getMessage()).as(Http.MimeTypes.JSON); }
+        try {
+            NewsService.create(n);
+        } catch (BadRequestException e) {
+            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
+        }
         return ok(Json.toJson(n));
     }
 
-    @Authenticate({FreeUser.class, ChefUser.class})
+    @Authenticate({ChefUser.class})
     public Result delete(long id) {
         return NewsService.getInstance().get(id).map(n -> {
             if (!getRequester().getId().equals(n.getAuthor().getId()))
@@ -33,7 +36,7 @@ public class NewsController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, ChefUser.class})
+    @Authenticate({ChefUser.class})
     public Result get(long id) {
         return NewsService.getInstance().get(id).map(n -> ok(Json.toJson(n))).orElse(notFound());
     }

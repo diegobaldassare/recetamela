@@ -21,6 +21,7 @@ public class NewsController extends BaseController {
     @Authenticate({ChefUser.class})
     public Result create() {
         final News n = getBody(News.class);
+        n.setAuthor(getRequester());
         try {
             NewsService.create(n);
         } catch (BadRequestException e) {

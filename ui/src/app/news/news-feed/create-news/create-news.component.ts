@@ -22,9 +22,7 @@ export class CreateNewsComponent implements OnInit {
     private formatter: FormatService
   ) {}
 
-  ngOnInit() {
-    if (this.news) this.news.author = JSON.parse(localStorage.getItem("user"));
-  }
+  ngOnInit() {}
 
   public get disabledSubmit(): boolean {
     return this.news.title.trim().length == 0 ||

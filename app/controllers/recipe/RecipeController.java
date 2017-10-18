@@ -1,6 +1,5 @@
 package controllers.recipe;
 
-import com.avaje.ebean.Ebean;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.Media;
@@ -24,10 +23,7 @@ import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 import util.NotificationManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RecipeController extends BaseController {
@@ -124,6 +120,13 @@ public class RecipeController extends BaseController {
     }
 
     public Result getRecipeComments(Long recipeId) {
-        return RecipeService.getInstance().get(recipeId).map(recipe -> ok(Json.toJson(recipe.getComments()))).orElse(notFound());
+        return RecipeService.getInstance().get(recipeId)
+                .map(recipe -> ok(Json.toJson(recipe.getComments()
+                .stream()
+                .sorted((o1, o2) -> {
+                    if (o1.getId() < o2.getId()) return 1;
+                    else return (Objects.equals(o1.getId(), o2.getId())) ? 0 : -1;
+                }).collect(Collectors.toList()))))
+                .orElse(notFound());
     }
 }

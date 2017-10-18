@@ -46,7 +46,7 @@ export class ViewRecipeComponent implements OnInit {
             this.fetched = true;
 
             this.recipeService.getComments(this.recipe.id).then(res => {
-              this.commentaries = res.reverse();
+              this.commentaries = res;
             });
 
           }, () => { this.fetched = true });

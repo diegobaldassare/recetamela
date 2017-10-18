@@ -31,8 +31,8 @@ export class ChefRequestComponent implements OnInit {
 
   }
 
-  acceptRequest(user: ChefRequest){
-    let chefRequest = user;
+  acceptRequest(userChefRequest: ChefRequest){
+    let chefRequest = userChefRequest;
     chefRequest.answered = true;
     chefRequest.accepted = true;
 
@@ -51,8 +51,8 @@ export class ChefRequestComponent implements OnInit {
     });
   }
 
-  rejectRequest(user: ChefRequest){
-    let chefRequest = user;
+  rejectRequest(userChefRequest: ChefRequest){
+    let chefRequest = userChefRequest;
     chefRequest.answered = true;
     chefRequest.accepted = false;
 

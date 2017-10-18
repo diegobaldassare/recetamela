@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {ApiService} from "./api-service";
 import {HttpClient} from "@angular/common/http";
 import {ChefRequest} from "../models/chef-request";
+import {BooleanResponse} from "../models/boolean-response";
 
 @Injectable()
 export class ChefRequestService extends ApiService {
@@ -24,12 +25,12 @@ export class ChefRequestService extends ApiService {
     return this.http.get<ChefRequest>(`${this.URL}/${chefRequestId}`).toPromise();
   }
 
-  isUserChefRequest() : Promise<boolean> {
-    return this.http.get<boolean>(`${this.URL}/sent/`).toPromise();
+  isUserChefRequest() : Promise<BooleanResponse> {
+    return this.http.get<BooleanResponse>(`${this.URL}/sent/`).toPromise();
   }
 
-  isUserChefRequestAccepted() : Promise<boolean> {
-    return this.http.get<boolean>(`${this.URL}/accepted/`).toPromise();
+  isUserChefRequestAccepted() : Promise<BooleanResponse> {
+    return this.http.get<BooleanResponse>(`${this.URL}/accepted/`).toPromise();
   }
 
   getAllChefRequest() : Promise<ChefRequest[]> {

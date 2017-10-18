@@ -76,10 +76,10 @@ export class UpgradeComponent implements OnInit {
     this._creditCardService.createCreditCard(this.creditCard).then( result => {
         this._paymentService.create(this.createPayment(99.99, "User Upgrade"), result.id).then(() => {
           this._chefRequestService.isUserChefRequestAccepted().then(accepted => {
-            if (accepted == true) this.upgradeToChefUser();
+            if (accepted.value) this.upgradeToChefUser();
             else this.upgradeToPremiumUser();
           });
-        }, () => { this.toaster.pop("error", "Error de guardado de pago"); });
+        }, () => { this.toaster.pop("error", "Error de guardado de pago");});
       }, () => { this.toaster.pop("error", "Error de guardado de tarjeta"); }
     );
   }

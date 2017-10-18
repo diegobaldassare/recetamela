@@ -161,7 +161,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private fetchUnFollowedCategories() {
-    this.userService.getUnfollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
+    this.userService.getUnFollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
         this.unFollowedCategories= res;
     });
   }

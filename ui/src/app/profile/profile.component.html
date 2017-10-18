@@ -1,95 +1,92 @@
-<div *ngIf="fetched">
-  <div *ngIf="user" class="container">
-    <div class="row">
-      <div class="col-xs-2">
-        <img class="img-circle profile-picture" alt="Profile Picture" src={{user?.profilePic}} >
-      </div>
-      <div class="container head">
-        <p>
-          <span class="name">{{user?.name}} {{user?.lastName}} </span>
-          <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
-          <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
-          <span *ngIf="user?.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
-          <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe" data-toggle="modal" data-target="#editUserModal">Editar</button>
-          <button *ngIf="!subscribed && this.user.id !== this.loggedUser.id; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
-          <ng-template #subscripto>
-            <button *ngIf="subscribed;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
-          </ng-template>
-        </p>
-        <p class="mail">
-          <span class="glyphicon glyphicon-envelope one"></span><a href="mailto:{{user?.email}}">{{user?.email}}</a>
-        </p>
-      </div>
+<div *ngIf="user" class="container">
+  <div class="row">
+    <div class="col-xs-2">
+      <img class="img-circle profile-picture" alt="Profile Picture" src={{user?.profilePic}} >
     </div>
+    <div class="container head">
+      <p>
+        <span class="name">{{user?.name}} {{user?.lastName}} </span>
+        <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
+        <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
+        <span *ngIf="user?.type === 'Chef' "        class="icon-badge" title="Chef">👨🏻‍🍳</span>
+        <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe" data-toggle="modal" data-target="#editUserModal">Editar</button>
+        <button *ngIf="!subscribed && this.user.id !== this.loggedUser?.id; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
+        <ng-template #subscripto>
+          <button *ngIf="subscribed;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
+        </ng-template>
+      </p>
+      <p class="mail">
+        <span class="glyphicon glyphicon-envelope one"></span><a href="mailto:{{user?.email}}">{{user?.email}}</a>
+      </p>
+    </div>
+  </div>
 
-    <div class="container">
-      <div class="panel with-nav-tabs panel-default">
-        <div class="panel-heading">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
-            <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
-            <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.followers?.length}}</b> seguidores</a></li>
-            <li><a href="#tab4" data-toggle="tab" (click)="fetchCategories()"><b>{{this.categories?.length}}</b> categorías</a></li>
-          </ul>
-        </div>
-        <div class="panel-body">
-          <div class="tab-content">
-            <div class="tab-pane fade in active" id="tab1">
-              <app-recipe-list [recipes]="recipes"></app-recipe-list>
-              <ng-container *ngIf="recipes.length == 0">No hay recetas que mostrar. </ng-container>
-            </div>
-            <div class="tab-pane fade" id="tab2">
-              <ul style="list-style: none;">
-                <ng-container *ngIf="following?.length == 0">El usuario no sigue a otras personas. </ng-container>
-                <ng-container *ngFor="let n of following; let i = index;">
-                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followingClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
-                </ng-container>
-              </ul>
-            </div>
-            <div class="tab-pane fade" id="tab3">
-              <ul style="list-style: none;">
-                <ng-container *ngIf="followers?.length == 0">El usuario no tiene seguidores. <a href="javascript://" *ngIf="user?.id != loggedUser?.id" (click)="subscribe()">Seguilo!</a></ng-container>
-                <ng-container *ngFor="let n of followers; let i = index;">
-                  <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followerClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
-                </ng-container>
-              </ul>
-            </div>
-            <div class="tab-pane fade" id="tab4">
-              <div class="col-lg-6">
-                <ng-container *ngIf="categories.length == 0">El usuario no sigue a ninguna categoría.</ng-container>
-                <div class="categories">
-                  <ul>
-                    <ng-container *ngFor="let c of categories; let i = index">
-                      <li *ngIf="user?.id === loggedUser?.id" (click)="unSubscribeToCategory(i)">
-                        x {{c.name}}
-                      </li>
-                      <li *ngIf="user?.id !== loggedUser?.id">
-                        {{c.name}}
-                      </li>
-                    </ng-container>
-                  </ul>
-                </div>
+  <div class="container">
+    <div class="panel with-nav-tabs panel-default">
+      <div class="panel-heading">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
+          <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.following?.length}}</b> siguiendo</a></li>
+          <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{this.followers?.length}}</b> seguidores</a></li>
+          <li><a href="#tab4" data-toggle="tab" (click)="fetchCategories()"><b>{{this.categories?.length}}</b> categorías</a></li>
+        </ul>
+      </div>
+      <div class="panel-body">
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="tab1">
+            <app-recipe-list [recipes]="recipes"></app-recipe-list>
+            <ng-container *ngIf="recipes?.length == 0">No hay recetas que mostrar. </ng-container>
+          </div>
+          <div class="tab-pane fade" id="tab2">
+            <ul style="list-style: none;">
+              <ng-container *ngIf="following?.length == 0">El usuario no sigue a otras personas. </ng-container>
+              <ng-container *ngIf="following" *ngFor="let n of following; let i = index;">
+                <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followingClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
+              </ng-container>
+            </ul>
+          </div>
+          <div class="tab-pane fade" id="tab3">
+            <ul style="list-style: none;">
+              <ng-container *ngIf="followers?.length == 0">El usuario no tiene seguidores. <a href="javascript://" *ngIf="user?.id != loggedUser?.id" (click)="subscribe()">Seguilo!</a></ng-container>
+              <ng-container *ngIf="followers" *ngFor="let n of followers; let i = index;">
+                <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followerClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
+              </ng-container>
+            </ul>
+          </div>
+          <div class="tab-pane fade" id="tab4">
+            <div class="col-lg-6">
+              <ng-container *ngIf="categories?.length == 0">El usuario no sigue a ninguna categoría.</ng-container>
+              <div class="categories">
+                <ul>
+                  <ng-container *ngIf="categories" *ngFor="let c of categories; let i = index">
+                    <li *ngIf="user?.id === loggedUser?.id" (click)="unSubscribeToCategory(i)">
+                      x {{c?.name}}
+                    </li>
+                    <li *ngIf="user?.id !== loggedUser?.id">
+                      {{c?.name}}
+                    </li>
+                  </ng-container>
+                </ul>
               </div>
-              <div class="col-lg-6">
-                <div *ngIf="user?.id === loggedUser?.id">
-                  <div class="form-group">
-                    <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categoryList" [(ngModel)]="categoryQuery" (keyup.enter)="subscribeToCategory()">
-                    <datalist id="categoryList">
-                      <option *ngFor="let c of unFollowedCategories" [value]="c.name"></option>
-                    </datalist>
-                  </div>
+            </div>
+            <div class="col-lg-6">
+              <div *ngIf="user?.id === loggedUser?.id">
+                <div class="form-group">
+                  <input id="category" class="form-control" placeholder="Presione enter luego de cada categoria" list="categoryList" [(ngModel)]="categoryQuery" (keyup.enter)="subscribeToCategory()">
+                  <datalist id="categoryList">
+                    <option *ngIf="unFollowedCategories"*ngFor="let c of unFollowedCategories" [value]="c.name"></option>
+                  </datalist>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <br/>
       </div>
+      <br/>
     </div>
   </div>
-  <app-not-found *ngIf="!user"></app-not-found>
 </div>
-<div *ngIf="!fetched" class="app-spinner"></div>
+<app-not-found *ngIf="!user"></app-not-found>
 
 <!-- Modal -->
 <div id="editUserModal" class="modal fade" role="dialog">
@@ -124,7 +121,6 @@
         </div>
       </form>
     </div>
-
   </div>
 </div>
 

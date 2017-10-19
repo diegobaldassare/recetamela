@@ -127,7 +127,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(unFollowed));
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result subscribeToCategory(long id) {
         User me = getRequester();
         Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
@@ -141,7 +141,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(me));
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result unSubscribeToCategory(long id) {
         User me = getRequester();
         Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);

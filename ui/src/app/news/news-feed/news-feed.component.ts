@@ -20,7 +20,7 @@ export class NewsFeedComponent implements OnInit {
   }
 
   private loadNewsFeed() {
-    this.userService.getNewsFeed(this.viewer.id).subscribe((res: News[]) => {
+    this.userService.getNewsFeed().subscribe((res: News[]) => {
       this.newsArray = res;
     });
   }

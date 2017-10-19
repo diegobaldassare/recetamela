@@ -170,7 +170,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result modify(long id) {
         final Optional<User> user = UserService.getInstance().get(id);
         if (!user.isPresent()) return notFound();
@@ -186,10 +186,11 @@ public class UserController extends BaseController {
         }
     }
 
-    public Result getNewsFeed(Long id) {
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result getNewsFeed() {
         List<News> result = new ArrayList<>();
         NewsService newsService = NewsService.getInstance();
-        for (Followers followers: FollowerService.getInstance().getFollowing(id)) {
+        for (Followers followers: FollowerService.getInstance().getFollowing(getRequester().getId())) {
             result.addAll(newsService.getNewsPublishedByuser(followers.getFollowing().getId()));
         }
         return ok(Json.toJson(result));

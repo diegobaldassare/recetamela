@@ -114,7 +114,7 @@ export class UserService {
     return this.http.delete(`/api/user/${id}/delete`).toPromise();
   }
 
-  public getNewsFeed(id: string) : Observable<News[]> {
-    return this.http.get<News[]>(`/api/user/newsfeed/${id}`);
+  public getNewsFeed() : Observable<News[]> {
+    return this.http.get<News[]>(`/api/user/newsfeed/`);
   }
 }

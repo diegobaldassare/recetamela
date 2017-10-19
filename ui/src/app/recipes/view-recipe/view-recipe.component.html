@@ -178,17 +178,28 @@
             <div class="col-sm-6 col-xs-6 col-md-6">
               <div class="panel panel-default comment-body">
                 <div class="panel-heading">
-                  <strong>{{commentary?.author.name}}</strong> <span class="text-muted">comentado {{commentary?.date | date: 'mediumTime'}}</span>
-                  <div class="delete-comment" *ngIf="viewer.id == commentary?.author.id">
-                    <button type="button" class="btn btn-danger btn-xs btn-eliminate"
-                            (click)="deleteComment(commentary?.id)"
-                            title="Eliminar Comentario">
-                      eliminar
-                      <!--<a href="javascript://">-->
-                        <!--<span class="glyphicon glyphicon-remove"></span>-->
-                      <!--</a>-->
-                    </button>
+                  <div class="row">
+                    <div class="col-sm-8">
+
+                      <strong>{{commentary?.author.name}}</strong> <span class="text-muted">comentado {{commentary?.date | date: 'mediumTime'}}</span>
+
+                    </div>
+
+                    <div class="col-sm-4 delete-comment">
+
+                      <div *ngIf="viewer.id == commentary?.author.id">
+                        <button type="button" class="btn btn-danger btn-xs btn-eliminate"
+                                (click)="deleteComment(commentary?.id)"
+                                title="Eliminar Comentario">
+                          eliminar
+                        </button>
+                      </div>
+
+                    </div>
+
                   </div>
+
+
                 </div>
                 <div class="panel-body comment-text">
                   {{commentary?.comment}}
@@ -196,19 +207,7 @@
               </div><!-- /panel panel-default -->
             </div><!-- /col-sm-5 -->
 
-            <!--<div class="col-sm-1" *ngIf="viewer.id == commentary.author.id">-->
-            <!--<div class="delete-comment">-->
-            <!--<button type="button" class="btn btn-danger btn-xs"-->
-            <!--(click)="deleteComment(commentary.id)"-->
-            <!--title="Eliminar Comentario">-->
-            <!--<a href="javascript://">-->
-            <!--<span class="glyphicon glyphicon-remove"></span>-->
-            <!--</a>-->
-            <!--</button>-->
-            <!--</div>-->
-            <!--</div>-->
           </div>
-
 
         </div>
 

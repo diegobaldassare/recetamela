@@ -1,8 +1,6 @@
 package controllers;
 import controllers.authentication.Authenticate;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.mvc.*;
 import play.libs.*;
 
@@ -13,7 +11,7 @@ import util.NotificationManager;
  */
 public class NotificationController extends BaseController {
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getNotifications() {
         User sender = getRequester();
         NotificationManager.EventOutput eventOutput = NotificationManager.getInstance().requestNotifications(sender.getId());

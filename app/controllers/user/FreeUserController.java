@@ -1,8 +1,7 @@
 package controllers.user;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.TxRunnable;
 import com.google.inject.Inject;
+import models.user.ChefUser;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.user.User;
@@ -24,7 +23,7 @@ import java.util.function.Function;
 /**
  * Created by Matias Cicilia on 30-Aug-17.
  */
-public class FreeUserController extends Controller {
+public class FreeUserController extends UserController {
 
     private static Form<FreeUser> userForm;
 
@@ -39,17 +38,19 @@ public class FreeUserController extends Controller {
         return ok(Json.toJson(user));
     }
 
-    public Result upgradeFreeUser(Long id) {
-        Optional<FreeUser> freeUserOptional = FreeUserService.getInstance().get(id);
-        return freeUserOptional.map(user -> {
-            PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
-            premiumUser.setId(user.getId());
-            premiumUser.setType("PremiumUser");
-            premiumUser.setFacebookId(user.getFacebookId());
-            premiumUser.setAuthToken(user.getAuthToken());
-            premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+    public Result upgradeFreeUserToPremium(Long id) {
+        return FreeUserService.getInstance().get(id).map(user -> {
+            PremiumUser premiumUser = buildPremiumUser(user);
             premiumUser.update();
             return ok(Json.toJson(premiumUser));
+        }).orElse(notFound());
+    }
+
+    public Result upgradeFreeUserToChef(Long id) {
+        return FreeUserService.getInstance().get(id).map(user -> {
+            ChefUser chefUser = buildChefUser(user);
+            chefUser.update();
+            return ok(Json.toJson(chefUser));
         }).orElse(notFound());
     }
 

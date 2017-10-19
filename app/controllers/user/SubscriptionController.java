@@ -4,9 +4,7 @@ import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.Followers;
 import models.notification.NotificationType;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.libs.Json;
 import play.mvc.Result;
 import services.user.FollowerService;
@@ -19,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class SubscriptionController extends BaseController{
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result subscribe(Long id) {
         User me = getRequester();
         Optional<User> following = UserService.getInstance().get(id);
@@ -35,7 +33,7 @@ public class SubscriptionController extends BaseController{
         return ok(Json.toJson(me));
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result unSubscribe(Long id) {
         User me = getRequester();
 

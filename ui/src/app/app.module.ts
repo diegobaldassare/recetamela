@@ -34,7 +34,7 @@ import {AuthGuard} from "./auth/authGuard.service";
 import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
 import {KeysPipe} from "./shared/pipes/keys-pipe";
 import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
-import {PremiumGuard} from "./auth/premium-guard";
+import {NotFreeGuard} from "./auth/not-free-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {PaymentService} from "./shared/services/payment.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
@@ -59,6 +59,9 @@ import {NewsService} from "./shared/services/news-service";
 import {FacebookShareComponent} from "./facebook-share/facebook-share.component";
 import {NewsPreviewComponent} from './news/news-feed/news-preview/news-preview.component';
 import {NewsComponent} from './news/news/news.component';
+import {UpgradeChefComponent} from "./nav/chef/upgrade-chef.component";
+import {ChefRequestService} from "./shared/services/chef-request.service";
+import {RecipeCommentaryService} from "./shared/services/comment.service";
 
 @NgModule({
   declarations: [
@@ -95,6 +98,7 @@ import {NewsComponent} from './news/news/news.component';
     FacebookShareComponent,
     NewsPreviewComponent,
     NewsComponent,
+    UpgradeChefComponent
   ],
   imports: [
     BrowserModule,
@@ -127,14 +131,16 @@ import {NewsComponent} from './news/news/news.component';
     HttpService,
     SharedService,
     AuthGuard,
-    PremiumGuard,
+    NotFreeGuard,
     CreditCardService,
     EditRecipeGuard,
     FormatService,
     PaymentService,
     RecipeBookService,
     RecipeCategoryService,
-    NewsService
+    NewsService,
+    ChefRequestService,
+    RecipeCommentaryService
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,7 @@ import {RecipeBookService} from "../../../shared/services/recipebook.service";
 import {RecipeBook} from "../../../shared/models/recipe/recipebook";
 import {Recipe} from "../../../shared/models/recipe/recipe";
 import {ToasterService} from "angular2-toaster";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-to-recipe-book',
@@ -17,7 +18,8 @@ export class AddToRecipeBookComponent implements OnInit {
   recipeBook: RecipeBook = new RecipeBook();
 
   constructor(private recipeBookService: RecipeBookService,
-              public toaster: ToasterService) { }
+              public toaster: ToasterService,
+              private router: Router) { }
 
   ngOnInit() {
     this.recipeBookService.getUserRecipeBooks().then(recipeBooks => {
@@ -47,5 +49,10 @@ export class AddToRecipeBookComponent implements OnInit {
     });
 
     this.closeBtn.nativeElement.click();
+  }
+
+  goToRecipeBook(){
+    this.closeBtn.nativeElement.click();
+    this.router.navigate(['/recetarios']);
   }
 }

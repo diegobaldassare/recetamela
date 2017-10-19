@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.annotation.Index;
 import models.user.User;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ public class Comment extends BaseModel {
     @ManyToOne
     private User author;
 
+    @Index
     private Date date;
 
     public String getComment() {

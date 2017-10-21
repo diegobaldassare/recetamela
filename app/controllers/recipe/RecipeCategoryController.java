@@ -6,9 +6,7 @@ import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.recipe.RecipeCategory;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -29,14 +27,14 @@ public class RecipeCategoryController extends BaseController {
         recipeCategoryForm =  formFactory.form(RecipeCategory.class);
     }
 
-    //    @Authenticate({AdminUser.class})
+    @Authenticate({AdminUser.class})
     public Result create() {
         final RecipeCategory category = recipeCategoryForm.bindFromRequest().get();
         category.save();
         return ok(Json.toJson(category));
     }
 
-//    @Authenticate({AdminUser.class})
+    @Authenticate({AdminUser.class})
     public Result update(Long id) {
         return RecipeCategoryService.getInstance().get(id).map(category -> {
             final RecipeCategory newCategory = recipeCategoryForm.bindFromRequest().get();
@@ -47,59 +45,38 @@ public class RecipeCategoryController extends BaseController {
 
     }
 
-//    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result get(Long id) {
         return RecipeCategoryService.getInstance().get(id)
                 .map(recipeCategory -> ok(Json.toJson(recipeCategory))).orElse(notFound());
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getByName(String name) {
         return RecipeCategoryService.getInstance().getByName(name)
                 .map(recipeCategory -> ok(Json.toJson(recipeCategory))).orElse(notFound());
     }
 
-//    @Authenticate({FreeUser.class, PremiumUser.class, AdminUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getAll() {
         final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();
         return ok(Json.toJson(categories));
     }
 
-//    @Authenticate({AdminUser.class})
+    @Authenticate({AdminUser.class})
     public Result delete(Long id) {
-        return RecipeCategoryService.getInstance().get(id).map(recipeCategory -> deleteCategory(recipeCategory, 0)
-//                RecipeCategoryService.getInstance().getByName("sin categoria").map(defaultCategory ->
-//                        deleteCategory(recipeCategory, defaultCategory.getId()))
-//                .orElseGet(() -> {
-//                    RecipeCategory defaultCategory = new RecipeCategory();
-//                    defaultCategory.setName("sin categoria");
-//                    defaultCategory.save();
-//                    return deleteCategory(recipeCategory, defaultCategory.getId());
-//        })
-        ).orElse(notFound());
+        return RecipeCategoryService.getInstance().get(id)
+                .map(this::deleteCategory)
+                .orElse(notFound());
     }
 
-    private Result deleteCategory(RecipeCategory recipeCategory, long defaultCategoryId) {
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    private Result deleteCategory(RecipeCategory recipeCategory) {
         SqlUpdate delete = Ebean.createSqlUpdate(
                 "delete from recipe_recipe_category " +
                         "where recipe_category_id = :id");
         delete.setParameter("id", recipeCategory.getId());
         Ebean.execute(delete);
-
-//        Ebean.createSqlQuery("select id " +
-//                "from recipe " +
-//                "left join recipe_recipe_category " +
-//                "on (id = recipe_id) " +
-//                "where (recipe_id is null)")
-//                .findList()
-//                .forEach(recipe -> {
-//                    SqlUpdate insert = Ebean.createSqlUpdate(
-//                            "insert into recipe_recipe_category " +
-//                                    "values (:recipe, :category)");
-//                    insert.setParameter("recipe", recipe.getInteger("id"));
-//                    insert.setParameter("category", defaultCategoryId);
-//                    Ebean.execute(insert);
-//                });
-
         recipeCategory.delete();
         return ok();
     }
@@ -109,7 +86,7 @@ public class RecipeCategoryController extends BaseController {
      * @param query The received query parameter from the client
      * @return The list with tuples for the categories and a boolean that indicates whether the requester follows the category.
      */
-    @Authenticate({ FreeUser.class, PremiumUser.class })
+    @Authenticate({ FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result search(String query) {
         User me = getRequester();
         final List<RecipeCategory> results = RecipeCategoryService.getInstance().search(query);

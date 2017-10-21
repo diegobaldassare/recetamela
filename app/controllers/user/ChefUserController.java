@@ -1,14 +1,22 @@
 package controllers.user;
 
 import controllers.BaseController;
+import controllers.authentication.Authenticate;
+import models.chefrequest.ChefRequest;
 import models.user.ChefUser;
+import models.user.PremiumUser;
+import models.user.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
+import play.mvc.Http;
 import play.mvc.Result;
+import server.error.RequestError;
+import server.exception.BadRequestException;
 import services.user.ChefUserService;
 
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ChefUserController extends BaseController {
@@ -53,5 +61,23 @@ public class ChefUserController extends BaseController {
             user.delete();
             return ok();
         }).orElse(notFound());
+    }
+
+    @Authenticate(PremiumUser.class)
+    public Result sendChefRequest() {
+        User user = getRequester();
+        ChefRequest chefRequest = getBody(ChefRequest.class);
+        chefRequest.setUser(user);
+        try {
+            checkFormat(chefRequest);
+            chefRequest.save();
+            return ok(Json.toJson(chefRequest));
+        } catch (BadRequestException e) {
+            return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
+        }
+    }
+
+    private void checkFormat(ChefRequest chefRequest) throws BadRequestException{
+        if(chefRequest.getMedia() == null || !Objects.equals(chefRequest.getUser().getType(), "PremiumUser")) throw new BadRequestException(RequestError.BAD_FORMAT);
     }
 }

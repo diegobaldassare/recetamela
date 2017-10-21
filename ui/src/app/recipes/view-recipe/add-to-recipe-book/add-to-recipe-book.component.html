@@ -5,31 +5,31 @@
     <!-- Modal content-->
     <div class="modal-content">
 
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
-          <h4 class="modal-title">Agregar Receta a Recetario</h4>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+        <h4 class="modal-title">Agregar Receta a Recetario</h4>
+      </div>
+
+
+      <div class="modal-body" *ngIf="recipeBooks?.length != 0">
+        <p>Elija a que recetario desea agregar la receta</p>
+
+        <div class="radio" *ngFor="let recipeBook of recipeBooks">
+          <p>
+            <input
+              class="with-gap"
+              type="radio"
+              name="recipeBookName"
+              id={{recipeBook.name}}
+              (click)="selectRecipeBook(recipeBook.id)">
+            <label for={{recipeBook.name}}> {{recipeBook.name}} </label>
+          </p>
         </div>
-        <div class="modal-body">
-          <p>Elija a que recetario desea agregar la receta</p>
+      </div>
 
-
-          <div class="radio" *ngFor="let recipeBook of recipeBooks">
-            <p>
-              <input
-                class="with-gap"
-                type="radio"
-                name="recipeBookName"
-                id={{recipeBook.name}}
-                (click)="selectRecipeBook(recipeBook.id)">
-              <label for={{recipeBook.name}}> {{recipeBook.name}} </label>
-            </p>
-          </div>
-
-        </div>
-        <!--<div class="modal-footer">-->
-          <!--<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addToRecipeBook()">Agregar-->
-          <!--</button>-->
-        <!--</div>-->
+      <div class="modal-body" *ngIf="recipeBooks?.length == 0">
+        No has creado ningun recetario. <a (click)="goToRecipeBook()" style="color: #ff0005">Crear!</a>
+      </div>
 
     </div>
 

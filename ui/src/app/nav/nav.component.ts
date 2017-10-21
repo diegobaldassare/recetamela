@@ -78,7 +78,7 @@ export class NavComponent implements OnInit, OnDestroy {
     this.auth.requestLoggedUser().then((user : User) => {
       localStorage.setItem("user", JSON.stringify(user));
       this.user = user;
-      if (user.type === 'PremiumUser') {
+      if (user.type != 'FreeUser') {
         this.isPremium = true;
       }
       this.cdRef.detectChanges();
@@ -135,6 +135,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
   private addToRecipeBook(){
     this.router.navigate(['/recetarios']);
+  }
+
+  private chefRequest(){
+    this.router.navigate(['/solicitudes']);
   }
 
 }

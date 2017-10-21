@@ -34,7 +34,7 @@ import {AuthGuard} from "./auth/authGuard.service";
 import {UnauthorizedInterceptor} from "./auth/unauthorized-interceptor";
 import {KeysPipe} from "./shared/pipes/keys-pipe";
 import {RecipeListComponent} from "./recipes/recipe-list/recipe-list.component";
-import {PremiumGuard} from "./auth/premium-guard";
+import {NotFreeGuard} from "./auth/not-free-guard";
 import {CreditCardService} from "./shared/services/credit-card.service";
 import {PaymentService} from "./shared/services/payment.service";
 import {EditRecipeGuard} from "./auth/edit-recipe-guard";
@@ -53,6 +53,9 @@ import {RecipeBookService} from "./shared/services/recipebook.service";
 import {RecipeCategoryService} from "./shared/services/recipecategory.service";
 import {CategoriesComponent} from './nav/categories/categories.component';
 import {CapitalizeFirstPipe} from "./shared/pipes/capitalizeFirst-pipe";
+import { ChefRequestComponent } from './chef-request/chef-request.component';
+import { ChefRequestDetailsComponent } from './chef-request/chef-request-details/chef-request-details.component';
+
 import {NewsFeedComponent} from './news/news-feed/news-feed.component';
 import {CreateNewsComponent} from './news/news-feed/create-news/create-news.component';
 import {NewsService} from "./shared/services/news-service";
@@ -60,6 +63,9 @@ import {FacebookShareComponent} from "./facebook-share/facebook-share.component"
 import {NewsPreviewComponent} from './news/news-feed/news-preview/news-preview.component';
 import {NewsComponent} from './news/news/news.component';
 import {WebSocketService} from "./shared/services/web-socket.service";
+import {UpgradeChefComponent} from "./nav/chef/upgrade-chef.component";
+import {ChefRequestService} from "./shared/services/chef-request.service";
+import {RecipeCommentaryService} from "./shared/services/comment.service";
 
 @NgModule({
   declarations: [
@@ -91,11 +97,14 @@ import {WebSocketService} from "./shared/services/web-socket.service";
     RecipeBookListComponent,
     RecipeBookItemComponent,
     CategoriesComponent,
+    ChefRequestComponent,
+    ChefRequestDetailsComponent,
     NewsFeedComponent,
     CreateNewsComponent,
     FacebookShareComponent,
     NewsPreviewComponent,
     NewsComponent,
+    UpgradeChefComponent
   ],
   imports: [
     BrowserModule,
@@ -128,7 +137,7 @@ import {WebSocketService} from "./shared/services/web-socket.service";
     HttpService,
     SharedService,
     AuthGuard,
-    PremiumGuard,
+    NotFreeGuard,
     CreditCardService,
     EditRecipeGuard,
     FormatService,
@@ -136,6 +145,8 @@ import {WebSocketService} from "./shared/services/web-socket.service";
     RecipeBookService,
     RecipeCategoryService,
     NewsService,
+    ChefRequestService,
+    RecipeCommentaryService,
     WebSocketService
   ],
   bootstrap: [AppComponent]

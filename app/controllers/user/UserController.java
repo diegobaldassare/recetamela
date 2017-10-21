@@ -29,6 +29,13 @@ import services.recipe.RecipeService;
 import services.user.*;
 
 import java.util.ArrayList;
+import services.user.FollowerService;
+import services.user.UserFormatter;
+import services.user.UserService;
+import services.user.UserValidator;
+
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,6 +47,9 @@ public class UserController extends BaseController {
     @Inject
     public UserController(FormFactory formFactory) {
         userForm = formFactory.form(User.class);
+    }
+
+    public UserController() {
     }
 
     public Result createUser() {
@@ -156,18 +166,58 @@ public class UserController extends BaseController {
     }
 
     public Result checkExpirationDate(Long id) {
-        Optional<User> userOptional = UserService.getInstance().get(id);
-        if (!userOptional.isPresent()) return notFound("User not Found");
-        User user = userOptional.get();
-        if (user.getType().equals("PremiumUser") && ((PremiumUser) user).isExpired()) return downgradeUser(user);
-        if (user.getType().equals("ChefUser") && ((ChefUser) user).isExpired()) return downgradeUser(user);
-        return ok(Json.toJson(new CheckExpirationDateResponse(user, false)));
+        return UserService.getInstance().get(id).map(user -> {
+            if (user.getType().equals("PremiumUser") && ((PremiumUser) user).isExpired()) return downgradeUser(user);
+            if (user.getType().equals("ChefUser") && ((ChefUser) user).isExpired()) return downgradeUser(user);
+            return ok(Json.toJson(new CheckExpirationDateResponse(user, false)));
+        }).orElse(notFound("User not Found"));
     }
 
     private Result downgradeUser(User user) {
         user.setType("FreeUser");
         user.update();
         return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result upgradeToPremium(Long id) {
+        return UserService.getInstance().get(id).map(user -> {
+            PremiumUser premiumUser = buildPremiumUser(user);
+            premiumUser.update();
+            return ok(Json.toJson(premiumUser));
+        }).orElse(notFound());
+    }
+
+    public Result upgradeToChef(Long id) {
+        return UserService.getInstance().get(id).map(user -> {
+            ChefUser chefUser = buildChefUser(user);
+            chefUser.update();
+            return ok(Json.toJson(chefUser));
+        }).orElse(notFound());
+    }
+
+    protected PremiumUser buildPremiumUser(User user) {
+        PremiumUser premiumUser = new PremiumUser(user.getName(), user.getLastName(), user.getEmail(), user.getProfilePic());
+        premiumUser.setId(user.getId());
+        premiumUser.setType("PremiumUser");
+        premiumUser.setFacebookId(user.getFacebookId());
+        premiumUser.setAuthToken(user.getAuthToken());
+        premiumUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+        return premiumUser;
+    }
+
+    protected ChefUser buildChefUser(User user) {
+        ChefUser chefUser = new ChefUser();
+        chefUser.setName(user.getName());
+        chefUser.setLastName(user.getLastName());
+        chefUser.setEmail(user.getEmail());
+        chefUser.setProfilePic(user.getProfilePic());
+        chefUser.setId(user.getId());
+        chefUser.setType("ChefUser");
+        chefUser.setFacebookId(user.getFacebookId());
+        chefUser.setAuthToken(user.getAuthToken());
+        chefUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+        return chefUser;
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})

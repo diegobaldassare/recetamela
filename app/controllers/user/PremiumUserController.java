@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class PremiumUserController extends BaseController {
+public class PremiumUserController extends UserController {
 
     private static Form<PremiumUser> userForm;
 
@@ -31,23 +31,6 @@ public class PremiumUserController extends BaseController {
         user.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
         user.save();
         return ok(Json.toJson(user));
-    }
-
-    public Result upgradePremiumUser(Long id) {
-        return PremiumUserService.getInstance().get(id).map(user -> {
-            ChefUser chefUser = new ChefUser();
-            chefUser.setName(user.getName());
-            chefUser.setLastName(user.getLastName());
-            chefUser.setEmail(user.getEmail());
-            chefUser.setProfilePic(user.getProfilePic());
-            chefUser.setId(user.getId());
-            chefUser.setType("ChefUser");
-            chefUser.setFacebookId(user.getFacebookId());
-            chefUser.setAuthToken(user.getAuthToken());
-            chefUser.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
-            chefUser.update();
-            return ok(Json.toJson(chefUser));
-        }).orElse(notFound());
     }
 
     public Result updatePremiumUser(Long id) {

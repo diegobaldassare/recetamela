@@ -3,9 +3,7 @@ package controllers.payment;
 import com.google.inject.Inject;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
+import models.user.*;
 import models.payment.CreditCard;
 import play.data.Form;
 import play.data.FormFactory;
@@ -26,7 +24,7 @@ public class CreditCardController extends BaseController {
         creditCardForm = formFactory.form(CreditCard.class);
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result create() {
         final Optional<User> userOptional = UserService.getInstance().get(getRequester().getId());
         return userOptional.map(user -> {
@@ -39,7 +37,7 @@ public class CreditCardController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result update(Long id) {
         final CreditCard newCreditCard = creditCardForm.bindFromRequest().get();
         final String number = newCreditCard.getNumber();
@@ -55,7 +53,7 @@ public class CreditCardController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result delete(Long id) {
         final Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
         return creditCardOptional.map(creditCard -> {
@@ -64,13 +62,13 @@ public class CreditCardController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result get(Long id) {
         final Optional<CreditCard> creditCardOptional = CreditCardService.getInstance().get(id);
         return creditCardOptional.map(c -> ok(Json.toJson(c))).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getUserCreditCards() {
         final List<CreditCard> creditCards = CreditCardService.getInstance().getFinder().query()
                 .where()

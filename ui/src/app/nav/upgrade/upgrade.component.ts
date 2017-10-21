@@ -9,6 +9,7 @@ import {User} from "../../shared/models/user-model";
 import {Router} from "@angular/router";
 import {PaymentService} from "../../shared/services/payment.service";
 import {Payment} from "../../shared/models/payment/payment";
+import {ChefRequestService} from "../../shared/services/chef-request.service";
 
 @Component({
   selector: 'app-upgrade',
@@ -28,6 +29,7 @@ export class UpgradeComponent implements OnInit {
               private _userService: UserService,
               private _creditCardService: CreditCardService,
               private _paymentService: PaymentService,
+              private _chefRequestService: ChefRequestService,
               private router: Router,
               private fb: FormBuilder) {
     this.sharedService.notifyObservable$.subscribe(res => {
@@ -69,21 +71,39 @@ export class UpgradeComponent implements OnInit {
     }
   }
 
-  upgradeToPremium() {
+  upgradeUser() {
     this.createCreditCardForm();
     this._creditCardService.createCreditCard(this.creditCard).then( result => {
-        this._paymentService.create(this.createPayment(99.99, "Premium User Upgrade"), result.id).then(() => {
-          this._userService.upgradeFreeUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
-            localStorage.setItem("user", JSON.stringify(result));
-            this.toaster.pop("success", "Pago procesado");
-            this.close();
-            this.sharedService.notifyOther({isPremium: true});
-            this.router.navigate(['']);
-            this.sharedService.notifyOther({loggedIn: true});
-          }, () => { this.toaster.pop("error", "Error de pago"); });
-        }, () => { this.toaster.pop("error", "Error de guardado de pago"); });
+        this._paymentService.create(this.createPayment(99.99, "User Upgrade"), result.id).then(() => {
+          this._chefRequestService.isUserChefRequestAccepted().then(accepted => {
+            if (accepted.value) this.upgradeToChefUser();
+            else this.upgradeToPremiumUser();
+          });
+        }, () => { this.toaster.pop("error", "Error de guardado de pago");});
       }, () => { this.toaster.pop("error", "Error de guardado de tarjeta"); }
     );
+  }
+
+  private upgradeToPremiumUser() {
+    this._userService.upgradeToPremiumUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
+      localStorage.setItem("user", JSON.stringify(result));
+      this.toaster.pop("success", "Pago procesado");
+      this.close();
+      this.sharedService.notifyOther({isPremium: true});
+      this.router.navigate(['']);
+      this.sharedService.notifyOther({loggedIn: true});
+    }, () => { this.toaster.pop("error", "Error de pago"); });
+  }
+
+  private upgradeToChefUser() {
+    this._userService.upgradeToChefUser((JSON.parse(localStorage.getItem("user")) as User).id).then( result => {
+      localStorage.setItem("user", JSON.stringify(result));
+      this.toaster.pop("success", "Pago procesado");
+      this.close();
+      this.sharedService.notifyOther({isPremium: true});
+      this.router.navigate(['']);
+      this.sharedService.notifyOther({loggedIn: true});
+    }, () => { this.toaster.pop("error", "Error de pago"); });
   }
 
   private createCreditCardForm() {

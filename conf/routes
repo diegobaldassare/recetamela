@@ -11,11 +11,12 @@ PUT         /api/recipe/:id                         controllers.recipe.RecipeCon
 DELETE      /api/recipe/:id                         controllers.recipe.RecipeController.delete(id: Long)
 GET         /api/user/:id/recipes                   controllers.recipe.RecipeController.getUserRecipes(id: Long)
 GET         /api/recipe/author/:id                  controllers.recipe.RecipeController.getRecipeAuthor(id: Long)
+GET         /api/recipes                            controllers.recipe.RecipeController.search(name: String ?= "", categories: String ?= "", ingredients: String ?= "", difficulty: String ?= "0", author: String ?= "")
+GET         /api/recipe/:id/comments                controllers.recipe.RecipeController.getRecipeComments(id: Long)
 
 POST        /api/recipe/:id/rate                    controllers.recipe.RecipeRatingController.create(id: Long)
 GET         /api/recipe/rating/:id                  controllers.recipe.RecipeRatingController.getRatingFromUser(id: Long)
 
-GET         /api/recipes                            controllers.recipe.RecipeController.search(name: String ?= "", categories: String ?= "", ingredients: String ?= "", difficulty: String ?= "0", author: String ?= "")
 POST        /api/recipebook/create                  controllers.recipe.RecipeBookController.createRecipeBook()
 GET         /api/recipebook/:id                     controllers.recipe.RecipeBookController.getRecipeBook(id: Long)
 GET         /api/recipebooks                        controllers.recipe.RecipeBookController.getAllRecipeBooks
@@ -30,6 +31,11 @@ GET         /api/recipe/categories/all              controllers.recipe.RecipeCat
 GET         /api/recipe/categories/:q               controllers.recipe.RecipeCategoryController.search(q: String)
 PUT         /api/recipe/category/:id/update         controllers.recipe.RecipeCategoryController.update(id: Long)
 DELETE      /api/recipe/category/:id/delete         controllers.recipe.RecipeCategoryController.delete(id: Long)
+
+POST        /api/recipe/comment/create/:recipeId    controllers.CommentController.create(recipeId: Long)
+PUT         /api/recipe/comment/:id/update          controllers.CommentController.update(id: Long)
+GET         /api/recipe/comment/:id                 controllers.CommentController.get(id: Long)
+DELETE      /api/recipe/comment/:id/delete          controllers.CommentController.delete(id: Long)
 
 GET         /api/recipe/ingredients/all             controllers.recipe.IngredientController.getAll
 
@@ -51,7 +57,9 @@ GET         /api/user/categories/unFollowed/:id     controllers.user.UserControl
 POST        /api/user/categories/subscribe/:id      controllers.user.UserController.subscribeToCategory(id: Long)
 POST        /api/user/categories/unSubscribe/:id    controllers.user.UserController.unSubscribeToCategory(id: Long)
 
-POST        /api/user                               controllers.user.UserController.createUser()
+POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
+PUT         /api/user/:id/upgradePremium            controllers.user.UserController.upgradeToPremium(id: Long)
+PUT         /api/user/:id/upgradeChef               controllers.user.UserController.upgradeToChef(id: Long)
 PUT         /api/user/:id/updateUser                controllers.user.UserController.updateUser(id: Long)
 PUT         /api/user/:id/checkDate                 controllers.user.UserController.checkExpirationDate(id: Long)
 PUT         /api/user/:id/modify                    controllers.user.UserController.modify(id: Long)
@@ -67,20 +75,30 @@ GET         /api/payment/:id                        controllers.payment.PaymentC
 GET         /api/payment/all/                       controllers.payment.PaymentController.getUserPayments
 DELETE      /api/payment/:id/delete                 controllers.payment.PaymentController.delete(id: Long)
 
-POST        /api/user                               controllers.user.FreeUserController.createFreeUser()
-PUT         /api/user/:id/upgradeUser               controllers.user.FreeUserController.upgradeFreeUser(id: Long)
 POST        /api/premiumuser                        controllers.user.PremiumUserController.createPremiumUser()
-PUT         /api/premiumuser/:id/upgradeUser        controllers.user.PremiumUserController.upgradePremiumUser(id: Long)
 PUT         /api/premiumuser/:id/updateSuscription  controllers.user.PremiumUserController.updatePremiumUserExpirationDate(id: Long)
 PUT         /api/premiumuser/:id/updateUser         controllers.user.PremiumUserController.updatePremiumUser(id: Long)
 GET         /api/premiumuser/:id                    controllers.user.PremiumUserController.getPremiumUser(id: Long)
 GET         /api/premiumusers                       controllers.user.PremiumUserController.getPremiumUsers
 DELETE      /api/premiumuser/:id/delete             controllers.user.PremiumUserController.deletePremiumUser(id: Long)
 
+POST        /api/user/chefRequest                   controllers.user.ChefUserController.sendChefRequest()
 PUT         /api/chefuser/:id/update                controllers.user.ChefUserController.updateChefUser(id: Long)
 GET         /api/chefuser/:id                       controllers.user.ChefUserController.getChefUser(id: Long)
 GET         /api/chefusers                          controllers.user.ChefUserController.getChefUsers
 DELETE      /api/chefuser/:id/delete                controllers.user.ChefUserController.deleteChefUser(id: Long)
+
+POST        /api/chefrequest/create                 controllers.ChefRequestController.create()
+PUT         /api/chefrequest/:id/update             controllers.ChefRequestController.update(id: Long)
+GET         /api/chefrequest/:id                    controllers.ChefRequestController.get(id: Long)
+GET         /api/chefrequest/sent/                  controllers.ChefRequestController.isUserChefRequest
+GET         /api/chefrequest/accepted/              controllers.ChefRequestController.isUserChefRequestAccepted
+GET         /api/chefrequest/all/                   controllers.ChefRequestController.getAll
+GET         /api/chefrequest/all/unanswered         controllers.ChefRequestController.getAllUnanswered
+DELETE      /api/chefrequest/:id/delete             controllers.ChefRequestController.delete(id: Long)
+
+PUT         /api/admin/:id/update                   controllers.user.AdminUserController.updateAdminUser(id: Long)
+GET         /api/admin/:id                          controllers.user.AdminUserController.getAdminUser(id: Long)
 
 POST        /api/auth/login                         controllers.SecurityController.login()
 POST        /api/auth/logout                        controllers.SecurityController.logout()

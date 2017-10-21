@@ -13,7 +13,6 @@
       <ul class="nav navbar-nav navbar-right">
 
         <div *ngIf="!isLoggedIn; else loggedIn">
-          <!--Notificaciones del usuario premium-->
           <li>
             <app-log-in></app-log-in>
           </li>
@@ -49,9 +48,11 @@
             <ul class="dropdown-menu" role="menu">
               <li (click)="myProfile()" class="account-hover">Mi Perfil</li>
               <li *ngIf="!isPremium" (click)="premium()" class="account-hover">Hacete Premium</li>
+              <li *ngIf="isPremium" data-toggle="modal" data-target="#chef" class="account-hover">Solicitar ser chef</li>
               <li (click)="crearReceta()" class="account-hover">Crear Receta</li>
               <li *ngIf="isPremium" (click)="addToRecipeBook()" class="account-hover">Recetarios</li>
-              <li *ngIf="isPremium" data-toggle="modal" data-target="#categories" class="account-hover">Categorias</li>
+              <li *ngIf="user?.type == 'AdminUser'" data-toggle="modal" data-target="#categories" class="account-hover">Categorias</li>
+              <li *ngIf="user?.type == 'AdminUser'" (click)="chefRequest()" class="account-hover">Solicitudes</li>
               <li (click)="navDropdownLogoout()" class="account-hover">Cerrar Sesión</li>
             </ul>
           </li>
@@ -65,5 +66,6 @@
   </div>
 </nav>
 
-<app-categories></app-categories>
+<app-upgrade-chef></app-upgrade-chef>
+<app-categories *ngIf="user?.type == 'AdminUser'"></app-categories>
 <app-upgrade></app-upgrade>

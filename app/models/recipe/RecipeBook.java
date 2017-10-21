@@ -16,7 +16,7 @@ public class RecipeBook extends BaseModel {
     private String name;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("author")
+    @JsonIgnoreProperties({"author", "comments"})
     private List<Recipe> recipes;
 
     @ManyToOne(optional = false)

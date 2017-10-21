@@ -8,10 +8,7 @@ import com.restfb.Version;
 import com.restfb.exception.FacebookException;
 import controllers.authentication.Authenticate;
 import models.AuthToken;
-import models.user.FreeUser;
-import models.user.PremiumUser;
-import models.user.User;
-import models.user.LoginData;
+import models.user.*;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -69,7 +66,7 @@ public class SecurityController extends Controller {
         }
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getLoggedData() {
         User me = getUser();
         return ok(Json.toJson(me));
@@ -101,7 +98,7 @@ public class SecurityController extends Controller {
     }
 
     /* Logging out simply consists on deleting given server Authentication token */
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result logout() throws ExecutionException, InterruptedException {
         Logger.debug("User "+ getUser().getName() + " logged out");
         User user = getUser();

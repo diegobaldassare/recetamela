@@ -1,12 +1,15 @@
 package controllers.recipe;
 
-import com.avaje.ebean.Ebean;
+import com.avaje.ebean.*;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.Comment;
 import models.Media;
 import models.notification.NotificationType;
 import models.recipe.RecipeSearchQuery;
 import models.recipe.RecipeStep;
+import models.user.AdminUser;
+import models.user.ChefUser;
 import models.user.FreeUser;
 import models.user.PremiumUser;
 import models.recipe.Recipe;
@@ -22,15 +25,11 @@ import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 import util.NotificationManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class RecipeController extends BaseController {
 
-    @Authenticate(PremiumUser.class)
+    @Authenticate({PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result create() {
         final Recipe r = getBody(Recipe.class);
         r.setAuthor((PremiumUser) getRequester());
@@ -48,13 +47,13 @@ public class RecipeController extends BaseController {
         }
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result get(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         return recipe.map(r -> ok(Json.toJson(r))).orElseGet(Results::notFound);
     }
 
-    @Authenticate(PremiumUser.class)
+    @Authenticate({PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result modify(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         if (!recipe.isPresent()) return notFound();
@@ -72,7 +71,7 @@ public class RecipeController extends BaseController {
         }
     }
 
-    @Authenticate(PremiumUser.class)
+    @Authenticate({PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
         final MediaService mediaService = MediaService.getInstance();
@@ -108,7 +107,7 @@ public class RecipeController extends BaseController {
         return recipe.map(r -> ok(Json.toJson(r.getAuthor()))).orElseGet(Results::notFound);
     }
 
-    @Authenticate({ FreeUser.class, PremiumUser.class })
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result search(String name, String categories, String ingredients, String difficulty, String author) {
         final RecipeSearchQuery q = new RecipeSearchQuery(
                 name.toLowerCase().trim(),
@@ -119,5 +118,12 @@ public class RecipeController extends BaseController {
         if (getRequester().getType().equals("FreeUser") && !q.ingredients.isEmpty()) q.ingredients.clear();
         final List<Recipe> results = RecipeService.getInstance().search(q);
         return ok(Json.toJson(results));
+    }
+
+    public Result getRecipeComments(Long recipeId) {
+        return ok(Json.toJson(Ebean
+                .createQuery(Comment.class, "where recipe_id = :id order by date desc")
+                .setParameter("id", recipeId)
+                .findList()));
     }
 }

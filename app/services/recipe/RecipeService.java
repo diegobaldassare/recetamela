@@ -1,6 +1,7 @@
 package services.recipe;
 
 import com.avaje.ebean.Model.Finder;
+import models.Comment;
 import models.Media;
 import models.recipe.Recipe;
 import models.recipe.RecipeStep;
@@ -112,5 +113,10 @@ public class RecipeService extends Service<Recipe> {
             images.forEach(mediaService::delete);
             return Results.ok();
         }).orElseGet(Results::notFound);
+    }
+
+    public void addComment(Recipe recipe, Comment comment) {
+        recipe.getComments().add(comment);
+        recipe.update();
     }
 }

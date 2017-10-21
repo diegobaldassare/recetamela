@@ -9,15 +9,21 @@
     </div>
   </div>
   <div class="row">
-    <h3 class="title"><a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>
-    <div class="media">
-      <div *ngIf="news?.videoUrl">
-        <iframe class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div *ngIf="!news?.videoUrl && news?.image">
-        <img width="100%" [src]="news?.image.url">
-      </div>
+    <div *ngIf="news?.recipe">
+      <h3 class="title"><a [routerLink]="'/recipe/' + news.recipe.id"><b>{{ news?.title }} 🍲</b></a></h3>
+      <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
     </div>
-    <p>{{ description }}</p>
+    <div *ngIf="!news?.recipe">
+      <h3 class="title"><a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }} 📣</b></a></h3>
+      <div class="media">
+        <div *ngIf="news?.videoUrl">
+          <iframe class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div *ngIf="!news?.videoUrl && news?.image">
+          <img width="100%" [src]="news?.image.url">
+        </div>
+      </div>
+      <p>{{ description }}</p>
+    </div>
   </div>
 </div>

@@ -99,6 +99,10 @@ export class UserService {
     return notifications;
   }
 
+  public markNotificationRead(id: string) : Promise<any> {
+    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
+  }
+
   public deleteNotification(i: number) : void {
     let notifications: Notification[] = this.getNotifications();
     notifications.splice(notifications.length -1 -i, 1);

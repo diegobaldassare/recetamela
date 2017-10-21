@@ -2,9 +2,11 @@ package controllers.recipe;
 
 import com.avaje.ebean.*;
 import controllers.BaseController;
+import controllers.NewsController;
 import controllers.authentication.Authenticate;
 import models.Comment;
 import models.Media;
+import models.News;
 import models.notification.NotificationType;
 import models.recipe.RecipeSearchQuery;
 import models.recipe.RecipeStep;
@@ -19,6 +21,7 @@ import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
 import services.MediaService;
+import services.NewsService;
 import services.recipe.RecipeBookService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
@@ -41,10 +44,23 @@ public class RecipeController extends BaseController {
             r.getCategories().forEach(category -> {
                 NotificationManager.getInstance().notifyCategoryFollowers(getRequester(), NotificationType.CATEGORY, "subió una nueva receta: " + "'" + r.getName() + "'" + " a la categoría " + category.getName(), category.getId().toString());
             });
+
+            createNewsForRecipe(r);
             return ok(Json.toJson(r));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
+    }
+
+    private void createNewsForRecipe(Recipe r) throws BadRequestException {
+        News news = new News();
+        news.setRecipe(r);
+        news.setTitle("Receta");
+        news.setDescription(r.getDescription());
+        news.setAuthor(r.getAuthor());
+        news.setImage(r.getImages().get(0));
+        news.setVideoUrl(r.getVideoUrl());
+        NewsService.create(news);
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})

@@ -1,5 +1,6 @@
 package models;
 
+import models.recipe.Recipe;
 import models.user.User;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class News extends BaseModel {
 
     @Column(nullable = false)
     private Date created;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Recipe recipe;
 
     public String getTitle() {
         return title;
@@ -72,5 +76,13 @@ public class News extends BaseModel {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 }

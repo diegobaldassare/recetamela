@@ -22,7 +22,16 @@
                   <span class="glyphicon glyphicon-plus"></span>
                 </a>
               </button>
+
+              <button *ngIf="chefCanRate && !chefLiked; else liked" type="button" class="btn like-button" title="Like by chef" (click)="likeRecipe()">
+                Like
+              </button>
+              <ng-template #liked>
+                <button *ngIf="chefCanRate && chefLiked;" class="btn like-button" (click)="dislikeRecipe()">Unlike</button>
+              </ng-template>
+
             </div>
+
 
             <app-facebook-share [recipe]="recipe"></app-facebook-share>
 
@@ -40,6 +49,12 @@
             <strong>Categorias:</strong>
             <span *ngIf="recipe.categories.length == 0" class="label label-default">Sin categoria</span>
             <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
+
+            <div *ngIf="recipe.likesByChef.length != 0">
+              <strong>Chefs that liked this recipe: </strong>
+              <span *ngFor="let chef of recipe.likesByChef" routerLink="/usuario/{{chef.id}}/perfil"> {{chef.name}} {{chef.lastName}} </span>
+            </div>
+
           </div>
           <div class="col-md-5">
             <ul class="nav nav-tabs nav-justified" role="tablist">

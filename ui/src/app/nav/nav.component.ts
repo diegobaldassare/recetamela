@@ -9,6 +9,7 @@ import {MessageEvent} from "../shared/models/message-event";
 import {Notification} from "../shared/models/notification";
 import {UserService} from "../shared/services/user.service";
 import {Subscription} from "rxjs";
+import {ChefRequestService} from "../shared/services/chef-request.service";
 
 @Component({
   selector: 'app-nav',
@@ -148,4 +149,15 @@ export class NavComponent implements OnInit, OnDestroy {
     this.router.navigate(['/recetarios']);
   }
 
+  // private get hasMadeRequest(): boolean {
+  //   let value = false;
+  //   this.chefRequestService.isUserChefRequest().then(res =>
+  //     value = res
+  //   );
+  //   return value;
+  // }
+  //
+  // private get chefOption(): boolean {
+  //   return (!this.hasMadeRequest && this.isPremium)
+  // }
 }

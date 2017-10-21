@@ -238,8 +238,8 @@ public class UserController extends BaseController {
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getNewsFeed() {
-        List<News> result = new ArrayList<>();
-        NewsService newsService = NewsService.getInstance();
+        final List<News> result = new ArrayList<>();
+        final NewsService newsService = NewsService.getInstance();
         for (Followers followers: FollowerService.getInstance().getFollowing(getRequester().getId())) {
             result.addAll(newsService.getNewsPublishedByuser(followers.getFollowing().getId()));
         }

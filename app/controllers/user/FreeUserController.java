@@ -12,6 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.user.FreeUserService;
+import services.user.UserService;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
@@ -29,29 +30,13 @@ public class FreeUserController extends UserController {
 
     @Inject
     public FreeUserController(FormFactory formFactory) {
-        userForm =  formFactory.form(FreeUser.class);
+        userForm = formFactory.form(FreeUser.class);
     }
 
     public Result createFreeUser() {
         FreeUser user = userForm.bindFromRequest().get();
         user.save();
         return ok(Json.toJson(user));
-    }
-
-    public Result upgradeFreeUserToPremium(Long id) {
-        return FreeUserService.getInstance().get(id).map(user -> {
-            PremiumUser premiumUser = buildPremiumUser(user);
-            premiumUser.update();
-            return ok(Json.toJson(premiumUser));
-        }).orElse(notFound());
-    }
-
-    public Result upgradeFreeUserToChef(Long id) {
-        return FreeUserService.getInstance().get(id).map(user -> {
-            ChefUser chefUser = buildChefUser(user);
-            chefUser.update();
-            return ok(Json.toJson(chefUser));
-        }).orElse(notFound());
     }
 
     public Result updateFreeUser(Long id) {
@@ -70,14 +55,14 @@ public class FreeUserController extends UserController {
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 
-    public Result getFreeUsers(){
+    public Result getFreeUsers() {
         List<FreeUser> users = FreeUserService.getInstance().getFinder().all();
         return ok(Json.toJson(users));
     }
 
-    public Result deleteFreeUser(Long id){
+    public Result deleteFreeUser(Long id) {
         Optional<FreeUser> user = FreeUserService.getInstance().get(id);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             user.get().delete();
             return ok();
         }
@@ -88,7 +73,7 @@ public class FreeUserController extends UserController {
         FreeUser newFreeUser = userForm.bindFromRequest().get();
         Optional<FreeUser> optionalFreeUser = FreeUserService.getInstance().get(id);
         FreeUser oldFreeUser;
-        if(optionalFreeUser.isPresent()) oldFreeUser = optionalFreeUser.get();
+        if (optionalFreeUser.isPresent()) oldFreeUser = optionalFreeUser.get();
         else throw new NoSuchObjectException("The user was not found");
         if (newFreeUser.getName() != null) oldFreeUser.setName(newFreeUser.getName());
         if (newFreeUser.getLastName() != null) oldFreeUser.setLastName(newFreeUser.getLastName());

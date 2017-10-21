@@ -1,8 +1,9 @@
 package controllers.recipe;
 
-import com.avaje.ebean.Ebean;
+import com.avaje.ebean.*;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.Comment;
 import models.Media;
 import models.notification.NotificationType;
 import models.recipe.RecipeSearchQuery;
@@ -24,11 +25,7 @@ import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
 import util.NotificationManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class RecipeController extends BaseController {
 
@@ -124,6 +121,9 @@ public class RecipeController extends BaseController {
     }
 
     public Result getRecipeComments(Long recipeId) {
-        return RecipeService.getInstance().get(recipeId).map(recipe -> ok(Json.toJson(recipe.getComments()))).orElse(notFound());
+        return ok(Json.toJson(Ebean
+                .createQuery(Comment.class, "where recipe_id = :id order by date desc")
+                .setParameter("id", recipeId)
+                .findList()));
     }
 }

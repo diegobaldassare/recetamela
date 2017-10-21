@@ -1,0 +1,27 @@
+.header {
+  background-color: #f5f5f5;
+  padding: 30px;
+  margin-bottom: 10px;
+}
+
+.body{
+  padding-left: 30px;
+}
+
+.title{
+  color: #f7b733;
+  font-size: 25px;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.users{
+  margin-bottom: 40px;
+}
+
+.btn-details {
+  margin-right: 10px;
+  border-radius: 25px;
+}

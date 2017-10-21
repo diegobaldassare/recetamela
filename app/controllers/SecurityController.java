@@ -57,7 +57,6 @@ public class SecurityController extends Controller {
             /* If the accessToken the user claims facebook gave him checks out, then we can log him in. */
             if ( Long.toString(user.getFacebookId()).equals(retrievedId) ) {
                 JsonNode resp = generateAuthToken(user);
-                NotificationManager.getInstance().subscribe(user.getId());
                 return ok(resp);
             }
             else return unauthorized();
@@ -109,9 +108,6 @@ public class SecurityController extends Controller {
         tokenOptional.ifPresent(AuthToken::update);
         user.setAuthToken(null);
         user.update();
-
-        /* Unsubscribe from notifications */
-        NotificationManager.getInstance().unsubscribe(getUser().getId());
 
         return ok();
     }

@@ -20,7 +20,9 @@
     </div>
   </div>
 </div>
+
 <div class="container recipe-list">
+  <div style="color:#fc4a1a;text-align: center;" *ngIf="this.recipeBook?.recipes?.length == 0">Agrega Recetas al Recetario!!</div>
   <app-recipe-list [recipes]="this.recipeBook.recipes" [recipeBook]="this.recipeBook"></app-recipe-list>
 </div>
 

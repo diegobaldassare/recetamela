@@ -13,6 +13,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {SearchRecipesComponent} from "./recipes/search-recipes/search-recipes.component";
 import {RecipeBookListComponent} from "./recipe-book-list/recipe-book-list.component";
 import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.component";
+import {ChefRequestComponent} from "./chef-request/chef-request.component";
 import {NewsFeedComponent} from "./news/news-feed/news-feed.component";
 import {NewsComponent} from "./news/news/news.component";
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'recetas/:id/editar', component: EditRecipeComponent, canActivate: [AuthGuard, NotFreeGuard, EditRecipeGuard] },
   { path: 'recetarios', component: RecipeBookListComponent, canActivate: [AuthGuard, NotFreeGuard]},
   { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, NotFreeGuard]},
+  { path: 'solicitudes', component: ChefRequestComponent, canActivate: [AuthGuard]},    //Tiene que ser AdminGuard
   { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'noticias', component: NewsFeedComponent, canActivate: [AuthGuard] },
   { path: 'noticias/:id', component: NewsComponent, canActivate: [AuthGuard] },

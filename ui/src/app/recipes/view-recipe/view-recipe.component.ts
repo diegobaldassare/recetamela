@@ -8,6 +8,9 @@ import {SharedService} from "../../shared/services/shared.service";
 import {FormatService} from "../../shared/services/format.service";
 import {OnClickEvent} from "angular-star-rating";
 import {RecipeRating} from "../../shared/models/recipe/recipe-rating";
+import {ToasterService} from "angular2-toaster";
+import {RecipeCommentary} from "../../shared/models/recipe/recipe-comment";
+import {RecipeCommentaryService} from "../../shared/services/comment.service";
 
 @Component({
   selector: 'app-view-recipe',
@@ -20,6 +23,7 @@ export class ViewRecipeComponent implements OnInit {
   public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
   private recipeRating: RecipeRating;
+  commentaries: RecipeCommentary[];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +31,10 @@ export class ViewRecipeComponent implements OnInit {
     private recipeService: RecipeService,
     private sharedService: SharedService,
     private router: Router,
-    private formatter: FormatService
-  ){}
+    private formatter: FormatService,
+    private recipeCommentaryService: RecipeCommentaryService,
+    public toaster: ToasterService
+  ){ }
 
   ngOnInit() {
     this.route.params
@@ -38,6 +44,11 @@ export class ViewRecipeComponent implements OnInit {
           this.recipeService.getRecipe(id).then(recipe => {
             this.recipe = recipe;
             this.fetched = true;
+
+            this.recipeService.getComments(this.recipe.id).then(res => {
+              this.commentaries = res;
+            });
+
           }, () => { this.fetched = true });
           this.recipeService.getRatingFromUser(id).then( recipeRating => {
               this.recipeRating = recipeRating;
@@ -80,4 +91,48 @@ export class ViewRecipeComponent implements OnInit {
       this.recipe = recipe
     )
   }
+
+  publishComment(textComment: string){
+      if(textComment!='') {
+        let commentary = new RecipeCommentary();
+        commentary.comment = textComment;
+
+        this.recipeCommentaryService.createRecipeCommentary(commentary, this.recipe.id).then((res) => {
+          this.toaster.pop('success', 'Comentado');
+
+          this.commentaries.unshift(res);
+
+
+        }, () => {
+          this.toaster.pop('error', 'No se ha podido comentar');
+        });
+
+      }
+      else{
+        this.toaster.pop('error', 'Ingresa un comentario');
+      }
+
+
+
+  }
+
+  deleteComment(id: string){
+    let index;
+    for (let i=0; i<this.commentaries.length; i++){
+      if(this.commentaries[i].id == id){
+        index = i;
+      }
+    }
+    if (index > -1) {
+      this.commentaries.splice(index, 1);
+    }
+
+    this.recipeCommentaryService.deleteRecipeCommentary(id).then(() => {
+      this.toaster.pop('success', 'Eliminado');
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido eliminar');
+    });
+
+  }
+
 }

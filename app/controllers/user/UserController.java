@@ -49,7 +49,8 @@ public class UserController extends BaseController {
         userForm = formFactory.form(User.class);
     }
 
-    public UserController() {}
+    public UserController() {
+    }
 
     public Result createUser() {
         User user = userForm.bindFromRequest().get();
@@ -176,6 +177,23 @@ public class UserController extends BaseController {
         user.setType("FreeUser");
         user.update();
         return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result upgradeToPremium(Long id) {
+        return UserService.getInstance().get(id).map(user -> {
+            PremiumUser premiumUser = buildPremiumUser(user);
+            premiumUser.update();
+            return ok(Json.toJson(premiumUser));
+        }).orElse(notFound());
+    }
+
+    public Result upgradeToChef(Long id) {
+        return UserService.getInstance().get(id).map(user -> {
+            ChefUser chefUser = buildChefUser(user);
+            chefUser.update();
+            return ok(Json.toJson(chefUser));
+        }).orElse(notFound());
     }
 
     protected PremiumUser buildPremiumUser(User user) {

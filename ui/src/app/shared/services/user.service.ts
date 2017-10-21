@@ -63,6 +63,10 @@ export class UserService {
     return this.http.get<User>(`/api/user/${id}`).toPromise();
   }
 
+  public getUsers() : Promise<User[]>{
+    return this.http.get<User[]>('/api/users').toPromise();
+  }
+
   public getModifiedUser(): Observable<User> {
     return this.subject.asObservable();
   }
@@ -106,6 +110,10 @@ export class UserService {
       notifications = [];
     }
     return notifications;
+  }
+
+  public markNotificationRead(id: string) : Promise<any> {
+    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
   }
 
   public deleteNotification(i: number) : void {

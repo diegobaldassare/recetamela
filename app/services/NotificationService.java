@@ -12,8 +12,12 @@ public class NotificationService extends Service<Notification> {
 
     private static NotificationService instance;
 
-    private NotificationService(Model.Finder<Long, Notification> finder){
+    public NotificationService(Model.Finder<Long, Notification> finder){
         super(finder);
+    }
+
+    public NotificationService() {
+        super(new Model.Finder<>(Notification.class));
     }
 
     public static NotificationService getInstance() {
@@ -22,7 +26,7 @@ public class NotificationService extends Service<Notification> {
     }
 
     public List<Notification> findByUser(Long id) {
-        return getFinder().where().eq("userId", id).findList();
+        return getFinder().where().eq("receiver", id).findList();
     }
 
     public List<Notification> getUndeliveredByUser(Long id) {
@@ -30,5 +34,9 @@ public class NotificationService extends Service<Notification> {
                 .eq("receiver", id)
                 .eq("delivered", false)
                 .findList();
+    }
+
+    public Notification getNullable(Long id) {
+        return getFinder().byId(id);
     }
 }

@@ -58,9 +58,9 @@ export class ViewRecipeComponent implements OnInit {
       );
   }
 
-  public get editButton(): boolean {
-    return this.viewer.id == this.recipe.author.id;
-  }
+public get editButton(): boolean {
+  return this.viewer.id == this.recipe.author.id;
+}
 
   private checkPremium() {
     const u : User = JSON.parse(localStorage.getItem("user")) as User;

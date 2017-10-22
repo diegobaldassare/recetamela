@@ -2,7 +2,7 @@
 <div class="container">
   <img *ngIf="onRecipeList" src="{{recipe.images[0].url}}" class="image" style="width: auto; height: 300px;">
   <img *ngIf="!onRecipeList" src="{{recipe.images[0].url}}" class="image" style="width: 100%; height: auto;">
-  <button class="btn text label recipe-name">{{recipe.name}}</button>
+  <button class="btn text label recipe-name">{{recipe?.name}}</button>
   <div class="overlay">
     <div class="row eliminateButton">
       <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"
@@ -13,12 +13,12 @@
     </div>
     <div class="text">
       <div class="row card-title">
-        <h2 style="margin-bottom: 10%;">{{recipe.name}}</h2>
+        <h2 style="margin-bottom: 10%;">{{recipe?.name}}</h2>
         <div *ngIf="canRate">
           <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
         </div>
         <div *ngIf="!canRate">
-          <star-rating-comp [starType]="'svg'" [rating]="recipe?.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
+          <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
         </div>
       </div>
       <div class="row">

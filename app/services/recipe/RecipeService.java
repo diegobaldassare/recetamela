@@ -119,4 +119,10 @@ public class RecipeService extends Service<Recipe> {
         recipe.getComments().add(comment);
         recipe.update();
     }
+
+    public List<Recipe> getRecipesForCategory(RecipeCategory category) {
+        List<Recipe> result = getFinder().all();
+        result.removeIf(recipe -> !recipe.getCategories().contains(category));
+        return result;
+    }
 }

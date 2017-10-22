@@ -30,7 +30,8 @@ import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeService;
 import services.user.*;
 
-import java.util.ArrayList;
+import java.util.*;
+
 import services.user.FollowerService;
 import services.user.UserFormatter;
 import services.user.UserService;
@@ -38,8 +39,6 @@ import services.user.UserValidator;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserController extends BaseController {
@@ -244,10 +243,16 @@ public class UserController extends BaseController {
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getNewsFeed() {
-        final List<News> result = new ArrayList<>();
+        final SortedSet<News> result = new TreeSet<>(Comparator.comparing(News::getCreated)).descendingSet();
         final NewsService newsService = NewsService.getInstance();
-        for (Followers followers: FollowerService.getInstance().getFollowing(getRequester().getId())) {
-            result.addAll(newsService.getNewsPublishedByuser(followers.getFollowing().getId()));
+        result.addAll(newsService.getNewsPublishedByuser(getRequester().getId()));
+        for (Followers follower: FollowerService.getInstance().getFollowing(getRequester().getId())) {
+            result.addAll(newsService.getNewsPublishedByuser(follower.getFollowing().getId()));
+        }
+        for (RecipeCategory category: getRequester().getFollowedCategories()) {
+            for (Recipe recipe : RecipeService.getInstance().getRecipesForCategory(category)) {
+                result.addAll(newsService.getNewsForRecipe(recipe.getId()));
+            }
         }
         return ok(Json.toJson(result));
     }

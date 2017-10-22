@@ -31,6 +31,10 @@ public class NewsService extends Service<News> {
         return getFinder().where().eq("author_id", id).findList();
     }
 
+    public List<News> getNewsForRecipe(Long id) {
+        return getFinder().where().eq("recipe_id", id).findList();
+    }
+
     private static void format(News n) throws BadRequestException {
         try {
             n.setCreated(new Date());

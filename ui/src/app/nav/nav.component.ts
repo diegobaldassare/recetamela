@@ -118,6 +118,12 @@ export class NavComponent implements OnInit, OnDestroy {
       case 'RATING':
         this.router.navigate([`/recetas/${notification.redirectId}`]);
         break;
+      case 'REQUEST':
+        this.router.navigate([`/usuario/${notification.receiver}/perfil`]);
+        break;
+      case 'COMMENT':
+        this.router.navigate([`/recetas/${notification.redirectId}`]);
+        break;
     }
     this.userService.markNotificationRead(notification.id);
     this.deleteNotification(i);

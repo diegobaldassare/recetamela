@@ -107,6 +107,8 @@ public class RecipeController extends BaseController {
                         recipeBook.update();
                     });
 
+            NewsService.getInstance().getNewsForRecipe(id).forEach(News::delete);
+
             r.delete();
             images.forEach(mediaService::delete);
             return ok();

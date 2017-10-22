@@ -8,5 +8,7 @@ public enum NotificationType {
     CATEGORY,
     RECIPE,
     RATING,
+    REQUEST,
+    COMMENT,
     OTHER
 }

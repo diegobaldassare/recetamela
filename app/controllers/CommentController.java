@@ -2,16 +2,16 @@ package controllers;
 
 import controllers.authentication.Authenticate;
 import models.Comment;
-import models.user.AdminUser;
-import models.user.ChefUser;
-import models.user.FreeUser;
-import models.user.PremiumUser;
+import models.notification.NotificationType;
+import models.recipe.Recipe;
+import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Result;
 import services.CommentService;
 import services.recipe.RecipeService;
+import util.NotificationManager;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -31,8 +31,20 @@ public class CommentController extends BaseController {
             comment.setAuthor(getRequester());
             comment.setDate(new Date());
             recipeService.addComment(recipe, comment);
+
+            /* Emit notification to recipe owner */
+            sendCommentNotification(recipe, getRequester());
+
             return ok(Json.toJson(comment));
         }).orElse(notFound());
+    }
+
+    private void sendCommentNotification(Recipe recipe, User requester) {
+        NotificationManager.getInstance().emitToUser(requester,
+                recipe.getAuthor().getId(),
+                NotificationType.COMMENT,
+                "dejó un comentario en tu receta",
+                recipe.getId().toString());
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})

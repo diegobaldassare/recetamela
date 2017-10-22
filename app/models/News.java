@@ -30,6 +30,7 @@ public class News extends BaseModel {
     private Date created;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"author"})
     private Recipe recipe;
 
     public String getTitle() {

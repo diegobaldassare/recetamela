@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import models.recipe.Recipe;
 import models.user.User;
 
@@ -22,6 +23,7 @@ public class News extends BaseModel {
 
     @ManyToOne
     @Column(nullable = false)
+    @JsonIgnoreProperties({"news"})
     private User author;
 
     @Column(nullable = false)

@@ -6,6 +6,7 @@ import controllers.authentication.Authenticate;
 import models.AuthToken;
 import models.Followers;
 import models.News;
+import models.chefrequest.ChefRequest;
 import models.payment.CreditCard;
 import models.payment.Payment;
 import models.recipe.Recipe;
@@ -19,6 +20,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.ChefRequestService;
 import services.LoginService;
 import services.NewsService;
 import services.payment.CreditCardService;
@@ -113,7 +115,11 @@ public class UserController extends BaseController {
             final List<News> news = newsService.getNewsPublishedByuser(r.getId());
             news.forEach(News::delete);
 
-            /* Step 5: Delete the User */
+            /* Step 6: Delete all user chef requests */
+            final List<ChefRequest> requests = ChefRequestService.getInstance().getRequestsByUser(r.getId());
+            requests.forEach(ChefRequest::delete);
+
+            /* Step 7: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
             r.delete();
 

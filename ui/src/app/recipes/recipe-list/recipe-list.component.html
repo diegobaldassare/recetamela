@@ -6,7 +6,9 @@
   </div>
   <ng-template #profileRecipes>
     <div *ngFor="let recipe of recipes">
-      <app-recipe-card [recipe]="recipe" [onRecipeList]="true"></app-recipe-card>
+      <div style="padding-right: 20px">
+        <app-recipe-card [recipe]="recipe" [onRecipeList]="true"></app-recipe-card>
+      </div>
     </div>
   </ng-template>
 </div>

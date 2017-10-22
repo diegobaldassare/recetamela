@@ -4,6 +4,7 @@ import javax.inject.Inject
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.stream.Materializer
+import models.News
 import models.notification.Notification
 import play.api.libs.streams.ActorFlow
 import play.api.mvc.{Action, Controller, WebSocket}
@@ -58,6 +59,8 @@ object ScalaNotificationService{
   val registerActor: ActorRef = system.actorOf(Props[RegisterActor], name = "register")
 
   def sendNotification(id: Long, n: Notification) = registerActor ! ("Individual", id, Json.toJson(n).toString)
+
+  def sendNews(id: Long, n: News) = registerActor ! ("Individual", "News", id, Json.toJson(n).toString)
 
   def update(id: Long) = registerActor ! id
 

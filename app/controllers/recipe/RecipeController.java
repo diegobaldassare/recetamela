@@ -26,6 +26,7 @@ import services.recipe.RecipeBookService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
+import util.NewsManager;
 import util.NotificationManager;
 
 import java.util.*;
@@ -61,6 +62,7 @@ public class RecipeController extends BaseController {
         news.setImage(r.getImages().get(0));
         news.setVideoUrl(r.getVideoUrl());
         NewsService.create(news);
+        NewsManager.getInstance().notifyReaders(news, r.getAuthor());
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})

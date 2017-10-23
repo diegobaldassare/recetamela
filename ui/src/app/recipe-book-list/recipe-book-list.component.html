@@ -26,10 +26,12 @@
 <div *ngIf="recipeBooks.length == 0; else recipeBooksList" class="recetarios">
 Crea recetarios para organizar tus recetas y sacar el maximo provecho del usuario Premium!!!
 </div>
+
 <ng-template #recipeBooksList>
   <app-recipe-book-item *ngFor="let recipeBook of recipeBooks" [recipeBook]="recipeBook" [recipeBooks]="recipeBooks">
   </app-recipe-book-item>
 </ng-template>
+
 
 <!-- Modal -->
 <div id="createRecipeBookModal" class="modal fade" role="dialog">

@@ -54,10 +54,10 @@ export class CreateNewsComponent implements OnInit {
   }
 
   private create() {
-    this.newsService.createNews(this.news).then(() => {
+    this.newsService.createNews(this.news).then((news) => {
       this.toaster.pop('success', 'Noticia creada');
       this.news = new News();
-      this.router.navigate([`noticias/${this.news.id}`])
+      this.router.navigate([`/noticias/${news.id}`]);
     }, () => {
       this.toaster.pop('error', 'Noticia no creada');
     });

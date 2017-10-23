@@ -25,7 +25,10 @@ export class NewsFeedComponent implements OnInit {
   private listenForServerEvents(id: string) {
     this.wsService.connect(id).subscribe((res) => {
       let news : News = res;
-      if (this.newsArray.map(e => e.id).indexOf(news.id) == -1) this.newsArray.push(news);
+      if ((this.newsArray.map(e => e.id).indexOf(news.id) == -1) && res.redirectId === null){
+        console.log('accepted');
+        this.newsArray.push(news);
+      }
     });
   }
 

@@ -1,11 +1,11 @@
 <div *ngIf="news" class="container">
   <br>
-  <p><a routerLink="/noticias">Volver a mis noticias</a></p>
+  <p><a routerLink="/">Volver a mis noticias</a></p>
   <div class="row news-header">
     <div [ngClass]="{ 'col-md-7': news?.image || news?.videoUrl }">
       <h1>{{ news?.title }}</h1>
       <p>👨‍🍳<i style="margin-left: 5px"><a [routerLink]="'/usuario/' + news?.author.id + '/perfil'">{{ news?.author.name + ' ' + news?.author.lastName }}</a></i></p>
-      <p><i>{{ news?.created.toLocaleTimeString() }}</i></p>
+      <p><i>{{ news?.created.toLocaleDateString()}}</i></p>
       <p><a style="cursor: pointer" *ngIf="viewer?.id == news?.author.id" (click)="deleteNews()">Eliminar</a></p>
     </div>
     <div *ngIf="news?.image || news?.videoUrl" class="col-md-5">

@@ -59,8 +59,6 @@ public class RecipeController extends BaseController {
         news.setTitle("Receta");
         news.setDescription(r.getDescription());
         news.setAuthor(r.getAuthor());
-        news.setImage(r.getImages().get(0));
-        news.setVideoUrl(r.getVideoUrl());
         NewsService.create(news);
         NewsManager.getInstance().notifyReaders(news, r.getAuthor());
     }

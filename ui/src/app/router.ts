@@ -29,7 +29,6 @@ const routes: Routes = [
   { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, NotFreeGuard]},
   { path: 'solicitudes', component: ChefRequestComponent, canActivate: [AuthGuard]},    //Tiene que ser AdminGuard
   { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'noticias', component: NewsFeedComponent, canActivate: [AuthGuard] },
   { path: 'noticias/crear', component: CreateNewsComponent, canActivate: [AuthGuard] },
   { path: 'noticias/:id', component: NewsComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },

@@ -1,10 +1,8 @@
-import {Component, Input, OnInit, Provider} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {News} from "../../../shared/models/news";
 import {User} from "../../../shared/models/user-model";
 import {FormatService} from "../../../shared/services/format.service";
 import {DomSanitizer} from "@angular/platform-browser";
-import {Recipe} from "../../../shared/models/recipe/recipe";
-import {RecipeService} from "../../../shared/services/recipe.service";
 
 @Component({
   selector: 'app-news-preview',
@@ -19,7 +17,6 @@ export class NewsPreviewComponent implements OnInit {
   constructor(
     private formatter: FormatService,
     private sanitizer: DomSanitizer,
-    private recipeService: RecipeService
   ) {
   }
 

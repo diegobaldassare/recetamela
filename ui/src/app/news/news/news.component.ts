@@ -34,7 +34,7 @@ export class NewsComponent {
   private deleteNews() {
     this.newsService.deleteNews(this.news.id).then(() => {
       this.toaster.pop("success", "Noticia eliminada");
-      this.router.navigate(['/noticias']);
+      this.router.navigate(['/']);
     }, () => this.toaster.pop("error", "Noticia no eliminada"));
   }
 

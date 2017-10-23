@@ -30,6 +30,10 @@ class RegisterActor extends Actor{
     /*Sends individual notification to user_id*/
     case tuple: (_ , Long, String) =>
       if (active.contains(tuple._2)) active(tuple._2) ! tuple._3
+
+    /* Lets the user know a new News has arrived */
+    case news: (_ ,_ , Long, String) =>
+      if (active.contains(news._3)) active(news._3) ! news._4
   }
 }
 

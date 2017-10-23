@@ -6,6 +6,7 @@ import controllers.authentication.Authenticate;
 import models.AuthToken;
 import models.Followers;
 import models.News;
+import models.chefrequest.ChefRequest;
 import models.payment.CreditCard;
 import models.payment.Payment;
 import models.recipe.Recipe;
@@ -19,6 +20,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.ChefRequestService;
 import services.LoginService;
 import services.NewsService;
 import services.payment.CreditCardService;
@@ -26,6 +28,9 @@ import services.payment.PaymentService;
 import services.recipe.RecipeBookService;
 import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeService;
+import services.user.*;
+
+import java.util.ArrayList;
 import services.user.FollowerService;
 import services.user.UserFormatter;
 import services.user.UserService;
@@ -75,6 +80,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(users));
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result deleteUser(Long id) {
         final CreditCardService cardService = CreditCardService.getInstance();
         final PaymentService paymentService = PaymentService.getInstance();
@@ -100,7 +106,7 @@ public class UserController extends BaseController {
 
             /* Step 3: Delete all user Recipes */
             final List<Recipe> recipes = recipeService.getUserRecipes(r.getId());
-            recipes.forEach(recipe -> recipeService.deleteRecipe(recipe.getId()));
+            recipes.forEach(recipeService::delete);
 
             /* Step 4: Delete all user RecipeBooks */
             final List<RecipeBook> recipeBooks = recipeBookService.getAllUserRecipeBook(r.getId());
@@ -110,7 +116,11 @@ public class UserController extends BaseController {
             final List<News> news = newsService.getNewsPublishedByuser(r.getId());
             news.forEach(News::delete);
 
-            /* Step 5: Delete the User */
+            /* Step 6: Delete all user chef requests */
+            final List<ChefRequest> requests = ChefRequestService.getInstance().getRequestsByUser(r.getId());
+            requests.forEach(ChefRequest::delete);
+
+            /* Step 7: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
             r.delete();
 
@@ -176,6 +186,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(new CheckExpirationDateResponse(user, true)));
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result upgradeToPremium(Long id) {
         return UserService.getInstance().get(id).map(user -> {
             PremiumUser premiumUser = buildPremiumUser(user);
@@ -230,5 +241,15 @@ public class UserController extends BaseController {
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result getNewsFeed() {
+        final List<News> result = new ArrayList<>();
+        final NewsService newsService = NewsService.getInstance();
+        for (Followers followers: FollowerService.getInstance().getFollowing(getRequester().getId())) {
+            result.addAll(newsService.getNewsPublishedByuser(followers.getFollowing().getId()));
+        }
+        return ok(Json.toJson(result));
     }
 }

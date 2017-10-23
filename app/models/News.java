@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import models.recipe.Recipe;
 import models.user.User;
 
 import javax.persistence.*;
@@ -21,10 +23,15 @@ public class News extends BaseModel {
 
     @ManyToOne
     @Column(nullable = false)
+    @JsonIgnoreProperties({"news"})
     private User author;
 
     @Column(nullable = false)
     private Date created;
+
+    @OneToOne()
+    @JsonIgnoreProperties({"author", "comments"})
+    private Recipe recipe;
 
     public String getTitle() {
         return title;
@@ -72,5 +79,13 @@ public class News extends BaseModel {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 }

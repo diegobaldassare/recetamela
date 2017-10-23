@@ -1,11 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Recipe} from "../../shared/models/recipe/recipe";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {RecipeBookService} from "../../shared/services/recipebook.service";
 import {RecipeBook} from "../../shared/models/recipe/recipebook";
 import {ToasterService} from "angular2-toaster";
 import {User} from "../../shared/models/user-model";
 import {RecipeService} from "../../shared/services/recipe.service";
+import {OnClickEvent} from "angular-star-rating";
+import {RecipeRating} from "../../shared/models/recipe/recipe-rating";
 
 @Component({
   selector: 'app-recipe-card',
@@ -16,12 +18,15 @@ export class RecipeCardComponent implements OnInit {
 
   @Input() recipe: Recipe;
   @Input() recipeBook: RecipeBook;
-  author: User;
+  @Input() onRecipeList: boolean;
+  viewer: User = JSON.parse(localStorage.getItem("user"));
+  canRate: boolean;
+  private recipeRating: RecipeRating = new RecipeRating();
 
+  author: User;
   onRecipeBook: boolean;
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
               public toaster: ToasterService,
               private recipeBookService: RecipeBookService,
               private recipeService: RecipeService) { }
@@ -30,11 +35,13 @@ export class RecipeCardComponent implements OnInit {
     if(this.recipeBook) this.onRecipeBook = true;
     this.recipeService.getRecipeAuthor(this.recipe.id).then((res: User) => {
       this.author = res;
-    })
-  }
-
-  toRecipe(){
-    this.router.navigate([`/recetas/${this.recipe.id}`]);
+    });
+    this.canRate = !(this.recipe.author.id == this.viewer.id);
+    if (this.canRate) {
+      this.recipeService.getRatingFromUser(this.recipe.id).then(res => {
+        this.recipeRating = res;
+      });
+    }
   }
 
   deleteFromRecipeBook(){
@@ -55,5 +62,11 @@ export class RecipeCardComponent implements OnInit {
       this.toaster.pop('error', 'No se ha podido eliminar la receta');
     });
 
+  }
+
+  private addRating($event: OnClickEvent) {
+    const rating = new RecipeRating();
+    rating.rating = $event.rating;
+    this.recipeService.addRating(this.recipe.id, rating).then(recipe => this.recipe = recipe);
   }
 }

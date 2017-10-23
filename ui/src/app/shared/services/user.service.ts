@@ -13,6 +13,7 @@ import {Notification} from "../models/notification";
 import {RecipeCategory} from "../models/recipe/recipe-category";
 import {ChefRequest} from "../models/chef-request";
 import {Subject} from "rxjs";
+import {News} from "../models/news";
 
 @Injectable()
 export class UserService {
@@ -90,7 +91,7 @@ export class UserService {
     return this.http.get<RecipeCategory[]>(`/api/user/categories/${id}`);
   }
 
-  public getUnfollowedCategories(id: string) : Observable<RecipeCategory[]> {
+  public getUnFollowedCategories(id: string) : Observable<RecipeCategory[]> {
     return this.http.get<RecipeCategory[]>(`/api/user/categories/unFollowed/${id}`);
   }
 
@@ -111,6 +112,10 @@ export class UserService {
     return notifications;
   }
 
+  public markNotificationRead(id: string) : Promise<any> {
+    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
+  }
+
   public deleteNotification(i: number) : void {
     let notifications: Notification[] = this.getNotifications();
     notifications.splice(notifications.length -1 -i, 1);
@@ -124,5 +129,9 @@ export class UserService {
 
   public deleteUser(id: string) : Promise<any> {
     return this.http.delete(`/api/user/${id}/delete`).toPromise();
+  }
+
+  public getNewsFeed() : Observable<News[]> {
+    return this.http.get<News[]>(`/api/user/newsfeed/`);
   }
 }

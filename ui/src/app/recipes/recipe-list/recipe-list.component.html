@@ -1,12 +1,12 @@
 <div class="scrollmenu">
   <div *ngIf="recipeBook; else profileRecipes">
     <div *ngFor="let recipe of recipeBook.recipes">
-      <app-recipe-card [recipe]="recipe" [recipeBook]="recipeBook"></app-recipe-card>
+      <app-recipe-card [recipe]="recipe" [recipeBook]="recipeBook" [onRecipeList]="true"></app-recipe-card>
     </div>
   </div>
   <ng-template #profileRecipes>
     <div *ngFor="let recipe of recipes">
-      <app-recipe-card [recipe]="recipe"></app-recipe-card>
+      <app-recipe-card [recipe]="recipe" [onRecipeList]="true"></app-recipe-card>
     </div>
   </ng-template>
 </div>

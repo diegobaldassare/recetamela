@@ -2,9 +2,12 @@ package controllers.recipe;
 
 import com.avaje.ebean.*;
 import controllers.BaseController;
+import controllers.CommentController;
+import controllers.NewsController;
 import controllers.authentication.Authenticate;
 import models.Comment;
 import models.Media;
+import models.News;
 import models.notification.NotificationType;
 import models.recipe.RecipeSearchQuery;
 import models.recipe.RecipeStep;
@@ -18,7 +21,9 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.CommentService;
 import services.MediaService;
+import services.NewsService;
 import services.recipe.RecipeBookService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
@@ -41,10 +46,21 @@ public class RecipeController extends BaseController {
             r.getCategories().forEach(category -> {
                 NotificationManager.getInstance().notifyCategoryFollowers(getRequester(), NotificationType.CATEGORY, "subió una nueva receta: " + "'" + r.getName() + "'" + " a la categoría " + category.getName(), category.getId().toString());
             });
+
+            createNewsForRecipe(r);
             return ok(Json.toJson(r));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
+    }
+
+    private void createNewsForRecipe(Recipe r) throws BadRequestException {
+        News news = new News();
+        news.setRecipe(r);
+        news.setTitle("Receta");
+        news.setDescription(r.getDescription());
+        news.setAuthor(r.getAuthor());
+        NewsService.create(news);
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
@@ -74,25 +90,8 @@ public class RecipeController extends BaseController {
     @Authenticate({PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
-        final MediaService mediaService = MediaService.getInstance();
         return recipe.map(r -> {
-            final List<Media> images = new ArrayList<>(r.getImages());
-            r.getSteps().stream()
-                    .map(RecipeStep::getImage)
-                    .filter(Objects::nonNull)
-                    .forEach(mediaService::deleteFile);
-
-            RecipeBookService.getInstance().getFinder().query()
-                    .where()
-                    .in("recipes", r)
-                    .findList()
-                    .forEach(recipeBook -> {
-                        recipeBook.getRecipes().remove(r);
-                        recipeBook.update();
-                    });
-
-            r.delete();
-            images.forEach(mediaService::delete);
+            RecipeService.getInstance().delete(r);
             return ok();
         }).orElseGet(Results::notFound);
     }

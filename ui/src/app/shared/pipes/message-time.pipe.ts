@@ -43,9 +43,17 @@ export class MessageTimePipe implements PipeTransform{
     { // sent in last minute
       result = 'Hace ' + Math.floor(delta) + ' segundos';
     }
+    else if (delta < 120)
+    { // sent in last hour (first minute)
+      result = 'Hace ' + Math.floor(delta / 120) + ' minuto';
+    }
     else if (delta < 3600)
     { // sent in last hour
       result = 'Hace ' + Math.floor(delta / 60) + ' minutos';
+    }
+    else if (delta < 7200)
+    { // sent on last day (first hour)
+      result = 'Hace ' + Math.floor(delta / 3600) + ' hora';
     }
     else if (delta < 86400)
     { // sent on last day

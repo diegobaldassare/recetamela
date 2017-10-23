@@ -2,12 +2,14 @@ package controllers;
 
 import controllers.authentication.Authenticate;
 import models.chefrequest.ChefRequest;
+import models.notification.NotificationType;
 import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Result;
 import services.ChefRequestService;
+import util.NotificationManager;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -36,12 +38,23 @@ public class ChefRequestController extends BaseController {
         return ChefRequestService.getInstance().get(id).map(chefRequest -> {
             chefRequest.setAnswered(newChefRequest.isAnswered());
             chefRequest.setAccepted(newChefRequest.isAccepted());
+
+            /* Notify the user his request has been accepted */
+            if (newChefRequest.isAccepted()) sendRequestAcceptedNotification(id, getRequester());
+
             chefRequest.setUser(newChefRequest.getUser());
             chefRequest.setMedia(newChefRequest.getMedia());
             chefRequest.setResume(newChefRequest.getResume());
             chefRequest.update();
             return ok(Json.toJson(chefRequest));
         }).orElse(notFound());
+    }
+
+    private void sendRequestAcceptedNotification(Long id, User requester) {
+        NotificationManager.getInstance().emitToUser(requester,
+                id, NotificationType.REQUEST,
+                "Tu solicitud para ser chef ha sido aprobada. Felicidades!",
+                id.toString());
     }
 
     @Authenticate(AdminUser.class)

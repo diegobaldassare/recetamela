@@ -1,7 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Provider} from '@angular/core';
 import {News} from "../../../shared/models/news";
 import {User} from "../../../shared/models/user-model";
 import {FormatService} from "../../../shared/services/format.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {Recipe} from "../../../shared/models/recipe/recipe";
+import {RecipeService} from "../../../shared/services/recipe.service";
 
 @Component({
   selector: 'app-news-preview',
@@ -10,26 +13,36 @@ import {FormatService} from "../../../shared/services/format.service";
 })
 export class NewsPreviewComponent implements OnInit {
 
-  private news: News;
+  @Input() news: News;
+  private embedVideoUrl;
 
   constructor(
-    private formatter: FormatService
+    private formatter: FormatService,
+    private sanitizer: DomSanitizer,
+    private recipeService: RecipeService
   ) {
-    this.mock();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.news && this.news.videoUrl) this.embedVideoUrl = this.setEmbedVideoUrl(this.news.videoUrl);
+  }
 
   private get description(): string {
     const max = 255;
     if (this.news.description.length > max)
-      return this.news.description.substr(0, 255) + '...';
+      return this.news.description.substr(0, max) + '...';
     else return this.news.description;
   }
 
   private get thumbnailUrl(): string {
     if (this.news.image) return this.news.image.url;
     else if (this.news.videoUrl) return this.formatter.youtubeThumbnailUrl(this.news.videoUrl);
+  }
+
+  private setEmbedVideoUrl(u) {
+    const split = u.split('v=');
+    const url = `https://www.youtube.com/embed/${split[1]}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   private mock() {
@@ -39,6 +52,7 @@ export class NewsPreviewComponent implements OnInit {
     this.news.author.name = "Jorge";
     this.news.author.lastName = "Lopez";
     this.news.created = new Date;
+    this.news.videoUrl = "https://www.youtube.com/watch?v=zMvHXKcvqAs";
     this.news.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at egestas turpis. Praesent at ipsum nisl. Nunc eu nunc bibendum enim gravida cursus. Integer ac libero id tortor facilisis luctus vel at lectus. Sed lacinia scelerisque lacus convallis faucibus. Sed id nibh maximus, finibus purus ac, interdum elit. Sed consectetur interdum tortor, id accumsan ipsum lacinia quis. Sed elementum, risus vel finibus condimentum, elit massa consectetur diam, ut aliquet odio libero quis orci.\n' +
       '\n' +
       'Ut ut ultrices ex, eget varius metus. Duis ornare rutrum mi, ac ullamcorper justo commodo viverra. Sed pretium placerat nulla dictum luctus. Integer bibendum laoreet ante, sit amet dictum lacus interdum eu. Sed nec turpis et ligula feugiat suscipit sed sed ante. Morbi felis sapien, sollicitudin ac eros eu, lacinia pharetra leo. Nam venenatis dolor facilisis enim dictum viverra. Nulla neque urna, varius eget efficitur id, euismod at felis. Donec vestibulum velit a odio volutpat sagittis. Vestibulum congue auctor ante, id bibendum risus auctor in.\n' +

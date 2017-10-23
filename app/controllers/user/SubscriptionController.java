@@ -28,7 +28,7 @@ public class SubscriptionController extends BaseController{
         following.ifPresent(followers::setFollowing);
         followers.save();
 
-        NotificationManager.getInstance().emitToUser(me, id, NotificationType.SUBSCRIPTION, "se subscribó a tu perfil", me.getId().toString());
+        NotificationManager.getInstance().emitToUser(me, id, NotificationType.SUBSCRIPTION, "se subscribió a tu perfil", me.getId().toString());
 
         return ok(Json.toJson(me));
     }
@@ -36,10 +36,8 @@ public class SubscriptionController extends BaseController{
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result unSubscribe(Long id) {
         User me = getRequester();
-
         Optional<Followers> followers = FollowerService.getInstance().getByIds(me.getId(), id);
         followers.ifPresent(Followers::delete);
-
         return ok(Json.toJson(me));
     }
 

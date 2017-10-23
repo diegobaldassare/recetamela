@@ -3,6 +3,7 @@ package models.recipe;
 import models.BaseModel;
 import models.Comment;
 import models.Media;
+import models.user.ChefUser;
 import models.user.PremiumUser;
 import models.user.User;
 
@@ -51,6 +52,9 @@ public class Recipe extends BaseModel {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @ManyToMany(cascade = REMOVE)
+    private List<User> likesByChef;
 
     public Recipe() {}
 
@@ -164,5 +168,13 @@ public class Recipe extends BaseModel {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<User> getLikesByChef() {
+        return likesByChef;
+    }
+
+    public void setLikesByChef(List<User> likesByChef) {
+        this.likesByChef = likesByChef;
     }
 }

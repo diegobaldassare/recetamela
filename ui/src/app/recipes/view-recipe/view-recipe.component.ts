@@ -22,8 +22,9 @@ export class ViewRecipeComponent implements OnInit {
   recipe: Recipe;
   public fetched: boolean;
   private viewer: User = JSON.parse(localStorage.getItem("user"));
-  private recipeRating: RecipeRating;
   commentaries: RecipeCommentary[];
+  private recipeRating: RecipeRating = new RecipeRating();
+  private chefLiked: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,7 @@ export class ViewRecipeComponent implements OnInit {
               this.commentaries = res;
             });
 
+            this.hasChefLiked();
           }, () => { this.fetched = true });
           this.recipeService.getRatingFromUser(id).then( recipeRating => {
               this.recipeRating = recipeRating;
@@ -56,6 +58,14 @@ export class ViewRecipeComponent implements OnInit {
           )
         }
       );
+  }
+
+  private hasChefLiked() {
+    for(let i = 0; i < this.recipe.likesByChef.length; i++) {
+      if(this.recipe.likesByChef[i].id == this.viewer.id) {
+        this.chefLiked = true;
+      }
+    }
   }
 
   public get editButton(): boolean {
@@ -135,4 +145,23 @@ export class ViewRecipeComponent implements OnInit {
 
   }
 
+
+  private get chefCanRate(): boolean {
+      return (this.viewer.type == 'ChefUser' && this.viewer.id != this.recipe.author.id);
+  }
+
+  private likeRecipe() {
+    this.recipeService.addLikeByChef(this.recipe.id, this.recipe).then(recipe => {
+        this.recipe = recipe;
+        this.chefLiked = true;
+      }
+    )
+  }
+
+  private dislikeRecipe() {
+      this.recipeService.deleteLikeByChef(this.recipe.id).then(recipe => {
+        this.recipe = recipe;
+        this.chefLiked = false;
+      })
+  }
 }

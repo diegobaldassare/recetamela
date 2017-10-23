@@ -62,8 +62,8 @@ export class UpgradeChefComponent implements OnInit {
     this.image = null;
   }
 
-  private disableButton(): boolean {
-    return (!this.textChefForm.valid && this.image != null);
+  private get disableButton(): boolean {
+    return (!this.textChefForm.valid && this.image == null);
   }
 
 }

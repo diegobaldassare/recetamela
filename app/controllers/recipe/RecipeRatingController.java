@@ -14,6 +14,7 @@ import services.recipe.RecipeRatingService;
 import services.recipe.RecipeService;
 import util.NotificationManager;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeRatingController extends BaseController {
@@ -49,6 +50,34 @@ public class RecipeRatingController extends BaseController {
             return ok(Json.toJson(recipeRating));
         }).orElse(notFound());
 
+    }
+
+    @Authenticate({ChefUser.class})
+    public Result likeByChef(long recipeId) {
+        final User user = getRequester();
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(recipeId);
+        if (!recipe.isPresent()) return notFound();
+        if (recipe.get().getAuthor().getId().equals(getRequester().getId())) {
+            return unauthorized();
+        }
+        final Recipe r = recipe.get();
+        r.getLikesByChef().add(user);
+        r.save();
+        return ok(Json.toJson(r));
+    }
+
+    @Authenticate({ChefUser.class})
+    public Result dislikeByChef(long recipeId) {
+        final User user = getRequester();
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(recipeId);
+        if (!recipe.isPresent()) return notFound();
+        if (recipe.get().getAuthor().getId().equals(getRequester().getId())) {
+            return unauthorized();
+        }
+        final Recipe r = recipe.get();
+        r.getLikesByChef().remove(user);
+        r.save();
+        return ok(Json.toJson(r));
     }
 
 //    @Authenticate({FreeUser.class, PremiumUser.class})

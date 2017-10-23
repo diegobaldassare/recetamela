@@ -8,7 +8,7 @@
         <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
         <h4 class="modal-title">Solicita ser chef!</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="margin: 0 20px">
         <div class="row">
 
           <form [formGroup]="textChefForm">
@@ -23,15 +23,15 @@
         <div *ngIf="image != null" style="margin: 5px 0 3px">
           <img style="width: 100%" [src]="image.url">
         </div>
-        <div class="row">
-          <div>
+        <div class="row" style="margin-top: 15px">
+          <div class="col-xs-6" style="padding-left: 0">
             <input style="display: none" (change)="addCertificate($event)" type="file" id="certificate" accept="image/*">
             <button class="btn btn-primary btn-sm" onclick="document.getElementById('certificate').click()" [disabled]="uploadingCertificate">{{ imageButton }}</button>
             <button *ngIf="image != null" class="btn btn-danger btn-sm" (click)="removeCertificate()">Eliminar</button>
           </div>
-          <div class="createButton">
+          <div class="createButton col-xs-6" style="padding-right: 0">
             <button type="submit"
-                    class="btn btn-default"
+                    class="btn btn-default btn-sm"
                     [disabled]="disableButton"
                     (click)="postChefRequest()"
                     data-dismiss="modal"

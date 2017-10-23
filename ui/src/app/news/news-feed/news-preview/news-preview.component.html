@@ -10,13 +10,12 @@
   </div>
   <div class="row">
     <div *ngIf="news?.recipe">
-      <h3 class="title"><a [routerLink]="'/recetas/' + news.recipe?.id"><b>{{ news?.title }}</b></a> 🍲</h3>
       <div style="padding-top: 15px">
         <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
       </div>
     </div>
     <div *ngIf="!news?.recipe">
-      <h3 class="title"><a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a> 📣</h3>
+      <h3 class="title">📣 <a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>
       <div class="media">
         <div *ngIf="news?.videoUrl">
           <iframe class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>

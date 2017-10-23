@@ -1,7 +1,7 @@
 <div class="container">
   <img *ngIf="onRecipeList" src="{{recipe.images[0].url}}" class="image" style="width: auto; height: 300px;">
   <img *ngIf="!onRecipeList" src="{{recipe.images[0].url}}" class="image" style="width: 100%; height: auto;">
-  <button class="btn text label recipe-name">{{recipe?.name}}</button>
+  <button class="btn content label recipe-name">{{recipe?.name}}</button>
   <div class="overlay">
     <div class="row eliminateButton">
       <button *ngIf="onRecipeBook" type="button" class="btn btn-danger btn-xs"
@@ -10,17 +10,16 @@
         <a href="javascript://"><span class="glyphicon glyphicon-remove"></span></a>
       </button>
     </div>
-    <div class="text">
-      <div class="row card-title">
-        <h2 style="margin-bottom: 10%;">{{recipe?.name}}</h2>
+    <div class="row content">
+      <div class="card-title">
+        <h2 style="margin-bottom: 10%;"><a [routerLink]="'/recetas/' + recipe?.id"><b>{{recipe?.name}}</b></a></h2>
         <div *ngIf="canRate">
-          <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
+          <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating?.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
         </div>
         <div *ngIf="!canRate">
-          <star-rating-comp [starType]="'svg'" [rating]="recipe.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
+          <star-rating-comp [starType]="'svg'" [rating]="recipe?.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
         </div>
       </div>
-      <div class="row">
         <p class="card-author">
           👨🏾‍🍳
           <a [routerLink]="'/usuario/' + author?.id + '/perfil' ">
@@ -29,10 +28,8 @@
         </p>
         <P>_____________________________</P>
         <p class="card-description">
-          {{recipe.description.substring(0, 22).concat('...')}}
-          <a [routerLink]="'/recetas/' + recipe?.id">Seguir leyendo</a>
+          {{recipe.description.substring(0, 255).concat('...')}}
         </p>
-      </div>
     </div>
   </div>
 </div>

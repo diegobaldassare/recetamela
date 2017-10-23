@@ -26,12 +26,12 @@
   border-radius: 5px;
 }
 
-.text {
+.content {
   text-align: center;
   opacity: 1;
   color: #4abdac;
   position: absolute;
-  top: 80%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
@@ -41,7 +41,7 @@
   opacity: 0.6;
 }
 
-.container:hover .text {
+.container:hover .content {
   opacity: 1;
 }
 
@@ -68,21 +68,20 @@
   opacity: 1;
   color: #4abdac;
   position: absolute;
-  left: 56%;
-  top: -115%;
+  /*left: 56%;*/
+  /*top: 5%;*/
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
 
 .card-author {
-  margin-bottom: -4%;
+  /*margin-bottom: -4%;*/
 }
 
 .card-description {
+  width: 100%;
   position: relative;
-  width: 80px;
   word-wrap: break-word;
-  left: -50px;
 }
 
 .eliminateButton{

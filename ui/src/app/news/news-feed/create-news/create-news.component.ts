@@ -4,6 +4,7 @@ import {NewsService} from "../../../shared/services/news-service";
 import {ToasterService} from "angular2-toaster";
 import {MediaService} from "../../../shared/services/media.service";
 import {FormatService} from "../../../shared/services/format.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-news',
@@ -19,7 +20,8 @@ export class CreateNewsComponent implements OnInit {
     private newsService: NewsService,
     private toaster: ToasterService,
     private mediaService: MediaService,
-    private formatter: FormatService
+    private formatter: FormatService,
+    private router: Router,
   ) {}
 
   ngOnInit() {}
@@ -55,6 +57,7 @@ export class CreateNewsComponent implements OnInit {
     this.newsService.createNews(this.news).then(() => {
       this.toaster.pop('success', 'Noticia creada');
       this.news = new News();
+      this.router.navigate([`noticias/${this.news.id}`])
     }, () => {
       this.toaster.pop('error', 'Noticia no creada');
     });

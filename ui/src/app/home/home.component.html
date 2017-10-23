@@ -1,2 +1,5 @@
-<app-recipes *ngIf="loggedIn"></app-recipes>
+<div *ngIf="loggedIn">
+  <app-recipes></app-recipes>
+  <app-news-feed></app-news-feed>
+</div>
 <app-landing *ngIf="!loggedIn"></app-landing>

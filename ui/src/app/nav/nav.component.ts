@@ -147,4 +147,7 @@ export class NavComponent implements OnInit, OnDestroy {
     this.router.navigate(['/solicitudes']);
   }
 
+  private createNews(){
+    this.router.navigate(['/noticias/crear']);
+  }
 }

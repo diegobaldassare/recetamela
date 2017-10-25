@@ -95,6 +95,10 @@ export class UserService {
     return this.http.get<RecipeCategory[]>(`/api/user/categories/unFollowed/${id}`);
   }
 
+  public markNotificationRead(id: string) : Promise<any> {
+    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
+  }
+
   public persistNotification(notification: Notification) : void {
     let notifications: Notification[] = JSON.parse(localStorage.getItem("notifications")) as Notification[];
     if (notifications == null) {
@@ -110,10 +114,6 @@ export class UserService {
       notifications = [];
     }
     return notifications;
-  }
-
-  public markNotificationRead(id: string) : Promise<any> {
-    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
   }
 
   public deleteNotification(i: number) : void {

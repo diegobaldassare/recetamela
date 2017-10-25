@@ -34,7 +34,6 @@ export class NavComponent implements OnInit, OnDestroy {
               private router: Router,
               private wsService: WebSocketService) {
     this.isLoggedIn = !isNull(localStorage.getItem("X-TOKEN"));
-    this.notificationList = this.userService.getNotifications().reverse();
     this.subscription = this.userService.getModifiedUser().subscribe(user => { this.user = user; });
     this.sharedService.notifyObservable$.subscribe((res) => {
       if (res.hasOwnProperty('loggedIn')) {
@@ -95,11 +94,12 @@ export class NavComponent implements OnInit, OnDestroy {
 
   private listenForServerEvents(id: string) {
     this.wsService.connect(id).subscribe((res) => {
-      let notification : Notification = res;
-      if (this.notificationList.map(e => e.id).indexOf(notification.id) == -1) {
-        this.notificationList.push(notification);
+      if (res.header === 'notification') {
+        let notification : Notification = res.object;
+        if (this.notificationList.map(e => e.id).indexOf(notification.id) == -1) {
+          this.notificationList.push(notification);
+        }
       }
-      this.userService.persistNotification(notification);
     });
   }
 
@@ -132,7 +132,6 @@ export class NavComponent implements OnInit, OnDestroy {
 
   deleteNotification(i: number) :void {
     this.notificationList.splice(i, 1);
-    this.userService.deleteNotification(i);
   }
 
   ngOnDestroy(): void {

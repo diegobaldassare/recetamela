@@ -3,6 +3,7 @@ package controllers
 import akka.actor.{Actor, ActorRef}
 import models.notification.Notification
 import play.libs.Json
+import server.ServerMessage
 import services.NotificationService
 
 import scala.collection.JavaConversions._
@@ -25,7 +26,7 @@ class RegisterActor extends Actor{
     /*Sends all unread notifications to given user_id*/
     case user_id: Long =>
       val list = NotificationService.getInstance().getUndeliveredByUser(user_id)
-      for ((e: Notification) <- list) active(user_id) ! Json.toJson(e).toString
+      for ((e) <- list) active(user_id) ! Json.toJson(e).toString
 
     /*Sends individual notification to user_id*/
     case tuple: (_ , Long, String) =>

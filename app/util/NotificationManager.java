@@ -8,6 +8,7 @@ import models.notification.NotificationType;
 import models.user.User;
 import play.Logger;
 import play.libs.EventSource;
+import server.ServerMessage;
 import services.NotificationService;
 import services.recipe.RecipeCategoryService;
 import services.user.FollowerService;
@@ -47,7 +48,8 @@ public class NotificationManager {
     public void emitToUser(User sender, Long receiverId, NotificationType name, String message, String redirectId)  {
         Notification notification = new Notification(sender.getId(), sender.getName() + " " + sender.getLastName(), receiverId, sender.getProfilePic(), name, message, redirectId);
         notification.save();
-        ScalaNotificationService.sendNotification(receiverId, notification);
+        ServerMessage<Notification> notificationServerMessage = new ServerMessage<>("notification", notification);
+        ScalaNotificationService.sendNotification(receiverId, notificationServerMessage);
     }
 
     public void notifyFollowers(User sender, NotificationType type, String message, String redirectId) {

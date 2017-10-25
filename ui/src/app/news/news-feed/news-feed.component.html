@@ -1,7 +1,7 @@
 <div class="container">
   <div style="text-align: center">
     <h1><b>📰 Noticias</b></h1>
-    <ng-container *ngIf="newsArray?.length == 0">No hay publicaciones para ver 😕</ng-container>
+    <ng-container *ngIf="newsArray?.length == 0">No hay noticias para ver 😕</ng-container>
   </div>
   <div *ngIf="newsArray">
     <div *ngFor="let news of newsArray">

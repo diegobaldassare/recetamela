@@ -3,6 +3,7 @@ import {News} from "../../shared/models/news";
 import {UserService} from "../../shared/services/user.service";
 import {User} from "../../shared/models/user-model";
 import {WebSocketService} from "../../shared/services/web-socket.service";
+import {NewsService} from "../../shared/services/news-service";
 
 @Component({
   selector: 'app-news-feed',
@@ -14,7 +15,7 @@ export class NewsFeedComponent implements OnInit {
   newsArray: News[] = [];
   viewer: User = JSON.parse(localStorage.getItem("user"));
 
-  constructor(private userService: UserService,
+  constructor(private newsService: NewsService,
               private wsService: WebSocketService) { }
 
   ngOnInit() {
@@ -33,7 +34,7 @@ export class NewsFeedComponent implements OnInit {
   }
 
   private loadNewsFeed() {
-    this.userService.getNewsFeed().subscribe((res: News[]) => {
+    this.newsService.getUserNewsFeed().subscribe((res: News[]) => {
       this.newsArray = res;
     });
   }

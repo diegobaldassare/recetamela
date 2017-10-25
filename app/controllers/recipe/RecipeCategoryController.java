@@ -12,7 +12,9 @@ import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import services.recipe.RecipeCategoryService;
+import services.user.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +63,51 @@ public class RecipeCategoryController extends BaseController {
     public Result getAll() {
         final List<RecipeCategory> categories = RecipeCategoryService.getInstance().getFinder().all();
         return ok(Json.toJson(categories));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result getUserCategories(Long id) {
+        return UserService.getInstance().get(id)
+                .map(user -> ok(Json.toJson(user.getFollowedCategories())))
+                .orElseGet(Results::notFound);
+    }
+
+    public Result getUnFollowedCategories(String id) {
+        Optional<User> me = UserService.getInstance().get(Long.parseLong(id));
+        if (!me.isPresent()) return notFound();
+        final List<RecipeCategory> allCategories = RecipeCategoryService.getInstance().getFinder().all();
+        final List<RecipeCategory> unFollowed = allCategories.stream()
+                .filter(c -> !me.get().getFollowedCategories().contains(c))
+                .collect(Collectors.toList());
+        return ok(Json.toJson(unFollowed));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result subscribeToCategory(long id) {
+        User me = getRequester();
+        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+
+        if (!category.isPresent()) return notFound();
+        me.getFollowedCategories().add(category.get());
+        category.get().getFollowers().add(me);
+        category.get().update();
+        me.update();
+
+        return ok(Json.toJson(me));
+    }
+
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result unSubscribeToCategory(long id) {
+        User me = getRequester();
+        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
+
+        if (!category.isPresent()) return notFound();
+        me.getFollowedCategories().remove(category.get());
+        category.get().getFollowers().remove(me);
+        category.get().update();
+        me.update();
+
+        return ok(Json.toJson(category.get()));
     }
 
     @Authenticate({AdminUser.class})

@@ -216,3 +216,11 @@ p {
   background-color: #f7b733;
   opacity: 0.9;
 }
+
+/** Scroll */
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  display: flex;
+}

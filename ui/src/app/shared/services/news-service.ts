@@ -2,6 +2,7 @@ import {ApiService} from "./api-service";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {News} from "../models/news";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class NewsService extends ApiService {
@@ -22,5 +23,13 @@ export class NewsService extends ApiService {
 
   public getNews(id: string): Promise<News> {
     return this.http.get<News>(`${this.URL}/${id}`).toPromise();
+  }
+
+  public getUserNewsFeed() : Observable<News[]> {
+    return this.http.get<News[]>(`/api/user/newsfeed`);
+  }
+
+  public getUserNews(id: string): Promise<News[]> {
+    return this.http.get<News[]>(`/api/user/${id}/news`).toPromise();
   }
 }

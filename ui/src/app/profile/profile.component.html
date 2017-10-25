@@ -6,11 +6,11 @@
     <div class="container head">
       <p>
         <span class="name">{{user?.name}} {{user?.lastName}} </span>
-        <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge"  title="Free User">👶🏻</span>
+        <span *ngIf="user?.type === 'FreeUser' "    class="icon-badge" title="Free User">👶🏻</span>
         <span *ngIf="user?.type === 'PremiumUser' " class="icon-badge" title="Premium User">🏅</span>
-        <span *ngIf="user?.type === 'ChefUser' "        class="icon-badge" title="Chef User">👨🏻‍🍳</span>
-        <span *ngIf="user?.type === 'AdminUser' "        class="icon-badge" title="Admin User">⭐</span>
-        <button *ngIf="user?.id === loggedUser?.id"  class="btn subscribe" data-toggle="modal" data-target="#editUserModal">Editar</button>
+        <span *ngIf="user?.type === 'ChefUser' "    class="icon-badge" title="Chef User">👨🏻‍🍳</span>
+        <span *ngIf="user?.type === 'AdminUser' "   class="icon-badge" title="Admin User">🃏</span>
+        <button *ngIf="user?.id === loggedUser?.id" class="btn subscribe" data-toggle="modal" data-target="#editUserModal">Editar</button>
         <button *ngIf="!subscribed && user?.id !== loggedUser?.id; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
         <ng-template #subscripto>
           <button *ngIf="subscribed;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
@@ -27,9 +27,10 @@
       <div class="panel-heading">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab1" data-toggle="tab"><b>{{recipes?.length}}</b> recetas</a></li>
-          <li><a href="#tab2" data-toggle="tab" (click)="fetchFollowing()"><b>{{following?.length}}</b> siguiendo</a></li>
-          <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{followers?.length}}</b> seguidores</a></li>
-          <li><a href="#tab4" data-toggle="tab" (click)="fetchCategories()"><b>{{categories?.length}}</b> categorías</a></li>
+          <li><a href="#tab2" data-toggle="tab" (click)="fetchNews()"><b>{{news?.length}}</b> noticias</a></li>
+          <li><a href="#tab3" data-toggle="tab" (click)="fetchFollowing()"><b>{{following?.length}}</b> siguiendo</a></li>
+          <li><a href="#tab4" data-toggle="tab" (click)="fetchFollowing()"><b>{{followers?.length}}</b> seguidores</a></li>
+          <li><a href="#tab5" data-toggle="tab" (click)="fetchCategories()"><b>{{categories?.length}}</b> categorías</a></li>
         </ul>
       </div>
       <div class="panel-body">
@@ -39,6 +40,18 @@
             <ng-container *ngIf="recipes?.length == 0">El usuario no tiene recetas 😕</ng-container>
           </div>
           <div class="tab-pane fade" id="tab2">
+            <div class="scrollmenu">
+              <div *ngIf="news">
+                <div *ngFor="let n of news">
+                  <div style="padding-right: 20px">
+                    <app-news-preview [news]="n"></app-news-preview>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="news?.length == 0">El usuario no tiene noticias 😕</ng-container>
+          </div>
+          <div class="tab-pane fade" id="tab3">
             <ul style="list-style: none;">
               <ng-container *ngIf="following?.length == 0">El usuario no sigue a otras personas 😕</ng-container>
               <ng-container *ngFor="let n of following; let i = index;">
@@ -46,15 +59,15 @@
               </ng-container>
             </ul>
           </div>
-          <div class="tab-pane fade" id="tab3">
+          <div class="tab-pane fade" id="tab4">
             <ul style="list-style: none;">
-              <ng-container *ngIf="followers?.length == 0">El usuario no tiene seguidores. <a href="javascript://" *ngIf="user?.id != loggedUser?.id" (click)="subscribe()">Seguilo!</a></ng-container>
+              <ng-container *ngIf="followers?.length == 0">El usuario no tiene seguidores. 😕 <a href="javascript://" *ngIf="user?.id != loggedUser?.id" (click)="subscribe()">Seguilo!</a></ng-container>
               <ng-container *ngFor="let n of followers; let i = index;">
                 <li><img alt="Pic" src="{{n.profilePic}}" class="img-circle follower"><a href="javascript://" class="follower" (click)="followerClickListener(i)">{{n.name}} {{n.lastName}}</a></li>
               </ng-container>
             </ul>
           </div>
-          <div class="tab-pane fade" id="tab4">
+          <div class="tab-pane fade" id="tab5">
             <div class="col-lg-6">
               <ng-container *ngIf="categories?.length == 0">El usuario no sigue a ninguna categoría 😕</ng-container>
               <div class="categories">

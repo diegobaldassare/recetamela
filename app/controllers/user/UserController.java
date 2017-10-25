@@ -11,7 +11,6 @@ import models.payment.CreditCard;
 import models.payment.Payment;
 import models.recipe.Recipe;
 import models.recipe.RecipeBook;
-import models.recipe.RecipeCategory;
 import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
@@ -26,9 +25,7 @@ import services.NewsService;
 import services.payment.CreditCardService;
 import services.payment.PaymentService;
 import services.recipe.RecipeBookService;
-import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeService;
-import services.user.*;
 
 import java.util.*;
 
@@ -39,7 +36,6 @@ import services.user.UserValidator;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.stream.Collectors;
 
 public class UserController extends BaseController {
 
@@ -111,7 +107,7 @@ public class UserController extends BaseController {
             recipeBooks.forEach(RecipeBook::delete);
 
             /* Step 5: Delete all user News */
-            final List<News> news = newsService.getNewsPublishedByuser(r.getId());
+            final List<News> news = newsService.getNewsPublishedByUser(r.getId());
             news.forEach(News::delete);
 
             /* Step 6: Delete all user chef requests */
@@ -124,50 +120,6 @@ public class UserController extends BaseController {
 
             return ok();
         }).orElseGet(Results::notFound);
-    }
-
-    public Result getRecipeCategories(Long id) {
-        return UserService.getInstance().get(id)
-                .map(user -> ok(Json.toJson(user.getFollowedCategories())))
-                .orElseGet(Results::notFound);
-    }
-
-    public Result getUnFollowedCategories(String id) {
-        Optional<User> me = UserService.getInstance().get(Long.parseLong(id));
-        if (!me.isPresent()) return notFound();
-        final List<RecipeCategory> allCategories = RecipeCategoryService.getInstance().getFinder().all();
-        final List<RecipeCategory> unFollowed = allCategories.stream()
-                .filter(c -> !me.get().getFollowedCategories().contains(c))
-                .collect(Collectors.toList());
-        return ok(Json.toJson(unFollowed));
-    }
-
-    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
-    public Result subscribeToCategory(long id) {
-        User me = getRequester();
-        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
-
-        if (!category.isPresent()) return notFound();
-        me.getFollowedCategories().add(category.get());
-        category.get().getFollowers().add(me);
-        category.get().update();
-        me.update();
-
-        return ok(Json.toJson(me));
-    }
-
-    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
-    public Result unSubscribeToCategory(long id) {
-        User me = getRequester();
-        Optional<RecipeCategory> category = RecipeCategoryService.getInstance().get(id);
-
-        if (!category.isPresent()) return notFound();
-        me.getFollowedCategories().remove(category.get());
-        category.get().getFollowers().remove(me);
-        category.get().update();
-        me.update();
-
-        return ok(Json.toJson(category.get()));
     }
 
     public Result checkExpirationDate(Long id) {
@@ -239,21 +191,5 @@ public class UserController extends BaseController {
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);
         }
-    }
-
-    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
-    public Result getNewsFeed() {
-        final SortedSet<News> result = new TreeSet<>(Comparator.comparing(News::getCreated)).descendingSet();
-        final NewsService newsService = NewsService.getInstance();
-        result.addAll(newsService.getNewsPublishedByuser(getRequester().getId()));
-        for (Followers follower: FollowerService.getInstance().getFollowing(getRequester().getId())) {
-            result.addAll(newsService.getNewsPublishedByuser(follower.getFollowing().getId()));
-        }
-        for (RecipeCategory category: getRequester().getFollowedCategories()) {
-            for (Recipe recipe : RecipeService.getInstance().getRecipesForCategory(category)) {
-                result.addAll(newsService.getNewsForRecipe(recipe.getId()));
-            }
-        }
-        return ok(Json.toJson(result));
     }
 }

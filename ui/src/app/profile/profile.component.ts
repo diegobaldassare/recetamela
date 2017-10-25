@@ -10,6 +10,8 @@ import {FormatService} from "../shared/services/format.service";
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {ToasterService} from "angular2-toaster";
 import {MyAuthService} from "../auth/my-auth-service";
+import {News} from "../shared/models/news";
+import {NewsService} from "../shared/services/news-service";
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +23,7 @@ export class ProfileComponent implements OnInit {
 
   private user: User;
   private loggedUser: User;
+  news: News[] = [];
   recipes: Recipe[] = [];
   followers: User[] = [];
   following: User[] = [];
@@ -41,7 +44,8 @@ export class ProfileComponent implements OnInit {
     public toaster: ToasterService,
     private formBuilder: FormBuilder,
     private formatter: FormatService,
-    private myAuthService: MyAuthService) {
+    private myAuthService: MyAuthService,
+    private newsService: NewsService) {
 
     const atLeastOne = (validator: ValidatorFn) => (
       group: FormGroup,
@@ -75,6 +79,7 @@ export class ProfileComponent implements OnInit {
           this.fetchFollowing();
           this.fetchCategories();
           this.fetchUnFollowedCategories();
+          this.fetchNews();
         });
       }
     );
@@ -196,6 +201,12 @@ export class ProfileComponent implements OnInit {
       this.myAuthService.logout();
     }, () => {
       this.toaster.pop('error', 'Usuario no eliminado');
+    });
+  }
+
+  public fetchNews() {
+    this.newsService.getUserNews(this.user.id).then(res => {
+      this.news = res;
     });
   }
 }

@@ -28,8 +28,12 @@ public class NewsService extends Service<News> {
         n.save();
     }
 
-    public List<News> getNewsPublishedByuser(Long id) {
+    public List<News> getNewsPublishedByUser(Long id) {
         return getFinder().where().eq("author_id", id).findList();
+    }
+
+    public List<News> getUserNews(Long id) {
+        return getFinder().where().eq("author_id", id).eq("recipe_id", null).orderBy("created").findList();
     }
 
     public List<News> getNewsForRecipe(Long id) {

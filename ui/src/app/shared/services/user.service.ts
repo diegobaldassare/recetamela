@@ -130,8 +130,4 @@ export class UserService {
   public deleteUser(id: string) : Promise<any> {
     return this.http.delete(`/api/user/${id}/delete`).toPromise();
   }
-
-  public getNewsFeed() : Observable<News[]> {
-    return this.http.get<News[]>(`/api/user/newsfeed/`);
-  }
 }

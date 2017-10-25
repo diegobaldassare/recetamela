@@ -87,14 +87,6 @@ export class UserService {
     return this.http.get<User[]>(`/api/user/following/${id}`);
   }
 
-  public getCategories(id: string) : Observable<RecipeCategory[]> {
-    return this.http.get<RecipeCategory[]>(`/api/user/categories/${id}`);
-  }
-
-  public getUnFollowedCategories(id: string) : Observable<RecipeCategory[]> {
-    return this.http.get<RecipeCategory[]>(`/api/user/categories/unFollowed/${id}`);
-  }
-
   public markNotificationRead(id: string) : Promise<any> {
     return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
   }

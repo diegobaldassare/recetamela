@@ -36,12 +36,12 @@ export class ProfileComponent implements OnInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
+    public toaster: ToasterService,
     private route: ActivatedRoute,
     private userService: UserService,
     private recipeService: RecipeService,
     private recipeCategoryService: RecipeCategoryService,
     private router: Router,
-    public toaster: ToasterService,
     private formBuilder: FormBuilder,
     private formatter: FormatService,
     private myAuthService: MyAuthService,
@@ -132,7 +132,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private fetchCategories() {
-    this.userService.getCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
+    this.recipeCategoryService.getUserCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
       this.categories = res;
     });
   }
@@ -164,7 +164,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private fetchUnFollowedCategories() {
-    this.userService.getUnFollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
+    this.recipeCategoryService.getUnFollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
         this.unFollowedCategories= res;
     });
   }

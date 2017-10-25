@@ -2,6 +2,7 @@ import {ApiService} from "./api-service";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {RecipeCategory} from "../models/recipe/recipe-category";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class RecipeCategoryService extends ApiService {
@@ -22,6 +23,14 @@ export class RecipeCategoryService extends ApiService {
 
   get(categoryId: string) : Promise<RecipeCategory> {
     return this.http.get<RecipeCategory>(`${this.URL}/category/${categoryId}`).toPromise();
+  }
+
+  public getUserCategories(id: string) : Observable<RecipeCategory[]> {
+    return this.http.get<RecipeCategory[]>(`/api/user/categories/${id}`);
+  }
+
+  public getUnFollowedCategories(id: string) : Observable<RecipeCategory[]> {
+    return this.http.get<RecipeCategory[]>(`/api/user/categories/unFollowed/${id}`);
   }
 
   getByName(categoryName: string) : Promise<RecipeCategory> {

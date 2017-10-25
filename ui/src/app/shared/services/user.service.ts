@@ -95,6 +95,23 @@ export class UserService {
     return this.http.get<RecipeCategory[]>(`/api/user/categories/unFollowed/${id}`);
   }
 
+  public markNotificationRead(id: string) : Promise<any> {
+    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
+  }
+
+  public modifyUser(id: string, u: User): Promise<User> {
+    this.subject.next(u);
+    return this.http.put<User>(`/api/user/${id}/modify`, u).toPromise();
+  }
+
+  public deleteUser(id: string) : Promise<any> {
+    return this.http.delete(`/api/user/${id}/delete`).toPromise();
+  }
+
+  public getNewsFeed() : Observable<News[]> {
+    return this.http.get<News[]>(`/api/user/newsfeed/`);
+  }
+
   public persistNotification(notification: Notification) : void {
     let notifications: Notification[] = JSON.parse(localStorage.getItem("notifications")) as Notification[];
     if (notifications == null) {
@@ -112,26 +129,9 @@ export class UserService {
     return notifications;
   }
 
-  public markNotificationRead(id: string) : Promise<any> {
-    return this.http.post(`/api/notifications/markRead/${id}`, "").toPromise();
-  }
-
   public deleteNotification(i: number) : void {
     let notifications: Notification[] = this.getNotifications();
     notifications.splice(notifications.length -1 -i, 1);
     localStorage.setItem("notifications", JSON.stringify(notifications));
-  }
-
-  public modifyUser(id: string, u: User): Promise<User> {
-    this.subject.next(u);
-    return this.http.put<User>(`/api/user/${id}/modify`, u).toPromise();
-  }
-
-  public deleteUser(id: string) : Promise<any> {
-    return this.http.delete(`/api/user/${id}/delete`).toPromise();
-  }
-
-  public getNewsFeed() : Observable<News[]> {
-    return this.http.get<News[]>(`/api/user/newsfeed/`);
   }
 }

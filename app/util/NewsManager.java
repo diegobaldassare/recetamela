@@ -3,6 +3,7 @@ package util;
 import controllers.ScalaNotificationService;
 import models.News;
 import models.user.User;
+import server.ServerMessage;
 import services.user.FollowerService;
 
 /**
@@ -22,16 +23,15 @@ public class NewsManager {
     }
 
     public void notifyReaders(News news, User poster) {
-        System.out.println(FollowerService.getInstance().getFollowers(poster.getId()));
         FollowerService.getInstance().getFollowers(poster.getId()).forEach(
                 follower -> {
                     emitToUser(follower.getFollower().getId(), news);
-                    System.out.println("notifying: " + follower.getFollower().getId());
                 }
         );
     }
 
     private void emitToUser(Long receiverId, News news)  {
-        ScalaNotificationService.sendNews(receiverId, news);
+        ServerMessage<News> newsServerMessage = new ServerMessage<>("news", news);
+        ScalaNotificationService.sendNews(receiverId, newsServerMessage);
     }
 }

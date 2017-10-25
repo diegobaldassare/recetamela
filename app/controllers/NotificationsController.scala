@@ -9,6 +9,7 @@ import models.notification.Notification
 import play.api.libs.streams.ActorFlow
 import play.api.mvc.{Action, Controller, WebSocket}
 import play.libs.Json
+import server.ServerMessage
 import services.NotificationService
 
 
@@ -58,9 +59,9 @@ object ScalaNotificationService{
 
   val registerActor: ActorRef = system.actorOf(Props[RegisterActor], name = "register")
 
-  def sendNotification(id: Long, n: Notification) = registerActor ! ("Individual", id, Json.toJson(n).toString)
+  def sendNotification(id: Long, n: ServerMessage[Notification]) = registerActor ! ("Individual", id, Json.toJson(n).toString)
 
-  def sendNews(id: Long, n: News) = registerActor ! ("Individual", "News", id, Json.toJson(n).toString)
+  def sendNews(id: Long, n: ServerMessage[News]) = registerActor ! ("Individual", "News", id, Json.toJson(n).toString)
 
   def update(id: Long) = registerActor ! id
 

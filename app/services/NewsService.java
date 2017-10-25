@@ -4,6 +4,7 @@ import com.avaje.ebean.Model.Finder;
 import models.News;
 import server.error.RequestError;
 import server.exception.BadRequestException;
+import util.NewsManager;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -26,6 +27,7 @@ public class NewsService extends Service<News> {
     public static void create(News n) throws BadRequestException {
         format(n);
         n.save();
+        NewsManager.getInstance().notifyReaders(n, n.getAuthor());
     }
 
     public List<News> getNewsPublishedByuser(Long id) {

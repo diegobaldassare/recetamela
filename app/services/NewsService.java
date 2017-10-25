@@ -35,7 +35,7 @@ public class NewsService extends Service<News> {
     }
 
     public List<News> getUserNews(Long id) {
-        return getFinder().where().eq("author_id", id).eq("recipe_id", null).orderBy("created").findList();
+        return getFinder().where().eq("author_id", id).eq("recipe_id", null).orderBy().desc("created").findList();
     }
 
     public List<News> getNewsForRecipe(Long id) {

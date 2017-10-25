@@ -30,12 +30,12 @@
 
 .users-container{
   max-width: 80%;
-  padding: 15px;
+  padding: 20px;
   background-color: white;
 }
 
 .users-list{
-  max-height: 250px;
+  height: 250px;
   overflow: auto;
 }
 

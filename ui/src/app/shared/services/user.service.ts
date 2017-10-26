@@ -36,9 +36,9 @@ export class UserService {
       this.checkExpirationDate(tokenResponse.userId).then(response => {
         localStorage.setItem("user", JSON.stringify(response.user));
         this.sharedService.notifyOther({loggedIn: true});
-        if (!response.expired) return;
-        this.sharedService.notifyOther({upgradeForm: true, expired: true});
-        this.sharedService.notifyOther({premium: false});
+        this.sharedService.notifyOther({premium: response.user.type != 'FreeUser'});
+        if (response.expired)
+          this.sharedService.notifyOther({upgradeForm: true, expired: true});
       });
     });
   }

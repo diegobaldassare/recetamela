@@ -1,6 +1,7 @@
 package services.recipe;
 
 import com.avaje.ebean.Model;
+import models.recipe.Recipe;
 import models.recipe.RecipeBook;
 import services.Service;
 
@@ -21,5 +22,16 @@ public class RecipeBookService extends Service<RecipeBook> {
 
     public List<RecipeBook> getAllUserRecipeBook(Long id) {
         return getFinder().where().eq("creator_id", id).findList();
+    }
+
+    public void deleteRecipe(Recipe recipe) {
+        getFinder().query()
+                .where()
+                .in("recipes", recipe)
+                .findList()
+                .forEach(recipeBook -> {
+                    recipeBook.getRecipes().remove(recipe);
+                    recipeBook.update();
+                });
     }
 }

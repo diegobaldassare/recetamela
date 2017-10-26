@@ -10,6 +10,7 @@ import models.recipe.Recipe;
 import models.recipe.RecipeStep;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.CommentService;
 import services.MediaService;
 import models.recipe.*;
 import services.NewsService;
@@ -111,22 +112,11 @@ public class RecipeService extends Service<Recipe> {
     }
 
     private void deleteFromRecipeBooks(Recipe recipe) {
-        RecipeBookService.getInstance().getFinder().query()
-                .where()
-                .in("recipes", recipe)
-                .findList()
-                .forEach(recipeBook -> {
-                    recipeBook.getRecipes().remove(recipe);
-                    recipeBook.update();
-                });
+        RecipeBookService.getInstance().deleteRecipe(recipe);
     }
 
     private void deleteComments(Long recipeID) {
-        SqlUpdate delete = Ebean.createSqlUpdate(
-                "delete from comment " +
-                        "where recipe_id = :id");
-        delete.setParameter("id", recipeID);
-        Ebean.execute(delete);
+        CommentService.getInstance().deleteRecipeComments(recipeID);
     }
 
     private void deleteStepsImages(Recipe recipe, MediaService mediaService) {

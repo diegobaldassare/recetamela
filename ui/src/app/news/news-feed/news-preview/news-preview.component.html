@@ -1,30 +1,31 @@
 <div class="thumbnail">
-  <div class="row header">
-    <div class="col-lg-2">
-      <img class="img-circle profile-picture" alt="Profile Picture" [src]="news?.author.profilePic">
+  <div class="media">
+    <div class="media-left media-top">
+        <img class="img-circle profile-picture media-object" [src]="news?.author.profilePic" alt="Profile Picture">
     </div>
-    <div class="col-lg-10 author">
+    <div class="media-body">
       <h4><a [routerLink]="'/usuario/' + news?.author?.id + '/perfil'">{{ news?.author?.name + ' ' + news?.author?.lastName }}</a></h4>
       <div class="date">{{news?.created | messageTime}}</div>
     </div>
   </div>
-  <div class="row">
-    <div *ngIf="news?.recipe">
-      <div style="padding-top: 15px">
-        <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
+  <div *ngIf="news?.recipe">
+    <div style="padding-top: 15px">
+      <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
+    </div>
+  </div>
+  <div *ngIf="!news?.recipe">
+    <h3 class="title">📣 <a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>
+    <div class="media" style="border-radius: 5px">
+      <div *ngIf="news?.videoUrl">
+        <iframe *ngIf="onProfile" class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen style="width: 450px; height: 300px;"></iframe>
+        <iframe *ngIf="!onProfile" class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen style="width: 100%; height: 343px;"></iframe>
+      </div>
+      <div *ngIf="!news?.videoUrl && news?.image">
+        <img *ngIf="onProfile" height="300px" [src]="news.image?.url">
+        <img *ngIf="!onProfile" width="100%" [src]="news.image?.url">
       </div>
     </div>
-    <div *ngIf="!news?.recipe">
-      <h3 class="title">📣 <a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>
-      <div class="media">
-        <div *ngIf="news?.videoUrl">
-          <iframe class="video-display" [src]="embedVideoUrl" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <div *ngIf="!news?.videoUrl && news?.image">
-          <img width="100%" [src]="news.image?.url">
-        </div>
-      </div>
-      <p>{{ description }}</p>
-    </div>
+    <p *ngIf="onProfile"  class="card-text text-justify">{{ description }}</p>
+    <p *ngIf="!onProfile" class="card-text text-justify">{{ description }}</p>
   </div>
 </div>

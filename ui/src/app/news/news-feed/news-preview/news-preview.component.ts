@@ -12,6 +12,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class NewsPreviewComponent implements OnInit {
 
   @Input() news: News;
+  @Input() onProfile: boolean;
   private embedVideoUrl;
 
   constructor(

@@ -10,8 +10,8 @@
         <a href="javascript://"><span class="glyphicon glyphicon-remove"></span></a>
       </button>
     </div>
-    <div class="row content">
-      <div class="card-title">
+    <div class="content card-body">
+      <div class="title">
         <h2 style="margin-bottom: 10%;"><a [routerLink]="'/recetas/' + recipe?.id"><b>{{recipe?.name}}</b></a></h2>
         <div *ngIf="canRate">
           <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating?.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
@@ -20,14 +20,14 @@
           <star-rating-comp [starType]="'svg'" [rating]="recipe?.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
         </div>
       </div>
-        <p class="card-author">
+        <p class="card-text">
           👨🏾‍🍳
           <a [routerLink]="'/usuario/' + author?.id + '/perfil' ">
             {{author?.name}} {{author?.lastName}}
           </a>
         </p>
         <P>_____________________________</P>
-        <p class="card-description">
+        <p class="card-description text-justify">
           {{recipe.description.substring(0, 255).concat('...')}}
         </p>
     </div>

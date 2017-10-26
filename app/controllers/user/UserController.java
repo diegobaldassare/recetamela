@@ -80,6 +80,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(users));
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result deleteUser(Long id) {
         final CreditCardService cardService = CreditCardService.getInstance();
         final PaymentService paymentService = PaymentService.getInstance();
@@ -105,7 +106,7 @@ public class UserController extends BaseController {
 
             /* Step 3: Delete all user Recipes */
             final List<Recipe> recipes = recipeService.getUserRecipes(r.getId());
-            recipes.forEach(recipe -> recipeService.deleteRecipe(recipe.getId()));
+            recipes.forEach(recipeService::delete);
 
             /* Step 4: Delete all user RecipeBooks */
             final List<RecipeBook> recipeBooks = recipeBookService.getAllUserRecipeBook(r.getId());

@@ -45,6 +45,7 @@ public class NotificationManager {
      *                   new Recipe that has been created.
      */
     public void emitToUser(User sender, Long receiverId, NotificationType name, String message, String redirectId)  {
+        if (Objects.equals(sender.getId(), receiverId)) return;
         Notification notification = new Notification(sender.getId(), sender.getName() + " " + sender.getLastName(), receiverId, sender.getProfilePic(), name, message, redirectId);
         notification.save();
         ScalaNotificationService.sendNotification(receiverId, notification);

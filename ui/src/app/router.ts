@@ -16,6 +16,7 @@ import {RecipeBookComponent} from "./recipe-book-list/recipe-book/recipe-book.co
 import {ChefRequestComponent} from "./chef-request/chef-request.component";
 import {NewsFeedComponent} from "./news/news-feed/news-feed.component";
 import {NewsComponent} from "./news/news/news.component";
+import { ChefGuard } from './auth/chef-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, NotFreeGuard]},
   { path: 'solicitudes', component: ChefRequestComponent, canActivate: [AuthGuard]},    //Tiene que ser AdminGuard
   { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'noticias', component: NewsFeedComponent, canActivate: [AuthGuard] },
+  { path: 'noticias', component: NewsFeedComponent, canActivate: [AuthGuard, ChefGuard] },
   { path: 'noticias/:id', component: NewsComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];

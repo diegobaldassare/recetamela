@@ -208,22 +208,6 @@ body .no-padding {
   margin-right: 7px;
 }
 
-.thumbnail{
-  border: 0px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 .like {
   background-color: #fc4a1a;
   color: white;
@@ -231,7 +215,11 @@ body .no-padding {
 
 .like-button {
   vertical-align: text-bottom;
-  background-color: #fc4a1a;
+  background-color: $gray-white;
   color: white;
   line-height: 0.75;
+}
+
+.user-pointer {
+  cursor: pointer;
 }

@@ -24,17 +24,18 @@
                 </a>
               </button>
 
-              <button *ngIf="chefCanRate && !chefLiked; else liked" type="button" class="btn like-button" title="Like by chef" (click)="likeRecipe()">
-                Like
-              </button>
-              <ng-template #liked>
-                <button *ngIf="chefCanRate && chefLiked;" class="btn like-button" (click)="dislikeRecipe()">Unlike</button>
-              </ng-template>
 
             </div>
 
-
-            <app-facebook-share [recipe]="recipe"></app-facebook-share>
+            <div>
+              <app-facebook-share [recipe]="recipe"></app-facebook-share>
+              <button style="margin-bottom: -10px" *ngIf="chefCanRate && !chefLiked; else liked" type="button" class="btn like-button" title="Recomendar" (click)="likeRecipe()">
+                👩🏼‍🍳 👍🏼
+              </button>
+              <ng-template #liked>
+                <button style="margin-bottom: -10px" *ngIf="chefCanRate && chefLiked;" class="btn like-button" (click)="dislikeRecipe()">✅</button>
+              </ng-template>
+            </div>
 
 
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
@@ -54,8 +55,10 @@
             <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
 
             <div *ngIf="recipe.likesByChef.length != 0">
-              <strong>Chefs that liked this recipe: </strong>
-              <span *ngFor="let chef of recipe.likesByChef" routerLink="/usuario/{{chef.id}}/perfil"> {{chef.name}} {{chef.lastName}} </span>
+              <p></p>
+              <span class="emoji">👩🏼‍🍳</span>
+              <strong>Chefs que aprovaron esta receta: </strong>
+              <span class="user-pointer" *ngFor="let chef of recipe.likesByChef" routerLink="/usuario/{{chef.id}}/perfil"> {{chef.name}} {{chef.lastName}} </span>
             </div>
 
           </div>
@@ -102,7 +105,7 @@
         <div class="recipe-info-up">
           <div>
             <span class="emoji">👨🏾‍🍳</span>
-            <span routerLink="/usuario/{{recipe.author.id}}/perfil">{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
+            <span class="user-pointer" routerLink="/usuario/{{recipe.author.id}}/perfil">{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
           </div>
           <div>
             <span class="emoji">🏋🏽</span>

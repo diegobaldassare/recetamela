@@ -54,7 +54,7 @@ export class UpgradeChefComponent implements OnInit {
 
   public get imageButton(): string {
     if (this.uploadingCertificate) return 'Subiendo';
-    else return 'Agregar';
+    else return 'Agregar Certificado';
   }
 
   public removeCertificate() {
@@ -63,7 +63,7 @@ export class UpgradeChefComponent implements OnInit {
   }
 
   private get disableButton(): boolean {
-    return (!this.textChefForm.valid && this.image == null);
+    return (!this.textChefForm.valid || this.image == null);
   }
 
 }

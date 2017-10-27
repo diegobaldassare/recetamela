@@ -21,9 +21,11 @@
   </div>
 </div>
 
-<div class="container recipe-list">
-  <div style="color:#fc4a1a;text-align: center;" *ngIf="this.recipeBook?.recipes?.length == 0">Agrega Recetas al Recetario!!</div>
-  <app-recipe-list [recipes]="this.recipeBook.recipes" [recipeBook]="this.recipeBook"></app-recipe-list>
+<div class="container" style="width: 80%; margin-left: 15%">
+  <div class="recipe-book-list panel">
+    <div style="color:#fc4a1a;text-align: center;" *ngIf="this.recipeBook?.recipes?.length == 0">Agrega Recetas al Recetario!!</div>
+    <app-recipe-list [recipes]="this.recipeBook.recipes" [recipeBook]="this.recipeBook"></app-recipe-list>
+  </div>
 </div>
 
 

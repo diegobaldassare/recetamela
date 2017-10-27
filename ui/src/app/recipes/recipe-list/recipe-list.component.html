@@ -1,14 +1,18 @@
-<div class="scrollmenu">
-  <div *ngIf="recipeBook; else profileRecipes">
+<div *ngIf="recipeBook; else profileRecipes">
+  <div class="scrollmenu">
     <div *ngFor="let recipe of recipeBook.recipes">
-      <app-recipe-card [recipe]="recipe" [recipeBook]="recipeBook" [onRecipeList]="true"></app-recipe-card>
+      <div style="margin-left:20px;">
+        <app-recipe-card [recipe]="recipe" [recipeBook]="recipeBook" [onRecipeList]="true"></app-recipe-card>
+      </div>
     </div>
   </div>
-  <ng-template #profileRecipes>
+</div>
+<ng-template #profileRecipes>
+  <div class="scrollmenu">
     <div *ngFor="let recipe of recipes">
       <div style="padding-right: 20px">
         <app-recipe-card [recipe]="recipe" [onRecipeList]="true"></app-recipe-card>
       </div>
     </div>
-  </ng-template>
-</div>
+  </div>
+</ng-template>

@@ -98,7 +98,7 @@
 </div>
 <app-not-found *ngIf="!user"></app-not-found>
 
-<!-- Modal -->
+<!-- Edit Profile Modal -->
 <div id="editUserModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -137,12 +137,12 @@
 <!-- Confirm Dialog -->
 <div id="confirm" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="left: 15%; margin-top: 20%;">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
-        <h4 class="modal-title">¿Seguro desea eliminar su cuenta?</h4>
+        <h4 class="modal-title text-center">¿Seguro desea eliminar su cuenta?</h4>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" style="text-align: center">
         <div class="row">
           <p>Perderás todas tus recetas, comentarios y seguidores</p>
           <p>Esta acción no tiene vuelta atrás. </p>

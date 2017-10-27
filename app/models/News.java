@@ -29,8 +29,8 @@ public class News extends BaseModel {
     @Column(nullable = false)
     private Date created;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"author"})
+    @OneToOne()
+    @JsonIgnoreProperties({"author", "comments"})
     private Recipe recipe;
 
     public String getTitle() {

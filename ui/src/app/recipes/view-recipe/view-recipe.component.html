@@ -23,9 +23,19 @@
                   <span class="glyphicon glyphicon-plus"></span>
                 </a>
               </button>
+
+
             </div>
 
-            <app-facebook-share [recipe]="recipe"></app-facebook-share>
+            <div>
+              <app-facebook-share [recipe]="recipe"></app-facebook-share>
+              <button style="margin-bottom: -10px" *ngIf="chefCanRate && !chefLiked; else liked" type="button" class="btn like-button" title="Recomendar" (click)="likeRecipe()">
+                👩🏼‍🍳 👍🏼
+              </button>
+              <ng-template #liked>
+                <button style="margin-bottom: -10px" *ngIf="chefCanRate && chefLiked;" class="btn like-button" (click)="dislikeRecipe()">✅</button>
+              </ng-template>
+            </div>
 
 
             <div style="display: flex; margin-bottom: 10px" *ngIf="!editButton">
@@ -43,6 +53,14 @@
             <strong>Categorias:</strong>
             <span *ngIf="recipe.categories.length == 0" class="label label-default">Sin categoria</span>
             <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
+
+            <div *ngIf="recipe.likesByChef.length != 0">
+              <p></p>
+              <span class="emoji">👩🏼‍🍳</span>
+              <strong>Chefs que aprovaron esta receta: </strong>
+              <span class="user-pointer" *ngFor="let chef of recipe.likesByChef" routerLink="/usuario/{{chef.id}}/perfil"> {{chef.name}} {{chef.lastName}} </span>
+            </div>
+
           </div>
           <div class="col-md-5">
             <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -87,7 +105,7 @@
         <div class="recipe-info-up">
           <div>
             <span class="emoji">👨🏾‍🍳</span>
-            <span routerLink="/usuario/{{recipe.author.id}}/perfil">{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
+            <span class="user-pointer" routerLink="/usuario/{{recipe.author.id}}/perfil">{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
           </div>
           <div>
             <span class="emoji">🏋🏽</span>
@@ -152,12 +170,12 @@
                 <div class="widget-area no-padding blank">
                   <div class="status-upload">
                     <form>
-                      <textarea placeholder="Que opinas de la receta {{viewer?.name}}?" #textArea></textarea>
+                      <textarea placeholder="¿Que opinas de la receta, {{viewer?.name}}?" #textArea></textarea>
 
                       <button (click)="publishComment(textArea.value); textArea.value='' "
                               class="btn btn-success comment">
                         <!--[disabled]="textArea.value==''">-->
-                        Compartir
+                        Enviar
                       </button>
                     </form>
                   </div><!-- Status Upload  -->
@@ -181,7 +199,7 @@
                   <div class="row">
                     <div class="col-sm-8">
 
-                      <strong>{{commentary?.author.name}}</strong> <span class="text-muted">comentado {{commentary?.date | date: 'mediumTime'}}</span>
+                      <strong>{{commentary?.author.name}} {{commentary?.author.lastName}}</strong> <span class="text-muted">há comentado a las {{commentary?.date | date: 'mediumTime'}}</span>
 
                     </div>
 

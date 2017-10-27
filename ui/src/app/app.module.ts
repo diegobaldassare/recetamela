@@ -66,6 +66,7 @@ import {WebSocketService} from "./shared/services/web-socket.service";
 import {UpgradeChefComponent} from "./nav/chef/upgrade-chef.component";
 import {ChefRequestService} from "./shared/services/chef-request.service";
 import {RecipeCommentaryService} from "./shared/services/comment.service";
+import { ChefGuard } from './auth/chef-guard.service';
 
 @NgModule({
   declarations: [
@@ -147,7 +148,8 @@ import {RecipeCommentaryService} from "./shared/services/comment.service";
     NewsService,
     ChefRequestService,
     RecipeCommentaryService,
-    WebSocketService
+    WebSocketService,
+    ChefGuard
   ],
   bootstrap: [AppComponent]
 })

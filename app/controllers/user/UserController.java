@@ -11,6 +11,7 @@ import models.payment.CreditCard;
 import models.payment.Payment;
 import models.recipe.Recipe;
 import models.recipe.RecipeBook;
+import models.recipe.RecipeCategory;
 import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
@@ -20,12 +21,15 @@ import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
 import services.ChefRequestService;
+import services.CommentService;
 import services.LoginService;
 import services.NewsService;
 import services.payment.CreditCardService;
 import services.payment.PaymentService;
 import services.recipe.RecipeBookService;
+import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeService;
+import services.user.*;
 
 import java.util.*;
 
@@ -36,6 +40,9 @@ import services.user.UserValidator;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserController extends BaseController {
 
@@ -75,6 +82,7 @@ public class UserController extends BaseController {
         return ok(Json.toJson(users));
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result deleteUser(Long id) {
         final CreditCardService cardService = CreditCardService.getInstance();
         final PaymentService paymentService = PaymentService.getInstance();
@@ -100,21 +108,23 @@ public class UserController extends BaseController {
 
             /* Step 3: Delete all user Recipes */
             final List<Recipe> recipes = recipeService.getUserRecipes(r.getId());
-            recipes.forEach(recipe -> recipeService.deleteRecipe(recipe.getId()));
+            recipes.forEach(recipeService::delete);
 
-            /* Step 4: Delete all user RecipeBooks */
+            /* Step 4: Delete all user Comments*/
+            CommentService.getInstance().deleteUserComments(r.getId());
+
+            /* Step 5: Delete all user RecipeBooks */
             final List<RecipeBook> recipeBooks = recipeBookService.getAllUserRecipeBook(r.getId());
             recipeBooks.forEach(RecipeBook::delete);
 
-            /* Step 5: Delete all user News */
-            final List<News> news = newsService.getNewsPublishedByUser(r.getId());
-            news.forEach(News::delete);
+            /* Step 6: Delete all user News */
+            final List<News> news = newsService.getNewsPublishedByuser(r.getId());
 
-            /* Step 6: Delete all user chef requests */
+            /* Step 7: Delete all user chef requests */
             final List<ChefRequest> requests = ChefRequestService.getInstance().getRequestsByUser(r.getId());
             requests.forEach(ChefRequest::delete);
 
-            /* Step 7: Delete the User */
+            /* Step 8: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
             r.delete();
 

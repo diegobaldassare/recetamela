@@ -37,10 +37,10 @@ export class ChefRequestComponent implements OnInit {
     chefRequest.accepted = true;
 
     this.chefRequestService.updateChefRequest(chefRequest, chefRequest.id).then(() => {
-      this.toaster.pop('success', 'Usario Aceptado');
+      this.toaster.pop('success', 'Usuario Aceptado');
 
       this.userService.upgradeToChefUser(chefRequest.user.id).then(() => {
-        this.toaster.pop('success', 'Usario Actualizado');
+        this.toaster.pop('success', 'Usuario Actualizado');
 
         let usersChefRequestsIndex;   //Saco el elemento de la lista del front
         let userId
@@ -76,7 +76,7 @@ export class ChefRequestComponent implements OnInit {
     chefRequest.accepted = false;
 
     this.chefRequestService.updateChefRequest(chefRequest, chefRequest.id).then(() => {
-      this.toaster.pop('success', 'Usario Rechazado');
+      this.toaster.pop('success', 'Usuario Rechazado');
 
       let index;                      //Saco el elemento de la lista del front
       for (let i=0; i<this.usersRequesting.length; i++){

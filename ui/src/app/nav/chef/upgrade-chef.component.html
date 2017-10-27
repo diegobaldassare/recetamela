@@ -10,15 +10,7 @@
       </div>
       <div class="modal-body" style="margin: 0 20px">
         <div class="row">
-
-          <form [formGroup]="textChefForm">
-            <p class="header">Contanos un poco de vos!</p>
-            <input type="text" class="form-control" id="resumeChef" formControlName="resumeChef" placeholder="Resumen">
-            <span
-              *ngIf="!textChefForm.get('resumeChef').valid && textChefForm.get('resumeChef').touched"
-              class="help-block"></span>
-          </form>
-
+          <textarea name="resume" class="resume-area" placeholder="Resumen" [(ngModel)]="resume"></textarea>
         </div>
         <div *ngIf="image != null" style="margin: 5px 0 3px">
           <img style="width: 100%" [src]="image.url">

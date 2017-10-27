@@ -118,7 +118,8 @@ public class UserController extends BaseController {
             recipeBooks.forEach(RecipeBook::delete);
 
             /* Step 6: Delete all user News */
-            final List<News> news = newsService.getNewsPublishedByuser(r.getId());
+            final List<News> news = newsService.getNewsPublishedByUser(r.getId());
+            news.forEach(News::delete);
 
             /* Step 7: Delete all user chef requests */
             final List<ChefRequest> requests = ChefRequestService.getInstance().getRequestsByUser(r.getId());

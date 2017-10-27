@@ -5,12 +5,14 @@ import controllers.ScalaNotificationService;
 import models.Followers;
 import models.notification.Notification;
 import models.notification.NotificationType;
+import models.user.AdminUser;
 import models.user.User;
 import play.Logger;
 import play.libs.EventSource;
 import server.ServerMessage;
 import services.NotificationService;
 import services.recipe.RecipeCategoryService;
+import services.user.AdminUserService;
 import services.user.FollowerService;
 import sun.rmi.runtime.Log;
 
@@ -75,14 +77,9 @@ public class NotificationManager {
         });
     }
 
-    /**
-     * Deprecated. Use emitToUser with redirectURI method, so client knows where to redirect user after
-     * the notification has been clicked. If no redirect URI has been specified, client will default to
-     * redirecing the user to the sender profile.
-     */
-    @Deprecated
-    public void emitToUser(User sender, Long receiverId, NotificationType name, String message)  {
-        emitToUser(sender, receiverId, name, message, "");
+    public void notifyAdmins(User sender, NotificationType type, String message, String redirectId) {
+        List<AdminUser> adminUsers = AdminUserService.getInstance().getAdmins();
+        adminUsers.forEach(admin -> emitToUser(sender, admin.getId(), type, message, redirectId));
     }
 
 

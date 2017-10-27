@@ -3,6 +3,7 @@ package controllers.user;
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
 import models.chefrequest.ChefRequest;
+import models.notification.NotificationType;
 import models.user.ChefUser;
 import models.user.PremiumUser;
 import models.user.User;
@@ -14,6 +15,7 @@ import play.mvc.Result;
 import server.error.RequestError;
 import server.exception.BadRequestException;
 import services.user.ChefUserService;
+import util.NotificationManager;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -71,6 +73,11 @@ public class ChefUserController extends BaseController {
         try {
             checkFormat(chefRequest);
             chefRequest.save();
+            NotificationManager.getInstance()
+                    .notifyAdmins(user,
+                            NotificationType.NEW_REQUEST,
+                            "ha enviado una solicitud para ser chef",
+                            user.getId().toString());
             return ok(Json.toJson(chefRequest));
         } catch (BadRequestException e) {
             return badRequest(e.getMessage()).as(Http.MimeTypes.JSON);

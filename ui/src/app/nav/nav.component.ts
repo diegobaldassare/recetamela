@@ -5,7 +5,6 @@ import {isNull} from "util";
 import {User} from "../shared/models/user-model";
 import {EventSourcePolyfill} from 'ng-event-source';
 import {Router} from '@angular/router';
-import {MessageEvent} from "../shared/models/message-event";
 import {Notification} from "../shared/models/notification";
 import {UserService} from "../shared/services/user.service";
 import {Subscription} from "rxjs";
@@ -23,7 +22,6 @@ export class NavComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   isPremium: boolean;
   user : User;
-  private eventSource : EventSourcePolyfill;
   notificationList: Notification[] = [];
   subscription: Subscription;
   showChefRequestOption: boolean;
@@ -132,6 +130,9 @@ export class NavComponent implements OnInit, OnDestroy {
       case 'COMMENT':
         this.router.navigate([`/recetas/${notification.redirectId}`]);
         break;
+      case 'NEW_REQUEST':
+        this.router.navigate([`/solicitudes`]);
+        break;
     }
     this.userService.markNotificationRead(notification.id);
     this.deleteNotification(i);
@@ -155,7 +156,11 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   private get showChefRequest() : boolean{
-    return (this.isPremium && this.user.type != 'ChefUser' && !this.showChefRequestOption);
+    return (this.isPremium &&
+      this.user &&
+      this.user.type != 'ChefUser' &&
+      this.user.type != 'AdminUser' &&
+      !this.showChefRequestOption);
   }
 
   private createNews(){

@@ -39,8 +39,8 @@ public class ChefRequestController extends BaseController {
             chefRequest.setAnswered(newChefRequest.isAnswered());
             chefRequest.setAccepted(newChefRequest.isAccepted());
 
-            /* Notify the user his request has been accepted */
-            if (newChefRequest.isAccepted()) sendRequestAcceptedNotification(id, getRequester());
+            /* Notify the user his request has/hasn't been accepted */
+            sendRequestStatusNotification(getRequester(), newChefRequest.getUser().getId(), newChefRequest.isAccepted());
 
             chefRequest.setUser(newChefRequest.getUser());
             chefRequest.setMedia(newChefRequest.getMedia());
@@ -50,11 +50,13 @@ public class ChefRequestController extends BaseController {
         }).orElse(notFound());
     }
 
-    private void sendRequestAcceptedNotification(Long id, User requester) {
-        NotificationManager.getInstance().emitToUser(requester,
-                id, NotificationType.REQUEST,
-                "Tu solicitud para ser chef ha sido aprobada. Felicidades!",
-                id.toString());
+    private void sendRequestStatusNotification(User sender, Long receiver, boolean accepted) {
+        String message = accepted ? "Tu solicitud para ser chef ha sido aprobada. Felicidades!" : "Tu solicitud para" +
+                " ser chef fue desaprobada.";
+        NotificationManager.getInstance().emitToUser(sender,
+                receiver, NotificationType.REQUEST,
+                message,
+                receiver.toString());
     }
 
     @Authenticate(AdminUser.class)

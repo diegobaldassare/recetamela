@@ -1,5 +1,4 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ChefRequest} from "../../shared/models/chef-request";
 import {MediaService} from "../../shared/services/media.service";
 import {UserService} from "../../shared/services/user.service";
@@ -13,30 +12,28 @@ import {Media} from "../../shared/models/media";
 })
 export class UpgradeChefComponent implements OnInit {
 
-  private textChefForm: FormGroup;
   private chefRequest: ChefRequest = new ChefRequest();
   private image: Media;
   private uploadingCertificate: boolean;
+  private resume: string = '';
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private fb: FormBuilder,
-              private mediaService: MediaService,
+  constructor(private mediaService: MediaService,
               private userService: UserService,
               private toaster: ToasterService){
-    this.textChefForm = fb.group({
-      'resumeChef': new FormControl(null, [Validators.required]),
-    });
   }
 
   ngOnInit(): void {}
 
   postChefRequest() {
-    this.chefRequest.resume = this.textChefForm.value.resumeChef;
+    this.chefRequest.resume = this.resume;
     this.chefRequest.certificate = this.image;
     this.userService.postChefRequest(this.chefRequest).then(() => {
         this.toaster.pop("success", "Solicitud enviada correctamente");
-      }, () => { this.toaster.pop("error", "No se pudo enviar"); }
+      }, () => {
+        this.toaster.pop("error", "No se pudo enviar");
+      }
     );
   }
 
@@ -63,9 +60,7 @@ export class UpgradeChefComponent implements OnInit {
   }
 
   private get disableButton(): boolean {
-    return (!this.textChefForm.valid || this.image == null);
+    return (this.image == null || this.resume.trim().length == 0);
   }
 
 }
-
-

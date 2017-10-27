@@ -77,6 +77,7 @@
 .card-description {
   text-overflow: ellipsis;
   overflow: hidden;
+  margin: 0 0 1px;
 }
 
 .eliminateButton{

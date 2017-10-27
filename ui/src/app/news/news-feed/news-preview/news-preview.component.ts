@@ -26,7 +26,7 @@ export class NewsPreviewComponent implements OnInit {
   }
 
   private get description(): string {
-    const max = 255;
+    const max = this.onProfile ? 100 : 255;
     if (this.news.description.length > max)
       return this.news.description.substr(0, max) + '...';
     else return this.news.description;

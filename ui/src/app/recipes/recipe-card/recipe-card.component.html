@@ -23,7 +23,7 @@
       <p *ngIf="recipe.description.length < 55" class="card-description">{{recipe.description}}</p>
       <div *ngIf="recipe.description.length >= 55">
         <p *ngIf="onRecipeList" class="card-description text-justify">{{recipe.description.substring(0, 85).concat('...')}}</p>
-        <p *ngIf="!onRecipeList" class="card-description text-justify">{{recipe.description.substring(0, 365).concat('...')}}</p>
+        <p *ngIf="!onRecipeList" class="card-description text-justify">{{recipe.description.substring(0, 330).concat('...')}}</p>
       </div>
     </div>
   </div>

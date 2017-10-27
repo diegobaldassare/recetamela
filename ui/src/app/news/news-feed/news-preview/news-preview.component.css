@@ -1,6 +1,6 @@
 .thumbnail {
   padding: 15px;
-  float: left;
+  min-width: 250px;
 }
 
 .profile-picture {
@@ -10,13 +10,17 @@
 
 .title {
   margin-top: 10px;
-  margin-bottom: 5px;
+  margin-bottom: -10px;
 }
 
 .date {
   color: #95a5a6;
   font-size: 12px;
   margin-top: -5px;
+}
+
+.media {
+  border-radius: 5px;
 }
 
 .video-display {

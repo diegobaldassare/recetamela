@@ -220,7 +220,6 @@ p {
 /** Scroll */
 div.scrollmenu {
   overflow: auto;
-  white-space: nowrap;
   flex-wrap: nowrap;
   display: flex;
 }

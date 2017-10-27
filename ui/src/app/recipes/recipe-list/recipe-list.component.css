@@ -1,6 +1,6 @@
 div.scrollmenu {
   overflow: auto;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   flex-wrap: nowrap;
   display: flex;
 }

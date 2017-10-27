@@ -11,25 +11,20 @@
       </button>
     </div>
     <div class="content card-body">
-      <div class="title">
-        <h2 style="margin-bottom: 10%;"><a [routerLink]="'/recetas/' + recipe?.id"><b>{{recipe?.name}}</b></a></h2>
-        <div *ngIf="canRate">
-          <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating?.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
-        </div>
-        <div *ngIf="!canRate">
-          <star-rating-comp [starType]="'svg'" [rating]="recipe?.rating" [showHalfStars]="true" [readOnly]="true"></star-rating-comp>
-        </div>
+      <h2 class="title"><a [routerLink]="'/recetas/' + recipe?.id"><b>{{recipe?.name}}</b></a></h2>
+      <div *ngIf="canRate">
+        <star-rating-comp [starType]="'svg'" [hoverEnabled]="true" [rating]="recipeRating?.rating" (onClick)="addRating($event)" [size]="'large'"></star-rating-comp>
       </div>
-        <p class="card-text">
-          👨🏾‍🍳
-          <a [routerLink]="'/usuario/' + author?.id + '/perfil' ">
-            {{author?.name}} {{author?.lastName}}
-          </a>
-        </p>
-        <P>_____________________________</P>
-        <p class="card-description text-justify">
-          {{recipe.description.substring(0, 255).concat('...')}}
-        </p>
+      <div *ngIf="!canRate">
+        <star-rating-comp [starType]="'svg'" [rating]="recipe?.rating" [showHalfStars]="true" [readOnly]="true" [size]="'large'"></star-rating-comp>
+      </div>
+      <p class="card-text author">👨🏾‍🍳 <a [routerLink]="'/usuario/' + author?.id + '/perfil' "> {{author?.name}} {{author?.lastName}}</a></p>
+      <P>_____________________________</P>
+      <p *ngIf="recipe.description.length < 55" class="card-description">{{recipe.description}}</p>
+      <div *ngIf="recipe.description.length >= 55">
+        <p *ngIf="onRecipeList" class="card-description text-justify">{{recipe.description.substring(0, 85).concat('...')}}</p>
+        <p *ngIf="!onRecipeList" class="card-description text-justify">{{recipe.description.substring(0, 365).concat('...')}}</p>
+      </div>
     </div>
   </div>
 </div>

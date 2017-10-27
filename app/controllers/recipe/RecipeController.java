@@ -1,6 +1,7 @@
 package controllers.recipe;
 
 import com.avaje.ebean.*;
+import com.google.common.collect.Lists;
 import controllers.BaseController;
 import controllers.NewsController;
 import controllers.authentication.Authenticate;
@@ -117,7 +118,7 @@ public class RecipeController extends BaseController {
 
     public Result getUserRecipes(long userId){
         List<Recipe> recipes = RecipeService.getInstance().getUserRecipes(userId);
-        return ok(Json.toJson(recipes));
+        return ok(Json.toJson(Lists.reverse(recipes)));
     }
 
     public Result getRecipeAuthor(long id){

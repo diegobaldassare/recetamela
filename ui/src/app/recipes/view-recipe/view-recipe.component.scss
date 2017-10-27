@@ -208,15 +208,18 @@ body .no-padding {
   margin-right: 7px;
 }
 
+.like {
+  background-color: #fc4a1a;
+  color: white;
+}
 
+.like-button {
+  vertical-align: text-bottom;
+  background-color: $gray-white;
+  color: white;
+  line-height: 0.75;
+}
 
-
-
-
-
-
-
-
-
-
-
+.user-pointer {
+  cursor: pointer;
+}

@@ -3,6 +3,7 @@ package controllers.recipe;
 import com.avaje.ebean.*;
 import com.google.common.collect.Lists;
 import controllers.BaseController;
+import controllers.CommentController;
 import controllers.NewsController;
 import controllers.authentication.Authenticate;
 import models.Comment;
@@ -21,6 +22,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
+import services.CommentService;
 import services.MediaService;
 import services.NewsService;
 import services.recipe.RecipeBookService;
@@ -91,27 +93,8 @@ public class RecipeController extends BaseController {
     @Authenticate({PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result delete(long id) {
         final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
-        final MediaService mediaService = MediaService.getInstance();
         return recipe.map(r -> {
-            final List<Media> images = new ArrayList<>(r.getImages());
-            r.getSteps().stream()
-                    .map(RecipeStep::getImage)
-                    .filter(Objects::nonNull)
-                    .forEach(mediaService::deleteFile);
-
-            RecipeBookService.getInstance().getFinder().query()
-                    .where()
-                    .in("recipes", r)
-                    .findList()
-                    .forEach(recipeBook -> {
-                        recipeBook.getRecipes().remove(r);
-                        recipeBook.update();
-                    });
-
-            NewsService.getInstance().getNewsForRecipe(id).forEach(News::delete);
-
-            r.delete();
-            images.forEach(mediaService::delete);
+            RecipeService.getInstance().delete(r);
             return ok();
         }).orElseGet(Results::notFound);
     }

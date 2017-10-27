@@ -20,4 +20,5 @@ export class Recipe {
   author: User;
   rating: number = 0;
   ratings: RecipeRating[] = [];
+  likesByChef: User[] = [];
 }

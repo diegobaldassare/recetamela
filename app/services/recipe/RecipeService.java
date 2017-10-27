@@ -1,14 +1,19 @@
 package services.recipe;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.SqlUpdate;
 import models.Comment;
 import models.Media;
+import models.News;
 import models.recipe.Recipe;
 import models.recipe.RecipeStep;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.CommentService;
 import services.MediaService;
 import models.recipe.*;
+import services.NewsService;
 import services.Service;
 
 import java.util.ArrayList;
@@ -90,34 +95,35 @@ public class RecipeService extends Service<Recipe> {
         return recipes;
     }
 
-    public Result deleteRecipe(Long id) {
-        final Optional<Recipe> recipe = RecipeService.getInstance().get(id);
-        final MediaService mediaService = MediaService.getInstance();
-        return recipe.map(r -> {
-            final List<Media> images = new ArrayList<>(r.getImages());
-            r.getSteps().stream()
-                    .map(RecipeStep::getImage)
-                    .filter(Objects::nonNull)
-                    .forEach(mediaService::deleteFile);
-
-            RecipeBookService.getInstance().getFinder().query()
-                    .where()
-                    .in("recipes", r)
-                    .findList()
-                    .forEach(recipeBook -> {
-                        recipeBook.getRecipes().remove(r);
-                        recipeBook.update();
-                    });
-
-            r.delete();
-            images.forEach(mediaService::delete);
-            return Results.ok();
-        }).orElseGet(Results::notFound);
-    }
-
     public void addComment(Recipe recipe, Comment comment) {
         recipe.getComments().add(comment);
         recipe.update();
+    }
+
+    public void delete(Recipe r) {
+        final MediaService mediaService = MediaService.getInstance();
+        final List<Media> images = new ArrayList<>(r.getImages());
+        deleteStepsImages(r, mediaService);
+        deleteFromRecipeBooks(r);
+        NewsService.getInstance().getNewsForRecipe(r.getId()).forEach(News::delete);
+        deleteComments(r.getId());
+        r.delete();
+        images.forEach(mediaService::delete);
+    }
+
+    private void deleteFromRecipeBooks(Recipe recipe) {
+        RecipeBookService.getInstance().deleteRecipe(recipe);
+    }
+
+    private void deleteComments(Long recipeID) {
+        CommentService.getInstance().deleteRecipeComments(recipeID);
+    }
+
+    private void deleteStepsImages(Recipe recipe, MediaService mediaService) {
+        recipe.getSteps().stream()
+                .map(RecipeStep::getImage)
+                .filter(Objects::nonNull)
+                .forEach(mediaService::deleteFile);
     }
 
     public List<Recipe> getRecipesForCategory(RecipeCategory category) {

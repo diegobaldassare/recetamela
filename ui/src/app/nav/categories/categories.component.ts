@@ -16,7 +16,6 @@ export class CategoriesComponent implements OnInit {
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   categories: RecipeCategory[] = [];
-  flag = true;
 
   constructor(private fb: FormBuilder,
               public toaster: ToasterService,
@@ -102,10 +101,6 @@ export class CategoriesComponent implements OnInit {
     }, ()=>{
       this.toaster.pop('error', 'No se ha podido encontrar la categoria');
     })
-
-
-
-
   }
 }
 

@@ -5,11 +5,11 @@ import {isNull} from "util";
 import {User} from "../shared/models/user-model";
 import {EventSourcePolyfill} from 'ng-event-source';
 import {Router} from '@angular/router';
-import {MessageEvent} from "../shared/models/message-event";
 import {Notification} from "../shared/models/notification";
 import {UserService} from "../shared/services/user.service";
 import {Subscription} from "rxjs";
 import {WebSocketService} from "../shared/services/web-socket.service";
+import {ChefRequestService} from "../shared/services/chef-request.service";
 
 @Component({
   selector: 'app-nav',
@@ -22,15 +22,16 @@ export class NavComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   isPremium: boolean;
   user : User;
-  private eventSource : EventSourcePolyfill;
   notificationList: Notification[] = [];
   subscription: Subscription;
+  showChefRequestOption: boolean;
 
   //Both SharedService and ChangeDetectorRef are necessary to listen to changes on logged in variable to show different nav.
   constructor(private auth: MyAuthService,
               private sharedService: SharedService,
               private userService: UserService,
               private cdRef: ChangeDetectorRef,
+              private chefRequestService: ChefRequestService,
               private router: Router,
               private wsService: WebSocketService) {
     this.isLoggedIn = !isNull(localStorage.getItem("X-TOKEN"));
@@ -80,6 +81,11 @@ export class NavComponent implements OnInit, OnDestroy {
       if (user.type != 'FreeUser') {
         this.isPremium = true;
       }
+      if(user.type == 'PremiumUser'){
+        this.chefRequestService.isUserChefRequest().then(r =>
+          this.showChefRequestOption = r.value
+        );
+      }
       this.cdRef.detectChanges();
     });
   }
@@ -124,6 +130,9 @@ export class NavComponent implements OnInit, OnDestroy {
       case 'COMMENT':
         this.router.navigate([`/recetas/${notification.redirectId}`]);
         break;
+      case 'NEW_REQUEST':
+        this.router.navigate([`/solicitudes`]);
+        break;
     }
     this.userService.markNotificationRead(notification.id);
     this.deleteNotification(i);
@@ -144,6 +153,14 @@ export class NavComponent implements OnInit, OnDestroy {
 
   private chefRequest(){
     this.router.navigate(['/solicitudes']);
+  }
+
+  private get showChefRequest() : boolean{
+    return (this.isPremium &&
+      this.user &&
+      this.user.type != 'ChefUser' &&
+      this.user.type != 'AdminUser' &&
+      !this.showChefRequestOption);
   }
 
   private createNews(){

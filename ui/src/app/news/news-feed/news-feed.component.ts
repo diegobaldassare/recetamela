@@ -12,6 +12,7 @@ import {NewsService} from "../../shared/services/news-service";
 })
 export class NewsFeedComponent implements OnInit {
 
+  limit: number = 5;
   newsArray: News[] = [];
   viewer: User = JSON.parse(localStorage.getItem("user"));
 
@@ -38,5 +39,9 @@ export class NewsFeedComponent implements OnInit {
     this.newsService.getUserNewsFeed().subscribe((res: News[]) => {
       this.newsArray = res;
     });
+  }
+
+  private growLimit() {
+    this.limit += 3;
   }
 }

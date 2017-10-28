@@ -1,6 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import server.Constant;
 
 import javax.persistence.Column;
@@ -16,7 +18,7 @@ public class Media extends BaseModel {
      * Name with extension of the media file.
      */
     @Column(nullable = false)
-    @JsonIgnore
+    //@JsonIgnore
     private String name;
 
     public Media() {}

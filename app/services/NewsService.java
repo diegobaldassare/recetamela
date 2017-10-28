@@ -1,6 +1,7 @@
 package services;
 
 import com.avaje.ebean.Model.Finder;
+import models.Media;
 import models.News;
 import server.error.RequestError;
 import server.exception.BadRequestException;
@@ -25,8 +26,14 @@ public class NewsService extends Service<News> {
     }
 
     public static void create(News n) throws BadRequestException {
+        // Como la media ya esta guardada en la base de datos, no puedo guardar porque hay error de primary key.
+        // Entonces saco la imagen, guardo la noticia, le pongo la imagen de nuevo, y hago el update debido.
+        Media aux = n.getImage();
+        n.setImage(null);
         format(n);
         n.save();
+        n.setImage(aux);
+        n.update();
         NewsManager.getInstance().notifyReaders(n, n.getAuthor());
     }
 

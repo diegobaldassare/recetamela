@@ -64,6 +64,7 @@ public class RecipeController extends BaseController {
         news.setAuthor(r.getAuthor());
         NewsService.create(news);
         NewsManager.getInstance().notifyReaders(news, r.getAuthor());
+        NewsManager.getInstance().notifyCategoryFollowers(news);
     }
 
     @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})

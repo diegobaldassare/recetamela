@@ -2,8 +2,10 @@ package util;
 
 import controllers.ScalaNotificationService;
 import models.News;
+import models.recipe.RecipeCategory;
 import models.user.User;
 import server.ServerMessage;
+import services.recipe.RecipeCategoryService;
 import services.user.FollowerService;
 
 /**
@@ -28,6 +30,14 @@ public class NewsManager {
                     emitToUser(follower.getFollower().getId(), news);
                 }
         );
+    }
+
+    public void notifyCategoryFollowers(News news) {
+        for (RecipeCategory category: news.getRecipe().getCategories()) {
+            RecipeCategoryService.getInstance().getFollowers(category.getId()).forEach(follower -> {
+                emitToUser(follower.getId(), news);
+            });
+        }
     }
 
     private void emitToUser(Long receiverId, News news)  {

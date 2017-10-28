@@ -18,6 +18,7 @@ import {NewsFeedComponent} from "./news/news-feed/news-feed.component";
 import {NewsComponent} from "./news/news/news.component";
 import {CreateNewsComponent} from "./news/news-feed/create-news/create-news.component";
 import { ChefGuard } from './auth/chef-guard.service';
+import {AdminGuard} from "./auth/admin-guard";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'recetas/:id/editar', component: EditRecipeComponent, canActivate: [AuthGuard, NotFreeGuard, EditRecipeGuard] },
   { path: 'recetarios', component: RecipeBookListComponent, canActivate: [AuthGuard, NotFreeGuard]},
   { path: 'recetarios/:id', component: RecipeBookComponent, canActivate: [AuthGuard, NotFreeGuard]},
-  { path: 'solicitudes', component: ChefRequestComponent, canActivate: [AuthGuard]},    //Tiene que ser AdminGuard
+  { path: 'solicitudes', component: ChefRequestComponent, canActivate: [AuthGuard, AdminGuard]},
   { path: 'usuario/:id/perfil', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'noticias/crear', component: CreateNewsComponent, canActivate: [AuthGuard, ChefGuard] },
   { path: 'noticias/:id', component: NewsComponent, canActivate: [AuthGuard] },

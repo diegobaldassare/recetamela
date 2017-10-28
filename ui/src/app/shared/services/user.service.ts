@@ -10,10 +10,8 @@ import {ToasterService} from "angular2-toaster";
 import {CheckExpirationDateResponse} from "../models/ced-response";
 import {Observable} from "rxjs/Observable";
 import {Notification} from "../models/notification";
-import {RecipeCategory} from "../models/recipe/recipe-category";
 import {ChefRequest} from "../models/chef-request";
 import {Subject} from "rxjs";
-import {News} from "../models/news";
 
 @Injectable()
 export class UserService {

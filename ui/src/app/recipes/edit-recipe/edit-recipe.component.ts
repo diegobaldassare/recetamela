@@ -5,8 +5,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Recipe } from "../../shared/models/recipe/recipe";
 import { RecipeFormContainer } from "../recipe-form/recipe-form-container";
 import { User } from "../../shared/models/user-model";
-import { promise } from 'selenium-webdriver';
-import Promise = promise.Promise;
 
 @Component({
   selector: 'app-edit-recipe',

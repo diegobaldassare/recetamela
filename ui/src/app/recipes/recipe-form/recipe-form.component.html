@@ -65,7 +65,7 @@
       <ul>
         <li style="margin-top: 10px" *ngFor="let f of container.selectedIngredients | keys">
           <span style="margin-right: 10px">{{ formatter.capitalizeFirstChar(container.selectedIngredients[f].ingredient.name) }}</span>
-          <input placeholder="Cantidad" size="10" [(ngModel)]="container.selectedIngredients[f].quantity">
+          <input placeholder="Cantidad" type="number" size="10" [(ngModel)]="container.selectedIngredients[f].quantity">
           <input placeholder="Unidad" size="10" [(ngModel)]="container.selectedIngredients[f].unit">
           <button class="btn btn-danger delete" (click)="deselectIngredient(container.selectedIngredients[f].ingredient.name)">x</button>
         </li>

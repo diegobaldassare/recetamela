@@ -2,6 +2,7 @@ package controllers.user;
 
 import controllers.BaseController;
 import controllers.authentication.Authenticate;
+import models.Media;
 import models.chefrequest.ChefRequest;
 import models.notification.NotificationType;
 import models.user.ChefUser;
@@ -70,9 +71,13 @@ public class ChefUserController extends BaseController {
         User user = getRequester();
         ChefRequest chefRequest = getBody(ChefRequest.class);
         chefRequest.setUser(user);
+        Media aux = chefRequest.getMedia();
+        chefRequest.setMedia(null);
+        chefRequest.save();
+        chefRequest.setMedia(aux);
         try {
             checkFormat(chefRequest);
-            chefRequest.save();
+            chefRequest.update();
             NotificationManager.getInstance()
                     .notifyAdmins(user,
                             NotificationType.NEW_REQUEST,

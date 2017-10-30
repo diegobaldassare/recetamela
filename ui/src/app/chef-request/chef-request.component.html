@@ -13,82 +13,84 @@
   </div>
 </div>
 
-<div class="body">
-  <div class="row">
-    <div class="col-sm-6"><!--Manage Request-->
-      <div class="users-container">
-        <p class="title">Solicitantes</p>
 
-        <div class="bold">
-          Nombre:
+<div class="row">
+  <div class="col-sm-6"><!--Manage Request-->
+    <div class="users-container col-sm-offset-3">
+
+      <p class="title">Solicitantes</p>
+
+      <div class="bold">
+        Nombre:
+      </div>
+
+      <div class="users-list" id="style-3">
+        <div class="col-sm-6" style="color: #fc4a1a;" *ngIf="usersRequesting?.length == 0">
+          No hay nuevas solicitudes
         </div>
 
-        <div class="users-list" id="style-3">
-          <div class="col-sm-6" style="color: #fc4a1a;" *ngIf="usersRequesting?.length == 0">
-            No hay nuevas solicitudes
+        <div *ngFor="let user of usersRequesting" class="users">
+
+          <div class="col-sm-6">
+            {{user.user.name}} {{user.user.lastName}}
           </div>
-
-          <div *ngFor="let user of usersRequesting" class="users">
-
-            <div class="col-sm-6">
-              {{user.user.name}} {{user.user.lastName}}
-            </div>
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-default btn-xs btn-details"
-                      data-toggle="modal" data-target="#details"
-                      (click)="openDetails(user)">
-                ver detalles
-              </button>
-              <button type="button" class="btn btn-primary btn-xs"
-                      title="Aceptar"
-                      (click)="acceptRequest(user)">
-                <a href="javascript://">
-                  <span class="glyphicon glyphicon-ok"></span>
-                </a>
-              </button>
-              <button type="button" class="btn btn-danger btn-xs"
-                      title="Rechazar"
-                      (click)="rejectRequest(user)">
-                <a href="javascript://">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </a>
-              </button>
-            </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-default btn-xs btn-details"
+                    data-toggle="modal" data-target="#details"
+                    (click)="openDetails(user)">
+              ver detalles
+            </button>
+            <button type="button" class="btn btn-primary btn-xs"
+                    title="Aceptar"
+                    (click)="acceptRequest(user)">
+              <a href="javascript://">
+                <span class="glyphicon glyphicon-ok"></span>
+              </a>
+            </button>
+            <button type="button" class="btn btn-danger btn-xs"
+                    title="Rechazar"
+                    (click)="rejectRequest(user)">
+              <a href="javascript://">
+                <span class="glyphicon glyphicon-remove"></span>
+              </a>
+            </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="col-sm-6"><!--User's List-->
+  <div class="col-sm-6"><!--User's List-->
 
-      <div class="users-container">
-        <p class="title">Usuarios</p>
-        <div class="row">
-          <div class="col-sm-6 bold">
-            Nombre:
-          </div>
-          <div class="col-sm-6 bold">
-            Tipo:
-          </div>
+    <div class="users-container">
+
+      <p class="title">Usuarios</p>
+
+      <div class="row">
+        <div class="col-sm-6 bold">
+          Nombre:
         </div>
+        <div class="col-sm-6 bold">
+          Tipo:
+        </div>
+      </div>
 
-        <div class="row">
-          <div class="users-list" id="style-2">
-            <div *ngFor="let user of users">
-              <div class="col-sm-6">{{user.name}} {{user.lastName}}</div>
-              <div class="col-sm-6">
-                <div *ngIf="user.type == 'FreeUser'">
-                  👶🏻 Free
-                </div>
-                <div *ngIf="user.type == 'PremiumUser'">
-                  🏅 Premium
-                </div>
-                <div *ngIf="user.type == 'ChefUser'">
-                  👨🏻‍🍳 Chef
-                </div>
-                <div *ngIf="user.type == 'AdminUser'">
-                  🃏 Admin
-                </div>
+      <div class="row">
+        <div class="users-list" id="style-2">
+          <div *ngFor="let user of users">
+            <div class="col-sm-6">{{user.name}} {{user.lastName}}</div>
+            <div class="col-sm-6">
+              <div *ngIf="user.type == 'FreeUser'">
+                👶🏻 Free
+              </div>
+              <div *ngIf="user.type == 'PremiumUser'">
+                🏅 Premium
+              </div>
+              <div *ngIf="user.type == 'ChefUser'">
+                👨🏻‍🍳 Chef
+              </div>
+              <div *ngIf="user.type == 'AdminUser'">
+                🃏 Admin
               </div>
             </div>
           </div>

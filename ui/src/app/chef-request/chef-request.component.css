@@ -33,7 +33,8 @@
 
 .users-list{
   height: 250px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .users-list::-webkit-scrollbar-track

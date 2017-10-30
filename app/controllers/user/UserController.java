@@ -28,6 +28,7 @@ import services.payment.CreditCardService;
 import services.payment.PaymentService;
 import services.recipe.RecipeBookService;
 import services.recipe.RecipeCategoryService;
+import services.recipe.RecipeRatingService;
 import services.recipe.RecipeService;
 import services.user.*;
 
@@ -128,7 +129,10 @@ public class UserController extends BaseController {
             /* Step 8: Delete rows from user-recipeCategory table */
             RecipeCategoryService.getInstance().deleteUser(r.getId());
 
-            /* Step 9: Delete the User */
+            /* Step 9: Delete rows from recipe-ratings */
+            RecipeRatingService.getInstance().deleteUserRatings(r.getId());
+
+            /* Step 10: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
             r.delete();
 

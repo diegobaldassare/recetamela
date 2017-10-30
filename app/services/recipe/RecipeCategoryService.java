@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model.Finder;
 import com.avaje.ebean.RawSql;
 import com.avaje.ebean.RawSqlBuilder;
+import com.avaje.ebean.SqlUpdate;
 import models.recipe.RecipeCategory;
 import models.user.User;
 import services.Service;
@@ -54,5 +55,14 @@ public class RecipeCategoryService extends Service<RecipeCategory> {
                 .setRawSql(rawSql)
                 .setParameter("id", id)
                 .findList();*/
+    }
+
+
+    public void deleteUser(Long userID) {
+        SqlUpdate delete = Ebean.createSqlUpdate(
+                "delete from user_recipe_category " +
+                        "where user_id = :id");
+        delete.setParameter("id", userID);
+        Ebean.execute(delete);
     }
 }

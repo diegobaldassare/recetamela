@@ -49,6 +49,10 @@ export class UserService {
     return this.http.put<User>(`/api/user/${id}/upgradeChef`, {}).toPromise();
   }
 
+  public makeAdmin(userID: string) : Promise<any> {
+    return this.http.put(`/api/admin/user/${userID}/makeAdmin`, {}).toPromise();
+  }
+
   public postChefRequest(chefRequest: ChefRequest) : Promise<ChefRequest> {
     return this.http.post<ChefRequest>(`api/user/chefRequest`, chefRequest).toPromise();
   }

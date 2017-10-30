@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ChefUserController extends BaseController {
+public class ChefUserController extends UserController {
 
     private static Form<ChefUser> userForm;
 

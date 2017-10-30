@@ -125,7 +125,10 @@ public class UserController extends BaseController {
             final List<ChefRequest> requests = ChefRequestService.getInstance().getRequestsByUser(r.getId());
             requests.forEach(ChefRequest::delete);
 
-            /* Step 8: Delete the User */
+            /* Step 8: Delete rows from user-recipeCategory table */
+            RecipeCategoryService.getInstance().deleteUser(r.getId());
+
+            /* Step 9: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
             r.delete();
 

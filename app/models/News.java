@@ -88,4 +88,12 @@ public class News extends BaseModel {
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "title='" + title + '\'' +
+                ", created=" + created +
+                '}';
+    }
 }

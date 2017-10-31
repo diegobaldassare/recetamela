@@ -105,7 +105,7 @@ public class RecipeService extends Service<Recipe> {
         final List<Media> images = new ArrayList<>(r.getImages());
         deleteStepsImages(r, mediaService);
         deleteFromRecipeBooks(r);
-        NewsService.getInstance().getNewsForRecipe(r.getId()).forEach(News::delete);
+        NewsService.getInstance().getNewsForRecipe(r.getId()).delete();
         deleteComments(r.getId());
         r.delete();
         images.forEach(mediaService::delete);

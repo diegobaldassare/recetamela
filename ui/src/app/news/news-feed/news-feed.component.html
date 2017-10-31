@@ -4,11 +4,10 @@
       <h1><b>📰 Noticias</b></h1>
       <ng-container *ngIf="newsArray?.length == 0">No hay noticias para ver 😕</ng-container>
     </div>
-    <div *ngIf="newsArray">
-      <div *ngFor="let news of newsArray; let i = index">
-        <ng-container *ngIf="i < limit"><app-news-preview [news]="news"></app-news-preview></ng-container>
-      </div>
-      <button *ngIf="limit < newsArray.length" class="button" (click)="growLimit()">Ver más noticias</button>
+    <div *ngFor="let news of newsArray">
+      <app-news-preview [news]="news"></app-news-preview>
     </div>
+    <button *ngIf="!noMoreNews" class="button" (click)="loadNewsFeed()">Ver más noticias</button>
+    <div *ngIf="noMoreNews && newsArray?.length != 0" class="text-center">No hay más noticias para cargar</div>
   </div>
 </div>

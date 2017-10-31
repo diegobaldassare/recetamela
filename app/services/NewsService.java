@@ -1,16 +1,17 @@
 package services;
 
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.Model.Finder;
 import models.Media;
 import models.News;
+import models.user.User;
 import server.error.RequestError;
 import server.exception.BadRequestException;
 import util.NewsManager;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class NewsService extends Service<News> {
 
@@ -37,17 +38,47 @@ public class NewsService extends Service<News> {
         NewsManager.getInstance().notifyReaders(n, n.getAuthor());
     }
 
-    public List<News> getNewsPublishedByUser(Long id) {
-        return getFinder().where().eq("author_id", id).findList();
-    }
-
     public List<News> getUserNews(Long id) {
-        return getFinder().where().eq("author_id", id).eq("recipe_id", null).orderBy().desc("created").findList();
+        return getFinder().where()
+                .eq("author_id", id)
+                .eq("recipe_id", null)
+                .orderBy().desc("created")
+                .findList();
     }
 
-    public List<News> getNewsForRecipe(Long id) {
-        return getFinder().where().eq("recipe_id", id).findList();
+    public List<News> getNewsPublishedByUser(Long id) {
+        return getFinder().where()
+                .eq("author_id", id)
+                .findList();
     }
+
+    public News getNewsForRecipe(Long id) {
+        return getFinder().where()
+                .eq("recipe_id", id)
+                .findUnique();
+    }
+
+    public Set<News> getTopNewsFeed(Collection<Long> authorsId, Collection<Long> recipesId, Date date) {
+        System.out.println(authorsId);
+        System.out.println(recipesId);
+        final Set<News> q =  getFinder().where()
+                .or(Expr.in("author_id", authorsId), Expr.in("recipe_id", recipesId))
+                .lt("created", date)
+                .orderBy().desc("created")
+                .setMaxRows(5)
+                .findSet();
+        System.out.println(q);
+        return q;
+    }
+
+//    public List<News> getTopNewsForRecipe(Long id, Date date) {
+//        return getFinder().where()
+//                .eq("recipe_id", id)
+//                .lt("created", date)
+//                .setMaxRows(5)
+//                .orderBy().desc("created")
+//                .findList();
+//    }
 
     private static void format(News n) throws BadRequestException {
         try {

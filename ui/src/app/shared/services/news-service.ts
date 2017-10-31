@@ -25,8 +25,8 @@ export class NewsService extends ApiService {
     return this.http.get<News>(`${this.URL}/${id}`).toPromise();
   }
 
-  public getUserNewsFeed() : Observable<News[]> {
-    return this.http.get<News[]>(`/api/user/newsfeed`);
+  public getUserNewsFeed(id: string) : Observable<News[]> {
+    return this.http.get<News[]>(`/api/user/newsfeed/${id}`);
   }
 
   public getUserNews(id: string): Promise<News[]> {

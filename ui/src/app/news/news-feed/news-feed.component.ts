@@ -12,7 +12,7 @@ import {NewsService} from "../../shared/services/news-service";
 })
 export class NewsFeedComponent implements OnInit {
 
-  limit: number = 5;
+  noMoreNews: boolean;
   newsArray: News[] = [];
   viewer: User = JSON.parse(localStorage.getItem("user"));
 
@@ -21,7 +21,7 @@ export class NewsFeedComponent implements OnInit {
 
   ngOnInit() {
     this.loadNewsFeed();
-    this.listenForServerEvents((JSON.parse(localStorage.getItem("user")) as User).id);
+    this.listenForServerEvents(this.viewer.id);
   }
 
   private listenForServerEvents(id: string) {
@@ -36,12 +36,10 @@ export class NewsFeedComponent implements OnInit {
   }
 
   private loadNewsFeed() {
-    this.newsService.getUserNewsFeed().subscribe((res: News[]) => {
-      this.newsArray = res;
+    let latestId : string = (this.newsArray.length === 0) ? '-1' : this.newsArray[this.newsArray.length -1].id;
+    this.newsService.getUserNewsFeed(latestId).subscribe((res: News[]) => {
+      if (res.length == 0) this.noMoreNews = true;
+      res.forEach(e => this.newsArray.push(e));
     });
-  }
-
-  private growLimit() {
-    this.limit += 3;
   }
 }

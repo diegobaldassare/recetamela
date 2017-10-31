@@ -47,7 +47,7 @@ GET         /api/creditcard/:id                     controllers.payment.CreditCa
 GET         /api/creditcard/all/                    controllers.payment.CreditCardController.getUserCreditCards
 DELETE      /api/creditcard/:id/delete              controllers.payment.CreditCardController.delete(id: Long)
 
-GET         /api/user/newsfeed                      controllers.NewsController.getUserNewsFeed
+GET         /api/user/newsfeed/:id                  controllers.NewsController.getUserNewsFeed(id: Long)
 GET         /api/user/:id/news                      controllers.NewsController.getUserNews(id: Long)
 
 POST        /api/user/subscribe/:id                 controllers.user.SubscriptionController.subscribe(id: Long)

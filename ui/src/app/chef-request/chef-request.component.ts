@@ -96,4 +96,22 @@ export class ChefRequestComponent implements OnInit {
   openDetails(user: ChefRequest){
     this.userRequesting = user;
   }
+
+  makeAdmin(userId: string){
+    console.log(userId);
+
+
+    this.userService.makeAdmin(userId).then(() => {
+      this.toaster.pop('success', 'Usuario Admin');
+
+      for (let i=0; i<this.users.length; i++){    //Cambio el tipo del usuario de la lista del front
+        if(this.users[i].id == userId){
+          this.users[i].type = "AdminUser"
+        }
+      }
+
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido hacer admin');
+    });
+  }
 }

@@ -15,6 +15,10 @@ public class ChefUser extends PremiumUser {
 
     public ChefUser() {}
 
+    public ChefUser(String name, String lastName, String email, String profilePic) {
+        super(name, lastName, email, profilePic);
+    }
+
     public List<News> getNews() {
         return news;
     }

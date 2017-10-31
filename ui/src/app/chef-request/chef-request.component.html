@@ -20,14 +20,15 @@
 
       <p class="title">Solicitantes</p>
 
-      <div class="bold">
+
+      <div class="row" style="color: #fc4a1a; text-align:center" *ngIf="usersRequesting?.length == 0">
+        No hay nuevas solicitudes
+      </div>
+      <div class="bold" *ngIf="usersRequesting?.length > 0">
         Nombre:
       </div>
 
       <div class="users-list" id="style-3">
-        <div class="col-sm-6" style="color: #fc4a1a;" *ngIf="usersRequesting?.length == 0">
-          No hay nuevas solicitudes
-        </div>
 
         <div *ngFor="let user of usersRequesting" class="users">
 

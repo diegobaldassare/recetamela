@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {RecipeService} from "../../shared/services/recipe.service";
-import {ToasterService} from "angular2-toaster";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Recipe} from "../../shared/models/recipe/recipe";
-import {RecipeFormContainer} from "../recipe-form/recipe-form-container";
-import {User} from "../../shared/models/user-model";
+import { RecipeService } from "../../shared/services/recipe.service";
+import { ToasterService } from "angular2-toaster";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Recipe } from "../../shared/models/recipe/recipe";
+import { RecipeFormContainer } from "../recipe-form/recipe-form-container";
+import { User } from "../../shared/models/user-model";
 
 @Component({
   selector: 'app-edit-recipe',
@@ -69,6 +69,7 @@ export class EditRecipeComponent extends RecipeFormContainer implements OnInit {
 
   deleteRecipe() {
     this._recipeService.deleteRecipe(this.recipe.id).then(() => {
+      this.toaster.pop('success', 'Receta eliminada');
       this.router.navigate(['/']);
     }, () => {
       this.toaster.pop('error', 'Receta no eliminada');

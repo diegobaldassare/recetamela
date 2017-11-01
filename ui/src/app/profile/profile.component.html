@@ -10,9 +10,9 @@
         <span *ngIf="(user?.type === 'PremiumUser') || (user?.type === 'AdminUser')" class="icon-badge" title="Premium User">🏅</span>
         <span *ngIf="user?.type === 'ChefUser' "    class="icon-badge" title="Chef User">👨🏻‍🍳</span>
         <button *ngIf="user?.id === loggedUser?.id" class="btn subscribe" data-toggle="modal" data-target="#editUserModal">Editar</button>
-        <button *ngIf="!subscribed && user?.id !== loggedUser?.id && user?.type !== 'FreeUser'; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
+        <button *ngIf="!subscribed && user?.id !== loggedUser?.id && user?.type !== 'FreeUser' && user.facebookId != 1337; else subscripto"  class="btn subscribe" (click)="subscribe()">Suscribir</button>
         <ng-template #subscripto>
-          <button *ngIf="subscribed && user?.type !== 'FreeUser';" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
+          <button *ngIf="subscribed && user?.type !== 'FreeUser' && user.facebookId != 1337;" class="btn subscribe" (click)="unSubscribe()">Desuscribir</button>
         </ng-template>
       </p>
       <p class="mail">

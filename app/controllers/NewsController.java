@@ -17,7 +17,6 @@ import server.exception.BadRequestException;
 import services.MediaService;
 import services.NewsService;
 import services.recipe.RecipeService;
-import services.user.AdminUserService;
 import services.user.FollowerService;
 
 import java.util.*;
@@ -29,7 +28,7 @@ public class NewsController extends BaseController {
         final News n = getBody(News.class);
         if (getRequester().getType().equals("AdminUser"))
             n.setAuthor(RecetamelaUser.getUser());
-        n.setAuthor(getRequester());
+        else n.setAuthor(getRequester());
 
         try {
             NewsService.create(n);
@@ -42,7 +41,8 @@ public class NewsController extends BaseController {
     @Authenticate({ChefUser.class, AdminUser.class})
     public Result delete(long id) {
         return NewsService.getInstance().get(id).map(n -> {
-            if (!getRequester().getId().equals(n.getAuthor().getId()))
+            if (!(getRequester().getId().equals(n.getAuthor().getId()) ||
+                    getRequester().getType().equals("AdminUser") && n.getAuthor().getType().equals("AdminUser")))
                 return unauthorized();
             if (n.getImage() != null) MediaService.getInstance().deleteFile(n.getImage());
             NewsService.getInstance().getFinder().deleteById(id);
@@ -66,8 +66,6 @@ public class NewsController extends BaseController {
         final NewsService newsService = NewsService.getInstance();
         if (id == -1) loadResult(result, newsService, new Date(System.currentTimeMillis()));
         newsService.get(id).ifPresent(news -> loadResult(result, newsService, news.getCreated()));
-//        final List<News> resultList = new ArrayList<>(result);
-//        int toIndex = (resultList.size() > 5) ? 5 : resultList.size();
         return ok(Json.toJson(result));
     }
 
@@ -77,8 +75,8 @@ public class NewsController extends BaseController {
      * - News of the current user
      * - News of the users you are following (both Chef and Premium)
      * - News containing a recipe with at least one of the categories you are following
-     * - Broadcast news from all AdminUsers created as Recetame la Receta user
-     * @param result set of news
+     * - Broadcast news from all AdminUsers created as RecetamelaUser
+     * @param result set of news in which the result will be loaded
      * @param date from which the news in the query are loaded
      */
     private void loadResult(SortedSet<News> result, NewsService newsService, Date date) {
@@ -93,6 +91,7 @@ public class NewsController extends BaseController {
                 recipesId.add(recipe.getId());
             }
         }
+        authorsId.add(RecetamelaUser.getUser().getId());
         result.addAll(newsService.getTopNewsFeed(authorsId, recipesId, date));
     }
 }

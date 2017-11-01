@@ -3,15 +3,11 @@ package controllers.recipe;
 import com.avaje.ebean.*;
 import com.google.common.collect.Lists;
 import controllers.BaseController;
-import controllers.CommentController;
-import controllers.NewsController;
 import controllers.authentication.Authenticate;
 import models.Comment;
-import models.Media;
 import models.News;
 import models.notification.NotificationType;
 import models.recipe.RecipeSearchQuery;
-import models.recipe.RecipeStep;
 import models.user.AdminUser;
 import models.user.ChefUser;
 import models.user.FreeUser;
@@ -22,10 +18,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import server.exception.BadRequestException;
-import services.CommentService;
-import services.MediaService;
 import services.NewsService;
-import services.recipe.RecipeBookService;
 import services.recipe.RecipeFormatter;
 import services.recipe.RecipeService;
 import services.recipe.RecipeValidator;
@@ -101,8 +94,8 @@ public class RecipeController extends BaseController {
     }
 
     public Result getUserRecipes(long userId){
-        List<Recipe> recipes = RecipeService.getInstance().getUserRecipes(userId);
-        return ok(Json.toJson(Lists.reverse(recipes)));
+        final List<Recipe> result = RecipeService.getInstance().getUserRecipes(userId);
+        return ok(Json.toJson(Lists.reverse(result)));
     }
 
     public Result getRecipeAuthor(long id){
@@ -128,5 +121,9 @@ public class RecipeController extends BaseController {
                 .createQuery(Comment.class, "where recipe_id = :id order by date desc")
                 .setParameter("id", recipeId)
                 .findList()));
+    }
+
+    public Result getTopRankingRecipes() {
+        return ok(Json.toJson(RecipeService.getInstance().getTopRankingRecipes()));
     }
 }

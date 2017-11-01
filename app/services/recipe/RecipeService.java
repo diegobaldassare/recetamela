@@ -1,15 +1,10 @@
 package services.recipe;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model.Finder;
-import com.avaje.ebean.SqlUpdate;
 import models.Comment;
 import models.Media;
-import models.News;
 import models.recipe.Recipe;
 import models.recipe.RecipeStep;
-import play.mvc.Result;
-import play.mvc.Results;
 import services.CommentService;
 import services.MediaService;
 import models.recipe.*;
@@ -19,7 +14,6 @@ import services.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class RecipeService extends Service<Recipe> {
 
@@ -51,7 +45,9 @@ public class RecipeService extends Service<Recipe> {
     }
 
     public List<Recipe> getUserRecipes(long userId) {
-        return getFinder().where().eq("author_id", userId).findList();
+        return getFinder().where()
+                .eq("author_id", userId)
+                .findList();
     }
 
     private void setSteps(Recipe r, List<RecipeStep> steps) {
@@ -130,5 +126,12 @@ public class RecipeService extends Service<Recipe> {
         List<Recipe> result = getFinder().all();
         result.removeIf(recipe -> !recipe.getCategories().contains(category));
         return result;
+    }
+
+    public List<Recipe> getTopRankingRecipes() {
+        return getFinder().where()
+                .orderBy().desc("rating")
+                .setMaxRows(3)
+                .findList();
     }
 }

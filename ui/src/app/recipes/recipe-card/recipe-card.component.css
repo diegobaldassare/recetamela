@@ -60,7 +60,7 @@
   top: 50%;
   max-width: max-content;
   min-width: 100px;
-  min-height: 50px;
+  min-height: 0px;
   height: 13%;
   font-size: 20px;
   text-align: center;
@@ -78,7 +78,7 @@
 .card-description {
   text-overflow: ellipsis;
   overflow: hidden;
-  margin: 0 0 1px;
+  margin-top: -10px;
 }
 
 .eliminateButton{

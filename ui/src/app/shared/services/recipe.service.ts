@@ -81,4 +81,8 @@ export class RecipeService extends ApiService {
   getComments(id: string) : Promise<RecipeCommentary[]> {
     return this.http.get<RecipeCommentary[]>(`${this.URL}/${id}/comments`).toPromise();
   }
+
+  getTopRankingRecipes() : Promise<Recipe[]> {
+    return this.http.get<Recipe[]>(`/api/recipes/topRanking`).toPromise();
+  }
 }

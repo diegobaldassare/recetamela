@@ -34,7 +34,8 @@ export class RecipeCardComponent implements OnInit {
     if(this.recipeBook) this.onRecipeBook = true;
     this.recipeService.getRecipeAuthor(this.recipe.id).then((res: User) => {
       this.author = res;
-      this.canRate = this.author.id != this.viewer.id;
+      if (this.viewer)
+        this.canRate = this.author.id != this.viewer.id;
       if (this.canRate) {
         this.recipeService.getRatingFromUser(this.recipe.id).then(res => {
           this.recipeRating = res;

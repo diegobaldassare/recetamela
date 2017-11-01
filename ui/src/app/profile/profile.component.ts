@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
           this.fetchCategories();
           this.fetchUnFollowedCategories();
           this.fetchNews();
-        });
+        }).catch(err => this.router.navigate(['/**']));
       }
     );
   }

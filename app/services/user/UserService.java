@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import models.user.User;
 import services.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService extends Service<User> {
@@ -31,5 +32,9 @@ public class UserService extends Service<User> {
         if (input.getName() != null) u.setName(input.getName());
         if (input.getLastName() != null) u.setLastName(input.getLastName());
         if (input.getEmail() != null) u.setEmail(input.getEmail());
+    }
+
+    public List<User> getAll() {
+        return getFinder().all();
     }
 }

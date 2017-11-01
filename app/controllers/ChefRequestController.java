@@ -8,6 +8,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Result;
+import server.RecetamelaUser;
 import services.ChefRequestService;
 import util.NotificationManager;
 
@@ -40,7 +41,7 @@ public class ChefRequestController extends BaseController {
             chefRequest.setAccepted(newChefRequest.isAccepted());
 
             /* Notify the user his request has/hasn't been accepted */
-            sendRequestStatusNotification(getRequester(), newChefRequest.getUser().getId(), newChefRequest.isAccepted());
+            sendRequestStatusNotification(newChefRequest.getUser().getId(), newChefRequest.isAccepted());
 
             chefRequest.setUser(newChefRequest.getUser());
             chefRequest.setMedia(newChefRequest.getMedia());
@@ -50,10 +51,10 @@ public class ChefRequestController extends BaseController {
         }).orElse(notFound());
     }
 
-    private void sendRequestStatusNotification(User sender, Long receiver, boolean accepted) {
+    private void sendRequestStatusNotification(Long receiver, boolean accepted) {
         String message = accepted ? "Tu solicitud para ser chef ha sido aprobada. Felicidades!" : "Tu solicitud para" +
                 " ser chef fue desaprobada.";
-        NotificationManager.getInstance().emitToUser(sender,
+        NotificationManager.getInstance().emitToUser(RecetamelaUser.getUser(),
                 receiver, NotificationType.REQUEST,
                 message,
                 receiver.toString());

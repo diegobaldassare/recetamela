@@ -1,13 +1,24 @@
 <div *ngIf="!onProfile" class="thumbnail">
   <div class="media">
     <div class="media-left media-top">
+      <ng-container *ngIf="news?.author?.type === 'AdminUser'">
+        <img class="img-circle profile-picture media-object" src="https://i.imgur.com/bMGr7dT.png" alt="Profile Picture">
+      </ng-container>
+      <ng-container *ngIf="news?.author?.type !== 'AdminUser'">
         <img class="img-circle profile-picture media-object" [src]="news?.author.profilePic" alt="Profile Picture">
+      </ng-container>
     </div>
     <div class="media-body">
-      <h4><a [routerLink]="'/usuario/' + news?.author?.id + '/perfil'">{{ news?.author?.name + ' ' + news?.author?.lastName }}</a></h4>
+      <ng-container *ngIf="news?.author?.type === 'AdminUser'">
+        <h4>Recetame la Receta</h4>
+      </ng-container>
+      <ng-container *ngIf="news?.author?.type !== 'AdminUser'">
+        <h4><a [routerLink]="'/usuario/' + news?.author?.id + '/perfil'">{{ news?.author?.name + ' ' + news?.author?.lastName }}</a></h4>
+      </ng-container>
       <div class="date">{{news?.created | messageTime}}</div>
     </div>
   </div>
+
   <div *ngIf="news?.recipe">
     <div style="padding-top: 15px">
       <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
@@ -25,7 +36,7 @@
         <img *ngIf="onProfile" height="250px" [src]="news.image?.url">
       </div>
     </div>
-    <p class="card-text">{{ description }}</p>
+    <p class="card-text">{{ news?.description | truncate : 255 : true }}</p>
   </div>
 </div>
 
@@ -56,6 +67,6 @@
         <img *ngIf="onProfile" height="250px" [src]="news.image?.url">
       </div>
     </div>
-    <p class="card-text">{{ description }}</p>
+    <p class="card-text">{{ news?.description | truncate : 255 : true }}</p>
   </div>
 </div>

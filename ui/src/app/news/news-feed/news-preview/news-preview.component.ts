@@ -15,26 +15,11 @@ export class NewsPreviewComponent implements OnInit {
   @Input() onProfile: boolean;
   private embedVideoUrl;
 
-  constructor(
-    private formatter: FormatService,
-    private sanitizer: DomSanitizer,
-  ) {
+  constructor(private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
     if (this.news && this.news.videoUrl) this.embedVideoUrl = this.setEmbedVideoUrl(this.news.videoUrl);
-  }
-
-  private get description(): string {
-    const max = this.onProfile ? 100 : 255;
-    if (this.news.description.length > max)
-      return this.news.description.substr(0, max) + '...';
-    else return this.news.description;
-  }
-
-  private get thumbnailUrl(): string {
-    if (this.news.image) return this.news.image.url;
-    else if (this.news.videoUrl) return this.formatter.youtubeThumbnailUrl(this.news.videoUrl);
   }
 
   private setEmbedVideoUrl(u) {

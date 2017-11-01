@@ -10,9 +10,7 @@
   </div>
 
   <div *ngIf="news?.recipe">
-    <div style="padding-top: 15px">
-      <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
-    </div>
+    <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
   </div>
   <div *ngIf="!news?.recipe">
     <h3 class="title">📣 <a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>
@@ -41,9 +39,7 @@
     </div>
   </div>
   <div *ngIf="news?.recipe">
-    <div style="padding-top: 15px">
-      <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
-    </div>
+    <app-recipe-card [recipe]="news?.recipe" [onRecipeList]="false"></app-recipe-card>
   </div>
   <div *ngIf="!news?.recipe">
     <h3 class="title">📣 <a [routerLink]="'/noticias/' + news?.id"><b>{{ news?.title }}</b></a></h3>

@@ -10,7 +10,6 @@
 
 .title {
   margin-top: 10px;
-  margin-bottom: -10px;
 }
 
 .date {
@@ -21,6 +20,7 @@
 
 .media {
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .video-display {

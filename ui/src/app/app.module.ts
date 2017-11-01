@@ -68,6 +68,7 @@ import { ChefRequestService } from "./shared/services/chef-request.service";
 import { RecipeCommentaryService } from "./shared/services/comment.service";
 import { CreateNewsGuard } from './auth/create-news-guard.service';
 import { AdminGuard } from "./auth/admin-guard";
+import {TruncatePipe} from "./shared/pipes/truncate.pipe";
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { AdminGuard } from "./auth/admin-guard";
     FacebookShareComponent,
     NewsPreviewComponent,
     NewsComponent,
-    UpgradeChefComponent
+    UpgradeChefComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

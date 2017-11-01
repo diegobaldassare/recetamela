@@ -59,26 +59,13 @@ public class NewsService extends Service<News> {
     }
 
     public Set<News> getTopNewsFeed(Collection<Long> authorsId, Collection<Long> recipesId, Date date) {
-        System.out.println(authorsId);
-        System.out.println(recipesId);
-        final Set<News> q =  getFinder().where()
+        return getFinder().where()
                 .or(Expr.in("author_id", authorsId), Expr.in("recipe_id", recipesId))
                 .lt("created", date)
                 .orderBy().desc("created")
                 .setMaxRows(5)
                 .findSet();
-        System.out.println(q);
-        return q;
     }
-
-//    public List<News> getTopNewsForRecipe(Long id, Date date) {
-//        return getFinder().where()
-//                .eq("recipe_id", id)
-//                .lt("created", date)
-//                .setMaxRows(5)
-//                .orderBy().desc("created")
-//                .findList();
-//    }
 
     private static void format(News n) throws BadRequestException {
         try {

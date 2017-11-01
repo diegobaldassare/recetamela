@@ -29,7 +29,7 @@ public class NewsController extends BaseController {
         final News n = getBody(News.class);
         if (getRequester().getType().equals("AdminUser"))
             n.setAuthor(RecetamelaUser.getUser());
-        else n.setAuthor(getRequester());
+        n.setAuthor(getRequester());
 
         try {
             NewsService.create(n);
@@ -74,22 +74,19 @@ public class NewsController extends BaseController {
     /**
      * Loads the result set of news with the next 5 older news to the given date
      * that come from the following sources:
+     * - News of the current user
      * - News of the users you are following (both Chef and Premium)
      * - News containing a recipe with at least one of the categories you are following
-     * - News of the current user
-     * - Broadcast news from all Admin users
+     * - Broadcast news from all AdminUsers created as Recetame la Receta user
      * @param result set of news
      * @param date from which the news in the query are loaded
      */
     private void loadResult(SortedSet<News> result, NewsService newsService, Date date) {
-        final List<Long> authorsId = new ArrayList<>();
-        final List<Long> recipesId = new ArrayList<>();
+        final Set<Long> authorsId = new HashSet<>();
+        final Set<Long> recipesId = new HashSet<>();
         authorsId.add(getRequester().getId());
-        for (AdminUser adminUser: AdminUserService.getInstance().getAdmins()) {
-            authorsId.add(adminUser.getId());
-        }
         for (Followers follower: FollowerService.getInstance().getFollowing(getRequester().getId())) {
-            authorsId.add(follower.getId());
+            authorsId.add(follower.getFollowing().getId());
         }
         for (RecipeCategory category: getRequester().getFollowedCategories()) {
             for (Recipe recipe : RecipeService.getInstance().getRecipesForCategory(category)) {
@@ -98,19 +95,4 @@ public class NewsController extends BaseController {
         }
         result.addAll(newsService.getTopNewsFeed(authorsId, recipesId, date));
     }
-
-//    private void loadResult(SortedSet<News> result, NewsService newsService, Date date) {
-//        result.addAll(newsService.getTopNewsPublishedByUser(getRequester().getId(), date));
-//        for (Followers follower : FollowerService.getInstance().getFollowing(getRequester().getId())) {
-//            result.addAll(newsService.getTopNewsPublishedByUser(follower.getFollowing().getId(), date));
-//        }
-//        for (RecipeCategory category : getRequester().getFollowedCategories()) {
-//            for (Recipe recipe : RecipeService.getInstance().getRecipesForCategory(category)) {
-//                result.addAll(newsService.getTopNewsForRecipe(recipe.getId(), date));
-//            }
-//        }
-//        for (AdminUser a : AdminUserService.getInstance().getAdmins()) {
-//            result.addAll(newsService.getTopNewsPublishedByUser(a.getId(), date));
-//        }
-//    }
 }

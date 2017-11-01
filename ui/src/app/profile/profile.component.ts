@@ -47,8 +47,6 @@ export class ProfileComponent implements OnInit {
     private myAuthService: MyAuthService,
     private newsService: NewsService) {
 
-    if (!this.user) this.router.navigate([`**`]);
-
     const atLeastOne = (validator: ValidatorFn) => (
       group: FormGroup,
     ): ValidationErrors | null => {

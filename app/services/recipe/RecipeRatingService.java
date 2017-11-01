@@ -1,6 +1,8 @@
 package services.recipe;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.SqlUpdate;
 import models.recipe.Recipe;
 import models.recipe.RecipeRating;
 import server.error.RequestError;
@@ -61,6 +63,14 @@ public class RecipeRatingService extends Service<RecipeRating>{
             if(r.getUser().getId() == userId) return r;
         }
         return new RecipeRating();
+    }
+
+    public void deleteUserRatings(Long userID) {
+        SqlUpdate delete = Ebean.createSqlUpdate(
+                "delete from recipe_rating " +
+                        "where user_id = :id");
+        delete.setParameter("id", userID);
+        Ebean.execute(delete);
     }
 
 //    public void updateRating(Recipe recipe, RecipeRating newRecipeRating, RecipeRating oldRecipeRating) throws BadRequestException{

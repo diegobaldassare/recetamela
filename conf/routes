@@ -100,6 +100,7 @@ GET         /api/chefrequest/all/                   controllers.ChefRequestContr
 GET         /api/chefrequest/all/unanswered         controllers.ChefRequestController.getAllUnanswered
 DELETE      /api/chefrequest/:id/delete             controllers.ChefRequestController.delete(id: Long)
 
+PUT         /api/admin/user/:id/makeAdmin           controllers.user.AdminUserController.create(id: Long)
 PUT         /api/admin/:id/update                   controllers.user.AdminUserController.updateAdminUser(id: Long)
 GET         /api/admin/:id                          controllers.user.AdminUserController.getAdminUser(id: Long)
 

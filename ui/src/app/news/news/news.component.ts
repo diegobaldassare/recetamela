@@ -28,7 +28,7 @@ export class NewsComponent {
       this.news = n;
       this.news.created = new Date(n.created);
       if (this.news.videoUrl) this.embedVideoUrl = this.setEmbedVideoUrl(this.news.videoUrl);
-    });
+    }).catch(n => this.router.navigate([`**`]));
   }
 
   private deleteNews() {

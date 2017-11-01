@@ -25,6 +25,6 @@
       </div>
     </div>
   </div>
-  <button style="float:right; margin-bottom:20px" class="btn btn-danger" *ngIf="viewer?.id == news?.author.id" (click)="deleteNews()">Eliminar</button>
+  <button style="float:right; margin-bottom:20px" class="btn btn-danger" *ngIf="(viewer?.id == news?.author.id) || (news?.author.type == 'AdminUser' && viewer?.type == 'AdminUser')" (click)="deleteNews()">Eliminar</button>
 </div>
 <app-not-found *ngIf="!news"></app-not-found>

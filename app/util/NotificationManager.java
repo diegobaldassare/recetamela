@@ -66,14 +66,14 @@ public class NotificationManager {
         });
     }
 
-    public void notifyCategoryFollowers(User sender, NotificationType type, String message, String redirectId) {
+    public void notifyCategoryFollowers(User sender, NotificationType type, String message, String redirectId, String recipeId) {
         List<User> followers = RecipeCategoryService.getInstance()
                 .getFollowers(Long.parseLong(redirectId))
                 .stream()
                 .filter(e -> !e.equals(sender))
                 .collect(Collectors.toList());
         followers.forEach(follower -> {
-            emitToUser(sender, follower.getId(), type, message, redirectId);
+            emitToUser(sender, follower.getId(), type, message, recipeId);
         });
     }
 

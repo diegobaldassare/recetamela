@@ -39,7 +39,12 @@ public class RecipeController extends BaseController {
             r.save();
             NotificationManager.getInstance().notifyFollowers(getRequester(), NotificationType.RECIPE, "subió una nueva receta: " + r.getName(), r.getId().toString());
             r.getCategories().forEach(category -> {
-                NotificationManager.getInstance().notifyCategoryFollowers(getRequester(), NotificationType.CATEGORY, "subió una nueva receta: " + "'" + r.getName() + "'" + " a la categoría " + category.getName(), category.getId().toString());
+                NotificationManager.getInstance()
+                        .notifyCategoryFollowers(getRequester(),
+                                NotificationType.CATEGORY,
+                                "subió una nueva receta: " + "'" + r.getName() + "'" + " a la categoría " + category.getName(),
+                                category.getId().toString(),
+                                r.getId().toString());
             });
 
             createNewsForRecipe(r);

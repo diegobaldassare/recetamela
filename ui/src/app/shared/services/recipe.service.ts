@@ -64,6 +64,10 @@ export class RecipeService extends ApiService {
     return this.http.delete<Recipe>(`${this.URL}/${id}/dislike`).toPromise();
   }
 
+  getRecipeLikesByChef(id: string) : Promise<any> {
+    return this.http.get(`${this.URL}/${id}/likes`).toPromise();
+  }
+
   getRatingFromUser(recipeId: string) : Promise<any> {
     return this.http.get(`${this.URL}/rating/${recipeId}`).toPromise();
   }

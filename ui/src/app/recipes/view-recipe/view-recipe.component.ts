@@ -25,6 +25,7 @@ export class ViewRecipeComponent implements OnInit {
   commentaries: RecipeCommentary[];
   private recipeRating: RecipeRating = new RecipeRating();
   private chefLiked: boolean;
+  private likesByChef: User[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,7 @@ export class ViewRecipeComponent implements OnInit {
       .subscribe(
         (params: Params) => {
           const id = this.route.snapshot.params['id'];
+          this.getLikesByChef(id);
           this.recipeService.getRecipe(id).then(recipe => {
             this.recipe = recipe;
             this.fetched = true;
@@ -49,7 +51,6 @@ export class ViewRecipeComponent implements OnInit {
             this.recipeService.getComments(this.recipe.id).then(res => {
               this.commentaries = res;
             });
-
             this.hasChefLiked();
           }, () => { this.fetched = true });
           this.recipeService.getRatingFromUser(id).then( recipeRating => {
@@ -61,11 +62,17 @@ export class ViewRecipeComponent implements OnInit {
   }
 
   private hasChefLiked() {
-    for(let i = 0; i < this.recipe.likesByChef.length; i++) {
-      if(this.recipe.likesByChef[i].id == this.viewer.id) {
-        this.chefLiked = true;
+    for(let i = 0; i < this.likesByChef.length; i++) {
+      if(this.likesByChef[i].id == this.viewer.id) {
+          this.chefLiked = true;
       }
     }
+  }
+
+  private getLikesByChef(id: string) {
+    this.recipeService.getRecipeLikesByChef(id).then(likes  =>
+        this.likesByChef = likes
+    )
   }
 
   public get editButton(): boolean {
@@ -121,9 +128,6 @@ export class ViewRecipeComponent implements OnInit {
       else{
         this.toaster.pop('error', 'Ingresa un comentario');
       }
-
-
-
   }
 
   deleteComment(id: string){
@@ -154,6 +158,7 @@ export class ViewRecipeComponent implements OnInit {
     this.recipeService.addLikeByChef(this.recipe.id, this.recipe).then(recipe => {
         this.recipe = recipe;
         this.chefLiked = true;
+        this.likesByChef.push(this.viewer);
       }
     )
   }
@@ -162,6 +167,17 @@ export class ViewRecipeComponent implements OnInit {
       this.recipeService.deleteLikeByChef(this.recipe.id).then(recipe => {
         this.recipe = recipe;
         this.chefLiked = false;
-      })
+        this.deleteChefLike();
+      });
+  }
+
+  private deleteChefLike(){
+    const likes: User[] = [];
+    for(let i = 0; i < this.likesByChef.length; i++) {
+      if(this.likesByChef[i].id != this.viewer.id) {
+        likes.push(this.likesByChef[i]);
+      }
+    }
+    this.likesByChef = likes;
   }
 }

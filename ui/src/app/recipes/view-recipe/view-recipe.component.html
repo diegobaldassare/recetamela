@@ -54,11 +54,11 @@
             <span *ngIf="recipe.categories.length == 0" class="label label-default">Sin categoria</span>
             <span *ngFor="let cat of recipe.categories" class="label label-default">{{ cat.name }}</span>
 
-            <div *ngIf="recipe.likesByChef.length != 0">
+            <div *ngIf="likesByChef.length != 0">
               <p></p>
               <span class="emoji">👩🏼‍🍳</span>
               <strong>Chefs que aprovaron esta receta: </strong>
-              <span class="user-pointer" *ngFor="let chef of recipe.likesByChef" routerLink="/usuario/{{chef.id}}/perfil"> {{chef.name}} {{chef.lastName}} </span>
+              <span class="user-pointer" *ngFor="let chef of likesByChef" routerLink="/usuario/{{chef.id}}/perfil"> {{chef.name}} {{chef.lastName}} </span>
             </div>
 
           </div>

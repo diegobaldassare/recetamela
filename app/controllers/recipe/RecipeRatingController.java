@@ -80,6 +80,15 @@ public class RecipeRatingController extends BaseController {
         return ok(Json.toJson(r));
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
+    public Result getLikesRecipeByChef(long recipeId) {
+        final Optional<Recipe> recipe = RecipeService.getInstance().get(recipeId);
+        if (!recipe.isPresent()) return notFound();
+        final Recipe r = recipe.get();
+        List<User> chefLikes = r.getLikesByChef();
+        return ok(Json.toJson(chefLikes));
+    }
+
 //    @Authenticate({FreeUser.class, PremiumUser.class})
 //    public Result updateRating(long recipeId, long recipeRatingId) {
 //        final Optional<RecipeRating> oldRecipeRating = RecipeRatingService.getInstance().get(recipeRatingId);

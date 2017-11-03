@@ -1,5 +1,6 @@
 package models.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.BaseModel;
 import models.Comment;
 import models.Media;
@@ -54,6 +55,7 @@ public class Recipe extends BaseModel {
     private List<Comment> comments;
 
     @ManyToMany(cascade = REMOVE)
+    @JsonIgnore
     private List<User> likesByChef;
 
     public Recipe() {}

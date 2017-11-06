@@ -6,6 +6,7 @@ import services.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserService extends Service<User> {
     private static UserService instance;
@@ -36,5 +37,14 @@ public class UserService extends Service<User> {
 
     public List<User> getAll() {
         return getFinder().all();
+    }
+
+    public List<User> findAllByName(String name) {
+        final String[] nameParts = name.toLowerCase().trim().split(" ");
+        return getAll().stream().filter(u -> {
+            final String n = (u.getName() + u.getLastName()).toLowerCase().replaceAll("[^a-z ]", "");
+            for (final String namePart : nameParts) if (n.contains(namePart)) return true;
+            return false;
+        }).collect(Collectors.toList());
     }
 }

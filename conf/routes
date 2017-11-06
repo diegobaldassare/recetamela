@@ -68,7 +68,7 @@ PUT         /api/user/:id/updateUser                controllers.user.UserControl
 PUT         /api/user/:id/checkDate                 controllers.user.UserController.checkExpirationDate(id: Long)
 PUT         /api/user/:id/modify                    controllers.user.UserController.modify(id: Long)
 GET         /api/user/:id                           controllers.user.UserController.getUser(id: Long)
-GET         /api/users                              controllers.user.UserController.getUsers
+GET         /api/users                              controllers.user.UserController.getUsers(name: String ?= "")
 DELETE      /api/user/:id/delete                    controllers.user.UserController.deleteUser(id: Long)
 POST        /api/notifications/markRead/:id         controllers.NotificationsController.notificationRead(id: Long)
 GET         /api/ws/notifications/:id               controllers.NotificationsController.socket(id: Long)

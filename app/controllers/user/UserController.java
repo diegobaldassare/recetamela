@@ -18,6 +18,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import server.RecetamelaUser;
 import server.exception.BadRequestException;
 import services.ChefRequestService;
 import services.CommentService;
@@ -72,8 +73,11 @@ public class UserController extends BaseController {
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result getUsers(String name) {
         final List<User> users = UserService.getInstance().findAllByName(name);
+        users.remove(RecetamelaUser.getUser());
+        users.remove(getRequester());
         return ok(Json.toJson(users));
     }
 

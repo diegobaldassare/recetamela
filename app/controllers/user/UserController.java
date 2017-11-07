@@ -11,7 +11,6 @@ import models.payment.CreditCard;
 import models.payment.Payment;
 import models.recipe.Recipe;
 import models.recipe.RecipeBook;
-import models.recipe.RecipeCategory;
 import models.user.*;
 import play.data.Form;
 import play.data.FormFactory;
@@ -30,10 +29,6 @@ import services.recipe.RecipeBookService;
 import services.recipe.RecipeCategoryService;
 import services.recipe.RecipeRatingService;
 import services.recipe.RecipeService;
-import services.user.*;
-
-import java.util.*;
-
 import services.user.FollowerService;
 import services.user.UserFormatter;
 import services.user.UserService;
@@ -43,7 +38,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class UserController extends BaseController {
 
@@ -78,8 +72,8 @@ public class UserController extends BaseController {
         return user.map(u -> ok(Json.toJson(u))).orElseGet(Results::notFound);
     }
 
-    public Result getUsers() {
-        List<User> users = UserService.getInstance().getFinder().all();
+    public Result getUsers(String name) {
+        final List<User> users = UserService.getInstance().findAllByName(name);
         return ok(Json.toJson(users));
     }
 

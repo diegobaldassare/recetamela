@@ -25,7 +25,7 @@ public final class RecetamelaUser {
         else {
             final AdminUser user = new AdminUser(name, lastName, email, profilePic);
             user.setFacebookId(facebookId);
-            user.setExpirationDate(LocalDate.now().plus(Period.ofMonths(1)));
+            user.setExpirationDate(LocalDate.now().plus(Period.ofMonths(18)));
             user.save();
             return user;
         }

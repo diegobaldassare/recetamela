@@ -1,6 +1,5 @@
 package models.recipe;
 
-import com.avaje.ebean.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.BaseModel;
 import models.user.User;

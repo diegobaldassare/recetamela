@@ -32,6 +32,8 @@ export class ProfileComponent implements OnInit {
   resultCategories: any[] = [];
   unFollowedCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
+  private usersQuery: string = "";
+  private resultUsers: User[] = [];
   private profileForm: FormGroup;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -80,7 +82,9 @@ export class ProfileComponent implements OnInit {
           this.fetchCategories();
           this.fetchUnFollowedCategories();
           this.fetchNews();
-        }).catch(err => this.router.navigate(['/**']));
+        })
+          // .catch(err => console.log("a"));
+          .catch(err => this.router.navigate(['/**']));
       }
     );
   }
@@ -127,6 +131,10 @@ export class ProfileComponent implements OnInit {
 
   private followingClickListener(i: number) {
     this.router.navigate([`/usuario/${this.following[i].id}/perfil`]);
+  }
+
+  private userClickListener(i: number) {
+    this.router.navigate([`/usuario/${this.resultUsers[i].id}/perfil`]);
   }
 
   private fetchCategories() {
@@ -202,9 +210,15 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public fetchNews() {
+  private fetchNews() {
     this.newsService.getUserNews(this.user.id).then(res => {
       this.news = res;
+    });
+  }
+
+  private searchUsers() {
+    this.userService.searchUsers(this.usersQuery).then(res => {
+      this.resultUsers = res;
     });
   }
 }

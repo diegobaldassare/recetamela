@@ -180,7 +180,8 @@
   padding: 5px 5px 5px 5px;
   border-radius:5px 5px;
   cursor:pointer;
-  width: 250%;
+  width: -webkit-max-content;
+  min-width: 80px;
 }
 .categories li a {
   text-decoration:none;

@@ -2,6 +2,11 @@
   margin-top: 10px;
 }
 
+.panel-body {
+  padding-bottom: 0;
+  height: 400px;
+}
+
 .heading {
   margin-left: 215px;
   margin-top: 60px;
@@ -80,7 +85,21 @@
   height: 50px;
 }
 
+.scrollbar {
+  float: left;
+  overflow-y: scroll;
+}
 
+.max-size {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+.users-list {
+  background: #f5f5f5;
+  max-height: 340px;
+  width: -webkit-fill-available;
+}
 
 /*** PANEL DEFAULT ***/
 .with-nav-tabs.panel-default .nav-tabs > li > a,

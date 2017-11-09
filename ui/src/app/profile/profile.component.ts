@@ -23,17 +23,20 @@ export class ProfileComponent implements OnInit {
 
   private user: User;
   private loggedUser: User;
+
   news: News[] = [];
   recipes: Recipe[] = [];
   followers: User[] = [];
-  following: User[] = [];
   subscribed: boolean;
-  categories: RecipeCategory[] = [];
-  resultCategories: any[] = [];
-  unFollowedCategories: RecipeCategory[] = [];
+
+  private categories: RecipeCategory[] = [];
+  private resultCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
-  private usersQuery: string = "";
+
+  private following: User[] = [];
   private resultUsers: User[] = [];
+  private usersQuery: string = "";
+
   private profileForm: FormGroup;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -82,9 +85,7 @@ export class ProfileComponent implements OnInit {
           this.fetchCategories();
           this.fetchUnFollowedCategories();
           this.fetchNews();
-        })
-          // .catch(err => console.log("a"));
-          .catch(err => this.router.navigate(['/**']));
+        }).catch(err => this.router.navigate(['/**']));
       }
     );
   }
@@ -143,13 +144,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private search() {
-    if (this.categoryQuery.length == 0) return;
-    this.recipeCategoryService.searchCategories(this.categoryQuery).then(res => {
-      this.resultCategories = res;
-    });
-  }
-
   private subscribeToCategory(index: number) {
     const c = this.categoryQuery.toLowerCase().trim();
     this.recipeCategoryService.getByName(this.categoryQuery).then(res => {
@@ -166,12 +160,13 @@ export class ProfileComponent implements OnInit {
     const category: RecipeCategory = this.categories[index];
     this.recipeCategoryService.unSubscribeToCategory(category.id).then(res => {
       this.categories.splice(index, 1);
+      this.resultCategories.push(category);
     });
   }
 
   private fetchUnFollowedCategories() {
     this.recipeCategoryService.getUnFollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
-        this.unFollowedCategories= res;
+        this.resultCategories= res;
     });
   }
 
@@ -217,6 +212,10 @@ export class ProfileComponent implements OnInit {
   }
 
   private searchUsers() {
+    if (this.usersQuery.length == 0) {
+      this.resultUsers = [];
+      return;
+    }
     this.userService.searchUsers(this.usersQuery).then(res => {
       this.resultUsers = res;
     });

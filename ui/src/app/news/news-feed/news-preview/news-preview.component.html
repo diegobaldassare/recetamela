@@ -41,7 +41,7 @@
       <img class="img-circle profile-picture media-object" [src]="news?.author.profilePic" alt="Profile Picture">
     </div>
     <div class="media-body">
-      <h4><a [routerLink]="'/usuario/' + news?.author?.id + '/perfil'">{{ news?.author?.name + ' ' + news?.author?.lastName }}</a></h4>
+      <h4><a [routerLink]="'/usuario/' + news?.author.id + '/perfil'">{{ news?.author.name + ' ' + news?.author.lastName }}</a></h4>
       <div class="date">{{news?.created | messageTime}}</div>
     </div>
   </div>

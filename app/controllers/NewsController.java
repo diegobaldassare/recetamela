@@ -5,7 +5,10 @@ import models.Followers;
 import models.News;
 import models.recipe.Recipe;
 import models.recipe.RecipeCategory;
-import models.user.*;
+import models.user.AdminUser;
+import models.user.ChefUser;
+import models.user.FreeUser;
+import models.user.PremiumUser;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -21,7 +24,7 @@ import java.util.TreeSet;
 
 public class NewsController extends BaseController {
 
-    @Authenticate({ChefUser.class})
+    @Authenticate({ChefUser.class, AdminUser.class})
     public Result create() {
         final News n = getBody(News.class);
         n.setAuthor(getRequester());
@@ -33,7 +36,7 @@ public class NewsController extends BaseController {
         return ok(Json.toJson(n));
     }
 
-    @Authenticate({ChefUser.class})
+    @Authenticate({ChefUser.class, AdminUser.class})
     public Result delete(long id) {
         return NewsService.getInstance().get(id).map(n -> {
             if (!getRequester().getId().equals(n.getAuthor().getId()))
@@ -44,7 +47,7 @@ public class NewsController extends BaseController {
         }).orElse(notFound());
     }
 
-    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class})
+    @Authenticate({FreeUser.class, PremiumUser.class, ChefUser.class, AdminUser.class})
     public Result get(long id) {
         return NewsService.getInstance().get(id).map(n -> ok(Json.toJson(n))).orElse(notFound());
     }

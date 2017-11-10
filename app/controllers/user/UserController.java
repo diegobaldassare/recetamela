@@ -91,8 +91,7 @@ public class UserController extends BaseController {
         final RecipeService recipeService = RecipeService.getInstance();
         final RecipeBookService recipeBookService = RecipeBookService.getInstance();
         final NewsService newsService = NewsService.getInstance();
-        Optional<User> user = UserService.getInstance().get(id);
-        return user.map(r -> {
+        return UserService.getInstance().get(id).map(r -> {
             //* Step 1: Delete all credit cards associated with the User *//*
             final List<CreditCard> userCreditCards = cardService.getAllUserCreditCards(r.getId());
             userCreditCards.forEach(c -> {
@@ -111,28 +110,31 @@ public class UserController extends BaseController {
             final List<Recipe> recipes = recipeService.getUserRecipes(r.getId());
             recipes.forEach(recipeService::delete);
 
-            /* Step 4: Delete all user Comments*/
+            /* Step 4: Delete all Chef likes */
+            recipeService.deleteChefLikes(r.getId());
+
+            /* Step 5: Delete all user Comments*/
             CommentService.getInstance().deleteUserComments(r.getId());
 
-            /* Step 5: Delete all user RecipeBooks */
+            /* Step 6: Delete all user RecipeBooks */
             final List<RecipeBook> recipeBooks = recipeBookService.getAllUserRecipeBook(r.getId());
             recipeBooks.forEach(RecipeBook::delete);
 
-            /* Step 6: Delete all user News */
+            /* Step 7: Delete all user News */
             final List<News> news = newsService.getNewsPublishedByUser(r.getId());
             news.forEach(News::delete);
 
-            /* Step 7: Delete all user chef requests */
+            /* Step 8: Delete all user chef requests */
             final List<ChefRequest> requests = ChefRequestService.getInstance().getRequestsByUser(r.getId());
             requests.forEach(ChefRequest::delete);
 
-            /* Step 8: Delete rows from user-recipeCategory table */
+            /* Step 9: Delete rows from user-recipeCategory table */
             RecipeCategoryService.getInstance().deleteUser(r.getId());
 
-            /* Step 9: Delete rows from recipe-ratings */
+            /* Step 10: Delete rows from recipe-ratings */
             RecipeRatingService.getInstance().deleteUserRatings(r.getId());
 
-            /* Step 10: Delete the User */
+            /* Step 11: Delete the User */
             LoginService.getInstance().findByHash(r.getAuthToken()).map(AuthToken::delete);
             r.delete();
 

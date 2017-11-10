@@ -1,6 +1,8 @@
 package services.recipe;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.SqlUpdate;
 import models.Comment;
 import models.Media;
 import models.recipe.Recipe;
@@ -19,7 +21,7 @@ public class RecipeService extends Service<Recipe> {
 
     private static RecipeService instance;
 
-    private RecipeService(Finder<Long, Recipe> finder){
+    private RecipeService(Finder<Long, Recipe> finder) {
         super(finder);
     }
 

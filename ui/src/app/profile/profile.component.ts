@@ -98,6 +98,9 @@ export class ProfileComponent implements OnInit {
     this.userService.followUser(this.user.id).subscribe((res : User) => {
       this.followers.push(res);
       this.subscribed = true;
+      this.toaster.pop('success', 'Subscripto');
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido subscribir');
     });
   }
 
@@ -107,7 +110,10 @@ export class ProfileComponent implements OnInit {
       if (index > -1) {
         this.followers.splice(index, 1);
         this.subscribed = false;
+        this.toaster.pop('success', 'Desubscripto');
       }
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido desubscribir');
     });
   }
 

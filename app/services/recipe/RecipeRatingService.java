@@ -73,12 +73,10 @@ public class RecipeRatingService extends Service<RecipeRating>{
         Ebean.execute(delete);
     }
 
-//    public void updateRating(Recipe recipe, RecipeRating newRecipeRating, RecipeRating oldRecipeRating) throws BadRequestException{
-//        checkRating(newRecipeRating);
-//        int size = recipe.getRatings().size();
-//        recipe.setRating((recipe.getRating()*size - oldRecipeRating.getRating() + newRecipeRating.getRating()) / (size));
-//        oldRecipeRating.setRating(newRecipeRating.getRating());
-//        oldRecipeRating.save();
-//        recipe.save();
-//    }
+    public boolean checkIfChefLiked(long userId, Recipe recipe) {
+        for (int i = 0; i < recipe.getLikesByChef().size(); i++) {
+            if(recipe.getLikesByChef().get(i).getId() == userId) return true;
+        }
+        return false;
+    }
 }

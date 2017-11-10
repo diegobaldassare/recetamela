@@ -1,6 +1,8 @@
 package services.recipe;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model.Finder;
+import com.avaje.ebean.SqlUpdate;
 import models.Comment;
 import models.Media;
 import models.recipe.Recipe;
@@ -19,7 +21,7 @@ public class RecipeService extends Service<Recipe> {
 
     private static RecipeService instance;
 
-    private RecipeService(Finder<Long, Recipe> finder){
+    private RecipeService(Finder<Long, Recipe> finder) {
         super(finder);
     }
 
@@ -126,6 +128,14 @@ public class RecipeService extends Service<Recipe> {
         List<Recipe> result = getFinder().all();
         result.removeIf(recipe -> !recipe.getCategories().contains(category));
         return result;
+    }
+
+    public void deleteChefLikes(Long chefID) {
+        SqlUpdate delete = Ebean.createSqlUpdate(
+                "delete from recipe_user " +
+                        "where user_id = :id");
+        delete.setParameter("id", chefID);
+        Ebean.execute(delete);
     }
 
     public List<Recipe> getTopRankingRecipes() {

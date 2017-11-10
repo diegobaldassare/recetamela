@@ -128,6 +128,14 @@ public class RecipeService extends Service<Recipe> {
         return result;
     }
 
+    public void deleteChefLikes(Long chefID) {
+        SqlUpdate delete = Ebean.createSqlUpdate(
+                "delete from recipe_user " +
+                        "where user_id = :id");
+        delete.setParameter("id", chefID);
+        Ebean.execute(delete);
+    }
+
     public List<Recipe> getTopRankingRecipes() {
         return getFinder().where()
                 .orderBy().desc("rating")

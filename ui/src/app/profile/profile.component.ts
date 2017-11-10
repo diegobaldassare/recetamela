@@ -78,6 +78,10 @@ export class ProfileComponent implements OnInit {
         const id = params['id'];
         this.userService.getUser(id).then(user => {
           this.user = user;
+          if (user.email == "recetamelareceta@gmail.com") {
+            this.router.navigate(['/**']);
+            return;
+          }
           this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
           this.fetchRecipes();
           this.fetchFollowers();

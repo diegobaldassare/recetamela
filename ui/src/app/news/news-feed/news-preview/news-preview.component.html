@@ -4,7 +4,14 @@
       <img class="img-circle profile-picture media-object" [src]="news?.author.profilePic" alt="Profile Picture">
     </div>
     <div class="media-body">
-      <h4><a [routerLink]="'/usuario/' + news?.author?.id + '/perfil'">{{ news?.author?.name + ' ' + news?.author?.lastName }}</a></h4>
+      <h4>
+        <ng-container *ngIf="news?.author.email === 'recetamelareceta@gmail.com' ">
+          Recetame la Receta
+        </ng-container>
+        <ng-container *ngIf="news?.author.email !== 'recetamelareceta@gmail.com' ">
+          <a [routerLink]="'/usuario/' + news.author.id + '/perfil'">{{ news.author.name + ' ' + news.author.lastName }}</a>
+        </ng-container>
+      </h4>
       <div class="date">{{news?.created | messageTime}}</div>
     </div>
   </div>

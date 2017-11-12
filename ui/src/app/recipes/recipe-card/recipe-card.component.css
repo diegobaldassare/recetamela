@@ -34,7 +34,10 @@
   top: 50%;
   left: 50%;
   width: 80%;
-  height: 60%;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  height: 80%;
+  overflow: -webkit-paged-y;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }

@@ -5,7 +5,14 @@
     <div class="row news-header">
       <div [ngClass]="{ 'col-md-7': news?.image || news?.videoUrl }">
         <h1>{{ news?.title }}</h1>
-        <p>👨‍🍳<i style="margin-left: 5px"><a [routerLink]="'/usuario/' + news?.author.id + '/perfil'">{{ news?.author.name + ' ' + news?.author.lastName }}</a></i></p>
+        <p>👨‍🍳<i style="margin-left: 5px">
+          <ng-container *ngIf="news?.author.email === 'recetamelareceta@gmail.com' ">
+            Recetame la Receta
+          </ng-container>
+          <ng-container *ngIf="news?.author.email !== 'recetamelareceta@gmail.com' ">
+            <a [routerLink]="'/usuario/' + news.author.id + '/perfil'">{{ news.author.name + ' ' + news.author.lastName }}</a>
+          </ng-container>
+        </i></p>
         <p><i>{{ news?.created.toLocaleTimeString() }}</i></p>
         <br>
         <p>{{ news?.description }}</p>

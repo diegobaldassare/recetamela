@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from "../models/user-model";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {LoginData} from "../models/login-data";
 import {MyAuthService} from "../../auth/my-auth-service";
 import {SharedService} from "./shared.service";
@@ -123,5 +123,10 @@ export class UserService {
 
   public deleteUser(id: string) : Promise<any> {
     return this.http.delete(`/api/user/${id}/delete`).toPromise();
+  }
+
+  public searchUsers(q: string) : Promise<User[]> {
+    const params = new HttpParams().set("name", q);
+    return this.http.get<User[]>(`/api/users`, { params }).toPromise();
   }
 }

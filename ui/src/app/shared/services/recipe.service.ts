@@ -10,6 +10,7 @@ import {RequestOptions, RequestOptionsArgs} from "@angular/http";
 import {RecipeRating} from "../models/recipe/recipe-rating";
 import {User} from "../models/user-model";
 import {RecipeCommentary} from "../models/recipe/recipe-comment";
+import {BooleanResponse} from "../models/boolean-response";
 
 @Injectable()
 export class RecipeService extends ApiService {
@@ -66,6 +67,10 @@ export class RecipeService extends ApiService {
 
   getRecipeLikesByChef(id: string) : Promise<any> {
     return this.http.get(`${this.URL}/${id}/likes`).toPromise();
+  }
+
+  hasChefLikedRecipe(id: string) : Promise<BooleanResponse> {
+    return this.http.get<BooleanResponse>(`${this.URL}/${id}/liked`).toPromise();
   }
 
   getRatingFromUser(recipeId: string) : Promise<any> {

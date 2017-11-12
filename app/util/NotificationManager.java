@@ -66,11 +66,25 @@ public class NotificationManager {
         });
     }
 
+    /**
+     * Emits notification to each User that follows a specific category
+     * @param sender User object that made the request to publish a Recipe
+     * @param type Type of the notification to be sent: Likely to be NotificationType.CATEGORY
+     * @param message Message of the notification
+     * @param redirectId ID of the category. Formerly used as redirect to the category page now simply used to query
+     * @param recipeId Id of the recipe to redirect the user to once he clicks the notification
+     */
     public void notifyCategoryFollowers(User sender, NotificationType type, String message, String redirectId, String recipeId) {
         List<User> followers = RecipeCategoryService.getInstance()
                 .getFollowers(Long.parseLong(redirectId))
                 .stream()
                 .filter(e -> !e.equals(sender))
+                .filter(e -> !FollowerService.getInstance()
+                        .getFollowers(sender.getId())
+                        .stream()
+                        .map(Followers::getFollower)
+                        .collect(Collectors.toList())
+                        .contains(e))
                 .collect(Collectors.toList());
         followers.forEach(follower -> {
             emitToUser(sender, follower.getId(), type, message, recipeId);

@@ -23,15 +23,20 @@ export class ProfileComponent implements OnInit {
 
   private user: User;
   private loggedUser: User;
+
   news: News[] = [];
   recipes: Recipe[] = [];
   followers: User[] = [];
-  following: User[] = [];
   subscribed: boolean;
-  categories: RecipeCategory[] = [];
-  resultCategories: any[] = [];
-  unFollowedCategories: RecipeCategory[] = [];
+
+  private categories: RecipeCategory[] = [];
+  private resultCategories: RecipeCategory[] = [];
   private categoryQuery: string = "";
+
+  private following: User[] = [];
+  private resultUsers: User[] = [];
+  private usersQuery: string = "";
+
   private profileForm: FormGroup;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
@@ -73,6 +78,10 @@ export class ProfileComponent implements OnInit {
         const id = params['id'];
         this.userService.getUser(id).then(user => {
           this.user = user;
+          if (user.email == "recetamelareceta@gmail.com") {
+            this.router.navigate(['/**']);
+            return;
+          }
           this.loggedUser = JSON.parse(localStorage.getItem("user")) as User;
           this.fetchRecipes();
           this.fetchFollowers();
@@ -89,6 +98,9 @@ export class ProfileComponent implements OnInit {
     this.userService.followUser(this.user.id).subscribe((res : User) => {
       this.followers.push(res);
       this.subscribed = true;
+      this.toaster.pop('success', 'Subscripto');
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido subscribir');
     });
   }
 
@@ -98,7 +110,10 @@ export class ProfileComponent implements OnInit {
       if (index > -1) {
         this.followers.splice(index, 1);
         this.subscribed = false;
+        this.toaster.pop('success', 'Desubscripto');
       }
+    }, () => {
+      this.toaster.pop('error', 'No se ha podido desubscribir');
     });
   }
 
@@ -129,16 +144,13 @@ export class ProfileComponent implements OnInit {
     this.router.navigate([`/usuario/${this.following[i].id}/perfil`]);
   }
 
+  private userClickListener(i: number) {
+    this.router.navigate([`/usuario/${this.resultUsers[i].id}/perfil`]);
+  }
+
   private fetchCategories() {
     this.recipeCategoryService.getUserCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
       this.categories = res;
-    });
-  }
-
-  private search() {
-    if (this.categoryQuery.length == 0) return;
-    this.recipeCategoryService.searchCategories(this.categoryQuery).then(res => {
-      this.resultCategories = res;
     });
   }
 
@@ -158,12 +170,13 @@ export class ProfileComponent implements OnInit {
     const category: RecipeCategory = this.categories[index];
     this.recipeCategoryService.unSubscribeToCategory(category.id).then(res => {
       this.categories.splice(index, 1);
+      this.resultCategories.push(category);
     });
   }
 
   private fetchUnFollowedCategories() {
     this.recipeCategoryService.getUnFollowedCategories(this.route.snapshot.params['id']).subscribe((res : RecipeCategory[]) => {
-        this.unFollowedCategories= res;
+        this.resultCategories= res;
     });
   }
 
@@ -202,9 +215,19 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public fetchNews() {
+  private fetchNews() {
     this.newsService.getUserNews(this.user.id).then(res => {
       this.news = res;
+    });
+  }
+
+  private searchUsers() {
+    if (this.usersQuery.length == 0) {
+      this.resultUsers = [];
+      return;
+    }
+    this.userService.searchUsers(this.usersQuery).then(res => {
+      this.resultUsers = res;
     });
   }
 }

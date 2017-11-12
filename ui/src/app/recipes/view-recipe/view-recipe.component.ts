@@ -44,28 +44,29 @@ export class ViewRecipeComponent implements OnInit {
         (params: Params) => {
           const id = this.route.snapshot.params['id'];
           this.getLikesByChef(id);
+          this.hasChefLiked(id);
           this.recipeService.getRecipe(id).then(recipe => {
             this.recipe = recipe;
             this.fetched = true;
-
             this.recipeService.getComments(this.recipe.id).then(res => {
               this.commentaries = res;
             });
-            this.hasChefLiked();
           }, () => { this.fetched = true });
           this.recipeService.getRatingFromUser(id).then( recipeRating => {
-              this.recipeRating = recipeRating;
+            this.recipeRating = recipeRating;
             }
           )
         }
       );
   }
 
-  private hasChefLiked() {
-    for(let i = 0; i < this.likesByChef.length; i++) {
-      if(this.likesByChef[i].id == this.viewer.id) {
-          this.chefLiked = true;
-      }
+  private hasChefLiked(id: string) {
+    if(this.viewer.type == 'ChefUser') {
+      this.recipeService.hasChefLikedRecipe(id).then(hasLiked =>
+        this.chefLiked = hasLiked.value
+      )
+    } else {
+      this.chefLiked = false;
     }
   }
 

@@ -32,15 +32,12 @@ export class RecipeCardComponent implements OnInit {
 
   ngOnInit(){
     if(this.recipeBook) this.onRecipeBook = true;
+    this.recipeService.getRatingFromUser(this.recipe.id).then(res => {
+      this.recipeRating = res;
+    });
     this.recipeService.getRecipeAuthor(this.recipe.id).then((res: User) => {
       this.author = res;
-      if (this.viewer)
-        this.canRate = this.author.id != this.viewer.id;
-      if (this.canRate) {
-        this.recipeService.getRatingFromUser(this.recipe.id).then(res => {
-          this.recipeRating = res;
-        });
-      }
+      if (this.viewer) this.canRate = this.author.id != this.viewer.id;
     });
   }
 

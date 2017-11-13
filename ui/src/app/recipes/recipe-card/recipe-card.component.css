@@ -37,7 +37,7 @@
   overflow-y: hidden;
   text-overflow: ellipsis;
   height: 80%;
-  overflow: -webkit-paged-y;
+  /*overflow: -webkit-paged-y;*/
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
